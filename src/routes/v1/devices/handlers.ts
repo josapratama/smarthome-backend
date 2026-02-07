@@ -1,5 +1,6 @@
 import { prisma } from "../../../lib/prisma";
 import { toISO } from "../common/helpers";
+import { generateDeviceKey } from "../common/device-key";
 
 export function mapDeviceDTO(d: any) {
   return {
@@ -26,6 +27,8 @@ export async function createDeviceUnderHome(homeId: number, input: any) {
   const home = await prisma.home.findUnique({ where: { id: homeId } });
   if (!home) return { error: "HOME_NOT_FOUND" as const };
 
+  const deviceKey = input.deviceKey ?? generateDeviceKey();
+
   const device = await prisma.device.create({
     data: {
       homeId: home.id,
@@ -33,7 +36,7 @@ export async function createDeviceUnderHome(homeId: number, input: any) {
       deviceName: input.deviceName,
       room: input.room,
       mqttClientId: input.mqttClientId,
-      deviceKey: input.deviceKey,
+      deviceKey,
       status: false,
     },
   });

@@ -23,7 +23,7 @@ export const DeviceUpdateBody = z
     deviceName: z.string().min(1).optional(),
     room: z.string().min(1).optional(),
     status: z.boolean().optional(),
-    lastSeenAt: z.string().datetime().optional(),
+    lastSeenAt: z.iso.datetime().optional(),
     mqttClientId: z.string().min(1).optional(),
     deviceKey: z.string().min(1).optional(),
     homeId: HomeId.optional().nullable(),

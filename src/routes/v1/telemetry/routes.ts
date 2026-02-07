@@ -8,6 +8,7 @@ import {
   queryTelemetry,
   mapSensorDTO,
 } from "./handlers";
+import { requireDeviceKey } from "../../../middlewares/device-auth";
 
 export function registerTelemetryRoutes(app: OpenAPIHono<AppEnv>) {
   app.openapi(
@@ -16,10 +17,15 @@ export function registerTelemetryRoutes(app: OpenAPIHono<AppEnv>) {
       path: "/api/v1/devices/{deviceId}/telemetry",
       request: {
         params: z.object({ deviceId: DeviceId }),
+        headers: z.object({
+          "x-device-key": z.string().optional(),
+        }),
+
         body: {
           content: { "application/json": { schema: SensorDataIngestBody } },
         },
       },
+
       responses: {
         201: {
           content: {
@@ -33,6 +39,22 @@ export function registerTelemetryRoutes(app: OpenAPIHono<AppEnv>) {
     }),
     async (c) => {
       const { deviceId } = c.req.valid("param");
+      console.log("🔥 TELEMETRY POST HIT", {
+        deviceId,
+        rawHeader: c.req.header("x-device-key"),
+      });
+
+      const headers = c.req.valid("header");
+      const deviceKey = headers["x-device-key"];
+
+      const authRes = await requireDeviceKey(
+        c,
+        async () => {},
+        deviceId,
+        deviceKey,
+      );
+      if (authRes) return authRes;
+
       const body = c.req.valid("json");
 
       const res = await ingestTelemetry(deviceId, body);

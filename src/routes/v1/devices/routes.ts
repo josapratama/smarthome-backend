@@ -60,7 +60,15 @@ export function registerDevicesRoutes(app: OpenAPIHono<AppEnv>) {
       const res = await createDeviceUnderHome(homeId, body);
       if ("error" in res) return c.json({ error: res.error }, 404);
 
-      return c.json({ data: mapDeviceDTO(res.device) }, 201);
+      return c.json(
+        {
+          data: {
+            ...mapDeviceDTO(res.device),
+            deviceKey: res.device.deviceKey,
+          },
+        },
+        201,
+      );
     },
   );
 
