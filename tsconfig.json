@@ -8,7 +8,7 @@
     // "ignoreDeprecations": "6.0"
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "types": ["node"],
+    "types": ["bun"],
     "noEmit": true
   },
   "include": ["src", "prisma", "docs", "web"]
