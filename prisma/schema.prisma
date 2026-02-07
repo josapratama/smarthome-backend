@@ -1,0 +1,229 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum CommandStatus {
+  PENDING
+  SENT
+  ACKED
+  FAILED
+  TIMEOUT
+}
+
+enum AlarmSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum AlarmSource {
+  DEVICE
+  BACKEND
+  AI
+  USER
+}
+
+enum NotificationChannel {
+  FCM
+  MQTT
+  WS
+  SSE
+  WEBHOOK
+  CUSTOM
+}
+
+enum AnomalyMetric {
+  POWER
+  GAS
+  FLAME
+  TRASH
+}
+
+model UserAccount {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  email        String   @unique
+  password String   @map("password")
+  role         UserRole @default(USER)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  loginHistory          LoginHistory[]
+  devices               Device[]
+  homes                 Home[]
+  notificationEndpoints NotificationEndpoint[]
+
+  @@map("user_account")
+}
+
+model LoginHistory {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  loginTime DateTime @default(now()) @map("login_time")
+  ipAddress String?  @map("ip_address")
+
+  user      UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, loginTime])
+  @@map("login_history")
+}
+
+model Home {
+  id        Int      @id @default(autoincrement())
+  ownerId   Int      @map("user_id")
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  owner     UserAccount @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  devices   Device[]
+  alarmEvents AlarmEvent[]
+
+  @@index([ownerId])
+  @@map("home")
+}
+
+model Device {
+  id         Int      @id @default(autoincrement())
+  deviceName String   @map("device_name")
+  room       String?
+  status     Boolean  @default(false)
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  lastSeenAt DateTime? @map("last_seen_at")
+  mqttClientId String? @map("mqtt_client_id")
+  deviceKey   String?  @map("device_key")
+
+  userId     Int      @map("user_id")
+  homeId     Int?     @map("home_id")
+
+  user       UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+  home       Home?       @relation(fields: [homeId], references: [id], onDelete: SetNull)
+
+  sensorData        SensorData[]
+  energyPredictions EnergyPrediction[]
+  commands          Command[]
+  alarmEvents       AlarmEvent[]
+
+  @@index([userId])
+  @@index([homeId])
+  @@map("device_status")
+}
+
+model SensorData {
+  id        Int      @id @default(autoincrement())
+  deviceId  Int      @map("device_id")
+
+  current   Float
+  gasPpm    Float    @map("gas_ppm")
+  flame     Boolean
+  binLevel  Float    @map("bin_level")
+  timestamp DateTime @default(now())
+
+  device    Device      @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  alarms    AlarmEvent[]
+
+  @@index([deviceId, timestamp])
+  @@map("sensor_data")
+}
+
+model AlarmEvent {
+  id          Int           @id @default(autoincrement())
+  sensorId    Int           @map("sensor_id")
+
+  deviceId    Int           @map("device_id")
+  homeId      Int?          @map("home_id")
+
+  type        String
+  message     String
+  severity    AlarmSeverity
+  source      AlarmSource   @default(DEVICE)
+  triggeredAt DateTime      @default(now()) @map("triggered_at")
+
+  sensor      SensorData @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  device      Device     @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  home        Home?      @relation(fields: [homeId], references: [id], onDelete: SetNull)
+
+  @@index([deviceId, triggeredAt])
+  @@index([homeId, triggeredAt])
+  @@map("alarm_event")
+}
+
+model EnergyPrediction {
+  id              Int      @id @default(autoincrement())
+  deviceId         Int      @map("device_id")
+
+  predictedEnergy  Float    @map("predicted_energy")
+  actualEnergy     Float?   @map("actual_energy")
+
+  windowStart      DateTime? @map("window_start")
+  windowEnd        DateTime? @map("window_end")
+  modelVersion     String?   @map("model_version")
+
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  device          Device         @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  anomalyResults  AnomalyResult[]
+
+  @@index([deviceId, createdAt])
+  @@map("energy_prediction")
+}
+
+model AnomalyResult {
+  id           Int          @id @default(autoincrement())
+  predictionId Int          @map("prediction_id")
+
+  isAnomaly    Boolean      @map("is_anomaly")
+  score        Float
+  metric       AnomalyMetric?
+  details      Json?
+  detectedAt   DateTime     @default(now()) @map("detected_at")
+
+  prediction   EnergyPrediction @relation(fields: [predictionId], references: [id], onDelete: Cascade)
+
+  @@index([predictionId, detectedAt])
+  @@map("anomaly_result")
+}
+
+model Command {
+  id        Int          @id @default(autoincrement())
+  deviceId  Int          @map("device_id")
+
+  type      String
+  payload   Json
+
+  status    CommandStatus @default(PENDING)
+  ackedAt   DateTime?     @map("acked_at")
+  lastError String?       @map("last_error")
+
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+
+  device    Device        @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  @@index([deviceId, status, createdAt])
+  @@map("command")
+}
+
+model NotificationEndpoint {
+  id        Int                 @id @default(autoincrement())
+  userId    Int                 @map("user_id")
+  channel   NotificationChannel @default(CUSTOM)
+  value     String              @unique
+  createdAt DateTime            @default(now()) @map("created_at")
+
+  user      UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("notification_endpoint")
+}

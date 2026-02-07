@@ -1,0 +1,458 @@
+asyncapi: "2.6.0"
+info:
+  title: Smart Home MQTT API
+  version: "0.2.0"
+  description: |
+    MQTT topic contract for Smart Home IoT + AI.
+
+    Base topic:
+      smarthome/v1/homes/{homeId}/devices/{deviceId}
+
+    Notes:
+      - IDs are carried in topic parameters. Although DB IDs are integers, topics use strings.
+      - For DB schema alignment (sensor_data table), prefer publishing telemetry via `telemetry/snapshot`.
+      - If you still publish split telemetry (`power|gas|flame|trash`), backend may aggregate or store partials.
+
+servers:
+  default:
+    url: localhost:1883
+    protocol: mqtt
+    description: Local broker (dev)
+
+channels:
+  smarthome/v1/homes/{homeId}/devices/{deviceId}/availability:
+    parameters:
+      homeId:
+        description: Home ID (integer in DB, string in topic)
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+      deviceId:
+        description: Device ID (integer in DB, string in topic)
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+    publish:
+      summary: Device presence (LWT/online)
+      message:
+        $ref: "#/components/messages/Availability"
+
+  smarthome/v1/homes/{homeId}/devices/{deviceId}/heartbeat:
+    parameters:
+      homeId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+      deviceId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+    publish:
+      summary: Periodic heartbeat
+      message:
+        $ref: "#/components/messages/Heartbeat"
+
+  # --- Preferred telemetry for DB alignment (sensor_data) ---
+  smarthome/v1/homes/{homeId}/devices/{deviceId}/telemetry/snapshot:
+    parameters:
+      homeId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+      deviceId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+    publish:
+      summary: Snapshot telemetry aligned to sensor_data table (recommended)
+      message:
+        $ref: "#/components/messages/TelemetrySnapshot"
+
+  # --- Optional split telemetry topics (still supported) ---
+  smarthome/v1/homes/{homeId}/devices/{deviceId}/telemetry/power:
+    parameters:
+      homeId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+      deviceId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+    publish:
+      summary: Power/current telemetry (optional)
+      message:
+        $ref: "#/components/messages/TelemetryPower"
+
+  smarthome/v1/homes/{homeId}/devices/{deviceId}/telemetry/gas:
+    parameters:
+      homeId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+      deviceId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+    publish:
+      summary: Gas sensor telemetry (optional)
+      message:
+        $ref: "#/components/messages/TelemetryGas"
+
+  smarthome/v1/homes/{homeId}/devices/{deviceId}/telemetry/flame:
+    parameters:
+      homeId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+      deviceId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+    publish:
+      summary: Flame/fire telemetry (optional)
+      message:
+        $ref: "#/components/messages/TelemetryFlame"
+
+  smarthome/v1/homes/{homeId}/devices/{deviceId}/telemetry/trash:
+    parameters:
+      homeId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+      deviceId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+    publish:
+      summary: Trash volume telemetry (optional)
+      message:
+        $ref: "#/components/messages/TelemetryTrash"
+
+  smarthome/v1/homes/{homeId}/devices/{deviceId}/state/relays:
+    parameters:
+      homeId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+      deviceId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+    publish:
+      summary: Current relay state snapshot
+      message:
+        $ref: "#/components/messages/RelayState"
+
+  smarthome/v1/homes/{homeId}/devices/{deviceId}/cmd/relays/set:
+    parameters:
+      homeId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+      deviceId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+    subscribe:
+      summary: Backend/app sends a relay command
+      message:
+        $ref: "#/components/messages/RelayCommand"
+
+  smarthome/v1/homes/{homeId}/devices/{deviceId}/cmd/ack:
+    parameters:
+      homeId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+      deviceId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+    publish:
+      summary: Device acknowledges a command
+      message:
+        $ref: "#/components/messages/CommandAck"
+
+  smarthome/v1/homes/{homeId}/events:
+    parameters:
+      homeId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+    publish:
+      summary: Events/alerts stream
+      message:
+        $ref: "#/components/messages/Event"
+
+  smarthome/v1/homes/{homeId}/ai/prediction/energy:
+    parameters:
+      homeId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+    publish:
+      summary: Energy prediction output
+      message:
+        $ref: "#/components/messages/EnergyPrediction"
+
+  smarthome/v1/homes/{homeId}/ai/anomaly:
+    parameters:
+      homeId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+    publish:
+      summary: Anomaly detection output
+      message:
+        $ref: "#/components/messages/Anomaly"
+
+components:
+  messages:
+    Availability:
+      name: Availability
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          status:
+            type: string
+            enum: [online, offline]
+          ts:
+            type: integer
+            description: Unix timestamp (seconds)
+        required: [status, ts]
+
+    Heartbeat:
+      name: Heartbeat
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          ts:
+            type: integer
+            description: Unix timestamp (seconds)
+          rssi:
+            type: integer
+        required: [ts]
+
+    TelemetrySnapshot:
+      name: TelemetrySnapshot
+      contentType: application/json
+      description: |
+        Snapshot telemetry aligned to DB table `sensor_data`:
+          - current -> sensor_data.current
+          - gas_ppm -> sensor_data.gas_ppm
+          - flame -> sensor_data.flame
+          - bin_level -> sensor_data.bin_level
+          - ts -> sensor_data.timestamp
+      payload:
+        type: object
+        properties:
+          ts:
+            type: integer
+            description: Unix timestamp (seconds)
+          current:
+            type: number
+            description: Current (A)
+          gas_ppm:
+            type: number
+            description: Gas concentration (ppm)
+          flame:
+            type: boolean
+            description: Fire/flame detected
+          bin_level:
+            type: number
+            description: Trash bin fill level (% or cm depending on your calibration)
+          meta:
+            type: object
+            description: Optional extra metadata (firmware, sensor health, etc.)
+        required: [ts, current, gas_ppm, flame, bin_level]
+
+    TelemetryPower:
+      name: TelemetryPower
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          ts:
+            type: integer
+            description: Unix timestamp (seconds)
+          values:
+            type: object
+            properties:
+              current:
+                type: number
+              voltage:
+                type: number
+              power:
+                type: number
+              energy_wh:
+                type: number
+        required: [ts, values]
+
+    TelemetryGas:
+      name: TelemetryGas
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          ts:
+            type: integer
+            description: Unix timestamp (seconds)
+          values:
+            type: object
+            properties:
+              ppm:
+                type: number
+        required: [ts, values]
+
+    TelemetryFlame:
+      name: TelemetryFlame
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          ts:
+            type: integer
+            description: Unix timestamp (seconds)
+          values:
+            type: object
+            properties:
+              detected:
+                type: boolean
+              level:
+                type: number
+        required: [ts, values]
+
+    TelemetryTrash:
+      name: TelemetryTrash
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          ts:
+            type: integer
+            description: Unix timestamp (seconds)
+          values:
+            type: object
+            properties:
+              distance_cm:
+                type: number
+              fill_percent:
+                type: number
+        required: [ts, values]
+
+    RelayState:
+      name: RelayState
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          ts:
+            type: integer
+            description: Unix timestamp (seconds)
+          relays:
+            type: object
+            additionalProperties:
+              type: string
+              enum: [ON, OFF]
+        required: [ts, relays]
+
+    RelayCommand:
+      name: RelayCommand
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          cmdId:
+            type: string
+            description: Command identifier (generated by backend)
+          ts:
+            type: integer
+            description: Unix timestamp (seconds)
+          relay:
+            type: integer
+            description: Relay channel index (e.g., 1..8)
+          state:
+            type: string
+            enum: [ON, OFF]
+        required: [cmdId, ts, relay, state]
+
+    CommandAck:
+      name: CommandAck
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          cmdId:
+            type: string
+          ts:
+            type: integer
+            description: Unix timestamp (seconds)
+          status:
+            type: string
+            enum: [ok, error]
+          error:
+            type: string
+        required: [cmdId, ts, status]
+
+    Event:
+      name: Event
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          ts:
+            type: integer
+            description: Unix timestamp (seconds)
+          type:
+            type: string
+            examples: [gas_leak, fire, anomaly, trash_full]
+          severity:
+            type: string
+            enum: [low, medium, high, critical]
+          source:
+            type: string
+            enum: [device, backend, ai, user]
+          details:
+            type: object
+        required: [ts, type, severity, source]
+
+    EnergyPrediction:
+      name: EnergyPrediction
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          ts:
+            type: integer
+            description: Unix timestamp (seconds)
+          horizon_minutes:
+            type: integer
+          predicted_wh:
+            type: number
+          confidence:
+            type: number
+        required: [ts, horizon_minutes, predicted_wh]
+
+    Anomaly:
+      name: Anomaly
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          ts:
+            type: integer
+            description: Unix timestamp (seconds)
+          metric:
+            type: string
+            enum: [POWER, GAS, FLAME, TRASH]
+          score:
+            type: number
+          label:
+            type: string
+            examples: [normal, suspicious, anomaly]
+          details:
+            type: object
+        required: [ts, metric, score, label]

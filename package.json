@@ -1,0 +1,39 @@
+{
+  "name": "smarthome-backend",
+  "module": "index.ts",
+  "private": true,
+  "scripts": {
+    "dev": "bun --hot src/index.ts",
+    "start": "bun src/index.ts",
+    "prisma:generate": "bunx --bun prisma generate",
+    "prisma:migrate": "bunx --bun prisma migrate dev",
+    "prisma:studio": "bunx --bun prisma studio",
+    "tailwind:build": "bunx tailwindcss -c tailwind.config.js -i src/input.css -o public/styles.css",
+    "tailwind:watch": "bunx tailwindcss -c tailwind.config.js -i src/input.css -o public/styles.css --watch",
+    "dev:ui": "concurrently -k -n API,TAILWIND -c auto \"bun --hot src/index.ts\" \"bun run tailwind:watch\"",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down -v"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^25.2.1",
+    "@types/pg": "^8.16.0",
+    "concurrently": "^9.2.1",
+    "prisma": "^7.3.0",
+    "tailwindcss": "3",
+    "tsx": "^4.21.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@hono/swagger-ui": "^0.5.3",
+    "@hono/zod-openapi": "^1.2.1",
+    "@prisma/adapter-pg": "^7.3.0",
+    "@prisma/client": "^7.3.0",
+    "dotenv": "^17.2.4",
+    "hono": "^4.11.8",
+    "pg": "^8.18.0",
+    "zod": "^4.3.6"
+  }
+}
