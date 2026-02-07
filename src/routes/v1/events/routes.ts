@@ -1,9 +1,10 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import type { AppEnv } from "../../../types/app-env";
 import { HomeId } from "../common/ids";
 import { AlarmCreateBody, AlarmDTO, EventsQuery } from "./schemas";
 import { listHomeEvents, createHomeEvent, mapAlarmDTO } from "./handlers";
 
-export function registerEventsRoutes(app: OpenAPIHono) {
+export function registerEventsRoutes(app: OpenAPIHono<AppEnv>) {
   app.openapi(
     createRoute({
       method: "get",

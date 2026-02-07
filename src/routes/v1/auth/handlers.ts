@@ -1,6 +1,7 @@
 import argon2 from "argon2";
 import { prisma } from "../../../lib/prisma";
 import { getClientIp } from "../common/helpers";
+import { signAccessToken } from "../../../lib/jwt";
 
 export async function registerUser(input: {
   username: string;
@@ -9,7 +10,6 @@ export async function registerUser(input: {
   role: "USER" | "ADMIN";
   homeName?: string;
 }) {
-  // Hash password pakai argon2
   const passwordHash = await argon2.hash(input.password);
 
   const user = await prisma.userAccount
@@ -17,8 +17,7 @@ export async function registerUser(input: {
       data: {
         username: input.username,
         email: input.email,
-        // field kamu namanya "password" (isinya hash)
-        password: passwordHash,
+        password: passwordHash, // <-- field kamu
         role: input.role,
       },
     })
@@ -49,16 +48,50 @@ export async function loginUser(
   });
   if (!user) return { error: "INVALID_CREDENTIALS" as const };
 
-  // verify password dengan hash yang tersimpan di field "password"
   const ok = await argon2.verify(user.password, input.password);
   if (!ok) return { error: "INVALID_CREDENTIALS" as const };
 
   await prisma.loginHistory.create({
-    data: {
-      userId: user.id,
-      ipAddress: getClientIp(c),
-    },
+    data: { userId: user.id, ipAddress: getClientIp(c) },
   });
 
+  const accessToken = await signAccessToken(
+    { sub: String(user.id), role: user.role },
+    "7d",
+  );
+
+  return { user, accessToken };
+}
+
+export async function getMe(userId: number) {
+  const user = await prisma.userAccount.findUnique({ where: { id: userId } });
+  if (!user) return { error: "NOT_FOUND" as const };
   return { user };
+}
+
+export async function changePassword(
+  userId: number,
+  body: { oldPassword: string; newPassword: string },
+) {
+  const user = await prisma.userAccount.findUnique({ where: { id: userId } });
+  if (!user) return { error: "NOT_FOUND" as const };
+
+  const ok = await argon2.verify(user.password, body.oldPassword);
+  if (!ok) return { error: "INVALID_CREDENTIALS" as const };
+
+  const newHash = await argon2.hash(body.newPassword);
+  await prisma.userAccount.update({
+    where: { id: userId },
+    data: { password: newHash },
+  });
+
+  return { ok: true };
+}
+
+export async function adminListUsers(limit = 50) {
+  const users = await prisma.userAccount.findMany({
+    orderBy: { createdAt: "desc" },
+    take: Math.min(Math.max(limit, 1), 500),
+  });
+  return users;
 }

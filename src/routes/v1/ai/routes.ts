@@ -1,4 +1,5 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import type { AppEnv } from "../../../types/app-env";
 import { DeviceId, PredictionId } from "../common/ids";
 import {
   EnergyPredictionCreateBody,
@@ -16,7 +17,7 @@ import {
   mapAnomalyDTO,
 } from "./handlers";
 
-export function registerAiRoutes(app: OpenAPIHono) {
+export function registerAiRoutes(app: OpenAPIHono<AppEnv>) {
   app.openapi(
     createRoute({
       method: "post",

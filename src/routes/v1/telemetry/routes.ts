@@ -1,4 +1,5 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import type { AppEnv } from "../../../types/app-env";
 import { DeviceId } from "../common/ids";
 import { SensorDataDTO, SensorDataIngestBody, TelemetryQuery } from "./schemas";
 import {
@@ -8,7 +9,7 @@ import {
   mapSensorDTO,
 } from "./handlers";
 
-export function registerTelemetryRoutes(app: OpenAPIHono) {
+export function registerTelemetryRoutes(app: OpenAPIHono<AppEnv>) {
   app.openapi(
     createRoute({
       method: "post",

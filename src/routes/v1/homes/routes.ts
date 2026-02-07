@@ -1,9 +1,10 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import type { AppEnv } from "../../../types/app-env";
 import { HomeId } from "../common/ids";
 import { listHomes, createHome, getHomeById } from "./handlers";
 import { HomeCreateBody, HomeDTO, HomesListQuery } from "./schemas";
 
-export function registerHomesRoutes(app: OpenAPIHono) {
+export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
   app.openapi(
     createRoute({
       method: "get",

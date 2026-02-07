@@ -1,9 +1,10 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import type { AppEnv } from "../../../types/app-env";
 import { CommandId, DeviceId } from "../common/ids";
 import { CommandCreateBody, CommandDTO } from "./schemas";
 import { createCommand, getCommandById, mapCommandDTO } from "./handlers";
 
-export function registerCommandsRoutes(app: OpenAPIHono) {
+export function registerCommandsRoutes(app: OpenAPIHono<AppEnv>) {
   app.openapi(
     createRoute({
       method: "post",

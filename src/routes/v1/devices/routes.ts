@@ -1,4 +1,5 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import type { AppEnv } from "../../../types/app-env";
 import { DeviceId, HomeId } from "../common/ids";
 import { DeviceCreateBody, DeviceDTO, DeviceUpdateBody } from "./schemas";
 import {
@@ -9,7 +10,7 @@ import {
   mapDeviceDTO,
 } from "./handlers";
 
-export function registerDevicesRoutes(app: OpenAPIHono) {
+export function registerDevicesRoutes(app: OpenAPIHono<AppEnv>) {
   app.openapi(
     createRoute({
       method: "get",

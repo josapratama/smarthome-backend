@@ -1,4 +1,5 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import type { AppEnv } from "../../../types/app-env";
 import { UserId } from "../common/ids";
 import {
   NotificationEndpointCreateBody,
@@ -6,7 +7,7 @@ import {
 } from "./schemas";
 import { listEndpoints, createEndpoint, mapEndpointDTO } from "./handlers";
 
-export function registerNotificationRoutes(app: OpenAPIHono) {
+export function registerNotificationRoutes(app: OpenAPIHono<AppEnv>) {
   app.openapi(
     createRoute({
       method: "get",

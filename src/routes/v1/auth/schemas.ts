@@ -29,6 +29,22 @@ export const UserDTO = z
   })
   .openapi("UserDTO");
 
+export const AuthLoginResponse = z
+  .object({
+    data: z.object({
+      accessToken: z.string(),
+      user: UserDTO,
+    }),
+  })
+  .openapi("AuthLoginResponse");
+
+export const ChangePasswordBody = z
+  .object({
+    oldPassword: z.string().min(1),
+    newPassword: z.string().min(8),
+  })
+  .openapi("ChangePasswordBody");
+
 export const HomeDTO = z
   .object({
     id: HomeId,

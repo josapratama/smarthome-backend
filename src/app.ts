@@ -4,9 +4,10 @@ import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { serveStatic } from "hono/bun";
 
+import type { AppEnv } from "./types/app-env";
 import { registerV1Routes } from "./routes/index";
 
-export const app = new OpenAPIHono({
+export const app = new OpenAPIHono<AppEnv>({
   defaultHook: (result, c) => {
     if (!result.success) {
       return c.json(
