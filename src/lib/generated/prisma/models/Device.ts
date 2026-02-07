@@ -293,6 +293,8 @@ export type DeviceOrderByWithRelationInput = {
 
 export type DeviceWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  mqttClientId?: string
+  deviceKey?: string
   AND?: Prisma.DeviceWhereInput | Prisma.DeviceWhereInput[]
   OR?: Prisma.DeviceWhereInput[]
   NOT?: Prisma.DeviceWhereInput | Prisma.DeviceWhereInput[]
@@ -301,8 +303,6 @@ export type DeviceWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.BoolFilter<"Device"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   lastSeenAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
-  mqttClientId?: Prisma.StringNullableFilter<"Device"> | string | null
-  deviceKey?: Prisma.StringNullableFilter<"Device"> | string | null
   userId?: Prisma.IntFilter<"Device"> | number
   homeId?: Prisma.IntNullableFilter<"Device"> | number | null
   user?: Prisma.XOR<Prisma.UserAccountScalarRelationFilter, Prisma.UserAccountWhereInput>
@@ -311,7 +311,7 @@ export type DeviceWhereUniqueInput = Prisma.AtLeast<{
   energyPredictions?: Prisma.EnergyPredictionListRelationFilter
   commands?: Prisma.CommandListRelationFilter
   alarmEvents?: Prisma.AlarmEventListRelationFilter
-}, "id">
+}, "id" | "mqttClientId" | "deviceKey">
 
 export type DeviceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

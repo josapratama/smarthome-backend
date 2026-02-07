@@ -101,8 +101,8 @@ model Device {
   updatedAt  DateTime @updatedAt @map("updated_at")
 
   lastSeenAt DateTime? @map("last_seen_at")
-  mqttClientId String? @map("mqtt_client_id")
-  deviceKey   String?  @map("device_key")
+  mqttClientId String? @unique @map("mqtt_client_id")
+  deviceKey    String? @unique @map("device_key")
 
   userId     Int      @map("user_id")
   homeId     Int?     @map("home_id")
