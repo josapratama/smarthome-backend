@@ -2,10 +2,11 @@ import { app } from "./app";
 import { env } from "./lib/env";
 import { initMqttBridge } from "./mqtt";
 import { startCommandTimeoutWorker } from "./workers/command-timeout.worker";
+import { startDeviceOfflineWorker } from "./workers/device-offline.worker";
 
 initMqttBridge();
-
 startCommandTimeoutWorker();
+startDeviceOfflineWorker();
 
 const server = Bun.serve({
   port: env.PORT,
