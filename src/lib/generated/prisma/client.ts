@@ -89,3 +89,13 @@ export type Command = Prisma.CommandModel
  * 
  */
 export type NotificationEndpoint = Prisma.NotificationEndpointModel
+/**
+ * Model FirmwareRelease
+ * 
+ */
+export type FirmwareRelease = Prisma.FirmwareReleaseModel
+/**
+ * Model OtaJob
+ * 
+ */
+export type OtaJob = Prisma.OtaJobModel

@@ -39,6 +39,8 @@ services:
       - mqtt
     ports:
       - "3000:3000"
+    volumes:
+      - ./storage:/app/storage
 
 volumes:
   db_data:

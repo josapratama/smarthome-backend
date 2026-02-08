@@ -249,6 +249,7 @@ export type CommandWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Command"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Command"> | Date | string
   device?: Prisma.XOR<Prisma.DeviceScalarRelationFilter, Prisma.DeviceWhereInput>
+  otaJob?: Prisma.XOR<Prisma.OtaJobNullableScalarRelationFilter, Prisma.OtaJobWhereInput> | null
 }
 
 export type CommandOrderByWithRelationInput = {
@@ -262,6 +263,7 @@ export type CommandOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   device?: Prisma.DeviceOrderByWithRelationInput
+  otaJob?: Prisma.OtaJobOrderByWithRelationInput
 }
 
 export type CommandWhereUniqueInput = Prisma.AtLeast<{
@@ -278,6 +280,7 @@ export type CommandWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Command"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Command"> | Date | string
   device?: Prisma.XOR<Prisma.DeviceScalarRelationFilter, Prisma.DeviceWhereInput>
+  otaJob?: Prisma.XOR<Prisma.OtaJobNullableScalarRelationFilter, Prisma.OtaJobWhereInput> | null
 }, "id">
 
 export type CommandOrderByWithAggregationInput = {
@@ -321,6 +324,7 @@ export type CommandCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   device: Prisma.DeviceCreateNestedOneWithoutCommandsInput
+  otaJob?: Prisma.OtaJobCreateNestedOneWithoutCommandInput
 }
 
 export type CommandUncheckedCreateInput = {
@@ -333,6 +337,7 @@ export type CommandUncheckedCreateInput = {
   lastError?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  otaJob?: Prisma.OtaJobUncheckedCreateNestedOneWithoutCommandInput
 }
 
 export type CommandUpdateInput = {
@@ -344,6 +349,7 @@ export type CommandUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   device?: Prisma.DeviceUpdateOneRequiredWithoutCommandsNestedInput
+  otaJob?: Prisma.OtaJobUpdateOneWithoutCommandNestedInput
 }
 
 export type CommandUncheckedUpdateInput = {
@@ -356,6 +362,7 @@ export type CommandUncheckedUpdateInput = {
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  otaJob?: Prisma.OtaJobUncheckedUpdateOneWithoutCommandNestedInput
 }
 
 export type CommandCreateManyInput = {
@@ -446,6 +453,11 @@ export type CommandSumOrderByAggregateInput = {
   deviceId?: Prisma.SortOrder
 }
 
+export type CommandNullableScalarRelationFilter = {
+  is?: Prisma.CommandWhereInput | null
+  isNot?: Prisma.CommandWhereInput | null
+}
+
 export type CommandCreateNestedManyWithoutDeviceInput = {
   create?: Prisma.XOR<Prisma.CommandCreateWithoutDeviceInput, Prisma.CommandUncheckedCreateWithoutDeviceInput> | Prisma.CommandCreateWithoutDeviceInput[] | Prisma.CommandUncheckedCreateWithoutDeviceInput[]
   connectOrCreate?: Prisma.CommandCreateOrConnectWithoutDeviceInput | Prisma.CommandCreateOrConnectWithoutDeviceInput[]
@@ -492,6 +504,22 @@ export type EnumCommandStatusFieldUpdateOperationsInput = {
   set?: $Enums.CommandStatus
 }
 
+export type CommandCreateNestedOneWithoutOtaJobInput = {
+  create?: Prisma.XOR<Prisma.CommandCreateWithoutOtaJobInput, Prisma.CommandUncheckedCreateWithoutOtaJobInput>
+  connectOrCreate?: Prisma.CommandCreateOrConnectWithoutOtaJobInput
+  connect?: Prisma.CommandWhereUniqueInput
+}
+
+export type CommandUpdateOneWithoutOtaJobNestedInput = {
+  create?: Prisma.XOR<Prisma.CommandCreateWithoutOtaJobInput, Prisma.CommandUncheckedCreateWithoutOtaJobInput>
+  connectOrCreate?: Prisma.CommandCreateOrConnectWithoutOtaJobInput
+  upsert?: Prisma.CommandUpsertWithoutOtaJobInput
+  disconnect?: Prisma.CommandWhereInput | boolean
+  delete?: Prisma.CommandWhereInput | boolean
+  connect?: Prisma.CommandWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CommandUpdateToOneWithWhereWithoutOtaJobInput, Prisma.CommandUpdateWithoutOtaJobInput>, Prisma.CommandUncheckedUpdateWithoutOtaJobInput>
+}
+
 export type CommandCreateWithoutDeviceInput = {
   type: string
   payload: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -500,6 +528,7 @@ export type CommandCreateWithoutDeviceInput = {
   lastError?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  otaJob?: Prisma.OtaJobCreateNestedOneWithoutCommandInput
 }
 
 export type CommandUncheckedCreateWithoutDeviceInput = {
@@ -511,6 +540,7 @@ export type CommandUncheckedCreateWithoutDeviceInput = {
   lastError?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  otaJob?: Prisma.OtaJobUncheckedCreateNestedOneWithoutCommandInput
 }
 
 export type CommandCreateOrConnectWithoutDeviceInput = {
@@ -554,6 +584,68 @@ export type CommandScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Command"> | Date | string
 }
 
+export type CommandCreateWithoutOtaJobInput = {
+  type: string
+  payload: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.CommandStatus
+  ackedAt?: Date | string | null
+  lastError?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  device: Prisma.DeviceCreateNestedOneWithoutCommandsInput
+}
+
+export type CommandUncheckedCreateWithoutOtaJobInput = {
+  id?: number
+  deviceId: number
+  type: string
+  payload: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.CommandStatus
+  ackedAt?: Date | string | null
+  lastError?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type CommandCreateOrConnectWithoutOtaJobInput = {
+  where: Prisma.CommandWhereUniqueInput
+  create: Prisma.XOR<Prisma.CommandCreateWithoutOtaJobInput, Prisma.CommandUncheckedCreateWithoutOtaJobInput>
+}
+
+export type CommandUpsertWithoutOtaJobInput = {
+  update: Prisma.XOR<Prisma.CommandUpdateWithoutOtaJobInput, Prisma.CommandUncheckedUpdateWithoutOtaJobInput>
+  create: Prisma.XOR<Prisma.CommandCreateWithoutOtaJobInput, Prisma.CommandUncheckedCreateWithoutOtaJobInput>
+  where?: Prisma.CommandWhereInput
+}
+
+export type CommandUpdateToOneWithWhereWithoutOtaJobInput = {
+  where?: Prisma.CommandWhereInput
+  data: Prisma.XOR<Prisma.CommandUpdateWithoutOtaJobInput, Prisma.CommandUncheckedUpdateWithoutOtaJobInput>
+}
+
+export type CommandUpdateWithoutOtaJobInput = {
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  payload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumCommandStatusFieldUpdateOperationsInput | $Enums.CommandStatus
+  ackedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  device?: Prisma.DeviceUpdateOneRequiredWithoutCommandsNestedInput
+}
+
+export type CommandUncheckedUpdateWithoutOtaJobInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  payload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumCommandStatusFieldUpdateOperationsInput | $Enums.CommandStatus
+  ackedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type CommandCreateManyDeviceInput = {
   id?: number
   type: string
@@ -573,6 +665,7 @@ export type CommandUpdateWithoutDeviceInput = {
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  otaJob?: Prisma.OtaJobUpdateOneWithoutCommandNestedInput
 }
 
 export type CommandUncheckedUpdateWithoutDeviceInput = {
@@ -584,6 +677,7 @@ export type CommandUncheckedUpdateWithoutDeviceInput = {
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  otaJob?: Prisma.OtaJobUncheckedUpdateOneWithoutCommandNestedInput
 }
 
 export type CommandUncheckedUpdateManyWithoutDeviceInput = {
@@ -610,6 +704,7 @@ export type CommandSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   createdAt?: boolean
   updatedAt?: boolean
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  otaJob?: boolean | Prisma.Command$otaJobArgs<ExtArgs>
 }, ExtArgs["result"]["command"]>
 
 export type CommandSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -653,6 +748,7 @@ export type CommandSelectScalar = {
 export type CommandOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "deviceId" | "type" | "payload" | "status" | "ackedAt" | "lastError" | "createdAt" | "updatedAt", ExtArgs["result"]["command"]>
 export type CommandInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  otaJob?: boolean | Prisma.Command$otaJobArgs<ExtArgs>
 }
 export type CommandIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
@@ -665,6 +761,7 @@ export type $CommandPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Command"
   objects: {
     device: Prisma.$DevicePayload<ExtArgs>
+    otaJob: Prisma.$OtaJobPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1071,6 +1168,7 @@ readonly fields: CommandFieldRefs;
 export interface Prisma__CommandClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   device<T extends Prisma.DeviceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DeviceDefaultArgs<ExtArgs>>): Prisma.Prisma__DeviceClient<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  otaJob<T extends Prisma.Command$otaJobArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Command$otaJobArgs<ExtArgs>>): Prisma.Prisma__OtaJobClient<runtime.Types.Result.GetResult<Prisma.$OtaJobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1502,6 +1600,25 @@ export type CommandDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Commands to delete.
    */
   limit?: number
+}
+
+/**
+ * Command.otaJob
+ */
+export type Command$otaJobArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OtaJob
+   */
+  select?: Prisma.OtaJobSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OtaJob
+   */
+  omit?: Prisma.OtaJobOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OtaJobInclude<ExtArgs> | null
+  where?: Prisma.OtaJobWhereInput
 }
 
 /**

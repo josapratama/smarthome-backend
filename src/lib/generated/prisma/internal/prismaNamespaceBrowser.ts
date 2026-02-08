@@ -60,7 +60,9 @@ export const ModelName = {
   EnergyPrediction: 'EnergyPrediction',
   AnomalyResult: 'AnomalyResult',
   Command: 'Command',
-  NotificationEndpoint: 'NotificationEndpoint'
+  NotificationEndpoint: 'NotificationEndpoint',
+  FirmwareRelease: 'FirmwareRelease',
+  OtaJob: 'OtaJob'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -207,6 +209,39 @@ export const NotificationEndpointScalarFieldEnum = {
 } as const
 
 export type NotificationEndpointScalarFieldEnum = (typeof NotificationEndpointScalarFieldEnum)[keyof typeof NotificationEndpointScalarFieldEnum]
+
+
+export const FirmwareReleaseScalarFieldEnum = {
+  id: 'id',
+  platform: 'platform',
+  version: 'version',
+  sha256: 'sha256',
+  sizeBytes: 'sizeBytes',
+  filePath: 'filePath',
+  notes: 'notes',
+  createdAt: 'createdAt'
+} as const
+
+export type FirmwareReleaseScalarFieldEnum = (typeof FirmwareReleaseScalarFieldEnum)[keyof typeof FirmwareReleaseScalarFieldEnum]
+
+
+export const OtaJobScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  releaseId: 'releaseId',
+  status: 'status',
+  progress: 'progress',
+  lastError: 'lastError',
+  sentAt: 'sentAt',
+  downloadingAt: 'downloadingAt',
+  appliedAt: 'appliedAt',
+  failedAt: 'failedAt',
+  commandId: 'commandId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OtaJobScalarFieldEnum = (typeof OtaJobScalarFieldEnum)[keyof typeof OtaJobScalarFieldEnum]
 
 
 export const SortOrder = {

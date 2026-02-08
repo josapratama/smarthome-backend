@@ -393,7 +393,9 @@ export const ModelName = {
   EnergyPrediction: 'EnergyPrediction',
   AnomalyResult: 'AnomalyResult',
   Command: 'Command',
-  NotificationEndpoint: 'NotificationEndpoint'
+  NotificationEndpoint: 'NotificationEndpoint',
+  FirmwareRelease: 'FirmwareRelease',
+  OtaJob: 'OtaJob'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -409,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "userAccount" | "loginHistory" | "home" | "device" | "sensorData" | "alarmEvent" | "energyPrediction" | "anomalyResult" | "command" | "notificationEndpoint"
+    modelProps: "userAccount" | "loginHistory" | "home" | "device" | "sensorData" | "alarmEvent" | "energyPrediction" | "anomalyResult" | "command" | "notificationEndpoint" | "firmwareRelease" | "otaJob"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1153,6 +1155,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FirmwareRelease: {
+      payload: Prisma.$FirmwareReleasePayload<ExtArgs>
+      fields: Prisma.FirmwareReleaseFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FirmwareReleaseFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FirmwareReleasePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FirmwareReleaseFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FirmwareReleasePayload>
+        }
+        findFirst: {
+          args: Prisma.FirmwareReleaseFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FirmwareReleasePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FirmwareReleaseFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FirmwareReleasePayload>
+        }
+        findMany: {
+          args: Prisma.FirmwareReleaseFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FirmwareReleasePayload>[]
+        }
+        create: {
+          args: Prisma.FirmwareReleaseCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FirmwareReleasePayload>
+        }
+        createMany: {
+          args: Prisma.FirmwareReleaseCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FirmwareReleaseCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FirmwareReleasePayload>[]
+        }
+        delete: {
+          args: Prisma.FirmwareReleaseDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FirmwareReleasePayload>
+        }
+        update: {
+          args: Prisma.FirmwareReleaseUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FirmwareReleasePayload>
+        }
+        deleteMany: {
+          args: Prisma.FirmwareReleaseDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FirmwareReleaseUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FirmwareReleaseUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FirmwareReleasePayload>[]
+        }
+        upsert: {
+          args: Prisma.FirmwareReleaseUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FirmwareReleasePayload>
+        }
+        aggregate: {
+          args: Prisma.FirmwareReleaseAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFirmwareRelease>
+        }
+        groupBy: {
+          args: Prisma.FirmwareReleaseGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FirmwareReleaseGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FirmwareReleaseCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FirmwareReleaseCountAggregateOutputType> | number
+        }
+      }
+    }
+    OtaJob: {
+      payload: Prisma.$OtaJobPayload<ExtArgs>
+      fields: Prisma.OtaJobFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OtaJobFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtaJobPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OtaJobFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtaJobPayload>
+        }
+        findFirst: {
+          args: Prisma.OtaJobFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtaJobPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OtaJobFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtaJobPayload>
+        }
+        findMany: {
+          args: Prisma.OtaJobFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtaJobPayload>[]
+        }
+        create: {
+          args: Prisma.OtaJobCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtaJobPayload>
+        }
+        createMany: {
+          args: Prisma.OtaJobCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OtaJobCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtaJobPayload>[]
+        }
+        delete: {
+          args: Prisma.OtaJobDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtaJobPayload>
+        }
+        update: {
+          args: Prisma.OtaJobUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtaJobPayload>
+        }
+        deleteMany: {
+          args: Prisma.OtaJobDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OtaJobUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OtaJobUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtaJobPayload>[]
+        }
+        upsert: {
+          args: Prisma.OtaJobUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtaJobPayload>
+        }
+        aggregate: {
+          args: Prisma.OtaJobAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOtaJob>
+        }
+        groupBy: {
+          args: Prisma.OtaJobGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OtaJobGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OtaJobCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OtaJobCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1320,6 +1470,39 @@ export const NotificationEndpointScalarFieldEnum = {
 } as const
 
 export type NotificationEndpointScalarFieldEnum = (typeof NotificationEndpointScalarFieldEnum)[keyof typeof NotificationEndpointScalarFieldEnum]
+
+
+export const FirmwareReleaseScalarFieldEnum = {
+  id: 'id',
+  platform: 'platform',
+  version: 'version',
+  sha256: 'sha256',
+  sizeBytes: 'sizeBytes',
+  filePath: 'filePath',
+  notes: 'notes',
+  createdAt: 'createdAt'
+} as const
+
+export type FirmwareReleaseScalarFieldEnum = (typeof FirmwareReleaseScalarFieldEnum)[keyof typeof FirmwareReleaseScalarFieldEnum]
+
+
+export const OtaJobScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  releaseId: 'releaseId',
+  status: 'status',
+  progress: 'progress',
+  lastError: 'lastError',
+  sentAt: 'sentAt',
+  downloadingAt: 'downloadingAt',
+  appliedAt: 'appliedAt',
+  failedAt: 'failedAt',
+  commandId: 'commandId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OtaJobScalarFieldEnum = (typeof OtaJobScalarFieldEnum)[keyof typeof OtaJobScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1536,6 +1719,20 @@ export type EnumNotificationChannelFieldRefInput<$PrismaModel> = FieldRefInputTy
 export type ListEnumNotificationChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationChannel[]'>
     
 
+
+/**
+ * Reference to a field of type 'OtaJobStatus'
+ */
+export type EnumOtaJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OtaJobStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'OtaJobStatus[]'
+ */
+export type ListEnumOtaJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OtaJobStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -1641,6 +1838,8 @@ export type GlobalOmitConfig = {
   anomalyResult?: Prisma.AnomalyResultOmit
   command?: Prisma.CommandOmit
   notificationEndpoint?: Prisma.NotificationEndpointOmit
+  firmwareRelease?: Prisma.FirmwareReleaseOmit
+  otaJob?: Prisma.OtaJobOmit
 }
 
 /* Types for Logging */

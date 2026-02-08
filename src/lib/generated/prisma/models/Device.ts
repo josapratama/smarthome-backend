@@ -270,6 +270,7 @@ export type DeviceWhereInput = {
   energyPredictions?: Prisma.EnergyPredictionListRelationFilter
   commands?: Prisma.CommandListRelationFilter
   alarmEvents?: Prisma.AlarmEventListRelationFilter
+  otaJobs?: Prisma.OtaJobListRelationFilter
 }
 
 export type DeviceOrderByWithRelationInput = {
@@ -289,6 +290,7 @@ export type DeviceOrderByWithRelationInput = {
   energyPredictions?: Prisma.EnergyPredictionOrderByRelationAggregateInput
   commands?: Prisma.CommandOrderByRelationAggregateInput
   alarmEvents?: Prisma.AlarmEventOrderByRelationAggregateInput
+  otaJobs?: Prisma.OtaJobOrderByRelationAggregateInput
 }
 
 export type DeviceWhereUniqueInput = Prisma.AtLeast<{
@@ -311,6 +313,7 @@ export type DeviceWhereUniqueInput = Prisma.AtLeast<{
   energyPredictions?: Prisma.EnergyPredictionListRelationFilter
   commands?: Prisma.CommandListRelationFilter
   alarmEvents?: Prisma.AlarmEventListRelationFilter
+  otaJobs?: Prisma.OtaJobListRelationFilter
 }, "id" | "mqttClientId" | "deviceKey">
 
 export type DeviceOrderByWithAggregationInput = {
@@ -361,6 +364,7 @@ export type DeviceCreateInput = {
   energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateInput = {
@@ -378,6 +382,7 @@ export type DeviceUncheckedCreateInput = {
   energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUpdateInput = {
@@ -394,6 +399,7 @@ export type DeviceUpdateInput = {
   energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateInput = {
@@ -411,6 +417,7 @@ export type DeviceUncheckedUpdateInput = {
   energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateManyInput = {
@@ -671,6 +678,20 @@ export type DeviceUpdateOneRequiredWithoutCommandsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutCommandsInput, Prisma.DeviceUpdateWithoutCommandsInput>, Prisma.DeviceUncheckedUpdateWithoutCommandsInput>
 }
 
+export type DeviceCreateNestedOneWithoutOtaJobsInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutOtaJobsInput, Prisma.DeviceUncheckedCreateWithoutOtaJobsInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutOtaJobsInput
+  connect?: Prisma.DeviceWhereUniqueInput
+}
+
+export type DeviceUpdateOneRequiredWithoutOtaJobsNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutOtaJobsInput, Prisma.DeviceUncheckedCreateWithoutOtaJobsInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutOtaJobsInput
+  upsert?: Prisma.DeviceUpsertWithoutOtaJobsInput
+  connect?: Prisma.DeviceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutOtaJobsInput, Prisma.DeviceUpdateWithoutOtaJobsInput>, Prisma.DeviceUncheckedUpdateWithoutOtaJobsInput>
+}
+
 export type DeviceCreateWithoutUserInput = {
   deviceName: string
   room?: string | null
@@ -684,6 +705,7 @@ export type DeviceCreateWithoutUserInput = {
   energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutUserInput = {
@@ -700,6 +722,7 @@ export type DeviceUncheckedCreateWithoutUserInput = {
   energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutUserInput = {
@@ -757,6 +780,7 @@ export type DeviceCreateWithoutHomeInput = {
   energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutHomeInput = {
@@ -773,6 +797,7 @@ export type DeviceUncheckedCreateWithoutHomeInput = {
   energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutHomeInput = {
@@ -814,6 +839,7 @@ export type DeviceCreateWithoutSensorDataInput = {
   energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutSensorDataInput = {
@@ -830,6 +856,7 @@ export type DeviceUncheckedCreateWithoutSensorDataInput = {
   energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutSensorDataInput = {
@@ -861,6 +888,7 @@ export type DeviceUpdateWithoutSensorDataInput = {
   energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutSensorDataInput = {
@@ -877,6 +905,7 @@ export type DeviceUncheckedUpdateWithoutSensorDataInput = {
   energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutAlarmEventsInput = {
@@ -892,6 +921,7 @@ export type DeviceCreateWithoutAlarmEventsInput = {
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutAlarmEventsInput = {
@@ -908,6 +938,7 @@ export type DeviceUncheckedCreateWithoutAlarmEventsInput = {
   sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutAlarmEventsInput = {
@@ -939,6 +970,7 @@ export type DeviceUpdateWithoutAlarmEventsInput = {
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutAlarmEventsInput = {
@@ -955,6 +987,7 @@ export type DeviceUncheckedUpdateWithoutAlarmEventsInput = {
   sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutEnergyPredictionsInput = {
@@ -970,6 +1003,7 @@ export type DeviceCreateWithoutEnergyPredictionsInput = {
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutEnergyPredictionsInput = {
@@ -986,6 +1020,7 @@ export type DeviceUncheckedCreateWithoutEnergyPredictionsInput = {
   sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutEnergyPredictionsInput = {
@@ -1017,6 +1052,7 @@ export type DeviceUpdateWithoutEnergyPredictionsInput = {
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutEnergyPredictionsInput = {
@@ -1033,6 +1069,7 @@ export type DeviceUncheckedUpdateWithoutEnergyPredictionsInput = {
   sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutCommandsInput = {
@@ -1048,6 +1085,7 @@ export type DeviceCreateWithoutCommandsInput = {
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutCommandsInput = {
@@ -1064,6 +1102,7 @@ export type DeviceUncheckedCreateWithoutCommandsInput = {
   sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutCommandsInput = {
@@ -1095,6 +1134,7 @@ export type DeviceUpdateWithoutCommandsInput = {
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutCommandsInput = {
@@ -1110,6 +1150,89 @@ export type DeviceUncheckedUpdateWithoutCommandsInput = {
   homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceCreateWithoutOtaJobsInput = {
+  deviceName: string
+  room?: string | null
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
+  home?: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceUncheckedCreateWithoutOtaJobsInput = {
+  id?: number
+  deviceName: string
+  room?: string | null
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  userId: number
+  homeId?: number | null
+  sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceCreateOrConnectWithoutOtaJobsInput = {
+  where: Prisma.DeviceWhereUniqueInput
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutOtaJobsInput, Prisma.DeviceUncheckedCreateWithoutOtaJobsInput>
+}
+
+export type DeviceUpsertWithoutOtaJobsInput = {
+  update: Prisma.XOR<Prisma.DeviceUpdateWithoutOtaJobsInput, Prisma.DeviceUncheckedUpdateWithoutOtaJobsInput>
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutOtaJobsInput, Prisma.DeviceUncheckedCreateWithoutOtaJobsInput>
+  where?: Prisma.DeviceWhereInput
+}
+
+export type DeviceUpdateToOneWithWhereWithoutOtaJobsInput = {
+  where?: Prisma.DeviceWhereInput
+  data: Prisma.XOR<Prisma.DeviceUpdateWithoutOtaJobsInput, Prisma.DeviceUncheckedUpdateWithoutOtaJobsInput>
+}
+
+export type DeviceUpdateWithoutOtaJobsInput = {
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneWithoutDevicesNestedInput
+  sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceUncheckedUpdateWithoutOtaJobsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
@@ -1138,6 +1261,7 @@ export type DeviceUpdateWithoutUserInput = {
   energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutUserInput = {
@@ -1154,6 +1278,7 @@ export type DeviceUncheckedUpdateWithoutUserInput = {
   energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateManyWithoutUserInput = {
@@ -1193,6 +1318,7 @@ export type DeviceUpdateWithoutHomeInput = {
   energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutHomeInput = {
@@ -1209,6 +1335,7 @@ export type DeviceUncheckedUpdateWithoutHomeInput = {
   energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateManyWithoutHomeInput = {
@@ -1233,6 +1360,7 @@ export type DeviceCountOutputType = {
   energyPredictions: number
   commands: number
   alarmEvents: number
+  otaJobs: number
 }
 
 export type DeviceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1240,6 +1368,7 @@ export type DeviceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   energyPredictions?: boolean | DeviceCountOutputTypeCountEnergyPredictionsArgs
   commands?: boolean | DeviceCountOutputTypeCountCommandsArgs
   alarmEvents?: boolean | DeviceCountOutputTypeCountAlarmEventsArgs
+  otaJobs?: boolean | DeviceCountOutputTypeCountOtaJobsArgs
 }
 
 /**
@@ -1280,6 +1409,13 @@ export type DeviceCountOutputTypeCountAlarmEventsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.AlarmEventWhereInput
 }
 
+/**
+ * DeviceCountOutputType without action
+ */
+export type DeviceCountOutputTypeCountOtaJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OtaJobWhereInput
+}
+
 
 export type DeviceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1298,6 +1434,7 @@ export type DeviceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   energyPredictions?: boolean | Prisma.Device$energyPredictionsArgs<ExtArgs>
   commands?: boolean | Prisma.Device$commandsArgs<ExtArgs>
   alarmEvents?: boolean | Prisma.Device$alarmEventsArgs<ExtArgs>
+  otaJobs?: boolean | Prisma.Device$otaJobsArgs<ExtArgs>
   _count?: boolean | Prisma.DeviceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["device"]>
 
@@ -1352,6 +1489,7 @@ export type DeviceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   energyPredictions?: boolean | Prisma.Device$energyPredictionsArgs<ExtArgs>
   commands?: boolean | Prisma.Device$commandsArgs<ExtArgs>
   alarmEvents?: boolean | Prisma.Device$alarmEventsArgs<ExtArgs>
+  otaJobs?: boolean | Prisma.Device$otaJobsArgs<ExtArgs>
   _count?: boolean | Prisma.DeviceCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DeviceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1372,6 +1510,7 @@ export type $DevicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     energyPredictions: Prisma.$EnergyPredictionPayload<ExtArgs>[]
     commands: Prisma.$CommandPayload<ExtArgs>[]
     alarmEvents: Prisma.$AlarmEventPayload<ExtArgs>[]
+    otaJobs: Prisma.$OtaJobPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1784,6 +1923,7 @@ export interface Prisma__DeviceClient<T, Null = never, ExtArgs extends runtime.T
   energyPredictions<T extends Prisma.Device$energyPredictionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$energyPredictionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnergyPredictionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   commands<T extends Prisma.Device$commandsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$commandsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommandPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   alarmEvents<T extends Prisma.Device$alarmEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$alarmEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlarmEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  otaJobs<T extends Prisma.Device$otaJobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$otaJobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OtaJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2331,6 +2471,30 @@ export type Device$alarmEventsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.AlarmEventScalarFieldEnum | Prisma.AlarmEventScalarFieldEnum[]
+}
+
+/**
+ * Device.otaJobs
+ */
+export type Device$otaJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OtaJob
+   */
+  select?: Prisma.OtaJobSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OtaJob
+   */
+  omit?: Prisma.OtaJobOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OtaJobInclude<ExtArgs> | null
+  where?: Prisma.OtaJobWhereInput
+  orderBy?: Prisma.OtaJobOrderByWithRelationInput | Prisma.OtaJobOrderByWithRelationInput[]
+  cursor?: Prisma.OtaJobWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OtaJobScalarFieldEnum | Prisma.OtaJobScalarFieldEnum[]
 }
 
 /**

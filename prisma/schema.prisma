@@ -50,13 +50,22 @@ enum AnomalyMetric {
   TRASH
 }
 
+enum OtaJobStatus {
+  PENDING
+  SENT
+  DOWNLOADING
+  APPLIED
+  FAILED
+  TIMEOUT
+}
+
 model UserAccount {
-  id           Int      @id @default(autoincrement())
-  username     String   @unique
-  email        String   @unique
-  password String   @map("password")
-  role         UserRole @default(USER)
-  createdAt    DateTime @default(now()) @map("created_at")
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String   @map("password")
+  role      UserRole @default(USER)
+  createdAt DateTime @default(now()) @map("created_at")
 
   loginHistory          LoginHistory[]
   devices               Device[]
@@ -72,7 +81,7 @@ model LoginHistory {
   loginTime DateTime @default(now()) @map("login_time")
   ipAddress String?  @map("ip_address")
 
-  user      UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, loginTime])
   @@map("login_history")
@@ -85,8 +94,8 @@ model Home {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  owner     UserAccount @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  devices   Device[]
+  owner       UserAccount  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  devices     Device[]
   alarmEvents AlarmEvent[]
 
   @@index([ownerId])
@@ -100,20 +109,22 @@ model Device {
   status     Boolean  @default(false)
   updatedAt  DateTime @updatedAt @map("updated_at")
 
-  lastSeenAt DateTime? @map("last_seen_at")
-  mqttClientId String? @unique @map("mqtt_client_id")
-  deviceKey    String? @unique @map("device_key")
+  lastSeenAt   DateTime? @map("last_seen_at")
+  mqttClientId String?   @unique @map("mqtt_client_id")
+  deviceKey    String?   @unique @map("device_key")
 
-  userId     Int      @map("user_id")
-  homeId     Int?     @map("home_id")
+  userId Int  @map("user_id")
+  homeId Int? @map("home_id")
 
-  user       UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
-  home       Home?       @relation(fields: [homeId], references: [id], onDelete: SetNull)
+  user UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+  home Home?       @relation(fields: [homeId], references: [id], onDelete: SetNull)
 
   sensorData        SensorData[]
   energyPredictions EnergyPrediction[]
   commands          Command[]
   alarmEvents       AlarmEvent[]
+
+  otaJobs OtaJob[]
 
   @@index([userId])
   @@index([homeId])
@@ -121,8 +132,8 @@ model Device {
 }
 
 model SensorData {
-  id        Int      @id @default(autoincrement())
-  deviceId  Int      @map("device_id")
+  id       Int @id @default(autoincrement())
+  deviceId Int @map("device_id")
 
   current   Float
   gasPpm    Float    @map("gas_ppm")
@@ -130,19 +141,19 @@ model SensorData {
   binLevel  Float    @map("bin_level")
   timestamp DateTime @default(now())
 
-  device    Device      @relation(fields: [deviceId], references: [id], onDelete: Cascade)
-  alarms    AlarmEvent[]
+  device Device       @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  alarms AlarmEvent[]
 
   @@index([deviceId, timestamp])
   @@map("sensor_data")
 }
 
 model AlarmEvent {
-  id          Int           @id @default(autoincrement())
-  sensorId    Int           @map("sensor_id")
+  id       Int @id @default(autoincrement())
+  sensorId Int @map("sensor_id")
 
-  deviceId    Int           @map("device_id")
-  homeId      Int?          @map("home_id")
+  deviceId Int  @map("device_id")
+  homeId   Int? @map("home_id")
 
   type        String
   message     String
@@ -150,9 +161,9 @@ model AlarmEvent {
   source      AlarmSource   @default(DEVICE)
   triggeredAt DateTime      @default(now()) @map("triggered_at")
 
-  sensor      SensorData @relation(fields: [sensorId], references: [id], onDelete: Cascade)
-  device      Device     @relation(fields: [deviceId], references: [id], onDelete: Cascade)
-  home        Home?      @relation(fields: [homeId], references: [id], onDelete: SetNull)
+  sensor SensorData @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  device Device     @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  home   Home?      @relation(fields: [homeId], references: [id], onDelete: SetNull)
 
   @@index([deviceId, triggeredAt])
   @@index([homeId, triggeredAt])
@@ -160,56 +171,58 @@ model AlarmEvent {
 }
 
 model EnergyPrediction {
-  id              Int      @id @default(autoincrement())
-  deviceId         Int      @map("device_id")
+  id       Int @id @default(autoincrement())
+  deviceId Int @map("device_id")
 
-  predictedEnergy  Float    @map("predicted_energy")
-  actualEnergy     Float?   @map("actual_energy")
+  predictedEnergy Float  @map("predicted_energy")
+  actualEnergy    Float? @map("actual_energy")
 
-  windowStart      DateTime? @map("window_start")
-  windowEnd        DateTime? @map("window_end")
-  modelVersion     String?   @map("model_version")
+  windowStart  DateTime? @map("window_start")
+  windowEnd    DateTime? @map("window_end")
+  modelVersion String?   @map("model_version")
 
-  createdAt        DateTime @default(now()) @map("created_at")
+  createdAt DateTime @default(now()) @map("created_at")
 
-  device          Device         @relation(fields: [deviceId], references: [id], onDelete: Cascade)
-  anomalyResults  AnomalyResult[]
+  device         Device          @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  anomalyResults AnomalyResult[]
 
   @@index([deviceId, createdAt])
   @@map("energy_prediction")
 }
 
 model AnomalyResult {
-  id           Int          @id @default(autoincrement())
-  predictionId Int          @map("prediction_id")
+  id           Int @id @default(autoincrement())
+  predictionId Int @map("prediction_id")
 
-  isAnomaly    Boolean      @map("is_anomaly")
-  score        Float
-  metric       AnomalyMetric?
-  details      Json?
-  detectedAt   DateTime     @default(now()) @map("detected_at")
+  isAnomaly  Boolean        @map("is_anomaly")
+  score      Float
+  metric     AnomalyMetric?
+  details    Json?
+  detectedAt DateTime       @default(now()) @map("detected_at")
 
-  prediction   EnergyPrediction @relation(fields: [predictionId], references: [id], onDelete: Cascade)
+  prediction EnergyPrediction @relation(fields: [predictionId], references: [id], onDelete: Cascade)
 
   @@index([predictionId, detectedAt])
   @@map("anomaly_result")
 }
 
 model Command {
-  id        Int          @id @default(autoincrement())
-  deviceId  Int          @map("device_id")
+  id       Int @id @default(autoincrement())
+  deviceId Int @map("device_id")
 
-  type      String
-  payload   Json
+  type    String
+  payload Json
 
   status    CommandStatus @default(PENDING)
   ackedAt   DateTime?     @map("acked_at")
   lastError String?       @map("last_error")
 
-  createdAt DateTime      @default(now()) @map("created_at")
-  updatedAt DateTime      @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  device    Device        @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  device Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  otaJob OtaJob?
 
   @@index([deviceId, status, createdAt])
   @@map("command")
@@ -222,8 +235,53 @@ model NotificationEndpoint {
   value     String              @unique
   createdAt DateTime            @default(now()) @map("created_at")
 
-  user      UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("notification_endpoint")
+}
+
+model FirmwareRelease {
+  id        Int    @id @default(autoincrement())
+  platform  String // "esp32"
+  version   String
+  sha256    String @unique
+  sizeBytes Int    @map("size_bytes")
+
+  filePath  String   @map("file_path")
+  notes     String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  otaJobs OtaJob[]
+
+  @@index([platform, version])
+  @@map("firmware_release")
+}
+
+model OtaJob {
+  id        Int @id @default(autoincrement())
+  deviceId  Int @map("device_id")
+  releaseId Int @map("release_id")
+
+  status    OtaJobStatus @default(PENDING)
+  progress  Float?
+  lastError String?      @map("last_error")
+
+  sentAt        DateTime? @map("sent_at")
+  downloadingAt DateTime? @map("downloading_at")
+  appliedAt     DateTime? @map("applied_at")
+  failedAt      DateTime? @map("failed_at")
+
+  commandId Int?     @unique @map("command_id")
+  command   Command? @relation(fields: [commandId], references: [id], onDelete: SetNull)
+
+  device  Device          @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  release FirmwareRelease @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([deviceId, status, createdAt])
+  @@index([releaseId, createdAt])
+  @@map("ota_job")
 }

@@ -68,3 +68,15 @@ export const AnomalyMetric = {
 } as const
 
 export type AnomalyMetric = (typeof AnomalyMetric)[keyof typeof AnomalyMetric]
+
+
+export const OtaJobStatus = {
+  PENDING: 'PENDING',
+  SENT: 'SENT',
+  DOWNLOADING: 'DOWNLOADING',
+  APPLIED: 'APPLIED',
+  FAILED: 'FAILED',
+  TIMEOUT: 'TIMEOUT'
+} as const
+
+export type OtaJobStatus = (typeof OtaJobStatus)[keyof typeof OtaJobStatus]
