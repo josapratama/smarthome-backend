@@ -1,5 +1,5 @@
-import { mkdir } from "node:fs/promises";
-import path from "node:path";
+import { mkdir } from "fs/promises";
+import path from "path";
 
 export const STORAGE_DIR = process.env.STORAGE_DIR ?? "storage";
 
