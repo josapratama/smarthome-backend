@@ -69,3 +69,17 @@ export async function patchDevice(deviceId: number, body: any) {
   if (!d) return { error: "NOT_FOUND" as const };
   return { device: d };
 }
+
+export async function listDevices(filters?: {
+  homeId?: number;
+  status?: boolean;
+}) {
+  const where: any = {};
+  if (filters?.homeId !== undefined) where.homeId = filters.homeId;
+  if (filters?.status !== undefined) where.status = filters.status;
+
+  return prisma.device.findMany({
+    where,
+    orderBy: { updatedAt: "desc" },
+  });
+}

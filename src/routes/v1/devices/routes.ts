@@ -1,21 +1,27 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import type { AppEnv } from "../../../types/app-env";
 import { DeviceId, HomeId } from "../common/ids";
-import { DeviceCreateBody, DeviceDTO, DeviceUpdateBody } from "./schemas";
+import {
+  DeviceCreateBody,
+  DeviceDTO,
+  DeviceUpdateBody,
+  DeviceListQuery,
+} from "./schemas";
 import {
   listDevicesByHome,
   createDeviceUnderHome,
   getDeviceById,
   patchDevice,
   mapDeviceDTO,
+  listDevices,
 } from "./handlers";
 
 export function registerDevicesRoutes(app: OpenAPIHono<AppEnv>) {
   app.openapi(
     createRoute({
       method: "get",
-      path: "/api/v1/homes/{homeId}/devices",
-      request: { params: z.object({ homeId: HomeId }) },
+      path: "/api/v1/devices",
+      request: { query: DeviceListQuery },
       responses: {
         200: {
           content: {
@@ -23,14 +29,14 @@ export function registerDevicesRoutes(app: OpenAPIHono<AppEnv>) {
               schema: z.object({ data: z.array(DeviceDTO) }),
             },
           },
-          description: "List devices for a home.",
+          description: "List devices (optional filter by homeId/status).",
         },
       },
     }),
     async (c) => {
-      const { homeId } = c.req.valid("param");
-      const devices = await listDevicesByHome(homeId);
-      return c.json({ data: devices.map(mapDeviceDTO) });
+      const q = c.req.valid("query");
+      const devices = await listDevices({ homeId: q.homeId, status: q.status });
+      return c.json({ data: devices.map(mapDeviceDTO) }, 200);
     },
   );
 

@@ -43,3 +43,11 @@ export const DeviceDTO = z
     homeId: HomeId.nullable(),
   })
   .openapi("DeviceDTO");
+
+export const DeviceListQuery = z.object({
+  homeId: HomeId.optional(),
+  status: z
+    .enum(["true", "false"])
+    .optional()
+    .transform((v) => (v === undefined ? undefined : v === "true")),
+});
