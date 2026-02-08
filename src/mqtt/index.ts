@@ -5,7 +5,7 @@ import { registerCommandAckSubscription } from "./commands";
 export function initMqttBridge() {
   const client = getMqttClient();
 
-  // register subs
+  // register once
   registerTelemetrySubscription(client);
   registerCommandAckSubscription(client);
 

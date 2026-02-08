@@ -1,5 +1,6 @@
 import { prisma } from "../../../lib/prisma";
 import { toISO } from "../common/helpers";
+import { publishCommandById } from "../../../mqtt/commands";
 
 export function mapCommandDTO(cmd: any) {
   return {
@@ -29,6 +30,11 @@ export async function createCommand(
       payload: body.payload,
       status: "PENDING",
     },
+  });
+
+  // ✅ publish to MQTT, update status -> SENT / FAILED
+  publishCommandById(cmd.id).catch((e) => {
+    console.error("[mqtt] publishCommandById error:", e);
   });
 
   return { cmd };

@@ -2,6 +2,56 @@ import type { MqttClient } from "mqtt";
 import { prisma } from "../lib/prisma";
 import { Topics, parseDeviceIdFromTopic } from "./topics";
 import { z } from "zod";
+import { getMqttClient } from "./client";
+
+export async function publishCommandById(commandId: number) {
+  const mqttClient = getMqttClient();
+
+  const cmd = await prisma.command.findUnique({
+    where: { id: commandId },
+    select: {
+      id: true,
+      deviceId: true,
+      type: true,
+      payload: true,
+      status: true,
+    },
+  });
+  if (!cmd) return { error: "COMMAND_NOT_FOUND" as const };
+
+  const topic = Topics.commands(cmd.deviceId);
+  const message = JSON.stringify({
+    commandId: cmd.id,
+    type: cmd.type,
+    payload: cmd.payload ?? {},
+  });
+  console.log("[mqtt] publishing command", cmd.id, "topic=", topic);
+
+  // Wrap publish callback into Promise
+  const ok = await new Promise<boolean>((resolve) => {
+    mqttClient.publish(topic, message, { qos: 1, retain: false }, (err) => {
+      resolve(!err);
+    });
+  });
+
+  if (!ok) {
+    await prisma.command.update({
+      where: { id: cmd.id },
+      data: { status: "FAILED", lastError: "MQTT_PUBLISH_FAILED" },
+    });
+    return { error: "MQTT_PUBLISH_FAILED" as const };
+  }
+
+  await prisma.command.update({
+    where: { id: cmd.id },
+    data: { status: "SENT", lastError: null },
+  });
+
+  console.log("[mqtt] publishing command", cmd.id, "topic=", topic);
+  console.log("[mqtt] published command", cmd.id);
+
+  return { ok: true as const };
+}
 
 const AckSchema = z.object({
   commandId: z.number().int(),
