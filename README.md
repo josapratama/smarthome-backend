@@ -96,22 +96,33 @@ Backend untuk **Smart Home berbasis IoT + AI** dengan:
 
 ## Struktur Folder
 
-```
-.
+```tree
 ├─ src/
-│  ├─ app.ts              # Hono app + Swagger + static
-│  ├─ index.ts            # Bun.serve
-│  ├─ input.css           # Tailwind input
-│  ├─ routes/v1.ts         # REST API v1 (Zod + OpenAPI)
+│  ├─ app.ts                     # Hono app + Swagger + static
+│  ├─ index.ts                   # Bun.serve + init MQTT + start workers
+│  ├─ routes/
+│  │  └─ v1/                     # REST API v1 (Zod + OpenAPI)
+│  ├─ mqtt/
+│  │  ├─ client.ts               # MQTT client singleton
+│  │  ├─ topics.ts               # Topics helper + parser
+│  │  ├─ telemetry.ts            # MQTT telemetry subscriber
+│  │  ├─ heartbeat.ts            # MQTT heartbeat subscriber
+│  │  └─ commands.ts             # MQTT command publish + ack subscriber
+│  ├─ workers/
+│  │  ├─ command-timeout.worker.ts
+│  │  └─ device-offline.worker.ts
+│  ├─ services/
+│  │  ├─ command.service.ts
+│  │  └─ (opsional) telemetry/alarm service
 │  └─ lib/
-│     ├─ env.ts           # load + validate env
-│     └─ prisma.ts        # PrismaClient singleton
+│     ├─ env.ts                  # load + validate env
+│     └─ prisma.ts               # PrismaClient singleton
 ├─ prisma/
 │  └─ schema.prisma
 ├─ docs/
 │  └─ asyncapi.yaml
 ├─ public/
-│  └─ index.html          # landing page (Tailwind)
+│  └─ index.html
 ├─ docker-compose.yml
 ├─ Dockerfile
 └─ README.md
@@ -284,23 +295,74 @@ curl -X POST http://localhost:3000/api/v1/homes/<HOME_ID>/events \
 
 ---
 
-## Kontrak MQTT (AsyncAPI)
+## MQTT (AsyncAPI + Implementasi di Backend)
 
-File: `docs/asyncapi.yaml`
+File kontrak: `docs/asyncapi.yaml`
 
-Topik utama (ringkas):
+### Status saat ini (sudah diimplementasikan)
 
-- Telemetry publish dari device
+Backend sudah punya **HTTP ↔ MQTT bridge** untuk kebutuhan dasar IoT:
 
-- Command subscribe di device (.../cmd/relays/set)
+#### 1) Telemetry (Device → Backend)
 
-- Ack publish dari device (.../cmd/ack)
+- Topic publish dari device:
+  - `devices/{deviceId}/telemetry`
+- Backend melakukan:
+  - validasi `deviceKey`
+  - update device online (`status=true`, `lastSeenAt=now`)
+  - insert ke tabel `sensor_data`
 
-- Availability + heartbeat
+Contoh publish telemetry (via docker mosquitto):
 
-- Events publish (smarthome/v1/homes/{homeId}/events)
+```bash
+docker compose exec mqtt mosquitto_pub \
+  -t 'devices/1/telemetry' \
+  -m '{"deviceKey":"my-test-device-key-1234567890","gasPpm":650,"flame":true,"binLevel":10,"current":0.2}'
+```
 
-`Implementasi MQTT consumer/publisher akan kita kerjakan pada tahap berikutnya (streaming → simpan DB + trigger event + update ACK command).`
+#### 2) Heartbeat (Device → Backend)
+
+- Topic publish dari device:
+  - devices/{deviceId}/heartbeat
+- Backend melakukan:
+  - validasi deviceKey
+  - update device online (status=true, lastSeenAt=now)
+  - optional update mqttClientId
+
+Contoh publish heartbeat:
+
+```bash
+docker compose exec mqtt mosquitto_pub \
+ -t 'devices/1/heartbeat' \
+ -m '{"deviceKey":"my-test-device-key-1234567890","mqttClientId":"mqtt-client-001"}'
+```
+
+### 3) Commands (Backend → Device) + ACK (Device → Backend)
+
+- Backend publish command ke device:
+  - devices/{deviceId}/commands
+- Device publish ack:
+  - devices/{deviceId}/commands/ack
+
+Flow ringkas:
+
+1. POST /api/v1/devices/{deviceId}/commands → insert DB (PENDING)
+2. Backend publish MQTT → update DB (SENT / FAILED)
+3. Device publish ACK → backend update DB (ACKED / FAILED)
+
+Contoh publish ACK manual (simulasi device):
+
+```bash
+docker compose exec mqtt mosquitto_pub \
+ -t 'devices/1/commands/ack' \
+ -m '{"commandId":7,"status":"ACKED"}'
+```
+
+### Roadmap (next)
+
+- Alarm engine otomatis dari telemetry + dedup window
+- Notifikasi (FCM/WS/SSE) saat alarm
+- QoS strategy & retry publish policies
 
 ---
 
