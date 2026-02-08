@@ -1,6 +1,7 @@
 import { prisma } from "../../../lib/prisma";
 import { toISO } from "../common/helpers";
 import { publishCommandById } from "../../../mqtt/commands";
+import { createAndSendCommand } from "../../../services/command.service";
 
 export function mapCommandDTO(cmd: any) {
   return {
@@ -18,30 +19,26 @@ export function mapCommandDTO(cmd: any) {
 
 export async function createCommand(
   deviceId: number,
-  body: { type: string; payload: any },
+  body: { type: string; payload: unknown },
 ) {
-  const device = await prisma.device.findUnique({ where: { id: deviceId } });
-  if (!device) return { error: "DEVICE_NOT_FOUND" as const };
+  const device = await prisma.device.findUnique({
+    where: { id: deviceId },
+    select: { id: true },
+  });
+  if (!device) return { error: "Device not found" as const };
 
-  const cmd = await prisma.command.create({
-    data: {
-      deviceId,
-      type: body.type,
-      payload: body.payload,
-      status: "PENDING",
-    },
+  const cmd = await createAndSendCommand({
+    deviceId,
+    type: body.type,
+    payload: body.payload,
   });
 
-  // ✅ publish to MQTT, update status -> SENT / FAILED
-  publishCommandById(cmd.id).catch((e) => {
-    console.error("[mqtt] publishCommandById error:", e);
-  });
-
-  return { cmd };
+  const fresh = await prisma.command.findUnique({ where: { id: cmd.id } });
+  return { cmd: fresh ?? cmd };
 }
 
 export async function getCommandById(commandId: number) {
   const cmd = await prisma.command.findUnique({ where: { id: commandId } });
-  if (!cmd) return { error: "NOT_FOUND" as const };
+  if (!cmd) return { error: "Not found" as const };
   return { cmd };
 }
