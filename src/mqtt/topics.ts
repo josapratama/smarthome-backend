@@ -6,6 +6,9 @@ export const Topics = {
   // wildcard
   telemetryAll: () => `devices/+/telemetry`,
   commandsAckAll: () => `devices/+/commands/ack`,
+
+  heartbeat: (deviceId: number) => `devices/${deviceId}/heartbeat`,
+  heartbeatAll: () => `devices/+/heartbeat`,
 };
 
 export function parseDeviceIdFromTopic(topic: string): number | null {
