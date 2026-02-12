@@ -7,10 +7,21 @@ export const acceptInviteRoute = createRoute({
   request: { params: z.object({ token: InviteToken }) },
   responses: {
     200: {
-      content: { "application/json": { schema: InviteAcceptResponse } },
-      description: "Accept invite using token (no auth required).",
+      content: {
+        "application/json": { schema: InviteAcceptResponse },
+        "text/html": {
+          schema: z.string().openapi({ example: "<html>...</html>" }),
+        },
+      },
+      description: "Accept invite (returns JSON or HTML).",
     },
-    404: { description: "Token invalid/expired/used" },
+    404: {
+      content: {
+        "application/json": { schema: z.object({ error: z.string() }) },
+        "text/html": { schema: z.string() },
+      },
+      description: "Token invalid/expired/used",
+    },
   },
 });
 
