@@ -49,6 +49,7 @@ export type HomeMinAggregateOutputType = {
   postalCode: string | null
   latitude: number | null
   longitude: number | null
+  deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,6 +63,7 @@ export type HomeMaxAggregateOutputType = {
   postalCode: string | null
   latitude: number | null
   longitude: number | null
+  deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -75,6 +77,7 @@ export type HomeCountAggregateOutputType = {
   postalCode: number
   latitude: number
   longitude: number
+  deletedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -104,6 +107,7 @@ export type HomeMinAggregateInputType = {
   postalCode?: true
   latitude?: true
   longitude?: true
+  deletedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -117,6 +121,7 @@ export type HomeMaxAggregateInputType = {
   postalCode?: true
   latitude?: true
   longitude?: true
+  deletedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -130,6 +135,7 @@ export type HomeCountAggregateInputType = {
   postalCode?: true
   latitude?: true
   longitude?: true
+  deletedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -230,6 +236,7 @@ export type HomeGroupByOutputType = {
   postalCode: string | null
   latitude: number | null
   longitude: number | null
+  deletedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: HomeCountAggregateOutputType | null
@@ -266,6 +273,7 @@ export type HomeWhereInput = {
   postalCode?: Prisma.StringNullableFilter<"Home"> | string | null
   latitude?: Prisma.FloatNullableFilter<"Home"> | number | null
   longitude?: Prisma.FloatNullableFilter<"Home"> | number | null
+  deletedAt?: Prisma.DateTimeNullableFilter<"Home"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Home"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Home"> | Date | string
   owner?: Prisma.XOR<Prisma.UserAccountScalarRelationFilter, Prisma.UserAccountWhereInput>
@@ -287,6 +295,7 @@ export type HomeOrderByWithRelationInput = {
   postalCode?: Prisma.SortOrderInput | Prisma.SortOrder
   latitude?: Prisma.SortOrderInput | Prisma.SortOrder
   longitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   owner?: Prisma.UserAccountOrderByWithRelationInput
@@ -311,6 +320,7 @@ export type HomeWhereUniqueInput = Prisma.AtLeast<{
   postalCode?: Prisma.StringNullableFilter<"Home"> | string | null
   latitude?: Prisma.FloatNullableFilter<"Home"> | number | null
   longitude?: Prisma.FloatNullableFilter<"Home"> | number | null
+  deletedAt?: Prisma.DateTimeNullableFilter<"Home"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Home"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Home"> | Date | string
   owner?: Prisma.XOR<Prisma.UserAccountScalarRelationFilter, Prisma.UserAccountWhereInput>
@@ -332,6 +342,7 @@ export type HomeOrderByWithAggregationInput = {
   postalCode?: Prisma.SortOrderInput | Prisma.SortOrder
   latitude?: Prisma.SortOrderInput | Prisma.SortOrder
   longitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.HomeCountOrderByAggregateInput
@@ -353,6 +364,7 @@ export type HomeScalarWhereWithAggregatesInput = {
   postalCode?: Prisma.StringNullableWithAggregatesFilter<"Home"> | string | null
   latitude?: Prisma.FloatNullableWithAggregatesFilter<"Home"> | number | null
   longitude?: Prisma.FloatNullableWithAggregatesFilter<"Home"> | number | null
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Home"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Home"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Home"> | Date | string
 }
@@ -364,6 +376,7 @@ export type HomeCreateInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
@@ -385,6 +398,7 @@ export type HomeUncheckedCreateInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
@@ -403,6 +417,7 @@ export type HomeUpdateInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
@@ -424,6 +439,7 @@ export type HomeUncheckedUpdateInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
@@ -444,6 +460,7 @@ export type HomeCreateManyInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -455,6 +472,7 @@ export type HomeUpdateManyMutationInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -468,6 +486,7 @@ export type HomeUncheckedUpdateManyInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -491,6 +510,7 @@ export type HomeCountOrderByAggregateInput = {
   postalCode?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -511,6 +531,7 @@ export type HomeMaxOrderByAggregateInput = {
   postalCode?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -524,6 +545,7 @@ export type HomeMinOrderByAggregateInput = {
   postalCode?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -704,6 +726,7 @@ export type HomeCreateWithoutOwnerInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceCreateNestedManyWithoutHomeInput
@@ -723,6 +746,7 @@ export type HomeUncheckedCreateWithoutOwnerInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
@@ -772,6 +796,7 @@ export type HomeScalarWhereInput = {
   postalCode?: Prisma.StringNullableFilter<"Home"> | string | null
   latitude?: Prisma.FloatNullableFilter<"Home"> | number | null
   longitude?: Prisma.FloatNullableFilter<"Home"> | number | null
+  deletedAt?: Prisma.DateTimeNullableFilter<"Home"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Home"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Home"> | Date | string
 }
@@ -783,6 +808,7 @@ export type HomeCreateWithoutMembersInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
@@ -803,6 +829,7 @@ export type HomeUncheckedCreateWithoutMembersInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
@@ -836,6 +863,7 @@ export type HomeUpdateWithoutMembersInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
@@ -856,6 +884,7 @@ export type HomeUncheckedUpdateWithoutMembersInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
@@ -873,6 +902,7 @@ export type HomeCreateWithoutRoomsInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
@@ -893,6 +923,7 @@ export type HomeUncheckedCreateWithoutRoomsInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
@@ -926,6 +957,7 @@ export type HomeUpdateWithoutRoomsInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
@@ -946,6 +978,7 @@ export type HomeUncheckedUpdateWithoutRoomsInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
@@ -963,6 +996,7 @@ export type HomeCreateWithoutDevicesInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
@@ -983,6 +1017,7 @@ export type HomeUncheckedCreateWithoutDevicesInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutHomeInput
@@ -1016,6 +1051,7 @@ export type HomeUpdateWithoutDevicesInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
@@ -1036,6 +1072,7 @@ export type HomeUncheckedUpdateWithoutDevicesInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rooms?: Prisma.RoomUncheckedUpdateManyWithoutHomeNestedInput
@@ -1053,6 +1090,7 @@ export type HomeCreateWithoutPairingHistoriesInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
@@ -1073,6 +1111,7 @@ export type HomeUncheckedCreateWithoutPairingHistoriesInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
@@ -1106,6 +1145,7 @@ export type HomeUpdateWithoutPairingHistoriesInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
@@ -1126,6 +1166,7 @@ export type HomeUncheckedUpdateWithoutPairingHistoriesInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
@@ -1143,6 +1184,7 @@ export type HomeCreateWithoutAlarmEventsInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
@@ -1163,6 +1205,7 @@ export type HomeUncheckedCreateWithoutAlarmEventsInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
@@ -1196,6 +1239,7 @@ export type HomeUpdateWithoutAlarmEventsInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
@@ -1216,6 +1260,7 @@ export type HomeUncheckedUpdateWithoutAlarmEventsInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
@@ -1233,6 +1278,7 @@ export type HomeCreateWithoutEnergyUsageDailyInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
@@ -1253,6 +1299,7 @@ export type HomeUncheckedCreateWithoutEnergyUsageDailyInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
@@ -1286,6 +1333,7 @@ export type HomeUpdateWithoutEnergyUsageDailyInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
@@ -1306,6 +1354,7 @@ export type HomeUncheckedUpdateWithoutEnergyUsageDailyInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
@@ -1323,6 +1372,7 @@ export type HomeCreateWithoutDeviceEventLogsInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
@@ -1343,6 +1393,7 @@ export type HomeUncheckedCreateWithoutDeviceEventLogsInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
@@ -1376,6 +1427,7 @@ export type HomeUpdateWithoutDeviceEventLogsInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
@@ -1396,6 +1448,7 @@ export type HomeUncheckedUpdateWithoutDeviceEventLogsInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
@@ -1414,6 +1467,7 @@ export type HomeCreateManyOwnerInput = {
   postalCode?: string | null
   latitude?: number | null
   longitude?: number | null
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1425,6 +1479,7 @@ export type HomeUpdateWithoutOwnerInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUpdateManyWithoutHomeNestedInput
@@ -1444,6 +1499,7 @@ export type HomeUncheckedUpdateWithoutOwnerInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
@@ -1463,6 +1519,7 @@ export type HomeUncheckedUpdateManyWithoutOwnerInput = {
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1561,6 +1618,7 @@ export type HomeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   postalCode?: boolean
   latitude?: boolean
   longitude?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
@@ -1583,6 +1641,7 @@ export type HomeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   postalCode?: boolean
   latitude?: boolean
   longitude?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
@@ -1597,6 +1656,7 @@ export type HomeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   postalCode?: boolean
   latitude?: boolean
   longitude?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
@@ -1611,11 +1671,12 @@ export type HomeSelectScalar = {
   postalCode?: boolean
   latitude?: boolean
   longitude?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type HomeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerUserId" | "name" | "addressText" | "city" | "postalCode" | "latitude" | "longitude" | "createdAt" | "updatedAt", ExtArgs["result"]["home"]>
+export type HomeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerUserId" | "name" | "addressText" | "city" | "postalCode" | "latitude" | "longitude" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["home"]>
 export type HomeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
   devices?: boolean | Prisma.Home$devicesArgs<ExtArgs>
@@ -1655,6 +1716,7 @@ export type $HomePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     postalCode: string | null
     latitude: number | null
     longitude: number | null
+    deletedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["home"]>
@@ -2096,6 +2158,7 @@ export interface HomeFieldRefs {
   readonly postalCode: Prisma.FieldRef<"Home", 'String'>
   readonly latitude: Prisma.FieldRef<"Home", 'Float'>
   readonly longitude: Prisma.FieldRef<"Home", 'Float'>
+  readonly deletedAt: Prisma.FieldRef<"Home", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Home", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Home", 'DateTime'>
 }

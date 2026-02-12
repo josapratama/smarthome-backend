@@ -42,6 +42,7 @@ export type NotificationEndpointMinAggregateOutputType = {
   channel: $Enums.NotificationChannel | null
   value: string | null
   createdAt: Date | null
+  deletedAt: Date | null
 }
 
 export type NotificationEndpointMaxAggregateOutputType = {
@@ -50,6 +51,7 @@ export type NotificationEndpointMaxAggregateOutputType = {
   channel: $Enums.NotificationChannel | null
   value: string | null
   createdAt: Date | null
+  deletedAt: Date | null
 }
 
 export type NotificationEndpointCountAggregateOutputType = {
@@ -58,6 +60,7 @@ export type NotificationEndpointCountAggregateOutputType = {
   channel: number
   value: number
   createdAt: number
+  deletedAt: number
   _all: number
 }
 
@@ -78,6 +81,7 @@ export type NotificationEndpointMinAggregateInputType = {
   channel?: true
   value?: true
   createdAt?: true
+  deletedAt?: true
 }
 
 export type NotificationEndpointMaxAggregateInputType = {
@@ -86,6 +90,7 @@ export type NotificationEndpointMaxAggregateInputType = {
   channel?: true
   value?: true
   createdAt?: true
+  deletedAt?: true
 }
 
 export type NotificationEndpointCountAggregateInputType = {
@@ -94,6 +99,7 @@ export type NotificationEndpointCountAggregateInputType = {
   channel?: true
   value?: true
   createdAt?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -189,6 +195,7 @@ export type NotificationEndpointGroupByOutputType = {
   channel: $Enums.NotificationChannel
   value: string
   createdAt: Date
+  deletedAt: Date | null
   _count: NotificationEndpointCountAggregateOutputType | null
   _avg: NotificationEndpointAvgAggregateOutputType | null
   _sum: NotificationEndpointSumAggregateOutputType | null
@@ -220,6 +227,7 @@ export type NotificationEndpointWhereInput = {
   channel?: Prisma.EnumNotificationChannelFilter<"NotificationEndpoint"> | $Enums.NotificationChannel
   value?: Prisma.StringFilter<"NotificationEndpoint"> | string
   createdAt?: Prisma.DateTimeFilter<"NotificationEndpoint"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"NotificationEndpoint"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserAccountScalarRelationFilter, Prisma.UserAccountWhereInput>
   notificationLogs?: Prisma.NotificationLogListRelationFilter
 }
@@ -230,22 +238,24 @@ export type NotificationEndpointOrderByWithRelationInput = {
   channel?: Prisma.SortOrder
   value?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserAccountOrderByWithRelationInput
   notificationLogs?: Prisma.NotificationLogOrderByRelationAggregateInput
 }
 
 export type NotificationEndpointWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  value?: string
   AND?: Prisma.NotificationEndpointWhereInput | Prisma.NotificationEndpointWhereInput[]
   OR?: Prisma.NotificationEndpointWhereInput[]
   NOT?: Prisma.NotificationEndpointWhereInput | Prisma.NotificationEndpointWhereInput[]
   userId?: Prisma.IntFilter<"NotificationEndpoint"> | number
   channel?: Prisma.EnumNotificationChannelFilter<"NotificationEndpoint"> | $Enums.NotificationChannel
+  value?: Prisma.StringFilter<"NotificationEndpoint"> | string
   createdAt?: Prisma.DateTimeFilter<"NotificationEndpoint"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"NotificationEndpoint"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserAccountScalarRelationFilter, Prisma.UserAccountWhereInput>
   notificationLogs?: Prisma.NotificationLogListRelationFilter
-}, "id" | "value">
+}, "id">
 
 export type NotificationEndpointOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -253,6 +263,7 @@ export type NotificationEndpointOrderByWithAggregationInput = {
   channel?: Prisma.SortOrder
   value?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.NotificationEndpointCountOrderByAggregateInput
   _avg?: Prisma.NotificationEndpointAvgOrderByAggregateInput
   _max?: Prisma.NotificationEndpointMaxOrderByAggregateInput
@@ -269,12 +280,14 @@ export type NotificationEndpointScalarWhereWithAggregatesInput = {
   channel?: Prisma.EnumNotificationChannelWithAggregatesFilter<"NotificationEndpoint"> | $Enums.NotificationChannel
   value?: Prisma.StringWithAggregatesFilter<"NotificationEndpoint"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"NotificationEndpoint"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"NotificationEndpoint"> | Date | string | null
 }
 
 export type NotificationEndpointCreateInput = {
   channel?: $Enums.NotificationChannel
   value: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   user: Prisma.UserAccountCreateNestedOneWithoutNotificationEndpointsInput
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutEndpointInput
 }
@@ -285,6 +298,7 @@ export type NotificationEndpointUncheckedCreateInput = {
   channel?: $Enums.NotificationChannel
   value: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutEndpointInput
 }
 
@@ -292,6 +306,7 @@ export type NotificationEndpointUpdateInput = {
   channel?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   value?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserAccountUpdateOneRequiredWithoutNotificationEndpointsNestedInput
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutEndpointNestedInput
 }
@@ -302,6 +317,7 @@ export type NotificationEndpointUncheckedUpdateInput = {
   channel?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   value?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutEndpointNestedInput
 }
 
@@ -311,12 +327,14 @@ export type NotificationEndpointCreateManyInput = {
   channel?: $Enums.NotificationChannel
   value: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type NotificationEndpointUpdateManyMutationInput = {
   channel?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   value?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type NotificationEndpointUncheckedUpdateManyInput = {
@@ -325,6 +343,7 @@ export type NotificationEndpointUncheckedUpdateManyInput = {
   channel?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   value?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type NotificationEndpointListRelationFilter = {
@@ -343,6 +362,7 @@ export type NotificationEndpointCountOrderByAggregateInput = {
   channel?: Prisma.SortOrder
   value?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type NotificationEndpointAvgOrderByAggregateInput = {
@@ -356,6 +376,7 @@ export type NotificationEndpointMaxOrderByAggregateInput = {
   channel?: Prisma.SortOrder
   value?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type NotificationEndpointMinOrderByAggregateInput = {
@@ -364,6 +385,7 @@ export type NotificationEndpointMinOrderByAggregateInput = {
   channel?: Prisma.SortOrder
   value?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type NotificationEndpointSumOrderByAggregateInput = {
@@ -440,6 +462,7 @@ export type NotificationEndpointCreateWithoutUserInput = {
   channel?: $Enums.NotificationChannel
   value: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutEndpointInput
 }
 
@@ -448,6 +471,7 @@ export type NotificationEndpointUncheckedCreateWithoutUserInput = {
   channel?: $Enums.NotificationChannel
   value: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutEndpointInput
 }
 
@@ -486,12 +510,14 @@ export type NotificationEndpointScalarWhereInput = {
   channel?: Prisma.EnumNotificationChannelFilter<"NotificationEndpoint"> | $Enums.NotificationChannel
   value?: Prisma.StringFilter<"NotificationEndpoint"> | string
   createdAt?: Prisma.DateTimeFilter<"NotificationEndpoint"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"NotificationEndpoint"> | Date | string | null
 }
 
 export type NotificationEndpointCreateWithoutNotificationLogsInput = {
   channel?: $Enums.NotificationChannel
   value: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   user: Prisma.UserAccountCreateNestedOneWithoutNotificationEndpointsInput
 }
 
@@ -501,6 +527,7 @@ export type NotificationEndpointUncheckedCreateWithoutNotificationLogsInput = {
   channel?: $Enums.NotificationChannel
   value: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type NotificationEndpointCreateOrConnectWithoutNotificationLogsInput = {
@@ -523,6 +550,7 @@ export type NotificationEndpointUpdateWithoutNotificationLogsInput = {
   channel?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   value?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserAccountUpdateOneRequiredWithoutNotificationEndpointsNestedInput
 }
 
@@ -532,6 +560,7 @@ export type NotificationEndpointUncheckedUpdateWithoutNotificationLogsInput = {
   channel?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   value?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type NotificationEndpointCreateManyUserInput = {
@@ -539,12 +568,14 @@ export type NotificationEndpointCreateManyUserInput = {
   channel?: $Enums.NotificationChannel
   value: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type NotificationEndpointUpdateWithoutUserInput = {
   channel?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   value?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationLogs?: Prisma.NotificationLogUpdateManyWithoutEndpointNestedInput
 }
 
@@ -553,6 +584,7 @@ export type NotificationEndpointUncheckedUpdateWithoutUserInput = {
   channel?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   value?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutEndpointNestedInput
 }
 
@@ -561,6 +593,7 @@ export type NotificationEndpointUncheckedUpdateManyWithoutUserInput = {
   channel?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   value?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -600,6 +633,7 @@ export type NotificationEndpointSelect<ExtArgs extends runtime.Types.Extensions.
   channel?: boolean
   value?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
   notificationLogs?: boolean | Prisma.NotificationEndpoint$notificationLogsArgs<ExtArgs>
   _count?: boolean | Prisma.NotificationEndpointCountOutputTypeDefaultArgs<ExtArgs>
@@ -611,6 +645,7 @@ export type NotificationEndpointSelectCreateManyAndReturn<ExtArgs extends runtim
   channel?: boolean
   value?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["notificationEndpoint"]>
 
@@ -620,6 +655,7 @@ export type NotificationEndpointSelectUpdateManyAndReturn<ExtArgs extends runtim
   channel?: boolean
   value?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["notificationEndpoint"]>
 
@@ -629,9 +665,10 @@ export type NotificationEndpointSelectScalar = {
   channel?: boolean
   value?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
 }
 
-export type NotificationEndpointOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "channel" | "value" | "createdAt", ExtArgs["result"]["notificationEndpoint"]>
+export type NotificationEndpointOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "channel" | "value" | "createdAt" | "deletedAt", ExtArgs["result"]["notificationEndpoint"]>
 export type NotificationEndpointInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
   notificationLogs?: boolean | Prisma.NotificationEndpoint$notificationLogsArgs<ExtArgs>
@@ -656,6 +693,7 @@ export type $NotificationEndpointPayload<ExtArgs extends runtime.Types.Extension
     channel: $Enums.NotificationChannel
     value: string
     createdAt: Date
+    deletedAt: Date | null
   }, ExtArgs["result"]["notificationEndpoint"]>
   composites: {}
 }
@@ -1086,6 +1124,7 @@ export interface NotificationEndpointFieldRefs {
   readonly channel: Prisma.FieldRef<"NotificationEndpoint", 'NotificationChannel'>
   readonly value: Prisma.FieldRef<"NotificationEndpoint", 'String'>
   readonly createdAt: Prisma.FieldRef<"NotificationEndpoint", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"NotificationEndpoint", 'DateTime'>
 }
     
 

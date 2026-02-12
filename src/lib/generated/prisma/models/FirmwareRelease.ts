@@ -45,6 +45,7 @@ export type FirmwareReleaseMinAggregateOutputType = {
   filePath: string | null
   notes: string | null
   createdAt: Date | null
+  deletedAt: Date | null
 }
 
 export type FirmwareReleaseMaxAggregateOutputType = {
@@ -56,6 +57,7 @@ export type FirmwareReleaseMaxAggregateOutputType = {
   filePath: string | null
   notes: string | null
   createdAt: Date | null
+  deletedAt: Date | null
 }
 
 export type FirmwareReleaseCountAggregateOutputType = {
@@ -67,6 +69,7 @@ export type FirmwareReleaseCountAggregateOutputType = {
   filePath: number
   notes: number
   createdAt: number
+  deletedAt: number
   _all: number
 }
 
@@ -90,6 +93,7 @@ export type FirmwareReleaseMinAggregateInputType = {
   filePath?: true
   notes?: true
   createdAt?: true
+  deletedAt?: true
 }
 
 export type FirmwareReleaseMaxAggregateInputType = {
@@ -101,6 +105,7 @@ export type FirmwareReleaseMaxAggregateInputType = {
   filePath?: true
   notes?: true
   createdAt?: true
+  deletedAt?: true
 }
 
 export type FirmwareReleaseCountAggregateInputType = {
@@ -112,6 +117,7 @@ export type FirmwareReleaseCountAggregateInputType = {
   filePath?: true
   notes?: true
   createdAt?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -210,6 +216,7 @@ export type FirmwareReleaseGroupByOutputType = {
   filePath: string
   notes: string | null
   createdAt: Date
+  deletedAt: Date | null
   _count: FirmwareReleaseCountAggregateOutputType | null
   _avg: FirmwareReleaseAvgAggregateOutputType | null
   _sum: FirmwareReleaseSumAggregateOutputType | null
@@ -244,6 +251,7 @@ export type FirmwareReleaseWhereInput = {
   filePath?: Prisma.StringFilter<"FirmwareRelease"> | string
   notes?: Prisma.StringNullableFilter<"FirmwareRelease"> | string | null
   createdAt?: Prisma.DateTimeFilter<"FirmwareRelease"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"FirmwareRelease"> | Date | string | null
   otaJobs?: Prisma.OtaJobListRelationFilter
 }
 
@@ -256,13 +264,13 @@ export type FirmwareReleaseOrderByWithRelationInput = {
   filePath?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   otaJobs?: Prisma.OtaJobOrderByRelationAggregateInput
 }
 
 export type FirmwareReleaseWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   sha256?: string
-  platform_version?: Prisma.FirmwareReleasePlatformVersionCompoundUniqueInput
   AND?: Prisma.FirmwareReleaseWhereInput | Prisma.FirmwareReleaseWhereInput[]
   OR?: Prisma.FirmwareReleaseWhereInput[]
   NOT?: Prisma.FirmwareReleaseWhereInput | Prisma.FirmwareReleaseWhereInput[]
@@ -272,8 +280,9 @@ export type FirmwareReleaseWhereUniqueInput = Prisma.AtLeast<{
   filePath?: Prisma.StringFilter<"FirmwareRelease"> | string
   notes?: Prisma.StringNullableFilter<"FirmwareRelease"> | string | null
   createdAt?: Prisma.DateTimeFilter<"FirmwareRelease"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"FirmwareRelease"> | Date | string | null
   otaJobs?: Prisma.OtaJobListRelationFilter
-}, "id" | "sha256" | "platform_version">
+}, "id" | "sha256">
 
 export type FirmwareReleaseOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -284,6 +293,7 @@ export type FirmwareReleaseOrderByWithAggregationInput = {
   filePath?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.FirmwareReleaseCountOrderByAggregateInput
   _avg?: Prisma.FirmwareReleaseAvgOrderByAggregateInput
   _max?: Prisma.FirmwareReleaseMaxOrderByAggregateInput
@@ -303,6 +313,7 @@ export type FirmwareReleaseScalarWhereWithAggregatesInput = {
   filePath?: Prisma.StringWithAggregatesFilter<"FirmwareRelease"> | string
   notes?: Prisma.StringNullableWithAggregatesFilter<"FirmwareRelease"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"FirmwareRelease"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"FirmwareRelease"> | Date | string | null
 }
 
 export type FirmwareReleaseCreateInput = {
@@ -313,6 +324,7 @@ export type FirmwareReleaseCreateInput = {
   filePath: string
   notes?: string | null
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   otaJobs?: Prisma.OtaJobCreateNestedManyWithoutReleaseInput
 }
 
@@ -325,6 +337,7 @@ export type FirmwareReleaseUncheckedCreateInput = {
   filePath: string
   notes?: string | null
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutReleaseInput
 }
 
@@ -336,6 +349,7 @@ export type FirmwareReleaseUpdateInput = {
   filePath?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   otaJobs?: Prisma.OtaJobUpdateManyWithoutReleaseNestedInput
 }
 
@@ -348,6 +362,7 @@ export type FirmwareReleaseUncheckedUpdateInput = {
   filePath?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutReleaseNestedInput
 }
 
@@ -360,6 +375,7 @@ export type FirmwareReleaseCreateManyInput = {
   filePath: string
   notes?: string | null
   createdAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type FirmwareReleaseUpdateManyMutationInput = {
@@ -370,6 +386,7 @@ export type FirmwareReleaseUpdateManyMutationInput = {
   filePath?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type FirmwareReleaseUncheckedUpdateManyInput = {
@@ -381,11 +398,7 @@ export type FirmwareReleaseUncheckedUpdateManyInput = {
   filePath?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type FirmwareReleasePlatformVersionCompoundUniqueInput = {
-  platform: string
-  version: string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type FirmwareReleaseCountOrderByAggregateInput = {
@@ -397,6 +410,7 @@ export type FirmwareReleaseCountOrderByAggregateInput = {
   filePath?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type FirmwareReleaseAvgOrderByAggregateInput = {
@@ -413,6 +427,7 @@ export type FirmwareReleaseMaxOrderByAggregateInput = {
   filePath?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type FirmwareReleaseMinOrderByAggregateInput = {
@@ -424,6 +439,7 @@ export type FirmwareReleaseMinOrderByAggregateInput = {
   filePath?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type FirmwareReleaseSumOrderByAggregateInput = {
@@ -458,6 +474,7 @@ export type FirmwareReleaseCreateWithoutOtaJobsInput = {
   filePath: string
   notes?: string | null
   createdAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type FirmwareReleaseUncheckedCreateWithoutOtaJobsInput = {
@@ -469,6 +486,7 @@ export type FirmwareReleaseUncheckedCreateWithoutOtaJobsInput = {
   filePath: string
   notes?: string | null
   createdAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type FirmwareReleaseCreateOrConnectWithoutOtaJobsInput = {
@@ -495,6 +513,7 @@ export type FirmwareReleaseUpdateWithoutOtaJobsInput = {
   filePath?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type FirmwareReleaseUncheckedUpdateWithoutOtaJobsInput = {
@@ -506,6 +525,7 @@ export type FirmwareReleaseUncheckedUpdateWithoutOtaJobsInput = {
   filePath?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -548,6 +568,7 @@ export type FirmwareReleaseSelect<ExtArgs extends runtime.Types.Extensions.Inter
   filePath?: boolean
   notes?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
   otaJobs?: boolean | Prisma.FirmwareRelease$otaJobsArgs<ExtArgs>
   _count?: boolean | Prisma.FirmwareReleaseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["firmwareRelease"]>
@@ -561,6 +582,7 @@ export type FirmwareReleaseSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   filePath?: boolean
   notes?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
 }, ExtArgs["result"]["firmwareRelease"]>
 
 export type FirmwareReleaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -572,6 +594,7 @@ export type FirmwareReleaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   filePath?: boolean
   notes?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
 }, ExtArgs["result"]["firmwareRelease"]>
 
 export type FirmwareReleaseSelectScalar = {
@@ -583,9 +606,10 @@ export type FirmwareReleaseSelectScalar = {
   filePath?: boolean
   notes?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
 }
 
-export type FirmwareReleaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "platform" | "version" | "sha256" | "sizeBytes" | "filePath" | "notes" | "createdAt", ExtArgs["result"]["firmwareRelease"]>
+export type FirmwareReleaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "platform" | "version" | "sha256" | "sizeBytes" | "filePath" | "notes" | "createdAt" | "deletedAt", ExtArgs["result"]["firmwareRelease"]>
 export type FirmwareReleaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   otaJobs?: boolean | Prisma.FirmwareRelease$otaJobsArgs<ExtArgs>
   _count?: boolean | Prisma.FirmwareReleaseCountOutputTypeDefaultArgs<ExtArgs>
@@ -607,6 +631,7 @@ export type $FirmwareReleasePayload<ExtArgs extends runtime.Types.Extensions.Int
     filePath: string
     notes: string | null
     createdAt: Date
+    deletedAt: Date | null
   }, ExtArgs["result"]["firmwareRelease"]>
   composites: {}
 }
@@ -1039,6 +1064,7 @@ export interface FirmwareReleaseFieldRefs {
   readonly filePath: Prisma.FieldRef<"FirmwareRelease", 'String'>
   readonly notes: Prisma.FieldRef<"FirmwareRelease", 'String'>
   readonly createdAt: Prisma.FieldRef<"FirmwareRelease", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"FirmwareRelease", 'DateTime'>
 }
     
 

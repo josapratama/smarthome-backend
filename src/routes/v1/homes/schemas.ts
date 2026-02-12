@@ -2,6 +2,16 @@ import { z } from "@hono/zod-openapi";
 import { Email } from "../common/schemas";
 import { HomeId, UserId } from "../common/ids";
 
+export const HomeUpdateBody = z
+  .object({
+    name: z.string().min(1).optional(),
+    ownerId: UserId.optional(),
+  })
+  .refine((v) => v.name !== undefined || v.ownerId !== undefined, {
+    message: "At least one field must be provided",
+  })
+  .openapi("HomeUpdateBody");
+
 export const HomeCreateBody = z
   .object({
     name: z.string().min(1).openapi({ example: "Rumah Utama" }),

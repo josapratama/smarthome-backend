@@ -46,6 +46,7 @@ export type HomeMemberMinAggregateOutputType = {
   status: $Enums.HomeMemberStatus | null
   invitedAt: Date | null
   joinedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type HomeMemberMaxAggregateOutputType = {
@@ -56,6 +57,7 @@ export type HomeMemberMaxAggregateOutputType = {
   status: $Enums.HomeMemberStatus | null
   invitedAt: Date | null
   joinedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type HomeMemberCountAggregateOutputType = {
@@ -66,6 +68,7 @@ export type HomeMemberCountAggregateOutputType = {
   status: number
   invitedAt: number
   joinedAt: number
+  deletedAt: number
   _all: number
 }
 
@@ -90,6 +93,7 @@ export type HomeMemberMinAggregateInputType = {
   status?: true
   invitedAt?: true
   joinedAt?: true
+  deletedAt?: true
 }
 
 export type HomeMemberMaxAggregateInputType = {
@@ -100,6 +104,7 @@ export type HomeMemberMaxAggregateInputType = {
   status?: true
   invitedAt?: true
   joinedAt?: true
+  deletedAt?: true
 }
 
 export type HomeMemberCountAggregateInputType = {
@@ -110,6 +115,7 @@ export type HomeMemberCountAggregateInputType = {
   status?: true
   invitedAt?: true
   joinedAt?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -207,6 +213,7 @@ export type HomeMemberGroupByOutputType = {
   status: $Enums.HomeMemberStatus
   invitedAt: Date
   joinedAt: Date | null
+  deletedAt: Date | null
   _count: HomeMemberCountAggregateOutputType | null
   _avg: HomeMemberAvgAggregateOutputType | null
   _sum: HomeMemberSumAggregateOutputType | null
@@ -240,6 +247,7 @@ export type HomeMemberWhereInput = {
   status?: Prisma.EnumHomeMemberStatusFilter<"HomeMember"> | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeFilter<"HomeMember"> | Date | string
   joinedAt?: Prisma.DateTimeNullableFilter<"HomeMember"> | Date | string | null
+  deletedAt?: Prisma.DateTimeNullableFilter<"HomeMember"> | Date | string | null
   home?: Prisma.XOR<Prisma.HomeScalarRelationFilter, Prisma.HomeWhereInput>
   user?: Prisma.XOR<Prisma.UserAccountScalarRelationFilter, Prisma.UserAccountWhereInput>
 }
@@ -252,13 +260,13 @@ export type HomeMemberOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   invitedAt?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   home?: Prisma.HomeOrderByWithRelationInput
   user?: Prisma.UserAccountOrderByWithRelationInput
 }
 
 export type HomeMemberWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  homeId_userId?: Prisma.HomeMemberHomeIdUserIdCompoundUniqueInput
   AND?: Prisma.HomeMemberWhereInput | Prisma.HomeMemberWhereInput[]
   OR?: Prisma.HomeMemberWhereInput[]
   NOT?: Prisma.HomeMemberWhereInput | Prisma.HomeMemberWhereInput[]
@@ -268,9 +276,10 @@ export type HomeMemberWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumHomeMemberStatusFilter<"HomeMember"> | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeFilter<"HomeMember"> | Date | string
   joinedAt?: Prisma.DateTimeNullableFilter<"HomeMember"> | Date | string | null
+  deletedAt?: Prisma.DateTimeNullableFilter<"HomeMember"> | Date | string | null
   home?: Prisma.XOR<Prisma.HomeScalarRelationFilter, Prisma.HomeWhereInput>
   user?: Prisma.XOR<Prisma.UserAccountScalarRelationFilter, Prisma.UserAccountWhereInput>
-}, "id" | "homeId_userId">
+}, "id">
 
 export type HomeMemberOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -280,6 +289,7 @@ export type HomeMemberOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   invitedAt?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.HomeMemberCountOrderByAggregateInput
   _avg?: Prisma.HomeMemberAvgOrderByAggregateInput
   _max?: Prisma.HomeMemberMaxOrderByAggregateInput
@@ -298,6 +308,7 @@ export type HomeMemberScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumHomeMemberStatusWithAggregatesFilter<"HomeMember"> | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeWithAggregatesFilter<"HomeMember"> | Date | string
   joinedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"HomeMember"> | Date | string | null
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"HomeMember"> | Date | string | null
 }
 
 export type HomeMemberCreateInput = {
@@ -305,6 +316,7 @@ export type HomeMemberCreateInput = {
   status?: $Enums.HomeMemberStatus
   invitedAt?: Date | string
   joinedAt?: Date | string | null
+  deletedAt?: Date | string | null
   home: Prisma.HomeCreateNestedOneWithoutMembersInput
   user: Prisma.UserAccountCreateNestedOneWithoutHomeMembershipsInput
 }
@@ -317,6 +329,7 @@ export type HomeMemberUncheckedCreateInput = {
   status?: $Enums.HomeMemberStatus
   invitedAt?: Date | string
   joinedAt?: Date | string | null
+  deletedAt?: Date | string | null
 }
 
 export type HomeMemberUpdateInput = {
@@ -324,6 +337,7 @@ export type HomeMemberUpdateInput = {
   status?: Prisma.EnumHomeMemberStatusFieldUpdateOperationsInput | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   home?: Prisma.HomeUpdateOneRequiredWithoutMembersNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutHomeMembershipsNestedInput
 }
@@ -336,6 +350,7 @@ export type HomeMemberUncheckedUpdateInput = {
   status?: Prisma.EnumHomeMemberStatusFieldUpdateOperationsInput | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type HomeMemberCreateManyInput = {
@@ -346,6 +361,7 @@ export type HomeMemberCreateManyInput = {
   status?: $Enums.HomeMemberStatus
   invitedAt?: Date | string
   joinedAt?: Date | string | null
+  deletedAt?: Date | string | null
 }
 
 export type HomeMemberUpdateManyMutationInput = {
@@ -353,6 +369,7 @@ export type HomeMemberUpdateManyMutationInput = {
   status?: Prisma.EnumHomeMemberStatusFieldUpdateOperationsInput | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type HomeMemberUncheckedUpdateManyInput = {
@@ -363,6 +380,7 @@ export type HomeMemberUncheckedUpdateManyInput = {
   status?: Prisma.EnumHomeMemberStatusFieldUpdateOperationsInput | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type HomeMemberListRelationFilter = {
@@ -375,11 +393,6 @@ export type HomeMemberOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type HomeMemberHomeIdUserIdCompoundUniqueInput = {
-  homeId: number
-  userId: number
-}
-
 export type HomeMemberCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
@@ -388,6 +401,7 @@ export type HomeMemberCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   invitedAt?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type HomeMemberAvgOrderByAggregateInput = {
@@ -404,6 +418,7 @@ export type HomeMemberMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   invitedAt?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type HomeMemberMinOrderByAggregateInput = {
@@ -414,6 +429,7 @@ export type HomeMemberMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   invitedAt?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type HomeMemberSumOrderByAggregateInput = {
@@ -519,6 +535,7 @@ export type HomeMemberCreateWithoutUserInput = {
   status?: $Enums.HomeMemberStatus
   invitedAt?: Date | string
   joinedAt?: Date | string | null
+  deletedAt?: Date | string | null
   home: Prisma.HomeCreateNestedOneWithoutMembersInput
 }
 
@@ -529,6 +546,7 @@ export type HomeMemberUncheckedCreateWithoutUserInput = {
   status?: $Enums.HomeMemberStatus
   invitedAt?: Date | string
   joinedAt?: Date | string | null
+  deletedAt?: Date | string | null
 }
 
 export type HomeMemberCreateOrConnectWithoutUserInput = {
@@ -568,6 +586,7 @@ export type HomeMemberScalarWhereInput = {
   status?: Prisma.EnumHomeMemberStatusFilter<"HomeMember"> | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeFilter<"HomeMember"> | Date | string
   joinedAt?: Prisma.DateTimeNullableFilter<"HomeMember"> | Date | string | null
+  deletedAt?: Prisma.DateTimeNullableFilter<"HomeMember"> | Date | string | null
 }
 
 export type HomeMemberCreateWithoutHomeInput = {
@@ -575,6 +594,7 @@ export type HomeMemberCreateWithoutHomeInput = {
   status?: $Enums.HomeMemberStatus
   invitedAt?: Date | string
   joinedAt?: Date | string | null
+  deletedAt?: Date | string | null
   user: Prisma.UserAccountCreateNestedOneWithoutHomeMembershipsInput
 }
 
@@ -585,6 +605,7 @@ export type HomeMemberUncheckedCreateWithoutHomeInput = {
   status?: $Enums.HomeMemberStatus
   invitedAt?: Date | string
   joinedAt?: Date | string | null
+  deletedAt?: Date | string | null
 }
 
 export type HomeMemberCreateOrConnectWithoutHomeInput = {
@@ -620,6 +641,7 @@ export type HomeMemberCreateManyUserInput = {
   status?: $Enums.HomeMemberStatus
   invitedAt?: Date | string
   joinedAt?: Date | string | null
+  deletedAt?: Date | string | null
 }
 
 export type HomeMemberUpdateWithoutUserInput = {
@@ -627,6 +649,7 @@ export type HomeMemberUpdateWithoutUserInput = {
   status?: Prisma.EnumHomeMemberStatusFieldUpdateOperationsInput | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   home?: Prisma.HomeUpdateOneRequiredWithoutMembersNestedInput
 }
 
@@ -637,6 +660,7 @@ export type HomeMemberUncheckedUpdateWithoutUserInput = {
   status?: Prisma.EnumHomeMemberStatusFieldUpdateOperationsInput | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type HomeMemberUncheckedUpdateManyWithoutUserInput = {
@@ -646,6 +670,7 @@ export type HomeMemberUncheckedUpdateManyWithoutUserInput = {
   status?: Prisma.EnumHomeMemberStatusFieldUpdateOperationsInput | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type HomeMemberCreateManyHomeInput = {
@@ -655,6 +680,7 @@ export type HomeMemberCreateManyHomeInput = {
   status?: $Enums.HomeMemberStatus
   invitedAt?: Date | string
   joinedAt?: Date | string | null
+  deletedAt?: Date | string | null
 }
 
 export type HomeMemberUpdateWithoutHomeInput = {
@@ -662,6 +688,7 @@ export type HomeMemberUpdateWithoutHomeInput = {
   status?: Prisma.EnumHomeMemberStatusFieldUpdateOperationsInput | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserAccountUpdateOneRequiredWithoutHomeMembershipsNestedInput
 }
 
@@ -672,6 +699,7 @@ export type HomeMemberUncheckedUpdateWithoutHomeInput = {
   status?: Prisma.EnumHomeMemberStatusFieldUpdateOperationsInput | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type HomeMemberUncheckedUpdateManyWithoutHomeInput = {
@@ -681,6 +709,7 @@ export type HomeMemberUncheckedUpdateManyWithoutHomeInput = {
   status?: Prisma.EnumHomeMemberStatusFieldUpdateOperationsInput | $Enums.HomeMemberStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -693,6 +722,7 @@ export type HomeMemberSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   status?: boolean
   invitedAt?: boolean
   joinedAt?: boolean
+  deletedAt?: boolean
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["homeMember"]>
@@ -705,6 +735,7 @@ export type HomeMemberSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   status?: boolean
   invitedAt?: boolean
   joinedAt?: boolean
+  deletedAt?: boolean
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["homeMember"]>
@@ -717,6 +748,7 @@ export type HomeMemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   status?: boolean
   invitedAt?: boolean
   joinedAt?: boolean
+  deletedAt?: boolean
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["homeMember"]>
@@ -729,9 +761,10 @@ export type HomeMemberSelectScalar = {
   status?: boolean
   invitedAt?: boolean
   joinedAt?: boolean
+  deletedAt?: boolean
 }
 
-export type HomeMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "homeId" | "userId" | "roleInHome" | "status" | "invitedAt" | "joinedAt", ExtArgs["result"]["homeMember"]>
+export type HomeMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "homeId" | "userId" | "roleInHome" | "status" | "invitedAt" | "joinedAt" | "deletedAt", ExtArgs["result"]["homeMember"]>
 export type HomeMemberInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
@@ -759,6 +792,7 @@ export type $HomeMemberPayload<ExtArgs extends runtime.Types.Extensions.Internal
     status: $Enums.HomeMemberStatus
     invitedAt: Date
     joinedAt: Date | null
+    deletedAt: Date | null
   }, ExtArgs["result"]["homeMember"]>
   composites: {}
 }
@@ -1191,6 +1225,7 @@ export interface HomeMemberFieldRefs {
   readonly status: Prisma.FieldRef<"HomeMember", 'HomeMemberStatus'>
   readonly invitedAt: Prisma.FieldRef<"HomeMember", 'DateTime'>
   readonly joinedAt: Prisma.FieldRef<"HomeMember", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"HomeMember", 'DateTime'>
 }
     
 

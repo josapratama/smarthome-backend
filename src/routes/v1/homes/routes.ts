@@ -1,8 +1,20 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import type { AppEnv } from "../../../types/app-env";
 import { HomeId } from "../common/ids";
-import { listHomes, createHome, getHomeById } from "./handlers";
-import { HomeCreateBody, HomeDTO, HomesListQuery } from "./schemas";
+import {
+  listHomes,
+  createHome,
+  getHomeById,
+  updateHome,
+  deleteHome,
+  restoreHome,
+} from "./handlers";
+import {
+  HomeCreateBody,
+  HomeDTO,
+  HomesListQuery,
+  HomeUpdateBody,
+} from "./schemas";
 
 export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
   app.openapi(
@@ -17,7 +29,7 @@ export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
               schema: z.object({ data: z.array(HomeDTO) }),
             },
           },
-          description: "List homes (filter by ownerId or ownerEmail).",
+          description: "List active homes (filter by ownerId or ownerEmail).",
         },
       },
     }),
@@ -29,7 +41,7 @@ export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
         data: homes.map((h) => ({
           id: h.id,
           name: h.name,
-          ownerId: h.ownerId,
+          ownerId: h.ownerUserId,
           createdAt: h.createdAt.toISOString(),
           updatedAt: h.updatedAt.toISOString(),
         })),
@@ -65,7 +77,7 @@ export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
           data: {
             id: home.id,
             name: home.name,
-            ownerId: home.ownerId,
+            ownerId: home.ownerUserId,
             createdAt: home.createdAt.toISOString(),
             updatedAt: home.updatedAt.toISOString(),
           },
@@ -85,7 +97,7 @@ export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
           content: {
             "application/json": { schema: z.object({ data: HomeDTO }) },
           },
-          description: "Get a home by ID.",
+          description: "Get an active home by ID.",
         },
         404: { description: "Not found" },
       },
@@ -100,7 +112,99 @@ export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
         data: {
           id: home.id,
           name: home.name,
-          ownerId: home.ownerId,
+          ownerId: home.ownerUserId,
+          createdAt: home.createdAt.toISOString(),
+          updatedAt: home.updatedAt.toISOString(),
+        },
+      });
+    },
+  );
+
+  app.openapi(
+    createRoute({
+      method: "patch",
+      path: "/api/v1/homes/{homeId}",
+      request: {
+        params: z.object({ homeId: HomeId }),
+        body: { content: { "application/json": { schema: HomeUpdateBody } } },
+      },
+      responses: {
+        200: {
+          content: {
+            "application/json": { schema: z.object({ data: HomeDTO }) },
+          },
+          description: "Update an active home (partial).",
+        },
+        404: { description: "Not found / owner not found" },
+      },
+    }),
+    async (c) => {
+      const { homeId } = c.req.valid("param");
+      const body = c.req.valid("json");
+
+      const res = await updateHome(homeId, body);
+      if ("error" in res) return c.json({ error: res.error }, 404);
+
+      const home = res.home;
+      return c.json({
+        data: {
+          id: home.id,
+          name: home.name,
+          ownerId: home.ownerUserId,
+          createdAt: home.createdAt.toISOString(),
+          updatedAt: home.updatedAt.toISOString(),
+        },
+      });
+    },
+  );
+
+  // ✅ Soft delete (204 tetap oke, tapi aku tetap return 204 tanpa body)
+  app.openapi(
+    createRoute({
+      method: "delete",
+      path: "/api/v1/homes/{homeId}",
+      request: { params: z.object({ homeId: HomeId }) },
+      responses: {
+        204: { description: "Soft deleted" },
+        404: { description: "Not found" },
+      },
+    }),
+    async (c) => {
+      const { homeId } = c.req.valid("param");
+      const res = await deleteHome(homeId);
+      if ("error" in res) return c.json({ error: res.error }, 404);
+
+      return c.body(null, 204);
+    },
+  );
+
+  // ✅ Restore
+  app.openapi(
+    createRoute({
+      method: "post",
+      path: "/api/v1/homes/{homeId}/restore",
+      request: { params: z.object({ homeId: HomeId }) },
+      responses: {
+        200: {
+          content: {
+            "application/json": { schema: z.object({ data: HomeDTO }) },
+          },
+          description: "Restore a soft-deleted home.",
+        },
+        404: { description: "Not found" },
+      },
+    }),
+    async (c) => {
+      const { homeId } = c.req.valid("param");
+      const res = await restoreHome(homeId);
+      if ("error" in res) return c.json({ error: res.error }, 404);
+
+      const home = res.home;
+      return c.json({
+        data: {
+          id: home.id,
+          name: home.name,
+          ownerId: home.ownerUserId,
           createdAt: home.createdAt.toISOString(),
           updatedAt: home.updatedAt.toISOString(),
         },

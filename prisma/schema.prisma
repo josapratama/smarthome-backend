@@ -101,14 +101,12 @@ enum PairingMethod {
   OTHER
 }
 
-// Tambahan untuk tabel log diagnostik (opsional)
 enum DeviceEventSeverity {
   INFO
   WARN
   ERROR
 }
 
-// Tambahan untuk sumber perintah (Command.source)
 enum CommandSource {
   USER
   BACKEND
@@ -219,6 +217,8 @@ model Home {
   latitude    Float?
   longitude   Float?
 
+  deletedAt DateTime? @map("deleted_at")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -235,6 +235,7 @@ model Home {
   deviceEventLogs DeviceEventLog[]
 
   @@index([ownerUserId])
+  @@index([deletedAt])
   @@map("home")
 }
 
@@ -249,12 +250,21 @@ model HomeMember {
   invitedAt DateTime  @default(now()) @map("invited_at")
   joinedAt  DateTime? @map("joined_at")
 
+  deletedAt DateTime? @map("deleted_at")
+
   home Home        @relation(fields: [homeId], references: [id], onDelete: Cascade)
   user UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([homeId, userId])
+  // NOTE:
+  // @@unique([homeId, userId]) akan menghalangi re-invite/re-add setelah soft delete.
+  // Untuk future-proof, kita ubah jadi index biasa + nanti pakai partial unique index di Postgres.
+  // Jika kamu ingin tetap melarang user join 2x sepanjang sejarah, kamu boleh kembalikan @@unique ini.
+  // @@unique([homeId, userId])
+  @@index([homeId, userId])
+
   @@index([homeId])
   @@index([userId])
+  @@index([deletedAt])
   @@map("home_member")
 }
 
@@ -264,11 +274,17 @@ model Room {
   name      String
   createdAt DateTime @default(now()) @map("created_at")
 
+  deletedAt DateTime? @map("deleted_at")
+
   home    Home    @relation(fields: [homeId], references: [id], onDelete: Cascade)
   devices Device[]
 
-  @@unique([homeId, name])
+  // Dihapus supaya nama room bisa dipakai ulang setelah soft delete
+  // @@unique([homeId, name])
+  @@index([homeId, name])
+
   @@index([homeId])
+  @@index([deletedAt])
   @@map("room")
 }
 
@@ -283,34 +299,33 @@ model Device {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   lastSeenAt   DateTime? @map("last_seen_at")
-  mqttClientId String?   @unique @map("mqtt_client_id")
-  deviceKey    String?   @unique @map("device_key")
+  mqttClientId String?   @map("mqtt_client_id")
+  deviceKey    String?   @map("device_key")
 
   deviceType   DeviceType @default(OTHER) @map("device_type")
   capabilities Json?      @map("capabilities")
 
-  // paired_by_user_id (tetap memakai kolom user_id di database)
   pairedByUserId Int @map("user_id")
-
-  // home_id dibuat wajib agar akses perangkat konsisten berbasis rumah
-  homeId Int @map("home_id")
+  homeId         Int @map("home_id")
 
   pairedAt   DateTime? @map("paired_at")
   unpairedAt DateTime? @map("unpaired_at")
 
+  deletedAt DateTime? @map("deleted_at")
+
   user UserAccount @relation(fields: [pairedByUserId], references: [id], onDelete: Cascade)
   home Home        @relation(fields: [homeId], references: [id], onDelete: Cascade)
 
-  sensorData         SensorData[]
-  sensorReadings     SensorReading[]
-  energyPredictions  EnergyPrediction[]
-  commands           Command[]
-  alarmEvents        AlarmEvent[]
-  otaJobs            OtaJob[]
+  sensorData        SensorData[]
+  sensorReadings    SensorReading[]
+  energyPredictions EnergyPrediction[]
+  commands          Command[]
+  alarmEvents       AlarmEvent[]
+  otaJobs           OtaJob[]
 
-  config            DeviceConfig?
-  stateHistories    DeviceStateHistory[]
-  energyUsageDaily  EnergyUsageDaily[]
+  config           DeviceConfig?
+  stateHistories   DeviceStateHistory[]
+  energyUsageDaily EnergyUsageDaily[]
 
   pairingHistories DevicePairingHistory[]
   deviceEventLogs  DeviceEventLog[]
@@ -318,6 +333,14 @@ model Device {
   @@index([pairedByUserId])
   @@index([homeId])
   @@index([roomId])
+  @@index([deletedAt])
+
+  // NOTE:
+  // mqttClientId/deviceKey seharusnya unik untuk device aktif saja.
+  // Prisma tidak bisa partial unique index -> dibuat di migration SQL.
+  @@index([mqttClientId])
+  @@index([deviceKey])
+
   @@map("device_status")
 }
 
@@ -393,7 +416,6 @@ model SensorData {
 
   alarmEvents AlarmEvent[] @relation("AlarmFromSensorData")
 
-  // index time-series utama
   @@index([deviceId, timestamp])
   @@map("sensor_data")
 }
@@ -412,7 +434,6 @@ model SensorReading {
 
   alarmEvents AlarmEvent[] @relation("AlarmFromSensorReading")
 
-  // index time-series fleksibel (disarankan)
   @@index([deviceId, metric, timestamp])
   @@map("sensor_reading")
 }
@@ -424,9 +445,7 @@ model AlarmEvent {
   sensorReadingId Int? @map("sensor_reading_id")
 
   deviceId Int @map("device_id")
-
-  // home_id dibuat wajib agar konsisten dengan akses berbasis rumah
-  homeId Int @map("home_id")
+  homeId   Int @map("home_id")
 
   type        String
   message     String
@@ -512,13 +531,11 @@ model Command {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  // Penambahan: siapa yang meminta command + sumber command + idempotensi
   requestedBy   Int?          @map("requested_by")
   source        CommandSource @default(USER) @map("source")
   correlationId String        @unique @map("correlation_id") @db.Uuid
 
   device Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
-
   requester UserAccount? @relation("CommandRequestedBy", fields: [requestedBy], references: [id], onDelete: SetNull)
 
   otaJob         OtaJob?
@@ -533,14 +550,20 @@ model NotificationEndpoint {
   id        Int                 @id @default(autoincrement())
   userId    Int                 @map("user_id")
   channel   NotificationChannel @default(CUSTOM)
-  value     String              @unique
+  value     String
   createdAt DateTime            @default(now()) @map("created_at")
 
-  user UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deletedAt DateTime? @map("deleted_at")
 
+  user UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
   notificationLogs NotificationLog[]
 
   @@index([userId])
+  @@index([value])
+  @@index([deletedAt])
+
+  // NOTE: value seharusnya unik untuk endpoint aktif saja.
+  // Partial unique index dibuat di migration SQL.
   @@map("notification_endpoint")
 }
 
@@ -596,9 +619,15 @@ model FirmwareRelease {
   notes     String?
   createdAt DateTime @default(now()) @map("created_at")
 
+  deletedAt DateTime? @map("deleted_at")
+
   otaJobs OtaJob[]
 
-  @@unique([platform, version])
+  // supaya platform+version bisa dipakai ulang kalau release lama di-soft delete:
+  // @@unique([platform, version])
+  @@index([platform, version])
+  @@index([deletedAt])
+
   @@map("firmware_release")
 }
 
@@ -645,14 +674,13 @@ model PasswordReset {
   @@map("password_reset")
 }
 
-// Tabel baru (opsional) untuk debugging/admin
 model DeviceEventLog {
-  id        Int                @id @default(autoincrement())
-  deviceId  Int                @map("device_id")
-  homeId    Int                @map("home_id")
+  id        Int                 @id @default(autoincrement())
+  deviceId  Int                 @map("device_id")
+  homeId    Int                 @map("home_id")
 
-  eventType String             @map("event_type")
-  payload   Json?              @map("payload")
+  eventType String              @map("event_type")
+  payload   Json?               @map("payload")
   severity  DeviceEventSeverity @default(INFO)
 
   recordedAt DateTime @default(now()) @map("recorded_at")

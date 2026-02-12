@@ -157,6 +157,7 @@ export const HomeScalarFieldEnum = {
   postalCode: 'postalCode',
   latitude: 'latitude',
   longitude: 'longitude',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -171,7 +172,8 @@ export const HomeMemberScalarFieldEnum = {
   roleInHome: 'roleInHome',
   status: 'status',
   invitedAt: 'invitedAt',
-  joinedAt: 'joinedAt'
+  joinedAt: 'joinedAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type HomeMemberScalarFieldEnum = (typeof HomeMemberScalarFieldEnum)[keyof typeof HomeMemberScalarFieldEnum]
@@ -181,7 +183,8 @@ export const RoomScalarFieldEnum = {
   id: 'id',
   homeId: 'homeId',
   name: 'name',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
@@ -201,7 +204,8 @@ export const DeviceScalarFieldEnum = {
   pairedByUserId: 'pairedByUserId',
   homeId: 'homeId',
   pairedAt: 'pairedAt',
-  unpairedAt: 'unpairedAt'
+  unpairedAt: 'unpairedAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type DeviceScalarFieldEnum = (typeof DeviceScalarFieldEnum)[keyof typeof DeviceScalarFieldEnum]
@@ -345,7 +349,8 @@ export const NotificationEndpointScalarFieldEnum = {
   userId: 'userId',
   channel: 'channel',
   value: 'value',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type NotificationEndpointScalarFieldEnum = (typeof NotificationEndpointScalarFieldEnum)[keyof typeof NotificationEndpointScalarFieldEnum]
@@ -387,7 +392,8 @@ export const FirmwareReleaseScalarFieldEnum = {
   sizeBytes: 'sizeBytes',
   filePath: 'filePath',
   notes: 'notes',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type FirmwareReleaseScalarFieldEnum = (typeof FirmwareReleaseScalarFieldEnum)[keyof typeof FirmwareReleaseScalarFieldEnum]

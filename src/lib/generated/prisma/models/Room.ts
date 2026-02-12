@@ -41,6 +41,7 @@ export type RoomMinAggregateOutputType = {
   homeId: number | null
   name: string | null
   createdAt: Date | null
+  deletedAt: Date | null
 }
 
 export type RoomMaxAggregateOutputType = {
@@ -48,6 +49,7 @@ export type RoomMaxAggregateOutputType = {
   homeId: number | null
   name: string | null
   createdAt: Date | null
+  deletedAt: Date | null
 }
 
 export type RoomCountAggregateOutputType = {
@@ -55,6 +57,7 @@ export type RoomCountAggregateOutputType = {
   homeId: number
   name: number
   createdAt: number
+  deletedAt: number
   _all: number
 }
 
@@ -74,6 +77,7 @@ export type RoomMinAggregateInputType = {
   homeId?: true
   name?: true
   createdAt?: true
+  deletedAt?: true
 }
 
 export type RoomMaxAggregateInputType = {
@@ -81,6 +85,7 @@ export type RoomMaxAggregateInputType = {
   homeId?: true
   name?: true
   createdAt?: true
+  deletedAt?: true
 }
 
 export type RoomCountAggregateInputType = {
@@ -88,6 +93,7 @@ export type RoomCountAggregateInputType = {
   homeId?: true
   name?: true
   createdAt?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -182,6 +188,7 @@ export type RoomGroupByOutputType = {
   homeId: number
   name: string
   createdAt: Date
+  deletedAt: Date | null
   _count: RoomCountAggregateOutputType | null
   _avg: RoomAvgAggregateOutputType | null
   _sum: RoomSumAggregateOutputType | null
@@ -212,6 +219,7 @@ export type RoomWhereInput = {
   homeId?: Prisma.IntFilter<"Room"> | number
   name?: Prisma.StringFilter<"Room"> | string
   createdAt?: Prisma.DateTimeFilter<"Room"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Room"> | Date | string | null
   home?: Prisma.XOR<Prisma.HomeScalarRelationFilter, Prisma.HomeWhereInput>
   devices?: Prisma.DeviceListRelationFilter
 }
@@ -221,28 +229,30 @@ export type RoomOrderByWithRelationInput = {
   homeId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   home?: Prisma.HomeOrderByWithRelationInput
   devices?: Prisma.DeviceOrderByRelationAggregateInput
 }
 
 export type RoomWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  homeId_name?: Prisma.RoomHomeIdNameCompoundUniqueInput
   AND?: Prisma.RoomWhereInput | Prisma.RoomWhereInput[]
   OR?: Prisma.RoomWhereInput[]
   NOT?: Prisma.RoomWhereInput | Prisma.RoomWhereInput[]
   homeId?: Prisma.IntFilter<"Room"> | number
   name?: Prisma.StringFilter<"Room"> | string
   createdAt?: Prisma.DateTimeFilter<"Room"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Room"> | Date | string | null
   home?: Prisma.XOR<Prisma.HomeScalarRelationFilter, Prisma.HomeWhereInput>
   devices?: Prisma.DeviceListRelationFilter
-}, "id" | "homeId_name">
+}, "id">
 
 export type RoomOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RoomCountOrderByAggregateInput
   _avg?: Prisma.RoomAvgOrderByAggregateInput
   _max?: Prisma.RoomMaxOrderByAggregateInput
@@ -258,11 +268,13 @@ export type RoomScalarWhereWithAggregatesInput = {
   homeId?: Prisma.IntWithAggregatesFilter<"Room"> | number
   name?: Prisma.StringWithAggregatesFilter<"Room"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Room"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Room"> | Date | string | null
 }
 
 export type RoomCreateInput = {
   name: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   home: Prisma.HomeCreateNestedOneWithoutRoomsInput
   devices?: Prisma.DeviceCreateNestedManyWithoutRoomRInput
 }
@@ -272,12 +284,14 @@ export type RoomUncheckedCreateInput = {
   homeId: number
   name: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutRoomRInput
 }
 
 export type RoomUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   home?: Prisma.HomeUpdateOneRequiredWithoutRoomsNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutRoomRNestedInput
 }
@@ -287,6 +301,7 @@ export type RoomUncheckedUpdateInput = {
   homeId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutRoomRNestedInput
 }
 
@@ -295,11 +310,13 @@ export type RoomCreateManyInput = {
   homeId: number
   name: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type RoomUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RoomUncheckedUpdateManyInput = {
@@ -307,6 +324,7 @@ export type RoomUncheckedUpdateManyInput = {
   homeId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RoomListRelationFilter = {
@@ -319,16 +337,12 @@ export type RoomOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type RoomHomeIdNameCompoundUniqueInput = {
-  homeId: number
-  name: string
-}
-
 export type RoomCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type RoomAvgOrderByAggregateInput = {
@@ -341,6 +355,7 @@ export type RoomMaxOrderByAggregateInput = {
   homeId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type RoomMinOrderByAggregateInput = {
@@ -348,6 +363,7 @@ export type RoomMinOrderByAggregateInput = {
   homeId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type RoomSumOrderByAggregateInput = {
@@ -421,6 +437,7 @@ export type RoomUpdateOneWithoutDevicesNestedInput = {
 export type RoomCreateWithoutHomeInput = {
   name: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   devices?: Prisma.DeviceCreateNestedManyWithoutRoomRInput
 }
 
@@ -428,6 +445,7 @@ export type RoomUncheckedCreateWithoutHomeInput = {
   id?: number
   name: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutRoomRInput
 }
 
@@ -465,11 +483,13 @@ export type RoomScalarWhereInput = {
   homeId?: Prisma.IntFilter<"Room"> | number
   name?: Prisma.StringFilter<"Room"> | string
   createdAt?: Prisma.DateTimeFilter<"Room"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Room"> | Date | string | null
 }
 
 export type RoomCreateWithoutDevicesInput = {
   name: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   home: Prisma.HomeCreateNestedOneWithoutRoomsInput
 }
 
@@ -478,6 +498,7 @@ export type RoomUncheckedCreateWithoutDevicesInput = {
   homeId: number
   name: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type RoomCreateOrConnectWithoutDevicesInput = {
@@ -499,6 +520,7 @@ export type RoomUpdateToOneWithWhereWithoutDevicesInput = {
 export type RoomUpdateWithoutDevicesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   home?: Prisma.HomeUpdateOneRequiredWithoutRoomsNestedInput
 }
 
@@ -507,17 +529,20 @@ export type RoomUncheckedUpdateWithoutDevicesInput = {
   homeId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RoomCreateManyHomeInput = {
   id?: number
   name: string
   createdAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type RoomUpdateWithoutHomeInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   devices?: Prisma.DeviceUpdateManyWithoutRoomRNestedInput
 }
 
@@ -525,6 +550,7 @@ export type RoomUncheckedUpdateWithoutHomeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutRoomRNestedInput
 }
 
@@ -532,6 +558,7 @@ export type RoomUncheckedUpdateManyWithoutHomeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -570,6 +597,7 @@ export type RoomSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   homeId?: boolean
   name?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
   devices?: boolean | Prisma.Room$devicesArgs<ExtArgs>
   _count?: boolean | Prisma.RoomCountOutputTypeDefaultArgs<ExtArgs>
@@ -580,6 +608,7 @@ export type RoomSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   homeId?: boolean
   name?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["room"]>
 
@@ -588,6 +617,7 @@ export type RoomSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   homeId?: boolean
   name?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["room"]>
 
@@ -596,9 +626,10 @@ export type RoomSelectScalar = {
   homeId?: boolean
   name?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
 }
 
-export type RoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "homeId" | "name" | "createdAt", ExtArgs["result"]["room"]>
+export type RoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "homeId" | "name" | "createdAt" | "deletedAt", ExtArgs["result"]["room"]>
 export type RoomInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
   devices?: boolean | Prisma.Room$devicesArgs<ExtArgs>
@@ -622,6 +653,7 @@ export type $RoomPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     homeId: number
     name: string
     createdAt: Date
+    deletedAt: Date | null
   }, ExtArgs["result"]["room"]>
   composites: {}
 }
@@ -1051,6 +1083,7 @@ export interface RoomFieldRefs {
   readonly homeId: Prisma.FieldRef<"Room", 'Int'>
   readonly name: Prisma.FieldRef<"Room", 'String'>
   readonly createdAt: Prisma.FieldRef<"Room", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"Room", 'DateTime'>
 }
     
 
