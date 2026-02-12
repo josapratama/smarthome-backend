@@ -9,6 +9,7 @@ import {
   updateHomeRoute,
   deleteHomeRoute,
   restoreHomeRoute,
+  transferOwnershipRoute,
 } from "./openapi";
 
 import {
@@ -18,6 +19,7 @@ import {
   handleUpdateHome,
   handleDeleteHome,
   handleRestoreHome,
+  handleTransferOwnership,
 } from "./handlers";
 
 import {
@@ -53,6 +55,7 @@ export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
   r.openapi(updateHomeRoute, handleUpdateHome);
   r.openapi(deleteHomeRoute, handleDeleteHome);
   r.openapi(restoreHomeRoute, handleRestoreHome);
+  r.openapi(transferOwnershipRoute, handleTransferOwnership);
 
   r.openapi(listHomeMembersRoute, handleListHomeMembers);
   r.openapi(addHomeMemberRoute, handleAddHomeMember);

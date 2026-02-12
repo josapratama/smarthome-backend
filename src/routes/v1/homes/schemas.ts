@@ -53,3 +53,9 @@ export const HomesListQuery = z
     ownerEmail: Email.optional(),
   })
   .extend(HomesPaginationQuery.shape);
+
+export const TransferOwnershipBody = z
+  .object({
+    newOwnerUserId: UserId,
+  })
+  .openapi("TransferOwnershipBody");

@@ -1,9 +1,10 @@
-// src/lib/email.ts
 import { env } from "./env";
 
-// Tambah ke env kamu:
-// RESEND_API_KEY=...
-// EMAIL_FROM="SmartHome <no-reply@yourdomain.com>"
+export class EmailNotConfiguredError extends Error {
+  constructor() {
+    super("Email not configured: set RESEND_API_KEY and EMAIL_FROM");
+  }
+}
 
 export async function sendEmail(input: {
   to: string;
@@ -14,8 +15,7 @@ export async function sendEmail(input: {
   const from = env.EMAIL_FROM;
 
   if (!apiKey || !from) {
-    // Jujur: kalau env belum di-set, kita fail jelas.
-    throw new Error("Email not configured: set RESEND_API_KEY and EMAIL_FROM");
+    throw new EmailNotConfiguredError();
   }
 
   const res = await fetch("https://api.resend.com/emails", {

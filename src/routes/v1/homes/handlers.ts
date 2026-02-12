@@ -8,6 +8,7 @@ import {
   updateHome,
   deleteHome,
   restoreHome,
+  transferOwnership,
 } from "../../../services/homes/homes.service";
 
 import type {
@@ -17,6 +18,7 @@ import type {
   UpdateHomeRoute,
   DeleteHomeRoute,
   RestoreHomeRoute,
+  TransferOwnershipRoute,
 } from "./openapi";
 
 function toHomeDTO(h: {
@@ -29,7 +31,7 @@ function toHomeDTO(h: {
   return {
     id: h.id,
     name: h.name,
-    guaranteeOwnerUserId: h.ownerUserId, // <- (hapus kalau gak perlu) lihat catatan bawah
+    guaranteeOwnerUserId: h.ownerUserId,
     ownerUserId: h.ownerUserId,
     createdAt: h.createdAt.toISOString(),
     updatedAt: h.updatedAt.toISOString(),
@@ -121,6 +123,24 @@ export const handleRestoreHome: RouteHandler<RestoreHomeRoute, AppEnv> = async (
   const { homeId } = c.req.valid("param");
 
   const res = await restoreHome(auth, homeId);
+
+  if ("error" in res) {
+    if (res.error === "FORBIDDEN") return c.json({ error: "FORBIDDEN" }, 403);
+    return c.json({ error: res.error }, 404);
+  }
+
+  return c.json({ data: toHomeDTO(res.home) }, 200);
+};
+
+export const handleTransferOwnership: RouteHandler<
+  TransferOwnershipRoute,
+  AppEnv
+> = async (c) => {
+  const auth = c.get("auth")!.user;
+  const { homeId } = c.req.valid("param");
+  const body = c.req.valid("json");
+
+  const res = await transferOwnership(auth, homeId, body.newOwnerUserId);
 
   if ("error" in res) {
     if (res.error === "FORBIDDEN") return c.json({ error: "FORBIDDEN" }, 403);

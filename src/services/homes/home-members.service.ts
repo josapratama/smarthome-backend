@@ -1,5 +1,6 @@
 import { prisma } from "../../lib/prisma";
 import { sendEmail } from "../../lib/email";
+import { env } from "../../lib/env";
 
 type AuthUser = { id: number; role: "USER" | "ADMIN" };
 
@@ -325,18 +326,23 @@ export async function resendHomeInvite(
     data: { invitedAt: new Date() },
   });
 
-  // Email content minimal (tanpa link)
-  // Kalau kamu punya URL frontend, kita bisa bikin accept link yang proper.
+  const base = (env.PUBLIC_BASE_URL ?? "").replace(/\/+$/, "");
+  const docsUrl = base ? `${base}/docs` : undefined;
+
   const subject = `Undangan bergabung ke home: ${home.name}`;
   const text = [
     `Halo ${user.username},`,
     ``,
     `Kamu diundang untuk bergabung ke home: "${home.name}".`,
     ``,
-    `Silakan buka aplikasi lalu pilih menu Undangan (Invitations) untuk menerima.`,
+    `Untuk menerima undangan:`,
+    `- Login ke aplikasi (frontend akan dibuat menyusul)`,
+    `- Panggil endpoint: POST /homes/${homeId}/members/accept`,
     ``,
-    `Terima kasih.`,
-  ].join("\n");
+    docsUrl ? `Dokumentasi API: ${docsUrl}` : undefined,
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   await sendEmail({ to: user.email, subject, text });
 

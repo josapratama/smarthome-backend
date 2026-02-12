@@ -207,3 +207,91 @@ export async function restoreHome(auth: AuthUser, homeId: number) {
 
   return { home: updated };
 }
+
+export async function transferOwnership(
+  auth: AuthUser,
+  homeId: number,
+  newOwnerUserId: number,
+) {
+  // home must exist (including active only)
+  const home = await prisma.home.findFirst({
+    where: { id: homeId, deletedAt: null },
+    select: {
+      id: true,
+      ownerUserId: true,
+      name: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+  if (!home) return { error: "NOT_FOUND" as const };
+
+  // only admin or current owner
+  if (auth.role !== "ADMIN" && auth.id !== home.ownerUserId) {
+    return { error: "FORBIDDEN" as const };
+  }
+
+  // new owner must exist
+  const newOwner = await prisma.userAccount.findUnique({
+    where: { id: newOwnerUserId },
+    select: { id: true },
+  });
+  if (!newOwner) return { error: "OWNER_NOT_FOUND" as const };
+
+  // transaction: update owner + ensure membership
+  const updated = await prisma.$transaction(async (tx) => {
+    // set new owner
+    const h = await tx.home.update({
+      where: { id: homeId },
+      data: { ownerUserId: newOwnerUserId },
+    });
+
+    // ensure new owner is ACTIVE member (optional but useful)
+    const existing = await tx.homeMember.findFirst({
+      where: { homeId, userId: newOwnerUserId },
+    });
+
+    if (existing) {
+      await tx.homeMember.update({
+        where: { id: existing.id },
+        data: {
+          deletedAt: null,
+          status: "ACTIVE",
+          joinedAt: existing.joinedAt ?? new Date(),
+          roleInHome: "OWNER", // membership role purely informational
+        },
+      });
+    } else {
+      await tx.homeMember.create({
+        data: {
+          homeId,
+          userId: newOwnerUserId,
+          roleInHome: "OWNER",
+          status: "ACTIVE",
+          invitedAt: new Date(),
+          joinedAt: new Date(),
+        },
+      });
+    }
+
+    // optional: demote old owner membership to MEMBER (if exists)
+    const oldMember = await tx.homeMember.findFirst({
+      where: { homeId, userId: home.ownerUserId },
+    });
+    if (oldMember) {
+      await tx.homeMember.update({
+        where: { id: oldMember.id },
+        data: {
+          deletedAt: null,
+          status: "ACTIVE",
+          roleInHome: "MEMBER",
+          joinedAt: oldMember.joinedAt ?? new Date(),
+        },
+      });
+    }
+
+    return h;
+  });
+
+  return { home: updated };
+}

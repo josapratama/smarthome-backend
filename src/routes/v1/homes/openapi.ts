@@ -6,6 +6,7 @@ import {
   HomesListQuery,
   HomesListResponse,
   HomeUpdateBody,
+  TransferOwnershipBody,
 } from "./schemas";
 
 export const listHomesRoute = createRoute({
@@ -89,6 +90,26 @@ export const restoreHomeRoute = createRoute({
   },
 });
 
+export const transferOwnershipRoute = createRoute({
+  method: "post",
+  path: "/{homeId}/transfer-ownership",
+  request: {
+    params: z.object({ homeId: HomeId }),
+    body: {
+      content: { "application/json": { schema: TransferOwnershipBody } },
+    },
+  },
+  responses: {
+    200: {
+      content: { "application/json": { schema: z.object({ data: HomeDTO }) } },
+      description: "Transfer home ownership to another user (owner/admin).",
+    },
+    403: { description: "Forbidden" },
+    404: { description: "Home/User not found" },
+  },
+});
+
+export type TransferOwnershipRoute = typeof transferOwnershipRoute;
 export type ListHomesRoute = typeof listHomesRoute;
 export type CreateHomeRoute = typeof createHomeRoute;
 export type GetHomeRoute = typeof getHomeRoute;
