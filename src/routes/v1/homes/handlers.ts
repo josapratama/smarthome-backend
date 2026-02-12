@@ -171,10 +171,9 @@ export const handleListNearbyHomes: RouteHandler<
   AppEnv
 > = async (c) => {
   const auth = c.get("auth")!.user;
-  if (auth.role !== "ADMIN") return c.json({ error: "FORBIDDEN" }, 403);
-
   const { lat, lng, radiusKm, limit } = c.req.valid("query");
-  const res = await listNearbyHomes({ lat, lng, radiusKm, limit });
+
+  const res = await listNearbyHomes(auth, { lat, lng, radiusKm, limit });
 
   return c.json({ data: res.homes.map(toHomeDTO) }, 200);
 };

@@ -349,15 +349,12 @@ function haversineKm(
   return 2 * R * Math.asin(Math.sqrt(x));
 }
 
-export async function listNearbyHomes(input: {
-  lat: number;
-  lng: number;
-  radiusKm: number;
-  limit: number;
-}) {
+export async function listNearbyHomes(
+  auth: AuthUser,
+  input: { lat: number; lng: number; radiusKm: number; limit: number },
+) {
   const { lat, lng, radiusKm, limit } = input;
 
-  // bounding box (approx)
   const latDelta = radiusKm / 111.32;
   const lngDelta = radiusKm / (111.32 * Math.cos(toRad(lat)));
 
@@ -366,13 +363,31 @@ export async function listNearbyHomes(input: {
   const minLng = lng - lngDelta;
   const maxLng = lng + lngDelta;
 
+  const scopeWhere: Prisma.HomeWhereInput =
+    auth.role === "ADMIN"
+      ? {}
+      : {
+          OR: [
+            { ownerUserId: auth.id },
+            {
+              members: {
+                some: {
+                  userId: auth.id,
+                  status: "ACTIVE",
+                  deletedAt: null,
+                },
+              },
+            },
+          ],
+        };
+
   const candidates = await prisma.home.findMany({
     where: {
       deletedAt: null,
       latitude: { not: null, gte: minLat, lte: maxLat },
       longitude: { not: null, gte: minLng, lte: maxLng },
+      ...scopeWhere,
     },
-    // ambil lebih banyak lalu disaring
     take: Math.min(limit * 5, 500),
     orderBy: [{ createdAt: "desc" }],
   });
@@ -380,10 +395,10 @@ export async function listNearbyHomes(input: {
   const center = { lat, lng };
 
   const filtered = candidates
-    .map((h) => {
-      const d = haversineKm(center, { lat: h.latitude!, lng: h.longitude! });
-      return { h, d };
-    })
+    .map((h) => ({
+      h,
+      d: haversineKm(center, { lat: h.latitude!, lng: h.longitude! }),
+    }))
     .filter((x) => x.d <= radiusKm)
     .sort((a, b) => a.d - b.d)
     .slice(0, limit)
