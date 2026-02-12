@@ -6,7 +6,7 @@ import type { CreateCommandRoute, GetCommandRoute } from "./openapi";
 import {
   createAndSendCommand,
   getCommandById,
-} from "../../../services/command.service";
+} from "../../../services/command/command.service";
 
 export function mapCommandDTO(cmd: any) {
   return {
