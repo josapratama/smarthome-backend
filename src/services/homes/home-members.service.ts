@@ -130,6 +130,22 @@ export async function revokeHomeMember(
   const can = await canManageHome(auth, homeId);
   if (!can) return { error: "FORBIDDEN" as const };
 
+  // safety: owner home tidak boleh direvoke
+  const home = await prisma.home.findFirst({
+    where: { id: homeId, deletedAt: null },
+    select: { ownerUserId: true },
+  });
+  if (!home) return { error: "NOT_FOUND" as const };
+
+  if (userId === home.ownerUserId) {
+    return { error: "CANNOT_REVOKE_OWNER" as const };
+  }
+
+  // safety: owner tidak boleh revoke dirinya sendiri (redundant tapi jelas)
+  if (auth.role !== "ADMIN" && userId === auth.id) {
+    return { error: "CANNOT_REVOKE_SELF" as const };
+  }
+
   const m = await prisma.homeMember.findFirst({
     where: { homeId, userId, deletedAt: null },
     select: { id: true },
@@ -175,4 +191,45 @@ export async function acceptHomeInvite(auth: AuthUser, homeId: number) {
   });
 
   return { member };
+}
+
+export async function getMyHomeMember(auth: AuthUser, homeId: number) {
+  const member = await prisma.homeMember.findFirst({
+    where: { homeId, userId: auth.id, deletedAt: null },
+    select: {
+      homeId: true,
+      userId: true,
+      roleInHome: true,
+      status: true,
+      invitedAt: true,
+      joinedAt: true,
+    },
+  });
+
+  if (!member) return { error: "MEMBERSHIP_NOT_FOUND" as const };
+  return { member };
+}
+
+export async function declineHomeInvite(auth: AuthUser, homeId: number) {
+  const m = await prisma.homeMember.findFirst({
+    where: {
+      homeId,
+      userId: auth.id,
+      deletedAt: null,
+      status: "INVITED",
+    },
+    select: { id: true },
+  });
+
+  if (!m) return { error: "INVITE_NOT_FOUND" as const };
+
+  await prisma.homeMember.update({
+    where: { id: m.id },
+    data: {
+      status: "REVOKED",
+      deletedAt: new Date(),
+    },
+  });
+
+  return { ok: true as const };
 }

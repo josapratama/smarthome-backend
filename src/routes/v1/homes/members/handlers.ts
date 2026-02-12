@@ -6,6 +6,8 @@ import type {
   AddHomeMemberRoute,
   RevokeHomeMemberRoute,
   AcceptHomeInviteRoute,
+  GetMyHomeMemberRoute,
+  DeclineHomeInviteRoute,
 } from "./openapi";
 
 import {
@@ -13,6 +15,8 @@ import {
   addHomeMember,
   revokeHomeMember,
   acceptHomeInvite,
+  getMyHomeMember,
+  declineHomeInvite,
 } from "../../../../services/homes/home-members.service";
 
 function toMemberDTO(m: {
@@ -73,6 +77,11 @@ export const handleRevokeHomeMember: RouteHandler<
   const res = await revokeHomeMember(auth, homeId, userId);
   if ("error" in res) {
     if (res.error === "FORBIDDEN") return c.json({ error: "FORBIDDEN" }, 403);
+    if (
+      res.error === "CANNOT_REVOKE_OWNER" ||
+      res.error === "CANNOT_REVOKE_SELF"
+    )
+      return c.json({ error: res.error }, 409);
     return c.json({ error: res.error }, 404);
   }
 
@@ -90,4 +99,30 @@ export const handleAcceptHomeInvite: RouteHandler<
   if ("error" in res) return c.json({ error: res.error }, 404);
 
   return c.json({ data: toMemberDTO(res.member) }, 200);
+};
+
+export const handleGetMyHomeMember: RouteHandler<
+  GetMyHomeMemberRoute,
+  AppEnv
+> = async (c) => {
+  const auth = c.get("auth")!.user;
+  const { homeId } = c.req.valid("param");
+
+  const res = await getMyHomeMember(auth, homeId);
+  if ("error" in res) return c.json({ error: res.error }, 404);
+
+  return c.json({ data: toMemberDTO(res.member) }, 200);
+};
+
+export const handleDeclineHomeInvite: RouteHandler<
+  DeclineHomeInviteRoute,
+  AppEnv
+> = async (c) => {
+  const auth = c.get("auth")!.user;
+  const { homeId } = c.req.valid("param");
+
+  const res = await declineHomeInvite(auth, homeId);
+  if ("error" in res) return c.json({ error: res.error }, 404);
+
+  return c.body(null, 204);
 };
