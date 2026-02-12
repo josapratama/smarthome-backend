@@ -1,99 +1,94 @@
-import { prisma } from "../../../lib/prisma";
+import type { RouteHandler } from "@hono/zod-openapi";
+import type { AppEnv } from "../../../types/app-env";
 
-export async function listHomes(filters: {
-  ownerId?: number;
-  ownerEmail?: string;
+import {
+  listHomes,
+  createHome,
+  getHomeById,
+  updateHome,
+  deleteHome,
+  restoreHome,
+} from "../../../services/homes/homes.service";
+
+import type {
+  ListHomesRoute,
+  CreateHomeRoute,
+  GetHomeRoute,
+  UpdateHomeRoute,
+  DeleteHomeRoute,
+  RestoreHomeRoute,
+} from "./openapi";
+
+function toHomeDTO(h: {
+  id: number;
+  name: string;
+  ownerUserId: number;
+  createdAt: Date;
+  updatedAt: Date;
 }) {
-  const { ownerId, ownerEmail } = filters;
-
-  const homes = await prisma.home.findMany({
-    where: {
-      deletedAt: null,
-      ...(ownerId || ownerEmail
-        ? {
-            ownerUserId: ownerId ?? undefined,
-            owner: ownerEmail ? { email: ownerEmail } : undefined,
-          }
-        : {}),
-    },
-    orderBy: { createdAt: "desc" },
-  });
-
-  return homes;
+  return {
+    id: h.id,
+    name: h.name,
+    ownerUserId: h.ownerUserId,
+    createdAt: h.createdAt.toISOString(),
+    updatedAt: h.updatedAt.toISOString(),
+  };
 }
 
-export async function createHome(input: { name: string; ownerId: number }) {
-  const owner = await prisma.userAccount.findUnique({
-    where: { id: input.ownerId },
-  });
-  if (!owner) return { error: "OWNER_NOT_FOUND" as const };
+export const handleListHomes: RouteHandler<ListHomesRoute, AppEnv> = async (
+  c,
+) => {
+  const { ownerId, ownerEmail } = c.req.valid("query");
+  const res = await listHomes({ ownerId, ownerEmail });
+  return c.json({ data: res.homes.map(toHomeDTO) }, 200);
+};
 
-  const home = await prisma.home.create({
-    data: { name: input.name, ownerUserId: input.ownerId },
-  });
+export const handleCreateHome: RouteHandler<CreateHomeRoute, AppEnv> = async (
+  c,
+) => {
+  const body = c.req.valid("json");
+  const res = await createHome(body);
 
-  return { home };
-}
+  if ("error" in res) return c.json({ error: res.error }, 404);
+  return c.json({ data: toHomeDTO(res.home) }, 201);
+};
 
-export async function getHomeById(homeId: number) {
-  const home = await prisma.home.findFirst({
-    where: { id: homeId, deletedAt: null },
-  });
-  if (!home) return { error: "NOT_FOUND" as const };
-  return { home };
-}
+export const handleGetHome: RouteHandler<GetHomeRoute, AppEnv> = async (c) => {
+  const { homeId } = c.req.valid("param");
+  const res = await getHomeById(homeId);
 
-export async function updateHome(
-  homeId: number,
-  input: { name?: string; ownerId?: number },
-) {
-  const home = await prisma.home.findFirst({
-    where: { id: homeId, deletedAt: null },
-  });
-  if (!home) return { error: "NOT_FOUND" as const };
+  if ("error" in res) return c.json({ error: res.error }, 404);
+  return c.json({ data: toHomeDTO(res.home) }, 200);
+};
 
-  if (input.ownerId != null) {
-    const owner = await prisma.userAccount.findUnique({
-      where: { id: input.ownerId },
-    });
-    if (!owner) return { error: "OWNER_NOT_FOUND" as const };
-  }
+export const handleUpdateHome: RouteHandler<UpdateHomeRoute, AppEnv> = async (
+  c,
+) => {
+  const { homeId } = c.req.valid("param");
+  const body = c.req.valid("json");
 
-  const updated = await prisma.home.update({
-    where: { id: homeId },
-    data: {
-      name: input.name ?? undefined,
-      ownerUserId: input.ownerId ?? undefined,
-    },
-  });
+  const res = await updateHome(homeId, body);
+  if ("error" in res) return c.json({ error: res.error }, 404);
 
-  return { home: updated };
-}
+  return c.json({ data: toHomeDTO(res.home) }, 200);
+};
 
-export async function deleteHome(homeId: number) {
-  const home = await prisma.home.findFirst({
-    where: { id: homeId, deletedAt: null },
-  });
-  if (!home) return { error: "NOT_FOUND" as const };
+export const handleDeleteHome: RouteHandler<DeleteHomeRoute, AppEnv> = async (
+  c,
+) => {
+  const { homeId } = c.req.valid("param");
+  const res = await deleteHome(homeId);
 
-  const updated = await prisma.home.update({
-    where: { id: homeId },
-    data: { deletedAt: new Date() },
-  });
+  if ("error" in res) return c.json({ error: res.error }, 404);
+  return c.body(null, 204);
+};
 
-  return { home: updated };
-}
+export const handleRestoreHome: RouteHandler<RestoreHomeRoute, AppEnv> = async (
+  c,
+) => {
+  const { homeId } = c.req.valid("param");
+  const res = await restoreHome(homeId);
 
-export async function restoreHome(homeId: number) {
-  const home = await prisma.home.findFirst({
-    where: { id: homeId, deletedAt: { not: null } },
-  });
-  if (!home) return { error: "NOT_FOUND" as const };
-
-  const updated = await prisma.home.update({
-    where: { id: homeId },
-    data: { deletedAt: null },
-  });
-
-  return { home: updated };
-}
+  if ("error" in res) return c.json({ error: res.error }, 404);
+  return c.json({ data: toHomeDTO(res.home) }, 200);
+};
