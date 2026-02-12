@@ -8,6 +8,7 @@ export async function listHomes(
   filters: {
     ownerId?: number;
     ownerEmail?: string;
+    city?: string;
     limit?: number;
     cursor?: number;
   },
@@ -17,6 +18,7 @@ export async function listHomes(
 
   const whereUser: Prisma.HomeWhereInput = {
     deletedAt: null,
+    ...(filters.city ? { city: filters.city } : {}),
     OR: [
       { ownerUserId: auth.id },
       {
@@ -29,6 +31,7 @@ export async function listHomes(
 
   const whereAdmin: Prisma.HomeWhereInput = {
     deletedAt: null,
+    ...(filters.city ? { city: filters.city } : {}),
     ...(filters.ownerId || filters.ownerEmail
       ? {
           ownerUserId: filters.ownerId ?? undefined,
@@ -61,7 +64,15 @@ export async function listHomes(
 
 export async function createHome(
   auth: AuthUser,
-  input: { name: string; ownerUserId: number },
+  input: {
+    name: string;
+    ownerUserId: number;
+    addressText?: string;
+    city?: string;
+    postalCode?: string;
+    latitude?: number;
+    longitude?: number;
+  },
 ) {
   // USER hanya boleh bikin home untuk dirinya sendiri
   if (auth.role !== "ADMIN" && input.ownerUserId !== auth.id) {
@@ -74,7 +85,15 @@ export async function createHome(
   if (!owner) return { error: "OWNER_NOT_FOUND" as const };
 
   const home = await prisma.home.create({
-    data: { name: input.name, ownerUserId: input.ownerUserId },
+    data: {
+      name: input.name,
+      ownerUserId: input.ownerUserId,
+      addressText: input.addressText ?? undefined,
+      city: input.city ?? undefined,
+      postalCode: input.postalCode ?? undefined,
+      latitude: input.latitude ?? undefined,
+      longitude: input.longitude ?? undefined,
+    },
   });
 
   return { home };
@@ -129,7 +148,15 @@ export async function getHomeById(auth: AuthUser, homeId: number) {
 export async function updateHome(
   auth: AuthUser,
   homeId: number,
-  input: { name?: string; ownerUserId?: number },
+  input: {
+    name?: string;
+    ownerUserId?: number;
+    addressText?: string;
+    city?: string;
+    postalCode?: string;
+    latitude?: number;
+    longitude?: number;
+  },
 ) {
   const can = await canManageHome(auth, homeId);
   if (!can)
@@ -160,6 +187,11 @@ export async function updateHome(
     data: {
       name: input.name ?? undefined,
       ownerUserId: input.ownerUserId ?? undefined,
+      addressText: input.addressText ?? undefined,
+      city: input.city ?? undefined,
+      postalCode: input.postalCode ?? undefined,
+      latitude: input.latitude ?? undefined,
+      longitude: input.longitude ?? undefined,
     },
   });
 
@@ -294,4 +326,68 @@ export async function transferOwnership(
   });
 
   return { home: updated };
+}
+
+function toRad(d: number) {
+  return (d * Math.PI) / 180;
+}
+
+function haversineKm(
+  a: { lat: number; lng: number },
+  b: { lat: number; lng: number },
+) {
+  const R = 6371;
+  const dLat = toRad(b.lat - a.lat);
+  const dLng = toRad(b.lng - a.lng);
+  const lat1 = toRad(a.lat);
+  const lat2 = toRad(b.lat);
+
+  const x =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+
+  return 2 * R * Math.asin(Math.sqrt(x));
+}
+
+export async function listNearbyHomes(input: {
+  lat: number;
+  lng: number;
+  radiusKm: number;
+  limit: number;
+}) {
+  const { lat, lng, radiusKm, limit } = input;
+
+  // bounding box (approx)
+  const latDelta = radiusKm / 111.32;
+  const lngDelta = radiusKm / (111.32 * Math.cos(toRad(lat)));
+
+  const minLat = lat - latDelta;
+  const maxLat = lat + latDelta;
+  const minLng = lng - lngDelta;
+  const maxLng = lng + lngDelta;
+
+  const candidates = await prisma.home.findMany({
+    where: {
+      deletedAt: null,
+      latitude: { not: null, gte: minLat, lte: maxLat },
+      longitude: { not: null, gte: minLng, lte: maxLng },
+    },
+    // ambil lebih banyak lalu disaring
+    take: Math.min(limit * 5, 500),
+    orderBy: [{ createdAt: "desc" }],
+  });
+
+  const center = { lat, lng };
+
+  const filtered = candidates
+    .map((h) => {
+      const d = haversineKm(center, { lat: h.latitude!, lng: h.longitude! });
+      return { h, d };
+    })
+    .filter((x) => x.d <= radiusKm)
+    .sort((a, b) => a.d - b.d)
+    .slice(0, limit)
+    .map((x) => x.h);
+
+  return { homes: filtered };
 }

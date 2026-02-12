@@ -109,6 +109,33 @@ export const transferOwnershipRoute = createRoute({
   },
 });
 
+export const listNearbyHomesRoute = createRoute({
+  method: "get",
+  path: "/nearby",
+  request: {
+    query: z.object({
+      lat: z.coerce.number().min(-90).max(90),
+      lng: z.coerce.number().min(-180).max(180),
+      radiusKm: z.coerce.number().min(0.1).max(100).default(5),
+      limit: z.coerce.number().int().min(1).max(100).default(20),
+    }),
+  },
+  responses: {
+    200: {
+      content: {
+        "application/json": {
+          schema: z.object({
+            data: z.array(HomeDTO),
+          }),
+        },
+      },
+      description: "List homes near a coordinate (admin only for now).",
+    },
+    403: { description: "Forbidden" },
+  },
+});
+
+export type ListNearbyHomesRoute = typeof listNearbyHomesRoute;
 export type TransferOwnershipRoute = typeof transferOwnershipRoute;
 export type ListHomesRoute = typeof listHomesRoute;
 export type CreateHomeRoute = typeof createHomeRoute;

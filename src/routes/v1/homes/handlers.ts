@@ -9,6 +9,7 @@ import {
   deleteHome,
   restoreHome,
   transferOwnership,
+  listNearbyHomes,
 } from "../../../services/homes/homes.service";
 
 import type {
@@ -19,20 +20,30 @@ import type {
   DeleteHomeRoute,
   RestoreHomeRoute,
   TransferOwnershipRoute,
+  ListNearbyHomesRoute,
 } from "./openapi";
 
 function toHomeDTO(h: {
   id: number;
   name: string;
   ownerUserId: number;
+  addressText: string | null;
+  city: string | null;
+  postalCode: string | null;
+  latitude: number | null;
+  longitude: number | null;
   createdAt: Date;
   updatedAt: Date;
 }) {
   return {
     id: h.id,
     name: h.name,
-    guaranteeOwnerUserId: h.ownerUserId,
     ownerUserId: h.ownerUserId,
+    addressText: h.addressText,
+    city: h.city,
+    postalCode: h.postalCode,
+    latitude: h.latitude,
+    longitude: h.longitude,
     createdAt: h.createdAt.toISOString(),
     updatedAt: h.updatedAt.toISOString(),
   };
@@ -42,9 +53,14 @@ export const handleListHomes: RouteHandler<ListHomesRoute, AppEnv> = async (
   c,
 ) => {
   const auth = c.get("auth")!.user;
-  const { ownerId, ownerEmail, limit, cursor } = c.req.valid("query");
-
-  const res = await listHomes(auth, { ownerId, ownerEmail, limit, cursor });
+  const { ownerId, ownerEmail, limit, cursor, city } = c.req.valid("query");
+  const res = await listHomes(auth, {
+    ownerId,
+    ownerEmail,
+    limit,
+    cursor,
+    city,
+  });
 
   return c.json(
     {
@@ -148,4 +164,17 @@ export const handleTransferOwnership: RouteHandler<
   }
 
   return c.json({ data: toHomeDTO(res.home) }, 200);
+};
+
+export const handleListNearbyHomes: RouteHandler<
+  ListNearbyHomesRoute,
+  AppEnv
+> = async (c) => {
+  const auth = c.get("auth")!.user;
+  if (auth.role !== "ADMIN") return c.json({ error: "FORBIDDEN" }, 403);
+
+  const { lat, lng, radiusKm, limit } = c.req.valid("query");
+  const res = await listNearbyHomes({ lat, lng, radiusKm, limit });
+
+  return c.json({ data: res.homes.map(toHomeDTO) }, 200);
 };

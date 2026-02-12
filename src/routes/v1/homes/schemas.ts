@@ -2,28 +2,55 @@ import { z } from "@hono/zod-openapi";
 import { Email } from "../common/schemas";
 import { HomeId, UserId } from "../common/ids";
 
-export const HomeUpdateBody = z
-  .object({
-    name: z.string().min(1).optional(),
-    ownerUserId: UserId.optional(),
-  })
-  .refine((v) => v.name !== undefined || v.ownerUserId !== undefined, {
-    message: "At least one field must be provided",
-  })
-  .openapi("HomeUpdateBody");
-
 export const HomeCreateBody = z
   .object({
     name: z.string().min(1).openapi({ example: "Rumah Utama" }),
     ownerUserId: UserId,
+
+    addressText: z.string().min(1).optional(),
+    city: z.string().min(1).optional(),
+    postalCode: z.string().min(1).optional(),
+    latitude: z.coerce.number().optional(),
+    longitude: z.coerce.number().optional(),
   })
   .openapi("HomeCreateBody");
+
+export const HomeUpdateBody = z
+  .object({
+    name: z.string().min(1).optional(),
+    ownerUserId: UserId.optional(),
+
+    addressText: z.string().min(1).optional(),
+    city: z.string().min(1).optional(),
+    postalCode: z.string().min(1).optional(),
+    latitude: z.coerce.number().optional(),
+    longitude: z.coerce.number().optional(),
+  })
+  .refine(
+    (v) =>
+      v.name !== undefined ||
+      v.ownerUserId !== undefined ||
+      v.addressText !== undefined ||
+      v.city !== undefined ||
+      v.postalCode !== undefined ||
+      v.latitude !== undefined ||
+      v.longitude !== undefined,
+    { message: "At least one field must be provided" },
+  )
+  .openapi("HomeUpdateBody");
 
 export const HomeDTO = z
   .object({
     id: HomeId,
     name: z.string(),
     ownerUserId: UserId,
+
+    addressText: z.string().nullable(),
+    city: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+
     createdAt: z.string(),
     updatedAt: z.string(),
   })
@@ -51,6 +78,8 @@ export const HomesListQuery = z
   .object({
     ownerId: UserId.optional(),
     ownerEmail: Email.optional(),
+
+    city: z.string().min(1).optional().openapi({ example: "Jakarta" }),
   })
   .extend(HomesPaginationQuery.shape);
 

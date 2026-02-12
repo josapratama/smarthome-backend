@@ -10,6 +10,7 @@ import {
   deleteHomeRoute,
   restoreHomeRoute,
   transferOwnershipRoute,
+  listNearbyHomesRoute,
 } from "./openapi";
 
 import {
@@ -20,6 +21,7 @@ import {
   handleDeleteHome,
   handleRestoreHome,
   handleTransferOwnership,
+  handleListNearbyHomes,
 } from "./handlers";
 
 import {
