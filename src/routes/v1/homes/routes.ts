@@ -20,6 +20,18 @@ import {
   handleRestoreHome,
 } from "./handlers";
 
+import {
+  listHomeMembersRoute,
+  addHomeMemberRoute,
+  revokeHomeMemberRoute,
+} from "./members/openapi";
+
+import {
+  handleListHomeMembers,
+  handleAddHomeMember,
+  handleRevokeHomeMember,
+} from "./members/handlers";
+
 export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
   const r = new OpenAPIHono<AppEnv>();
 
@@ -31,6 +43,10 @@ export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
   r.openapi(updateHomeRoute, handleUpdateHome);
   r.openapi(deleteHomeRoute, handleDeleteHome);
   r.openapi(restoreHomeRoute, handleRestoreHome);
+
+  r.openapi(listHomeMembersRoute, handleListHomeMembers);
+  r.openapi(addHomeMemberRoute, handleAddHomeMember);
+  r.openapi(revokeHomeMemberRoute, handleRevokeHomeMember);
 
   app.route("/", r);
 }
