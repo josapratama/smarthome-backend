@@ -23,7 +23,6 @@ export function registerV1Routes(app: OpenAPIHono<AppEnv>) {
   registerEventsRoutes(app);
   registerAiRoutes(app);
   registerNotificationRoutes(app);
-  registerNotificationRoutes(app);
   registerFirmwareRoutes(app);
   registerOtaRoutes(app);
 }

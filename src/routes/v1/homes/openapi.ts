@@ -4,6 +4,7 @@ import {
   HomeCreateBody,
   HomeDTO,
   HomesListQuery,
+  HomesListResponse,
   HomeUpdateBody,
 } from "./schemas";
 
@@ -14,9 +15,9 @@ export const listHomesRoute = createRoute({
   responses: {
     200: {
       content: {
-        "application/json": { schema: z.object({ data: z.array(HomeDTO) }) },
+        "application/json": { schema: HomesListResponse },
       },
-      description: "List active homes (filter by ownerId or ownerEmail).",
+      description: "List active homes (scoped; supports cursor pagination).",
     },
   },
 });
