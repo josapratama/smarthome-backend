@@ -1,4 +1,18 @@
-import { prisma } from "../../../lib/prisma";
+import type { RouteHandler } from "@hono/zod-openapi";
+import type { AppEnv } from "../../../types/app-env";
+import { requireDeviceKey } from "../../../middlewares/device-auth";
+
+import type {
+  IngestTelemetryRoute,
+  GetLatestTelemetryRoute,
+  QueryTelemetryRoute,
+} from "./openapi";
+
+import {
+  ingestTelemetry as ingestTelemetrySvc,
+  getLatestTelemetry,
+  queryTelemetry,
+} from "../../../services/telemetry/telemetry.service";
 
 export function mapSensorDTO(r: any) {
   return {
@@ -8,57 +22,65 @@ export function mapSensorDTO(r: any) {
     gasPpm: r.gasPpm,
     flame: r.flame,
     binLevel: r.binLevel,
+    powerW: r.powerW ?? null,
+    energyKwh: r.energyKwh ?? null,
     timestamp: r.timestamp.toISOString(),
   };
 }
 
-export async function ingestTelemetry(deviceId: number, body: any) {
-  const device = await prisma.device
-    .update({
-      where: { id: deviceId },
-      data: { status: true, lastSeenAt: new Date() },
-    })
-    .catch(() => null);
+export const handleIngestTelemetry: RouteHandler<
+  IngestTelemetryRoute,
+  AppEnv
+> = async (c) => {
+  const { deviceId } = c.req.valid("param");
+  const headers = c.req.valid("header");
+  const deviceKey = headers["x-device-key"];
 
-  if (!device) return { error: "DEVICE_NOT_FOUND" as const };
+  // device auth (kalau kamu ingin wajib, ubah schema header jadi required)
+  const authRes = await requireDeviceKey(
+    c,
+    async () => {},
+    Number(deviceId),
+    deviceKey,
+  );
+  if (authRes) return authRes;
 
-  const row = await prisma.sensorData.create({
-    data: {
-      deviceId,
-      current: body.current,
-      gasPpm: body.gasPpm,
-      flame: body.flame,
-      binLevel: body.binLevel,
-      timestamp: body.timestamp ? new Date(body.timestamp) : new Date(),
-    },
+  const body = c.req.valid("json");
+
+  const res = await ingestTelemetrySvc({
+    deviceId: Number(deviceId),
+    telemetry: body,
+    source: "DEVICE",
   });
 
-  return { row };
-}
+  if ("error" in res) return c.json({ error: res.error }, 404);
+  return c.json({ data: mapSensorDTO(res.sensor) }, 201);
+};
 
-export async function getLatestTelemetry(deviceId: number) {
-  const row = await prisma.sensorData.findFirst({
-    where: { deviceId },
-    orderBy: { timestamp: "desc" },
+export const handleGetLatestTelemetry: RouteHandler<
+  GetLatestTelemetryRoute,
+  AppEnv
+> = async (c) => {
+  const { deviceId } = c.req.valid("param");
+
+  const row = await getLatestTelemetry(Number(deviceId));
+  if (!row) return c.json({ data: null }, 200);
+
+  return c.json({ data: mapSensorDTO(row) }, 200);
+};
+
+export const handleQueryTelemetry: RouteHandler<
+  QueryTelemetryRoute,
+  AppEnv
+> = async (c) => {
+  const { deviceId } = c.req.valid("param");
+  const { from, to, limit } = c.req.valid("query");
+
+  const rows = await queryTelemetry({
+    deviceId: Number(deviceId),
+    from,
+    to,
+    limit,
   });
-  return row ?? null;
-}
-
-export async function queryTelemetry(
-  deviceId: number,
-  query: { from?: string; to?: string; limit: number },
-) {
-  const rows = await prisma.sensorData.findMany({
-    where: {
-      deviceId,
-      timestamp: {
-        gte: query.from ? new Date(query.from) : undefined,
-        lte: query.to ? new Date(query.to) : undefined,
-      },
-    },
-    orderBy: { timestamp: "desc" },
-    take: query.limit,
-  });
-
-  return rows;
-}
+  return c.json({ data: rows.map(mapSensorDTO) }, 200);
+};
