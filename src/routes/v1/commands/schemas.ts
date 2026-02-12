@@ -4,9 +4,9 @@ import { CommandId, DeviceId } from "../common/ids";
 export const CommandCreateBody = z
   .object({
     type: z.string().min(1).openapi({ example: "relay_set" }),
-    payload: z
-      .record(z.string(), z.any())
-      .openapi({ example: { relay: 1, state: "ON" } }),
+    payload: z.any().openapi({ example: { relay: 1, state: "ON" } }),
+    // optional override source (biasanya USER)
+    source: z.enum(["USER", "BACKEND", "AI", "ADMIN"]).optional(),
   })
   .openapi("CommandCreateBody");
 
@@ -19,6 +19,9 @@ export const CommandDTO = z
     status: z.enum(["PENDING", "SENT", "ACKED", "FAILED", "TIMEOUT"]),
     ackedAt: z.string().nullable(),
     lastError: z.string().nullable(),
+    requestedBy: z.number().int().positive().nullable(),
+    source: z.enum(["USER", "BACKEND", "AI", "ADMIN"]),
+    correlationId: z.string(), // uuid string
     createdAt: z.string(),
     updatedAt: z.string(),
   })
