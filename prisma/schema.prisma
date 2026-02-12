@@ -238,6 +238,7 @@ model Home {
 
   inviteTokens HomeInviteToken[]
 
+  @@index([latitude, longitude])
   @@index([ownerUserId])
   @@index([deletedAt])
   @@map("home")
