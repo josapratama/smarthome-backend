@@ -25,6 +25,12 @@ export const FirmwareReleaseDTO = z
   })
   .openapi("FirmwareReleaseDTO");
 
+export const FirmwareReleaseListResponse = z
+  .object({
+    data: z.array(FirmwareReleaseDTO),
+  })
+  .openapi("FirmwareReleaseListResponse");
+
 export const FirmwareReleaseResponse = z
   .object({
     data: z.object({
@@ -39,8 +45,7 @@ export const FirmwareReleaseResponse = z
   })
   .openapi("FirmwareReleaseResponse");
 
-// Untuk upload multipart, OpenAPI support-nya lewat "multipart/form-data".
-// zod-openapi bisa mendeskripsikan field string, dan file sebagai "any" (binary).
+// multipart/form-data upload
 export const FirmwareReleaseUploadBody = z
   .object({
     platform: FirmwarePlatform,
@@ -49,9 +54,3 @@ export const FirmwareReleaseUploadBody = z
     file: z.any().openapi({ type: "string", format: "binary" }),
   })
   .openapi("FirmwareReleaseUploadBody");
-
-export const FirmwareReleaseListResponse = z
-  .object({
-    data: z.array(FirmwareReleaseDTO),
-  })
-  .openapi("FirmwareReleaseListResponse");
