@@ -1,28 +1,31 @@
-import type { Context } from "hono";
+import type { RouteHandler } from "@hono/zod-openapi";
+import type { AppEnv } from "../../../types/app-env";
 import { prisma } from "../../../lib/prisma";
-import { toISO } from "../../../lib/to-iso";
+import { toISO } from "../common/helpers";
+import type { HeartbeatRoute } from "./openapi";
 
-type HeartbeatJson = {
-  mqttClientId?: string;
-};
+type HeartbeatJson = { mqttClientId?: string };
 
 function toDeviceDTO(device: {
   id: number;
   status: boolean;
   lastSeenAt: Date | null;
   mqttClientId: string | null;
+  updatedAt: Date;
 }) {
   return {
     id: device.id,
     status: device.status,
     lastSeenAt: toISO(device.lastSeenAt),
     mqttClientId: device.mqttClientId,
+    updatedAt: device.updatedAt.toISOString(),
   };
 }
 
-export async function postHeartbeatHandler(c: Context) {
-  // deviceId sudah divalidasi oleh app.use middleware
-  const deviceId = Number(c.req.param("deviceId"));
+export const handleHeartbeat: RouteHandler<HeartbeatRoute, AppEnv> = async (
+  c,
+) => {
+  const { deviceId } = c.req.valid("param");
   const now = new Date();
 
   let body: HeartbeatJson = {};
@@ -35,8 +38,10 @@ export async function postHeartbeatHandler(c: Context) {
     }
   }
 
+  // Device sudah di-auth oleh middleware requireDeviceKey.
+  // Tapi tetap aman: update only non-deleted
   const updated = await prisma.device.update({
-    where: { id: deviceId },
+    where: { id: Number(deviceId) },
     data: {
       status: true,
       lastSeenAt: now,
@@ -47,15 +52,16 @@ export async function postHeartbeatHandler(c: Context) {
       status: true,
       lastSeenAt: true,
       mqttClientId: true,
+      updatedAt: true,
     },
   });
 
   return c.json(
     {
       ok: true,
-      serverTime: toISO(now),
+      serverTime: now.toISOString(),
       device: toDeviceDTO(updated),
     },
     200,
   );
-}
+};
