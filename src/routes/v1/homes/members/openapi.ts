@@ -49,6 +49,24 @@ export const revokeHomeMemberRoute = createRoute({
   },
 });
 
+export const acceptHomeInviteRoute = createRoute({
+  method: "post",
+  path: "/{homeId}/members/accept",
+  request: { params: z.object({ homeId: HomeId }) },
+  responses: {
+    200: {
+      content: {
+        "application/json": { schema: z.object({ data: HomeMemberDTO }) },
+      },
+      description:
+        "Accept invitation for the authenticated user (INVITED -> ACTIVE).",
+    },
+    404: { description: "Invitation not found" },
+  },
+});
+
+export type AcceptHomeInviteRoute = typeof acceptHomeInviteRoute;
+
 export type ListHomeMembersRoute = typeof listHomeMembersRoute;
 export type AddHomeMemberRoute = typeof addHomeMemberRoute;
 export type RevokeHomeMemberRoute = typeof revokeHomeMemberRoute;

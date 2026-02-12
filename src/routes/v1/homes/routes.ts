@@ -24,12 +24,14 @@ import {
   listHomeMembersRoute,
   addHomeMemberRoute,
   revokeHomeMemberRoute,
+  acceptHomeInviteRoute,
 } from "./members/openapi";
 
 import {
   handleListHomeMembers,
   handleAddHomeMember,
   handleRevokeHomeMember,
+  handleAcceptHomeInvite,
 } from "./members/handlers";
 
 export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
@@ -47,6 +49,7 @@ export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
   r.openapi(listHomeMembersRoute, handleListHomeMembers);
   r.openapi(addHomeMemberRoute, handleAddHomeMember);
   r.openapi(revokeHomeMemberRoute, handleRevokeHomeMember);
+  r.openapi(acceptHomeInviteRoute, handleAcceptHomeInvite);
 
   app.route("/", r);
 }

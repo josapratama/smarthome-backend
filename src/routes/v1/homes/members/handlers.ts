@@ -5,12 +5,14 @@ import type {
   ListHomeMembersRoute,
   AddHomeMemberRoute,
   RevokeHomeMemberRoute,
+  AcceptHomeInviteRoute,
 } from "./openapi";
 
 import {
   listHomeMembers,
   addHomeMember,
   revokeHomeMember,
+  acceptHomeInvite,
 } from "../../../../services/homes/home-members.service";
 
 function toMemberDTO(m: {
@@ -75,4 +77,17 @@ export const handleRevokeHomeMember: RouteHandler<
   }
 
   return c.body(null, 204);
+};
+
+export const handleAcceptHomeInvite: RouteHandler<
+  AcceptHomeInviteRoute,
+  AppEnv
+> = async (c) => {
+  const auth = c.get("auth")!.user;
+  const { homeId } = c.req.valid("param");
+
+  const res = await acceptHomeInvite(auth, homeId);
+  if ("error" in res) return c.json({ error: res.error }, 404);
+
+  return c.json({ data: toMemberDTO(res.member) }, 200);
 };

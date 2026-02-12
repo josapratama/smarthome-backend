@@ -143,3 +143,36 @@ export async function revokeHomeMember(
 
   return { ok: true as const };
 }
+
+export async function acceptHomeInvite(auth: AuthUser, homeId: number) {
+  // user harus punya invitation (INVITED) yang masih aktif (deletedAt null)
+  const m = await prisma.homeMember.findFirst({
+    where: {
+      homeId,
+      userId: auth.id,
+      deletedAt: null,
+      status: "INVITED",
+    },
+    select: { id: true },
+  });
+
+  if (!m) return { error: "INVITE_NOT_FOUND" as const };
+
+  const member = await prisma.homeMember.update({
+    where: { id: m.id },
+    data: {
+      status: "ACTIVE",
+      joinedAt: new Date(),
+    },
+    select: {
+      homeId: true,
+      userId: true,
+      roleInHome: true,
+      status: true,
+      invitedAt: true,
+      joinedAt: true,
+    },
+  });
+
+  return { member };
+}
