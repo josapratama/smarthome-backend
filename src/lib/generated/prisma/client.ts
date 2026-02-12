@@ -159,3 +159,8 @@ export type PasswordReset = Prisma.PasswordResetModel
  * 
  */
 export type DeviceEventLog = Prisma.DeviceEventLogModel
+/**
+ * Model HomeInviteToken
+ * 
+ */
+export type HomeInviteToken = Prisma.HomeInviteTokenModel

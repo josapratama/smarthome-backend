@@ -407,7 +407,8 @@ export const ModelName = {
   FirmwareRelease: 'FirmwareRelease',
   OtaJob: 'OtaJob',
   PasswordReset: 'PasswordReset',
-  DeviceEventLog: 'DeviceEventLog'
+  DeviceEventLog: 'DeviceEventLog',
+  HomeInviteToken: 'HomeInviteToken'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -423,7 +424,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "userAccount" | "loginHistory" | "loginAttempt" | "userSession" | "home" | "homeMember" | "room" | "device" | "deviceConfig" | "devicePairingHistory" | "deviceStateHistory" | "sensorData" | "sensorReading" | "alarmEvent" | "energyPrediction" | "anomalyResult" | "command" | "notificationEndpoint" | "notificationLog" | "energyUsageDaily" | "firmwareRelease" | "otaJob" | "passwordReset" | "deviceEventLog"
+    modelProps: "userAccount" | "loginHistory" | "loginAttempt" | "userSession" | "home" | "homeMember" | "room" | "device" | "deviceConfig" | "devicePairingHistory" | "deviceStateHistory" | "sensorData" | "sensorReading" | "alarmEvent" | "energyPrediction" | "anomalyResult" | "command" | "notificationEndpoint" | "notificationLog" | "energyUsageDaily" | "firmwareRelease" | "otaJob" | "passwordReset" | "deviceEventLog" | "homeInviteToken"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2203,6 +2204,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    HomeInviteToken: {
+      payload: Prisma.$HomeInviteTokenPayload<ExtArgs>
+      fields: Prisma.HomeInviteTokenFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.HomeInviteTokenFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeInviteTokenPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.HomeInviteTokenFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeInviteTokenPayload>
+        }
+        findFirst: {
+          args: Prisma.HomeInviteTokenFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeInviteTokenPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.HomeInviteTokenFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeInviteTokenPayload>
+        }
+        findMany: {
+          args: Prisma.HomeInviteTokenFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeInviteTokenPayload>[]
+        }
+        create: {
+          args: Prisma.HomeInviteTokenCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeInviteTokenPayload>
+        }
+        createMany: {
+          args: Prisma.HomeInviteTokenCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.HomeInviteTokenCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeInviteTokenPayload>[]
+        }
+        delete: {
+          args: Prisma.HomeInviteTokenDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeInviteTokenPayload>
+        }
+        update: {
+          args: Prisma.HomeInviteTokenUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeInviteTokenPayload>
+        }
+        deleteMany: {
+          args: Prisma.HomeInviteTokenDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.HomeInviteTokenUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.HomeInviteTokenUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeInviteTokenPayload>[]
+        }
+        upsert: {
+          args: Prisma.HomeInviteTokenUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeInviteTokenPayload>
+        }
+        aggregate: {
+          args: Prisma.HomeInviteTokenAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHomeInviteToken>
+        }
+        groupBy: {
+          args: Prisma.HomeInviteTokenGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HomeInviteTokenGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.HomeInviteTokenCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HomeInviteTokenCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2590,6 +2665,19 @@ export const DeviceEventLogScalarFieldEnum = {
 } as const
 
 export type DeviceEventLogScalarFieldEnum = (typeof DeviceEventLogScalarFieldEnum)[keyof typeof DeviceEventLogScalarFieldEnum]
+
+
+export const HomeInviteTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  homeId: 'homeId',
+  userId: 'userId',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type HomeInviteTokenScalarFieldEnum = (typeof HomeInviteTokenScalarFieldEnum)[keyof typeof HomeInviteTokenScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -3051,6 +3139,7 @@ export type GlobalOmitConfig = {
   otaJob?: Prisma.OtaJobOmit
   passwordReset?: Prisma.PasswordResetOmit
   deviceEventLog?: Prisma.DeviceEventLogOmit
+  homeInviteToken?: Prisma.HomeInviteTokenOmit
 }
 
 /* Types for Logging */

@@ -1,5 +1,6 @@
 import { prisma } from "../../lib/prisma";
 import { sendEmail } from "../../lib/email";
+import { randomUUID } from "crypto";
 import { env } from "../../lib/env";
 
 type AuthUser = { id: number; role: "USER" | "ADMIN" };
@@ -326,8 +327,20 @@ export async function resendHomeInvite(
     data: { invitedAt: new Date() },
   });
 
+  const token = randomUUID();
+  const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 jam
+
+  await prisma.homeInviteToken.create({
+    data: {
+      token,
+      homeId,
+      userId,
+      expiresAt,
+    },
+  });
+
   const base = (env.PUBLIC_BASE_URL ?? "").replace(/\/+$/, "");
-  const docsUrl = base ? `${base}/docs` : undefined;
+  const inviteUrl = base ? `${base}/invites/${token}` : `/invites/${token}`;
 
   const subject = `Undangan bergabung ke home: ${home.name}`;
   const text = [
@@ -335,14 +348,13 @@ export async function resendHomeInvite(
     ``,
     `Kamu diundang untuk bergabung ke home: "${home.name}".`,
     ``,
-    `Untuk menerima undangan:`,
-    `- Login ke aplikasi (frontend akan dibuat menyusul)`,
-    `- Panggil endpoint: POST /homes/${homeId}/members/accept`,
+    `Klik link ini untuk menerima undangan:`,
+    `${inviteUrl}`,
     ``,
-    docsUrl ? `Dokumentasi API: ${docsUrl}` : undefined,
-  ]
-    .filter(Boolean)
-    .join("\n");
+    `Link berlaku sampai: ${expiresAt.toISOString()}`,
+  ].join("\n");
+
+  await sendEmail({ to: user.email, subject, text });
 
   await sendEmail({ to: user.email, subject, text });
 

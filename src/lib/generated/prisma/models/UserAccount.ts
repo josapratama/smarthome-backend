@@ -288,6 +288,7 @@ export type UserAccountWhereInput = {
   resolvedAlarms?: Prisma.AlarmEventListRelationFilter
   updatedDeviceConfigs?: Prisma.DeviceConfigListRelationFilter
   pairingHistories?: Prisma.DevicePairingHistoryListRelationFilter
+  homeInviteTokens?: Prisma.HomeInviteTokenListRelationFilter
   requestedCommands?: Prisma.CommandListRelationFilter
 }
 
@@ -316,6 +317,7 @@ export type UserAccountOrderByWithRelationInput = {
   resolvedAlarms?: Prisma.AlarmEventOrderByRelationAggregateInput
   updatedDeviceConfigs?: Prisma.DeviceConfigOrderByRelationAggregateInput
   pairingHistories?: Prisma.DevicePairingHistoryOrderByRelationAggregateInput
+  homeInviteTokens?: Prisma.HomeInviteTokenOrderByRelationAggregateInput
   requestedCommands?: Prisma.CommandOrderByRelationAggregateInput
 }
 
@@ -347,6 +349,7 @@ export type UserAccountWhereUniqueInput = Prisma.AtLeast<{
   resolvedAlarms?: Prisma.AlarmEventListRelationFilter
   updatedDeviceConfigs?: Prisma.DeviceConfigListRelationFilter
   pairingHistories?: Prisma.DevicePairingHistoryListRelationFilter
+  homeInviteTokens?: Prisma.HomeInviteTokenListRelationFilter
   requestedCommands?: Prisma.CommandListRelationFilter
 }, "id" | "username" | "email">
 
@@ -412,6 +415,7 @@ export type UserAccountCreateInput = {
   resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
@@ -440,6 +444,7 @@ export type UserAccountUncheckedCreateInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
@@ -467,6 +472,7 @@ export type UserAccountUpdateInput = {
   resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
@@ -495,6 +501,7 @@ export type UserAccountUncheckedUpdateInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
@@ -827,6 +834,20 @@ export type UserAccountUpdateOneRequiredWithoutPasswordResetsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutPasswordResetsInput, Prisma.UserAccountUpdateWithoutPasswordResetsInput>, Prisma.UserAccountUncheckedUpdateWithoutPasswordResetsInput>
 }
 
+export type UserAccountCreateNestedOneWithoutHomeInviteTokensInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutHomeInviteTokensInput, Prisma.UserAccountUncheckedCreateWithoutHomeInviteTokensInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutHomeInviteTokensInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+}
+
+export type UserAccountUpdateOneRequiredWithoutHomeInviteTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutHomeInviteTokensInput, Prisma.UserAccountUncheckedCreateWithoutHomeInviteTokensInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutHomeInviteTokensInput
+  upsert?: Prisma.UserAccountUpsertWithoutHomeInviteTokensInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutHomeInviteTokensInput, Prisma.UserAccountUpdateWithoutHomeInviteTokensInput>, Prisma.UserAccountUncheckedUpdateWithoutHomeInviteTokensInput>
+}
+
 export type UserAccountCreateWithoutLoginHistoryInput = {
   username: string
   email: string
@@ -850,6 +871,7 @@ export type UserAccountCreateWithoutLoginHistoryInput = {
   resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
@@ -877,6 +899,7 @@ export type UserAccountUncheckedCreateWithoutLoginHistoryInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
@@ -919,6 +942,7 @@ export type UserAccountUpdateWithoutLoginHistoryInput = {
   resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
@@ -946,6 +970,7 @@ export type UserAccountUncheckedUpdateWithoutLoginHistoryInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
@@ -972,6 +997,7 @@ export type UserAccountCreateWithoutLoginAttemptsInput = {
   resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
@@ -999,6 +1025,7 @@ export type UserAccountUncheckedCreateWithoutLoginAttemptsInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
@@ -1041,6 +1068,7 @@ export type UserAccountUpdateWithoutLoginAttemptsInput = {
   resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1068,6 +1096,7 @@ export type UserAccountUncheckedUpdateWithoutLoginAttemptsInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1094,6 +1123,7 @@ export type UserAccountCreateWithoutSessionsInput = {
   resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
@@ -1121,6 +1151,7 @@ export type UserAccountUncheckedCreateWithoutSessionsInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
@@ -1163,6 +1194,7 @@ export type UserAccountUpdateWithoutSessionsInput = {
   resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1190,6 +1222,7 @@ export type UserAccountUncheckedUpdateWithoutSessionsInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1216,6 +1249,7 @@ export type UserAccountCreateWithoutHomesOwnedInput = {
   resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
@@ -1243,6 +1277,7 @@ export type UserAccountUncheckedCreateWithoutHomesOwnedInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
@@ -1285,6 +1320,7 @@ export type UserAccountUpdateWithoutHomesOwnedInput = {
   resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1312,6 +1348,7 @@ export type UserAccountUncheckedUpdateWithoutHomesOwnedInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1338,6 +1375,7 @@ export type UserAccountCreateWithoutHomeMembershipsInput = {
   resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
@@ -1365,6 +1403,7 @@ export type UserAccountUncheckedCreateWithoutHomeMembershipsInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
@@ -1407,6 +1446,7 @@ export type UserAccountUpdateWithoutHomeMembershipsInput = {
   resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1434,6 +1474,7 @@ export type UserAccountUncheckedUpdateWithoutHomeMembershipsInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1460,6 +1501,7 @@ export type UserAccountCreateWithoutDevicesInput = {
   resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
@@ -1487,6 +1529,7 @@ export type UserAccountUncheckedCreateWithoutDevicesInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
@@ -1529,6 +1572,7 @@ export type UserAccountUpdateWithoutDevicesInput = {
   resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1556,6 +1600,7 @@ export type UserAccountUncheckedUpdateWithoutDevicesInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1582,6 +1627,7 @@ export type UserAccountCreateWithoutUpdatedDeviceConfigsInput = {
   acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
   resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
@@ -1609,6 +1655,7 @@ export type UserAccountUncheckedCreateWithoutUpdatedDeviceConfigsInput = {
   acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
   resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
@@ -1651,6 +1698,7 @@ export type UserAccountUpdateWithoutUpdatedDeviceConfigsInput = {
   acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
   resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1678,6 +1726,7 @@ export type UserAccountUncheckedUpdateWithoutUpdatedDeviceConfigsInput = {
   acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
   resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1704,6 +1753,7 @@ export type UserAccountCreateWithoutPairingHistoriesInput = {
   acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
   resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
@@ -1731,6 +1781,7 @@ export type UserAccountUncheckedCreateWithoutPairingHistoriesInput = {
   acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
   resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
@@ -1773,6 +1824,7 @@ export type UserAccountUpdateWithoutPairingHistoriesInput = {
   acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
   resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1800,6 +1852,7 @@ export type UserAccountUncheckedUpdateWithoutPairingHistoriesInput = {
   acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
   resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1826,6 +1879,7 @@ export type UserAccountCreateWithoutAcknowledgedAlarmsInput = {
   resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
@@ -1853,6 +1907,7 @@ export type UserAccountUncheckedCreateWithoutAcknowledgedAlarmsInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
@@ -1884,6 +1939,7 @@ export type UserAccountCreateWithoutResolvedAlarmsInput = {
   acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
@@ -1911,6 +1967,7 @@ export type UserAccountUncheckedCreateWithoutResolvedAlarmsInput = {
   acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
@@ -1953,6 +2010,7 @@ export type UserAccountUpdateWithoutAcknowledgedAlarmsInput = {
   resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
@@ -1980,6 +2038,7 @@ export type UserAccountUncheckedUpdateWithoutAcknowledgedAlarmsInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
@@ -2017,6 +2076,7 @@ export type UserAccountUpdateWithoutResolvedAlarmsInput = {
   acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
@@ -2044,6 +2104,7 @@ export type UserAccountUncheckedUpdateWithoutResolvedAlarmsInput = {
   acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
@@ -2071,6 +2132,7 @@ export type UserAccountCreateWithoutRequestedCommandsInput = {
   resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserAccountUncheckedCreateWithoutRequestedCommandsInput = {
@@ -2098,6 +2160,7 @@ export type UserAccountUncheckedCreateWithoutRequestedCommandsInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserAccountCreateOrConnectWithoutRequestedCommandsInput = {
@@ -2140,6 +2203,7 @@ export type UserAccountUpdateWithoutRequestedCommandsInput = {
   resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserAccountUncheckedUpdateWithoutRequestedCommandsInput = {
@@ -2167,6 +2231,7 @@ export type UserAccountUncheckedUpdateWithoutRequestedCommandsInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserAccountCreateWithoutNotificationEndpointsInput = {
@@ -2192,6 +2257,7 @@ export type UserAccountCreateWithoutNotificationEndpointsInput = {
   resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
@@ -2219,6 +2285,7 @@ export type UserAccountUncheckedCreateWithoutNotificationEndpointsInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
@@ -2261,6 +2328,7 @@ export type UserAccountUpdateWithoutNotificationEndpointsInput = {
   resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
@@ -2288,6 +2356,7 @@ export type UserAccountUncheckedUpdateWithoutNotificationEndpointsInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
@@ -2314,6 +2383,7 @@ export type UserAccountCreateWithoutPasswordResetsInput = {
   resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
@@ -2341,6 +2411,7 @@ export type UserAccountUncheckedCreateWithoutPasswordResetsInput = {
   resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedCreateNestedManyWithoutUserInput
   requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
@@ -2383,6 +2454,7 @@ export type UserAccountUpdateWithoutPasswordResetsInput = {
   resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
   updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUpdateManyWithoutUserNestedInput
   requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
@@ -2402,6 +2474,133 @@ export type UserAccountUncheckedUpdateWithoutPasswordResetsInput = {
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  homeInviteTokens?: Prisma.HomeInviteTokenUncheckedUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountCreateWithoutHomeInviteTokensInput = {
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountUncheckedCreateWithoutHomeInviteTokensInput = {
+  id?: number
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountCreateOrConnectWithoutHomeInviteTokensInput = {
+  where: Prisma.UserAccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutHomeInviteTokensInput, Prisma.UserAccountUncheckedCreateWithoutHomeInviteTokensInput>
+}
+
+export type UserAccountUpsertWithoutHomeInviteTokensInput = {
+  update: Prisma.XOR<Prisma.UserAccountUpdateWithoutHomeInviteTokensInput, Prisma.UserAccountUncheckedUpdateWithoutHomeInviteTokensInput>
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutHomeInviteTokensInput, Prisma.UserAccountUncheckedCreateWithoutHomeInviteTokensInput>
+  where?: Prisma.UserAccountWhereInput
+}
+
+export type UserAccountUpdateToOneWithWhereWithoutHomeInviteTokensInput = {
+  where?: Prisma.UserAccountWhereInput
+  data: Prisma.XOR<Prisma.UserAccountUpdateWithoutHomeInviteTokensInput, Prisma.UserAccountUncheckedUpdateWithoutHomeInviteTokensInput>
+}
+
+export type UserAccountUpdateWithoutHomeInviteTokensInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountUncheckedUpdateWithoutHomeInviteTokensInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
   notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
   homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
@@ -2431,6 +2630,7 @@ export type UserAccountCountOutputType = {
   resolvedAlarms: number
   updatedDeviceConfigs: number
   pairingHistories: number
+  homeInviteTokens: number
   requestedCommands: number
 }
 
@@ -2447,6 +2647,7 @@ export type UserAccountCountOutputTypeSelect<ExtArgs extends runtime.Types.Exten
   resolvedAlarms?: boolean | UserAccountCountOutputTypeCountResolvedAlarmsArgs
   updatedDeviceConfigs?: boolean | UserAccountCountOutputTypeCountUpdatedDeviceConfigsArgs
   pairingHistories?: boolean | UserAccountCountOutputTypeCountPairingHistoriesArgs
+  homeInviteTokens?: boolean | UserAccountCountOutputTypeCountHomeInviteTokensArgs
   requestedCommands?: boolean | UserAccountCountOutputTypeCountRequestedCommandsArgs
 }
 
@@ -2547,6 +2748,13 @@ export type UserAccountCountOutputTypeCountPairingHistoriesArgs<ExtArgs extends 
 /**
  * UserAccountCountOutputType without action
  */
+export type UserAccountCountOutputTypeCountHomeInviteTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HomeInviteTokenWhereInput
+}
+
+/**
+ * UserAccountCountOutputType without action
+ */
 export type UserAccountCountOutputTypeCountRequestedCommandsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CommandWhereInput
 }
@@ -2577,6 +2785,7 @@ export type UserAccountSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   resolvedAlarms?: boolean | Prisma.UserAccount$resolvedAlarmsArgs<ExtArgs>
   updatedDeviceConfigs?: boolean | Prisma.UserAccount$updatedDeviceConfigsArgs<ExtArgs>
   pairingHistories?: boolean | Prisma.UserAccount$pairingHistoriesArgs<ExtArgs>
+  homeInviteTokens?: boolean | Prisma.UserAccount$homeInviteTokensArgs<ExtArgs>
   requestedCommands?: boolean | Prisma.UserAccount$requestedCommandsArgs<ExtArgs>
   _count?: boolean | Prisma.UserAccountCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userAccount"]>
@@ -2640,6 +2849,7 @@ export type UserAccountInclude<ExtArgs extends runtime.Types.Extensions.Internal
   resolvedAlarms?: boolean | Prisma.UserAccount$resolvedAlarmsArgs<ExtArgs>
   updatedDeviceConfigs?: boolean | Prisma.UserAccount$updatedDeviceConfigsArgs<ExtArgs>
   pairingHistories?: boolean | Prisma.UserAccount$pairingHistoriesArgs<ExtArgs>
+  homeInviteTokens?: boolean | Prisma.UserAccount$homeInviteTokensArgs<ExtArgs>
   requestedCommands?: boolean | Prisma.UserAccount$requestedCommandsArgs<ExtArgs>
   _count?: boolean | Prisma.UserAccountCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -2661,6 +2871,7 @@ export type $UserAccountPayload<ExtArgs extends runtime.Types.Extensions.Interna
     resolvedAlarms: Prisma.$AlarmEventPayload<ExtArgs>[]
     updatedDeviceConfigs: Prisma.$DeviceConfigPayload<ExtArgs>[]
     pairingHistories: Prisma.$DevicePairingHistoryPayload<ExtArgs>[]
+    homeInviteTokens: Prisma.$HomeInviteTokenPayload<ExtArgs>[]
     requestedCommands: Prisma.$CommandPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -3082,6 +3293,7 @@ export interface Prisma__UserAccountClient<T, Null = never, ExtArgs extends runt
   resolvedAlarms<T extends Prisma.UserAccount$resolvedAlarmsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$resolvedAlarmsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlarmEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   updatedDeviceConfigs<T extends Prisma.UserAccount$updatedDeviceConfigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$updatedDeviceConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pairingHistories<T extends Prisma.UserAccount$pairingHistoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$pairingHistoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePairingHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  homeInviteTokens<T extends Prisma.UserAccount$homeInviteTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$homeInviteTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HomeInviteTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   requestedCommands<T extends Prisma.UserAccount$requestedCommandsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$requestedCommandsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommandPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3797,6 +4009,30 @@ export type UserAccount$pairingHistoriesArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.DevicePairingHistoryScalarFieldEnum | Prisma.DevicePairingHistoryScalarFieldEnum[]
+}
+
+/**
+ * UserAccount.homeInviteTokens
+ */
+export type UserAccount$homeInviteTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HomeInviteToken
+   */
+  select?: Prisma.HomeInviteTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HomeInviteToken
+   */
+  omit?: Prisma.HomeInviteTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HomeInviteTokenInclude<ExtArgs> | null
+  where?: Prisma.HomeInviteTokenWhereInput
+  orderBy?: Prisma.HomeInviteTokenOrderByWithRelationInput | Prisma.HomeInviteTokenOrderByWithRelationInput[]
+  cursor?: Prisma.HomeInviteTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HomeInviteTokenScalarFieldEnum | Prisma.HomeInviteTokenScalarFieldEnum[]
 }
 
 /**

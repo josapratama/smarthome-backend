@@ -12,6 +12,7 @@ import { registerAiRoutes } from "./v1/ai/routes";
 import { registerNotificationRoutes } from "./v1/notifications/routes";
 import { registerFirmwareRoutes } from "./v1/firmware/routes";
 import { registerOtaRoutes } from "./v1/ota/routes";
+import { registerInviteRoutes } from "./v1/invites/routes";
 
 export function registerV1Routes(app: OpenAPIHono<AppEnv>) {
   registerAuthRoutes(app);
@@ -25,4 +26,5 @@ export function registerV1Routes(app: OpenAPIHono<AppEnv>) {
   registerNotificationRoutes(app);
   registerFirmwareRoutes(app);
   registerOtaRoutes(app);
+  registerInviteRoutes(app);
 }

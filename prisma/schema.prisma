@@ -156,6 +156,8 @@ model UserAccount {
   // Device pairing history
   pairingHistories DevicePairingHistory[]
 
+  homeInviteTokens HomeInviteToken[]
+
   // Command requester
   requestedCommands Command[] @relation("CommandRequestedBy")
 
@@ -233,6 +235,8 @@ model Home {
   pairingHistories DevicePairingHistory[]
 
   deviceEventLogs DeviceEventLog[]
+
+  inviteTokens HomeInviteToken[]
 
   @@index([ownerUserId])
   @@index([deletedAt])
@@ -692,4 +696,22 @@ model DeviceEventLog {
   @@index([homeId, recordedAt])
   @@index([eventType, recordedAt])
   @@map("device_event_log")
+}
+
+model HomeInviteToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique @db.Uuid
+  homeId    Int      @map("home_id")
+  userId    Int      @map("user_id")
+
+  expiresAt DateTime @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  home Home @relation(fields: [homeId], references: [id], onDelete: Cascade)
+  user UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([homeId, userId, createdAt])
+  @@index([expiresAt])
+  @@map("home_invite_token")
 }

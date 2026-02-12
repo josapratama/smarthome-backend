@@ -74,7 +74,8 @@ export const ModelName = {
   FirmwareRelease: 'FirmwareRelease',
   OtaJob: 'OtaJob',
   PasswordReset: 'PasswordReset',
-  DeviceEventLog: 'DeviceEventLog'
+  DeviceEventLog: 'DeviceEventLog',
+  HomeInviteToken: 'HomeInviteToken'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -441,6 +442,19 @@ export const DeviceEventLogScalarFieldEnum = {
 } as const
 
 export type DeviceEventLogScalarFieldEnum = (typeof DeviceEventLogScalarFieldEnum)[keyof typeof DeviceEventLogScalarFieldEnum]
+
+
+export const HomeInviteTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  homeId: 'homeId',
+  userId: 'userId',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type HomeInviteTokenScalarFieldEnum = (typeof HomeInviteTokenScalarFieldEnum)[keyof typeof HomeInviteTokenScalarFieldEnum]
 
 
 export const SortOrder = {
