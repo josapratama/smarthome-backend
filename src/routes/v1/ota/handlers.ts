@@ -1,6 +1,6 @@
 import type { RouteHandler } from "@hono/zod-openapi";
 import type { AppEnv } from "../../../types/app-env";
-import { OtaService } from "../../../services/ota.service";
+import { OtaService } from "../../../services/ota/ota.service";
 
 import type {
   TriggerOtaRoute,

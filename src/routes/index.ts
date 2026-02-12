@@ -7,7 +7,7 @@ import { registerDevicesRoutes } from "./v1/devices/routes";
 import { registerDeviceHeartbeatRoutes } from "./v1/heartbeat/routes";
 import { registerTelemetryRoutes } from "./v1/telemetry/routes";
 import { registerCommandsRoutes } from "./v1/commands/routes";
-import { registerEventsRoutes } from "./v1/events/routes";
+import { registerAlarmsRoutes } from "./v1/alarms/routes";
 import { registerAiRoutes } from "./v1/ai/routes";
 import { registerNotificationRoutes } from "./v1/notifications/routes";
 import { registerFirmwareRoutes } from "./v1/firmware/routes";
@@ -23,7 +23,7 @@ export function registerV1Routes(app: OpenAPIHono<AppEnv>) {
   registerDevicesRoutes(app);
   registerTelemetryRoutes(app);
   registerCommandsRoutes(app);
-  registerEventsRoutes(app);
+  registerAlarmsRoutes(app);
   registerAiRoutes(app);
   registerNotificationRoutes(app);
   registerFirmwareRoutes(app);
