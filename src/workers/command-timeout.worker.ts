@@ -21,15 +21,37 @@ export function startCommandTimeoutWorker() {
     const cutoff = new Date(Date.now() - ackTimeoutMs);
 
     try {
-      const res = await prisma.command.updateMany({
+      // Ambil command yang perlu ditimeout (ambil id untuk sync ke OtaJob)
+      const cmds = await prisma.command.findMany({
         where: {
           status: "SENT",
           ackedAt: null,
           createdAt: { lt: cutoff },
         },
+        select: { id: true },
+        take: 500,
+      });
+
+      if (cmds.length === 0) return;
+
+      const ids = cmds.map((c) => c.id);
+
+      const res = await prisma.command.updateMany({
+        where: { id: { in: ids }, status: "SENT", ackedAt: null },
+        data: { status: "TIMEOUT", lastError: "ACK_TIMEOUT" },
+      });
+
+      // Sync ke OtaJob (jika commandId dipakai oleh otaJob)
+      const now = new Date();
+      await prisma.otaJob.updateMany({
+        where: {
+          commandId: { in: ids },
+          status: { in: ["PENDING", "SENT", "DOWNLOADING"] },
+        },
         data: {
           status: "TIMEOUT",
-          lastError: "TIMEOUT",
+          lastError: "COMMAND_TIMEOUT",
+          failedAt: now,
         },
       });
 

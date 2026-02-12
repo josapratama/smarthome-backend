@@ -7,32 +7,36 @@ const OTA_SWEEP_INTERVAL_MS = Number(
 
 export function startOtaTimeoutWorker() {
   const interval = setInterval(async () => {
-    const now = Date.now();
-    const cutoff = new Date(now - OTA_TIMEOUT_MS);
+    const cutoff = new Date(Date.now() - OTA_TIMEOUT_MS);
 
     try {
-      // Timeout untuk job yang masih SENT atau DOWNLOADING terlalu lama
       const candidates = await prisma.otaJob.findMany({
         where: {
-          status: { in: ["SENT", "DOWNLOADING"] },
+          status: { in: ["PENDING", "SENT", "DOWNLOADING"] },
           updatedAt: { lt: cutoff },
         },
         select: { id: true, commandId: true },
-        take: 200,
+        take: 500,
       });
 
       if (candidates.length === 0) return;
 
       const ids = candidates.map((c) => c.id);
+      const now = new Date();
 
       await prisma.otaJob.updateMany({
         where: { id: { in: ids } },
-        data: { status: "TIMEOUT", lastError: "OTA_TIMEOUT" },
+        data: {
+          status: "TIMEOUT",
+          lastError: "OTA_TIMEOUT",
+          failedAt: now,
+        },
       });
 
       const commandIds = candidates
         .map((c) => c.commandId)
         .filter((x): x is number => !!x);
+
       if (commandIds.length) {
         await prisma.command.updateMany({
           where: {
@@ -48,6 +52,10 @@ export function startOtaTimeoutWorker() {
       console.error("[worker][ota-timeout] error", e);
     }
   }, OTA_SWEEP_INTERVAL_MS);
+
+  console.log(
+    `[worker][ota-timeout] started TIMEOUT=${OTA_TIMEOUT_MS}ms SWEEP=${OTA_SWEEP_INTERVAL_MS}ms`,
+  );
 
   return () => clearInterval(interval);
 }
