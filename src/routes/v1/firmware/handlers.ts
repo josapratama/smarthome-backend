@@ -1,6 +1,6 @@
 import type { RouteHandler } from "@hono/zod-openapi";
 import type { AppEnv } from "../../../types/app-env";
-import { FirmwareService } from "../../../services/firmware.service";
+import { FirmwareService } from "../../../services/firmware/firmware.service";
 
 import type {
   FirmwareListReleasesRoute,
