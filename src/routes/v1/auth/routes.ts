@@ -37,14 +37,12 @@ export function registerAuthRoutes(app: OpenAPIHono<AppEnv>) {
   r.openapi(forgotPasswordRoute, handleForgotPassword);
   r.openapi(resetPasswordRoute, handleResetPassword);
 
-  // ✅ protected: pakai r.use supaya middleware tidak ikut typing openapi()
   r.use("/me", requireAuth);
   r.openapi(meRoute, handleMe);
 
   r.use("/change-password", requireAuth);
   r.openapi(changePasswordRoute, handleChangePassword);
 
-  // ✅ admin: chain middleware via r.use
   r.use("/admin/*", requireAuth, requireAdmin);
   r.openapi(adminListUsersRoute, handleAdminListUsers);
 
