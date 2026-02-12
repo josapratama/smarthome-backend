@@ -1,5 +1,76 @@
 import { prisma } from "../../lib/prisma";
 
+export async function processAlarmsFromTelemetry(input: {
+  sensorDataId: number;
+  deviceId: number;
+  homeId: number;
+  source?: "DEVICE" | "BACKEND" | "AI" | "USER";
+  telemetry: {
+    current: number;
+    gasPpm: number;
+    flame: boolean;
+    binLevel: number;
+    powerW?: number;
+    energyKwh?: number;
+  };
+}) {
+  const { sensorDataId, deviceId, homeId, source, telemetry } = input;
+
+  // contoh rules sederhana (ubah sesuai kebutuhan)
+  const alarms: Array<{
+    type: string;
+    message: string;
+    severity: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+  }> = [];
+
+  // Gas leak rule (contoh)
+  if (telemetry.gasPpm >= 800) {
+    alarms.push({
+      type: "gas_leak",
+      message: `Gas ppm tinggi: ${telemetry.gasPpm}`,
+      severity: telemetry.gasPpm >= 1200 ? "CRITICAL" : "HIGH",
+    });
+  }
+
+  // Flame detected rule (contoh)
+  if (telemetry.flame) {
+    alarms.push({
+      type: "flame_detected",
+      message: "Flame detected",
+      severity: "CRITICAL",
+    });
+  }
+
+  // Bin full rule (contoh)
+  if (telemetry.binLevel >= 85) {
+    alarms.push({
+      type: "bin_full",
+      message: `Bin level tinggi: ${telemetry.binLevel}%`,
+      severity: telemetry.binLevel >= 95 ? "HIGH" : "MEDIUM",
+    });
+  }
+
+  if (alarms.length === 0) return { created: 0 };
+
+  // Insert alarms (no dedup for now; bisa ditambah rule dedup by time window)
+  await prisma.alarmEvent.createMany({
+    data: alarms.map((a) => ({
+      sensorDataId,
+      sensorReadingId: null,
+      deviceId,
+      homeId,
+      type: a.type,
+      message: a.message,
+      severity: a.severity,
+      source: (source ?? "DEVICE") as any,
+      status: "OPEN",
+      triggeredAt: new Date(),
+    })),
+  });
+
+  return { created: alarms.length };
+}
+
 export function mapAlarmDTO(e: any) {
   return {
     id: e.id,
