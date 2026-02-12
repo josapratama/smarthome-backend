@@ -1,97 +1,90 @@
-import argon2 from "argon2";
-import { prisma } from "../../../lib/prisma";
-import { getClientIp } from "../common/helpers";
-import { signAccessToken } from "../../../lib/jwt";
+import type { Context } from "hono";
+import type { AppEnv } from "../../../types/app-env";
+import {
+  registerUser,
+  loginUser,
+  getMe,
+  changePassword,
+  refreshAccessToken,
+  logout,
+  requestPasswordReset,
+  resetPassword,
+  adminListUsers,
+} from "../../../services/auth/auth.service";
 
-export async function registerUser(input: {
-  username: string;
-  email: string;
-  password: string;
-  role: "USER" | "ADMIN";
-  homeName?: string;
-}) {
-  const passwordHash = await argon2.hash(input.password);
-
-  const user = await prisma.userAccount
-    .create({
-      data: {
-        username: input.username,
-        email: input.email,
-        password: passwordHash, // <-- field kamu
-        role: input.role,
-      },
-    })
-    .catch((e) => {
-      if (String(e).toLowerCase().includes("unique")) return null;
-      throw e;
-    });
-
-  if (!user) return { error: "ALREADY_EXISTS" as const };
-
-  const home = input.homeName
-    ? await prisma.home.create({
-        data: { name: input.homeName, ownerId: user.id },
-      })
-    : null;
-
-  return { user, home };
+export async function handleRegister(c: Context<AppEnv>) {
+  const body = await c.req.json();
+  const res = await registerUser(c, body);
+  if ("error" in res) return c.json({ error: res.error }, 409);
+  return c.json({ data: res }, 201);
 }
 
-export async function loginUser(
-  c: any,
-  input: { identifier: string; password: string },
-) {
-  const user = await prisma.userAccount.findFirst({
-    where: {
-      OR: [{ email: input.identifier }, { username: input.identifier }],
+export async function handleLogin(c: Context<AppEnv>) {
+  const body = await c.req.json();
+  const res = await loginUser(c, body);
+  if ("error" in res) return c.json(res, 401);
+
+  return c.json({
+    data: {
+      accessToken: res.accessToken,
+      refreshToken: res.refreshToken,
+      sessionId: res.sessionId,
+      user: res.user,
     },
   });
-  if (!user) return { error: "INVALID_CREDENTIALS" as const };
-
-  const ok = await argon2.verify(user.password, input.password);
-  if (!ok) return { error: "INVALID_CREDENTIALS" as const };
-
-  await prisma.loginHistory.create({
-    data: { userId: user.id, ipAddress: getClientIp(c) },
-  });
-
-  const accessToken = await signAccessToken(
-    { sub: String(user.id), role: user.role },
-    "7d",
-  );
-
-  return { user, accessToken };
 }
 
-export async function getMe(userId: number) {
-  const user = await prisma.userAccount.findUnique({ where: { id: userId } });
-  if (!user) return { error: "NOT_FOUND" as const };
-  return { user };
+export async function handleRefresh(c: Context<AppEnv>) {
+  const body = await c.req.json();
+  const res = await refreshAccessToken(body);
+  if ("error" in res) return c.json(res, 401);
+
+  return c.json({
+    data: {
+      accessToken: res.accessToken,
+      refreshToken: res.refreshToken,
+      sessionId: res.sessionId,
+      user: res.user,
+    },
+  });
 }
 
-export async function changePassword(
-  userId: number,
-  body: { oldPassword: string; newPassword: string },
-) {
-  const user = await prisma.userAccount.findUnique({ where: { id: userId } });
-  if (!user) return { error: "NOT_FOUND" as const };
-
-  const ok = await argon2.verify(user.password, body.oldPassword);
-  if (!ok) return { error: "INVALID_CREDENTIALS" as const };
-
-  const newHash = await argon2.hash(body.newPassword);
-  await prisma.userAccount.update({
-    where: { id: userId },
-    data: { password: newHash },
-  });
-
-  return { ok: true };
+export async function handleLogout(c: Context<AppEnv>) {
+  const body = await c.req.json();
+  const res = await logout(body);
+  return c.json({ data: res });
 }
 
-export async function adminListUsers(limit = 50) {
-  const users = await prisma.userAccount.findMany({
-    orderBy: { createdAt: "desc" },
-    take: Math.min(Math.max(limit, 1), 500),
-  });
-  return users;
+export async function handleMe(c: Context<AppEnv>) {
+  const a = c.get("auth");
+  const res = await getMe(a.user.id);
+  if ("error" in res) return c.json(res, 404);
+  return c.json({ data: res.user });
+}
+
+export async function handleChangePassword(c: Context<AppEnv>) {
+  const a = c.get("auth");
+  const body = await c.req.json();
+  const res = await changePassword(a.user.id, body);
+  if ("error" in res) return c.json(res, 400);
+  return c.json({ data: res });
+}
+
+export async function handleForgotPassword(c: Context<AppEnv>) {
+  const body = await c.req.json();
+  const res = await requestPasswordReset(body);
+  return c.json({ data: res }); // produksi: jangan return token
+}
+
+export async function handleResetPassword(c: Context<AppEnv>) {
+  const body = await c.req.json();
+  const res = await resetPassword(body);
+  if ("error" in res) return c.json(res, 400);
+  return c.json({ data: res });
+}
+
+export async function handleAdminListUsers(c: Context<AppEnv>) {
+  const limit = Number(c.req.query("limit") ?? "50");
+  const users = await adminListUsers(limit);
+  return c.json({ data: users });
 }

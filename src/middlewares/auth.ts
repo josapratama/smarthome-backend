@@ -9,6 +9,7 @@ export async function requireAuth(c: Context<AppEnv>, next: Next) {
 
   try {
     const { userId, role } = await verifyAccessToken(m[1]);
+    if (!Number.isFinite(userId) || userId <= 0) throw new Error("BAD_TOKEN");
     c.set("auth", { user: { id: userId, role } });
     await next();
   } catch {
@@ -18,6 +19,7 @@ export async function requireAuth(c: Context<AppEnv>, next: Next) {
 
 export async function requireAdmin(c: Context<AppEnv>, next: Next) {
   const a = c.get("auth");
-  if (a.user.role !== "ADMIN") return c.json({ error: "FORBIDDEN" }, 403);
+  if (!a?.user || a.user.role !== "ADMIN")
+    return c.json({ error: "FORBIDDEN" }, 403);
   await next();
 }
