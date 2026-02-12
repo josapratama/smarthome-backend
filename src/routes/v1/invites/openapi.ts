@@ -3,7 +3,7 @@ import { InviteToken, InviteAcceptResponse } from "./schemas";
 
 export const acceptInviteRoute = createRoute({
   method: "get",
-  path: "/invites/{token}",
+  path: "/api/v1/invites/{token}",
   request: { params: z.object({ token: InviteToken }) },
   responses: {
     200: {
@@ -23,6 +23,7 @@ export const acceptInviteRoute = createRoute({
       description: "Token invalid/expired/used",
     },
   },
+  tags: ["Invites"],
 });
 
 export type AcceptInviteRoute = typeof acceptInviteRoute;

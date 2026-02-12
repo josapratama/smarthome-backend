@@ -18,6 +18,7 @@ export const listHomeAlarmsRoute = createRoute({
       description: "List alarms for a home.",
     },
   },
+  tags: ["Alarms"],
 });
 export type ListHomeAlarmsRoute = typeof listHomeAlarmsRoute;
 
@@ -37,6 +38,7 @@ export const createHomeAlarmRoute = createRoute({
     400: { description: "Bad request" },
     404: { description: "Home/Device/Sensor ref not found" },
   },
+  tags: ["Alarms"],
 });
 export type CreateHomeAlarmRoute = typeof createHomeAlarmRoute;
 
@@ -55,6 +57,7 @@ export const ackAlarmRoute = createRoute({
     404: { description: "Not found" },
     400: { description: "Invalid state" },
   },
+  tags: ["Alarms"],
 });
 export type AckAlarmRoute = typeof ackAlarmRoute;
 
@@ -73,5 +76,6 @@ export const resolveAlarmRoute = createRoute({
     404: { description: "Not found" },
     400: { description: "Invalid state" },
   },
+  tags: ["Alarms"],
 });
 export type ResolveAlarmRoute = typeof resolveAlarmRoute;

@@ -35,6 +35,6 @@ export const heartbeatRoute = createRoute({
       content: { "application/json": { schema: DeviceAuthErrorSchema } },
     },
   },
-  tags: ["Devices"],
+  tags: ["Hearbeat"],
 });
 export type HeartbeatRoute = typeof heartbeatRoute;

@@ -10,7 +10,7 @@ import {
 
 export const listHomeMembersRoute = createRoute({
   method: "get",
-  path: "/{homeId}/members",
+  path: "/api/v1/{homeId}/members",
   request: {
     params: z.object({ homeId: HomeId }),
     query: MembersPaginationQuery,
@@ -22,11 +22,12 @@ export const listHomeMembersRoute = createRoute({
     },
     404: { description: "Not found" },
   },
+  tags: ["Homes-Members"],
 });
 
 export const addHomeMemberRoute = createRoute({
   method: "post",
-  path: "/{homeId}/members",
+  path: "/api/v1/{homeId}/members",
   request: {
     params: z.object({ homeId: HomeId }),
     body: { content: { "application/json": { schema: AddMemberBody } } },
@@ -41,22 +42,24 @@ export const addHomeMemberRoute = createRoute({
     403: { description: "Forbidden" },
     404: { description: "Home/User not found" },
   },
+  tags: ["Homes-Members"],
 });
 
 export const revokeHomeMemberRoute = createRoute({
   method: "delete",
-  path: "/{homeId}/members/{userId}",
+  path: "/api/v1/{homeId}/members/{userId}",
   request: { params: z.object({ homeId: HomeId, userId: UserId }) },
   responses: {
     204: { description: "Revoked" },
     403: { description: "Forbidden" },
     404: { description: "Not found" },
   },
+  tags: ["Homes-Members"],
 });
 
 export const acceptHomeInviteRoute = createRoute({
   method: "post",
-  path: "/{homeId}/members/accept",
+  path: "/api/v1/{homeId}/members/accept",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
     200: {
@@ -68,11 +71,12 @@ export const acceptHomeInviteRoute = createRoute({
     },
     404: { description: "Invitation not found" },
   },
+  tags: ["Homes-Members"],
 });
 
 export const getMyHomeMemberRoute = createRoute({
   method: "get",
-  path: "/{homeId}/members/me",
+  path: "/api/v1/{homeId}/members/me",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
     200: {
@@ -84,21 +88,23 @@ export const getMyHomeMemberRoute = createRoute({
     },
     404: { description: "Membership not found" },
   },
+  tags: ["Homes-Members"],
 });
 
 export const declineHomeInviteRoute = createRoute({
   method: "post",
-  path: "/{homeId}/members/decline",
+  path: "/api/v1/{homeId}/members/decline",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
     204: { description: "Declined invitation (INVITED -> REVOKED)" },
     404: { description: "Invitation not found" },
   },
+  tags: ["Homes-Members"],
 });
 
 export const updateHomeMemberRoleRoute = createRoute({
   method: "patch",
-  path: "/{homeId}/members/{userId}",
+  path: "/api/v1/{homeId}/members/{userId}",
   request: {
     params: z.object({ homeId: HomeId, userId: UserId }),
     body: { content: { "application/json": { schema: UpdateMemberRoleBody } } },
@@ -114,17 +120,19 @@ export const updateHomeMemberRoleRoute = createRoute({
     404: { description: "Not found" },
     409: { description: "Invalid role change" },
   },
+  tags: ["Homes-Members"],
 });
 
 export const resendHomeInviteRoute = createRoute({
   method: "post",
-  path: "/{homeId}/members/{userId}/resend-invite",
+  path: "/api/v1/{homeId}/members/{userId}/resend-invite",
   request: { params: z.object({ homeId: HomeId, userId: UserId }) },
   responses: {
     204: { description: "Invite resent via email" },
     403: { description: "Forbidden" },
     404: { description: "Invite not found" },
   },
+  tags: ["Homes-Members"],
 });
 
 export type ResendHomeInviteRoute = typeof resendHomeInviteRoute;

@@ -21,6 +21,7 @@ export const createCommandRoute = createRoute({
     401: { description: "Unauthorized" },
     403: { description: "Forbidden" },
   },
+  tags: ["Commands"],
 });
 export type CreateCommandRoute = typeof createCommandRoute;
 
@@ -40,5 +41,6 @@ export const getCommandRoute = createRoute({
     401: { description: "Unauthorized" },
     403: { description: "Forbidden" },
   },
+  tags: ["Commands"],
 });
 export type GetCommandRoute = typeof getCommandRoute;

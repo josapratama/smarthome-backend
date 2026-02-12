@@ -27,6 +27,7 @@ export const createEnergyPredictionRoute = createRoute({
     },
     404: { description: "Device not found" },
   },
+  tags: ["AI"],
 });
 export type CreateEnergyPredictionRoute = typeof createEnergyPredictionRoute;
 
@@ -48,6 +49,7 @@ export const listEnergyPredictionsRoute = createRoute({
       description: "List energy predictions for a device.",
     },
   },
+  tags: ["AI"],
 });
 export type ListEnergyPredictionsRoute = typeof listEnergyPredictionsRoute;
 
@@ -68,6 +70,7 @@ export const createAnomalyRoute = createRoute({
     },
     404: { description: "Prediction not found" },
   },
+  tags: ["AI"],
 });
 export type CreateAnomalyRoute = typeof createAnomalyRoute;
 
@@ -87,5 +90,6 @@ export const listAnomaliesRoute = createRoute({
       description: "List anomaly results for a prediction.",
     },
   },
+  tags: ["AI"],
 });
 export type ListAnomaliesRoute = typeof listAnomaliesRoute;

@@ -4,7 +4,7 @@ import { DeviceConfigDTO, UpsertDeviceConfigBody } from "./schemas";
 
 export const getDeviceConfigRoute = createRoute({
   method: "get",
-  path: "/devices/{deviceId}/config",
+  path: "/api/v1/devices/{deviceId}/config",
   request: { params: z.object({ deviceId: DeviceId }) },
   responses: {
     200: {
@@ -17,12 +17,13 @@ export const getDeviceConfigRoute = createRoute({
     403: { description: "Forbidden" },
     404: { description: "Device not found" },
   },
+  tags: ["Device-Config"],
 });
 export type GetDeviceConfigRoute = typeof getDeviceConfigRoute;
 
 export const upsertDeviceConfigRoute = createRoute({
   method: "put",
-  path: "/devices/{deviceId}/config",
+  path: "/api/v1/devices/{deviceId}/config",
   request: {
     params: z.object({ deviceId: DeviceId }),
     body: {
@@ -40,5 +41,6 @@ export const upsertDeviceConfigRoute = createRoute({
     403: { description: "Forbidden" },
     404: { description: "Device not found" },
   },
+  tags: ["Device-Config"],
 });
 export type UpsertDeviceConfigRoute = typeof upsertDeviceConfigRoute;

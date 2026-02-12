@@ -24,6 +24,7 @@ export const triggerOtaRoute = createRoute({
     404: { description: "Device or firmware release not found" },
     400: { description: "Bad request" },
   },
+  tags: ["Ota"],
 });
 export type TriggerOtaRoute = typeof triggerOtaRoute;
 
@@ -43,6 +44,7 @@ export const listDeviceOtaJobsRoute = createRoute({
       description: "List OTA jobs for a device.",
     },
   },
+  tags: ["Ota"],
 });
 export type ListDeviceOtaJobsRoute = typeof listDeviceOtaJobsRoute;
 
@@ -60,5 +62,6 @@ export const getOtaJobRoute = createRoute({
     },
     404: { description: "OTA job not found" },
   },
+  tags: ["Ota"],
 });
 export type GetOtaJobRoute = typeof getOtaJobRoute;

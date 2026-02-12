@@ -15,7 +15,7 @@ import {
 // 201: Register
 export const registerRoute = createRoute({
   method: "post",
-  path: "/register",
+  path: "/api/v1/register",
   request: {
     body: { content: { "application/json": { schema: RegisterBody } } },
   },
@@ -26,13 +26,14 @@ export const registerRoute = createRoute({
     },
     409: { description: "Conflict (e.g. username/email exists)" },
   },
+  tags: ["Auth"],
 });
 export type RegisterRoute = typeof registerRoute;
 
 // 200: Login
 export const loginRoute = createRoute({
   method: "post",
-  path: "/login",
+  path: "/api/v1/login",
   request: {
     body: { content: { "application/json": { schema: LoginBody } } },
   },
@@ -43,13 +44,14 @@ export const loginRoute = createRoute({
     },
     401: { description: "Invalid credentials" },
   },
+  tags: ["Auth"],
 });
 export type LoginRoute = typeof loginRoute;
 
 // 200: Refresh
 export const refreshRoute = createRoute({
   method: "post",
-  path: "/refresh",
+  path: "/api/v1/refresh",
   request: {
     body: { content: { "application/json": { schema: RefreshBody } } },
   },
@@ -60,13 +62,14 @@ export const refreshRoute = createRoute({
     },
     401: { description: "Invalid refresh token/session" },
   },
+  tags: ["Auth"],
 });
 export type RefreshRoute = typeof refreshRoute;
 
 // 200: Logout
 export const logoutRoute = createRoute({
   method: "post",
-  path: "/logout",
+  path: "/api/v1/logout",
   request: {
     body: { content: { "application/json": { schema: LogoutBody } } },
   },
@@ -76,13 +79,14 @@ export const logoutRoute = createRoute({
       description: "Logout (invalidate session).",
     },
   },
+  tags: ["Auth"],
 });
 export type LogoutRoute = typeof logoutRoute;
 
 // 200: Me
 export const meRoute = createRoute({
   method: "get",
-  path: "/me",
+  path: "/api/v1/me",
   responses: {
     200: {
       content: { "application/json": { schema: z.object({ data: UserDTO }) } },
@@ -91,13 +95,14 @@ export const meRoute = createRoute({
     404: { description: "User not found" },
     401: { description: "Unauthorized" },
   },
+  tags: ["Auth"],
 });
 export type MeRoute = typeof meRoute;
 
 // 200: Change Password
 export const changePasswordRoute = createRoute({
   method: "post",
-  path: "/change-password",
+  path: "/api/v1/change-password",
   request: {
     body: { content: { "application/json": { schema: ChangePasswordBody } } },
   },
@@ -109,13 +114,14 @@ export const changePasswordRoute = createRoute({
     400: { description: "Bad request" },
     401: { description: "Unauthorized" },
   },
+  tags: ["Auth"],
 });
 export type ChangePasswordRoute = typeof changePasswordRoute;
 
 // 200: Forgot Password
 export const forgotPasswordRoute = createRoute({
   method: "post",
-  path: "/forgot-password",
+  path: "/api/v1/forgot-password",
   request: {
     body: { content: { "application/json": { schema: ForgotPasswordBody } } },
   },
@@ -125,13 +131,14 @@ export const forgotPasswordRoute = createRoute({
       description: "Request password reset (token/email flow).",
     },
   },
+  tags: ["Auth"],
 });
 export type ForgotPasswordRoute = typeof forgotPasswordRoute;
 
 // 200: Reset Password
 export const resetPasswordRoute = createRoute({
   method: "post",
-  path: "/reset-password",
+  path: "/api/v1/reset-password",
   request: {
     body: { content: { "application/json": { schema: ResetPasswordBody } } },
   },
@@ -142,13 +149,14 @@ export const resetPasswordRoute = createRoute({
     },
     400: { description: "Invalid token / bad request" },
   },
+  tags: ["Auth"],
 });
 export type ResetPasswordRoute = typeof resetPasswordRoute;
 
 // 200: Admin list users (query param limit)
 export const adminListUsersRoute = createRoute({
   method: "get",
-  path: "/admin/users",
+  path: "/api/v1/admin/users",
   request: {
     query: z.object({
       limit: z.string().optional().openapi({ example: "50" }),
@@ -164,5 +172,6 @@ export const adminListUsersRoute = createRoute({
     401: { description: "Unauthorized" },
     403: { description: "Forbidden" },
   },
+  tags: ["Auth"],
 });
 export type AdminListUsersRoute = typeof adminListUsersRoute;

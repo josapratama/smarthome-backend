@@ -7,7 +7,7 @@ const RoomIdParam = z.object({ roomId: z.coerce.number().int().positive() });
 
 export const listRoomsByHomeRoute = createRoute({
   method: "get",
-  path: "/homes/{homeId}/rooms",
+  path: "/api/v1/homes/{homeId}/rooms",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
     200: {
@@ -20,12 +20,13 @@ export const listRoomsByHomeRoute = createRoute({
     403: { description: "Forbidden" },
     404: { description: "Home not found" },
   },
+  tags: ["Rooms"],
 });
 export type ListRoomsByHomeRoute = typeof listRoomsByHomeRoute;
 
 export const createRoomUnderHomeRoute = createRoute({
   method: "post",
-  path: "/homes/{homeId}/rooms",
+  path: "/api/v1/homes/{homeId}/rooms",
   request: {
     params: z.object({ homeId: HomeId }),
     body: { content: { "application/json": { schema: RoomCreateBody } } },
@@ -40,12 +41,13 @@ export const createRoomUnderHomeRoute = createRoute({
     403: { description: "Forbidden" },
     404: { description: "Home not found" },
   },
+  tags: ["Rooms"],
 });
 export type CreateRoomUnderHomeRoute = typeof createRoomUnderHomeRoute;
 
 export const getRoomRoute = createRoute({
   method: "get",
-  path: "/rooms/{roomId}",
+  path: "/api/v1/rooms/{roomId}",
   request: { params: RoomIdParam },
   responses: {
     200: {
@@ -56,12 +58,13 @@ export const getRoomRoute = createRoute({
     403: { description: "Forbidden" },
     404: { description: "Not found" },
   },
+  tags: ["Rooms"],
 });
 export type GetRoomRoute = typeof getRoomRoute;
 
 export const updateRoomRoute = createRoute({
   method: "patch",
-  path: "/rooms/{roomId}",
+  path: "/api/v1/rooms/{roomId}",
   request: {
     params: RoomIdParam,
     body: { content: { "application/json": { schema: RoomUpdateBody } } },
@@ -75,12 +78,13 @@ export const updateRoomRoute = createRoute({
     403: { description: "Forbidden" },
     404: { description: "Not found" },
   },
+  tags: ["Rooms"],
 });
 export type UpdateRoomRoute = typeof updateRoomRoute;
 
 export const deleteRoomRoute = createRoute({
   method: "delete",
-  path: "/rooms/{roomId}",
+  path: "/api/v1/rooms/{roomId}",
   request: { params: RoomIdParam },
   responses: {
     200: {
@@ -95,12 +99,13 @@ export const deleteRoomRoute = createRoute({
     403: { description: "Forbidden" },
     404: { description: "Not found" },
   },
+  tags: ["Rooms"],
 });
 export type DeleteRoomRoute = typeof deleteRoomRoute;
 
 export const restoreRoomRoute = createRoute({
   method: "post",
-  path: "/rooms/{roomId}/restore",
+  path: "/api/v1/rooms/{roomId}/restore",
   request: { params: RoomIdParam },
   responses: {
     200: {
@@ -111,12 +116,13 @@ export const restoreRoomRoute = createRoute({
     403: { description: "Forbidden" },
     404: { description: "Not found" },
   },
+  tags: ["Rooms"],
 });
 export type RestoreRoomRoute = typeof restoreRoomRoute;
 
 export const listDevicesByRoomRoute = createRoute({
   method: "get",
-  path: "/rooms/{roomId}/devices",
+  path: "/api/v1/rooms/{roomId}/devices",
   request: { params: RoomIdParam },
   responses: {
     200: {
@@ -129,5 +135,6 @@ export const listDevicesByRoomRoute = createRoute({
     403: { description: "Forbidden" },
     404: { description: "Room not found" },
   },
+  tags: ["Rooms"],
 });
 export type ListDevicesByRoomRoute = typeof listDevicesByRoomRoute;

@@ -11,7 +11,7 @@ import {
 
 export const listHomesRoute = createRoute({
   method: "get",
-  path: "/",
+  path: "/api/v1/",
   request: { query: HomesListQuery },
   responses: {
     200: {
@@ -21,11 +21,12 @@ export const listHomesRoute = createRoute({
       description: "List active homes (scoped; supports cursor pagination).",
     },
   },
+  tags: ["Homes"],
 });
 
 export const createHomeRoute = createRoute({
   method: "post",
-  path: "/",
+  path: "/api/v1/",
   request: {
     body: { content: { "application/json": { schema: HomeCreateBody } } },
   },
@@ -36,11 +37,12 @@ export const createHomeRoute = createRoute({
     },
     404: { description: "Owner not found" },
   },
+  tags: ["Rooms"],
 });
 
 export const getHomeRoute = createRoute({
   method: "get",
-  path: "/{homeId}",
+  path: "/api/v1/{homeId}",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
     200: {
@@ -49,11 +51,12 @@ export const getHomeRoute = createRoute({
     },
     404: { description: "Not found" },
   },
+  tags: ["Homes"],
 });
 
 export const updateHomeRoute = createRoute({
   method: "patch",
-  path: "/{homeId}",
+  path: "/api/v1/{homeId}",
   request: {
     params: z.object({ homeId: HomeId }),
     body: { content: { "application/json": { schema: HomeUpdateBody } } },
@@ -65,21 +68,23 @@ export const updateHomeRoute = createRoute({
     },
     404: { description: "Not found / owner not found" },
   },
+  tags: ["Homes"],
 });
 
 export const deleteHomeRoute = createRoute({
   method: "delete",
-  path: "/{homeId}",
+  path: "/api/v1/{homeId}",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
     204: { description: "Soft deleted" },
     404: { description: "Not found" },
   },
+  tags: ["Homes"],
 });
 
 export const restoreHomeRoute = createRoute({
   method: "post",
-  path: "/{homeId}/restore",
+  path: "/api/v1/{homeId}/restore",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
     200: {
@@ -88,11 +93,12 @@ export const restoreHomeRoute = createRoute({
     },
     404: { description: "Not found" },
   },
+  tags: ["Homes"],
 });
 
 export const transferOwnershipRoute = createRoute({
   method: "post",
-  path: "/{homeId}/transfer-ownership",
+  path: "/api/v1/{homeId}/transfer-ownership",
   request: {
     params: z.object({ homeId: HomeId }),
     body: {
@@ -107,11 +113,12 @@ export const transferOwnershipRoute = createRoute({
     403: { description: "Forbidden" },
     404: { description: "Home/User not found" },
   },
+  tags: ["Homes"],
 });
 
 export const listNearbyHomesRoute = createRoute({
   method: "get",
-  path: "/nearby",
+  path: "/api/v1/nearby",
   request: {
     query: z.object({
       lat: z.coerce.number().min(-90).max(90),
@@ -133,6 +140,7 @@ export const listNearbyHomesRoute = createRoute({
     },
     403: { description: "Forbidden" },
   },
+  tags: ["Homes"],
 });
 
 export type ListNearbyHomesRoute = typeof listNearbyHomesRoute;

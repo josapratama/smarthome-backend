@@ -22,6 +22,7 @@ export const firmwareListReleasesRoute = createRoute({
       description: "List firmware releases.",
     },
   },
+  tags: ["Firmware"],
 });
 export type FirmwareListReleasesRoute = typeof firmwareListReleasesRoute;
 
@@ -44,6 +45,7 @@ export const firmwareUploadReleaseRoute = createRoute({
     400: { description: "Bad request" },
     409: { description: "Duplicate firmware (sha256 unique)" },
   },
+  tags: ["Firmware"],
 });
 export type FirmwareUploadReleaseRoute = typeof firmwareUploadReleaseRoute;
 
@@ -61,5 +63,6 @@ export const firmwareDownloadReleaseRoute = createRoute({
     },
     404: { description: "Not found" },
   },
+  tags: ["Firmware"],
 });
 export type FirmwareDownloadReleaseRoute = typeof firmwareDownloadReleaseRoute;

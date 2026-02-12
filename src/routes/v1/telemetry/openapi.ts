@@ -25,7 +25,7 @@ export const ingestTelemetryRoute = createRoute({
     401: { description: "Unauthorized (device key invalid)" },
     404: { description: "Device not found" },
   },
-  tags: ["Devices"],
+  tags: ["Telemetry"],
 });
 export type IngestTelemetryRoute = typeof ingestTelemetryRoute;
 
@@ -43,7 +43,7 @@ export const getLatestTelemetryRoute = createRoute({
       description: "Get latest sensor snapshot.",
     },
   },
-  tags: ["Devices"],
+  tags: ["Telemetry"],
 });
 export type GetLatestTelemetryRoute = typeof getLatestTelemetryRoute;
 
@@ -64,6 +64,6 @@ export const queryTelemetryRoute = createRoute({
       description: "Query telemetry history (sensor_data).",
     },
   },
-  tags: ["Devices"],
+  tags: ["Telemetry"],
 });
 export type QueryTelemetryRoute = typeof queryTelemetryRoute;
