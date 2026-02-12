@@ -8,6 +8,8 @@ import type {
   AcceptHomeInviteRoute,
   GetMyHomeMemberRoute,
   DeclineHomeInviteRoute,
+  UpdateHomeMemberRoleRoute,
+  ResendHomeInviteRoute,
 } from "./openapi";
 
 import {
@@ -17,6 +19,8 @@ import {
   acceptHomeInvite,
   getMyHomeMember,
   declineHomeInvite,
+  updateHomeMemberRole,
+  resendHomeInvite,
 } from "../../../../services/homes/home-members.service";
 
 function toMemberDTO(m: {
@@ -43,11 +47,15 @@ export const handleListHomeMembers: RouteHandler<
 > = async (c) => {
   const auth = c.get("auth")!.user;
   const { homeId } = c.req.valid("param");
+  const { limit, cursor } = c.req.valid("query");
 
-  const res = await listHomeMembers(auth, homeId);
+  const res = await listHomeMembers(auth, homeId, { limit, cursor });
   if ("error" in res) return c.json({ error: res.error }, 404);
 
-  return c.json({ data: res.members.map(toMemberDTO) }, 200);
+  return c.json(
+    { data: res.members.map(toMemberDTO), nextCursor: res.nextCursor },
+    200,
+  );
 };
 
 export const handleAddHomeMember: RouteHandler<
@@ -123,6 +131,43 @@ export const handleDeclineHomeInvite: RouteHandler<
 
   const res = await declineHomeInvite(auth, homeId);
   if ("error" in res) return c.json({ error: res.error }, 404);
+
+  return c.body(null, 204);
+};
+
+export const handleUpdateHomeMemberRole: RouteHandler<
+  UpdateHomeMemberRoleRoute,
+  AppEnv
+> = async (c) => {
+  const auth = c.get("auth")!.user;
+  const { homeId, userId } = c.req.valid("param");
+  const body = c.req.valid("json");
+
+  const res = await updateHomeMemberRole(auth, homeId, userId, body.roleInHome);
+
+  if ("error" in res) {
+    if (res.error === "FORBIDDEN") return c.json({ error: "FORBIDDEN" }, 403);
+    if (res.error === "INVALID_ROLE_CHANGE")
+      return c.json({ error: res.error }, 409);
+    return c.json({ error: res.error }, 404);
+  }
+
+  return c.json({ data: toMemberDTO(res.member) }, 200);
+};
+
+export const handleResendHomeInvite: RouteHandler<
+  ResendHomeInviteRoute,
+  AppEnv
+> = async (c) => {
+  const auth = c.get("auth")!.user;
+  const { homeId, userId } = c.req.valid("param");
+
+  const res = await resendHomeInvite(auth, homeId, userId);
+
+  if ("error" in res) {
+    if (res.error === "FORBIDDEN") return c.json({ error: "FORBIDDEN" }, 403);
+    return c.json({ error: res.error }, 404);
+  }
 
   return c.body(null, 204);
 };

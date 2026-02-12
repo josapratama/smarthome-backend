@@ -27,6 +27,8 @@ import {
   acceptHomeInviteRoute,
   getMyHomeMemberRoute,
   declineHomeInviteRoute,
+  updateHomeMemberRoleRoute,
+  resendHomeInviteRoute,
 } from "./members/openapi";
 
 import {
@@ -36,6 +38,8 @@ import {
   handleAcceptHomeInvite,
   handleGetMyHomeMember,
   handleDeclineHomeInvite,
+  handleUpdateHomeMemberRole,
+  handleResendHomeInvite,
 } from "./members/handlers";
 
 export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
@@ -56,6 +60,8 @@ export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
   r.openapi(acceptHomeInviteRoute, handleAcceptHomeInvite);
   r.openapi(getMyHomeMemberRoute, handleGetMyHomeMember);
   r.openapi(declineHomeInviteRoute, handleDeclineHomeInvite);
+  r.openapi(updateHomeMemberRoleRoute, handleUpdateHomeMemberRole);
+  r.openapi(resendHomeInviteRoute, handleResendHomeInvite);
 
   app.route("/", r);
 }
