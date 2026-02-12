@@ -1,85 +1,84 @@
-import { prisma } from "../../../lib/prisma";
-import { toISO } from "../common/helpers";
-import { generateDeviceKey } from "../common/device-key";
+import type { RouteHandler } from "@hono/zod-openapi";
+import type { AppEnv } from "../../../types/app-env";
 
-export function mapDeviceDTO(d: any) {
-  return {
-    id: d.id,
-    deviceName: d.deviceName,
-    room: d.room ?? null,
-    status: d.status,
-    updatedAt: d.updatedAt.toISOString(),
-    lastSeenAt: toISO(d.lastSeenAt),
-    mqttClientId: d.mqttClientId ?? null,
-    userId: d.userId,
-    homeId: d.homeId ?? null,
-  };
-}
+import {
+  listDevices,
+  createDeviceUnderHome,
+  getDeviceById,
+  patchDevice,
+  mapDeviceDTO,
+} from "../../../services/devices/device.service";
 
-export async function listDevicesByHome(homeId: number) {
-  return prisma.device.findMany({
-    where: { homeId },
-    orderBy: { updatedAt: "desc" },
-  });
-}
+import type {
+  DevicesListRoute,
+  DevicesCreateUnderHomeRoute,
+  DevicesGetByIdRoute,
+  DevicesPatchRoute,
+} from "./openapi";
 
-export async function createDeviceUnderHome(homeId: number, input: any) {
-  const home = await prisma.home.findUnique({ where: { id: homeId } });
-  if (!home) return { error: "HOME_NOT_FOUND" as const };
+export const handleDevicesList: RouteHandler<DevicesListRoute, AppEnv> = async (
+  c,
+) => {
+  const a = c.get("auth");
+  const q = c.req.valid("query");
 
-  const deviceKey = input.deviceKey ?? generateDeviceKey();
-
-  const device = await prisma.device.create({
-    data: {
-      homeId: home.id,
-      userId: home.ownerId,
-      deviceName: input.deviceName,
-      room: input.room,
-      mqttClientId: input.mqttClientId,
-      deviceKey,
-      status: false,
-    },
+  const devices = await listDevices({
+    requesterUserId: a.user.id,
+    homeId: q.homeId,
+    status: q.status,
   });
 
-  return { device };
-}
+  if ("error" in devices) return c.json({ error: devices.error }, 403);
+  return c.json({ data: devices.data.map(mapDeviceDTO) }, 200);
+};
 
-export async function getDeviceById(deviceId: number) {
-  const d = await prisma.device.findUnique({ where: { id: deviceId } });
-  if (!d) return { error: "NOT_FOUND" as const };
-  return { device: d };
-}
+export const handleDevicesCreateUnderHome: RouteHandler<
+  DevicesCreateUnderHomeRoute,
+  AppEnv
+> = async (c) => {
+  const a = c.get("auth");
+  const { homeId } = c.req.valid("param");
+  const body = c.req.valid("json");
 
-export async function patchDevice(deviceId: number, body: any) {
-  const d = await prisma.device
-    .update({
-      where: { id: deviceId },
-      data: {
-        deviceName: body.deviceName,
-        room: body.room,
-        status: body.status,
-        lastSeenAt: body.lastSeenAt ? new Date(body.lastSeenAt) : undefined,
-        mqttClientId: body.mqttClientId,
-        deviceKey: body.deviceKey,
-        homeId: body.homeId,
-      },
-    })
-    .catch(() => null);
-
-  if (!d) return { error: "NOT_FOUND" as const };
-  return { device: d };
-}
-
-export async function listDevices(filters?: {
-  homeId?: number;
-  status?: boolean;
-}) {
-  const where: any = {};
-  if (filters?.homeId !== undefined) where.homeId = filters.homeId;
-  if (filters?.status !== undefined) where.status = filters.status;
-
-  return prisma.device.findMany({
-    where,
-    orderBy: { updatedAt: "desc" },
+  const res = await createDeviceUnderHome({
+    requesterUserId: a.user.id,
+    homeId,
+    input: body,
   });
-}
+
+  if ("error" in res)
+    return c.json(
+      { error: res.error },
+      res.error === "HOME_NOT_FOUND" ? 404 : 403,
+    );
+  return c.json({ data: mapDeviceDTO(res.device) }, 201);
+};
+
+export const handleDevicesGetById: RouteHandler<
+  DevicesGetByIdRoute,
+  AppEnv
+> = async (c) => {
+  const a = c.get("auth");
+  const { deviceId } = c.req.valid("param");
+
+  const res = await getDeviceById({ requesterUserId: a.user.id, deviceId });
+  if ("error" in res)
+    return c.json({ error: res.error }, res.error === "NOT_FOUND" ? 404 : 403);
+
+  return c.json({ data: mapDeviceDTO(res.device) }, 200);
+};
+
+export const handleDevicesPatch: RouteHandler<
+  DevicesPatchRoute,
+  AppEnv
+> = async (c) => {
+  const a = c.get("auth");
+  const { deviceId } = c.req.valid("param");
+  const body = c.req.valid("json");
+
+  const res = await patchDevice({ requesterUserId: a.user.id, deviceId, body });
+  if ("error" in res)
+    return c.json({ error: res.error }, res.error === "NOT_FOUND" ? 404 : 403);
+
+  return c.json({ data: mapDeviceDTO(res.device) }, 200);
+};
