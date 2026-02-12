@@ -58,6 +58,7 @@ export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
   r.openapi(deleteHomeRoute, handleDeleteHome);
   r.openapi(restoreHomeRoute, handleRestoreHome);
   r.openapi(transferOwnershipRoute, handleTransferOwnership);
+  r.openapi(listNearbyHomesRoute, handleListNearbyHomes);
 
   r.openapi(listHomeMembersRoute, handleListHomeMembers);
   r.openapi(addHomeMemberRoute, handleAddHomeMember);
