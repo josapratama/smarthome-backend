@@ -28,21 +28,28 @@ export type AggregateAlarmEvent = {
 
 export type AlarmEventAvgAggregateOutputType = {
   id: number | null
-  sensorId: number | null
+  sensorDataId: number | null
+  sensorReadingId: number | null
   deviceId: number | null
   homeId: number | null
+  acknowledgedBy: number | null
+  resolvedBy: number | null
 }
 
 export type AlarmEventSumAggregateOutputType = {
   id: number | null
-  sensorId: number | null
+  sensorDataId: number | null
+  sensorReadingId: number | null
   deviceId: number | null
   homeId: number | null
+  acknowledgedBy: number | null
+  resolvedBy: number | null
 }
 
 export type AlarmEventMinAggregateOutputType = {
   id: number | null
-  sensorId: number | null
+  sensorDataId: number | null
+  sensorReadingId: number | null
   deviceId: number | null
   homeId: number | null
   type: string | null
@@ -50,11 +57,17 @@ export type AlarmEventMinAggregateOutputType = {
   severity: $Enums.AlarmSeverity | null
   source: $Enums.AlarmSource | null
   triggeredAt: Date | null
+  status: $Enums.AlarmStatus | null
+  acknowledgedAt: Date | null
+  acknowledgedBy: number | null
+  resolvedAt: Date | null
+  resolvedBy: number | null
 }
 
 export type AlarmEventMaxAggregateOutputType = {
   id: number | null
-  sensorId: number | null
+  sensorDataId: number | null
+  sensorReadingId: number | null
   deviceId: number | null
   homeId: number | null
   type: string | null
@@ -62,11 +75,17 @@ export type AlarmEventMaxAggregateOutputType = {
   severity: $Enums.AlarmSeverity | null
   source: $Enums.AlarmSource | null
   triggeredAt: Date | null
+  status: $Enums.AlarmStatus | null
+  acknowledgedAt: Date | null
+  acknowledgedBy: number | null
+  resolvedAt: Date | null
+  resolvedBy: number | null
 }
 
 export type AlarmEventCountAggregateOutputType = {
   id: number
-  sensorId: number
+  sensorDataId: number
+  sensorReadingId: number
   deviceId: number
   homeId: number
   type: number
@@ -74,27 +93,39 @@ export type AlarmEventCountAggregateOutputType = {
   severity: number
   source: number
   triggeredAt: number
+  status: number
+  acknowledgedAt: number
+  acknowledgedBy: number
+  resolvedAt: number
+  resolvedBy: number
   _all: number
 }
 
 
 export type AlarmEventAvgAggregateInputType = {
   id?: true
-  sensorId?: true
+  sensorDataId?: true
+  sensorReadingId?: true
   deviceId?: true
   homeId?: true
+  acknowledgedBy?: true
+  resolvedBy?: true
 }
 
 export type AlarmEventSumAggregateInputType = {
   id?: true
-  sensorId?: true
+  sensorDataId?: true
+  sensorReadingId?: true
   deviceId?: true
   homeId?: true
+  acknowledgedBy?: true
+  resolvedBy?: true
 }
 
 export type AlarmEventMinAggregateInputType = {
   id?: true
-  sensorId?: true
+  sensorDataId?: true
+  sensorReadingId?: true
   deviceId?: true
   homeId?: true
   type?: true
@@ -102,11 +133,17 @@ export type AlarmEventMinAggregateInputType = {
   severity?: true
   source?: true
   triggeredAt?: true
+  status?: true
+  acknowledgedAt?: true
+  acknowledgedBy?: true
+  resolvedAt?: true
+  resolvedBy?: true
 }
 
 export type AlarmEventMaxAggregateInputType = {
   id?: true
-  sensorId?: true
+  sensorDataId?: true
+  sensorReadingId?: true
   deviceId?: true
   homeId?: true
   type?: true
@@ -114,11 +151,17 @@ export type AlarmEventMaxAggregateInputType = {
   severity?: true
   source?: true
   triggeredAt?: true
+  status?: true
+  acknowledgedAt?: true
+  acknowledgedBy?: true
+  resolvedAt?: true
+  resolvedBy?: true
 }
 
 export type AlarmEventCountAggregateInputType = {
   id?: true
-  sensorId?: true
+  sensorDataId?: true
+  sensorReadingId?: true
   deviceId?: true
   homeId?: true
   type?: true
@@ -126,6 +169,11 @@ export type AlarmEventCountAggregateInputType = {
   severity?: true
   source?: true
   triggeredAt?: true
+  status?: true
+  acknowledgedAt?: true
+  acknowledgedBy?: true
+  resolvedAt?: true
+  resolvedBy?: true
   _all?: true
 }
 
@@ -217,14 +265,20 @@ export type AlarmEventGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type AlarmEventGroupByOutputType = {
   id: number
-  sensorId: number
+  sensorDataId: number | null
+  sensorReadingId: number | null
   deviceId: number
-  homeId: number | null
+  homeId: number
   type: string
   message: string
   severity: $Enums.AlarmSeverity
   source: $Enums.AlarmSource
   triggeredAt: Date
+  status: $Enums.AlarmStatus
+  acknowledgedAt: Date | null
+  acknowledgedBy: number | null
+  resolvedAt: Date | null
+  resolvedBy: number | null
   _count: AlarmEventCountAggregateOutputType | null
   _avg: AlarmEventAvgAggregateOutputType | null
   _sum: AlarmEventSumAggregateOutputType | null
@@ -252,32 +306,52 @@ export type AlarmEventWhereInput = {
   OR?: Prisma.AlarmEventWhereInput[]
   NOT?: Prisma.AlarmEventWhereInput | Prisma.AlarmEventWhereInput[]
   id?: Prisma.IntFilter<"AlarmEvent"> | number
-  sensorId?: Prisma.IntFilter<"AlarmEvent"> | number
+  sensorDataId?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
+  sensorReadingId?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
   deviceId?: Prisma.IntFilter<"AlarmEvent"> | number
-  homeId?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
+  homeId?: Prisma.IntFilter<"AlarmEvent"> | number
   type?: Prisma.StringFilter<"AlarmEvent"> | string
   message?: Prisma.StringFilter<"AlarmEvent"> | string
   severity?: Prisma.EnumAlarmSeverityFilter<"AlarmEvent"> | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFilter<"AlarmEvent"> | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFilter<"AlarmEvent"> | Date | string
-  sensor?: Prisma.XOR<Prisma.SensorDataScalarRelationFilter, Prisma.SensorDataWhereInput>
+  status?: Prisma.EnumAlarmStatusFilter<"AlarmEvent"> | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.DateTimeNullableFilter<"AlarmEvent"> | Date | string | null
+  acknowledgedBy?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
+  resolvedAt?: Prisma.DateTimeNullableFilter<"AlarmEvent"> | Date | string | null
+  resolvedBy?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
+  sensorData?: Prisma.XOR<Prisma.SensorDataNullableScalarRelationFilter, Prisma.SensorDataWhereInput> | null
+  sensorReading?: Prisma.XOR<Prisma.SensorReadingNullableScalarRelationFilter, Prisma.SensorReadingWhereInput> | null
   device?: Prisma.XOR<Prisma.DeviceScalarRelationFilter, Prisma.DeviceWhereInput>
-  home?: Prisma.XOR<Prisma.HomeNullableScalarRelationFilter, Prisma.HomeWhereInput> | null
+  home?: Prisma.XOR<Prisma.HomeScalarRelationFilter, Prisma.HomeWhereInput>
+  acknowledgedByUser?: Prisma.XOR<Prisma.UserAccountNullableScalarRelationFilter, Prisma.UserAccountWhereInput> | null
+  resolvedByUser?: Prisma.XOR<Prisma.UserAccountNullableScalarRelationFilter, Prisma.UserAccountWhereInput> | null
+  notificationLogs?: Prisma.NotificationLogListRelationFilter
 }
 
 export type AlarmEventOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  sensorId?: Prisma.SortOrder
+  sensorDataId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sensorReadingId?: Prisma.SortOrderInput | Prisma.SortOrder
   deviceId?: Prisma.SortOrder
-  homeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  homeId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   message?: Prisma.SortOrder
   severity?: Prisma.SortOrder
   source?: Prisma.SortOrder
   triggeredAt?: Prisma.SortOrder
-  sensor?: Prisma.SensorDataOrderByWithRelationInput
+  status?: Prisma.SortOrder
+  acknowledgedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  acknowledgedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  resolvedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  sensorData?: Prisma.SensorDataOrderByWithRelationInput
+  sensorReading?: Prisma.SensorReadingOrderByWithRelationInput
   device?: Prisma.DeviceOrderByWithRelationInput
   home?: Prisma.HomeOrderByWithRelationInput
+  acknowledgedByUser?: Prisma.UserAccountOrderByWithRelationInput
+  resolvedByUser?: Prisma.UserAccountOrderByWithRelationInput
+  notificationLogs?: Prisma.NotificationLogOrderByRelationAggregateInput
 }
 
 export type AlarmEventWhereUniqueInput = Prisma.AtLeast<{
@@ -285,29 +359,45 @@ export type AlarmEventWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.AlarmEventWhereInput | Prisma.AlarmEventWhereInput[]
   OR?: Prisma.AlarmEventWhereInput[]
   NOT?: Prisma.AlarmEventWhereInput | Prisma.AlarmEventWhereInput[]
-  sensorId?: Prisma.IntFilter<"AlarmEvent"> | number
+  sensorDataId?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
+  sensorReadingId?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
   deviceId?: Prisma.IntFilter<"AlarmEvent"> | number
-  homeId?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
+  homeId?: Prisma.IntFilter<"AlarmEvent"> | number
   type?: Prisma.StringFilter<"AlarmEvent"> | string
   message?: Prisma.StringFilter<"AlarmEvent"> | string
   severity?: Prisma.EnumAlarmSeverityFilter<"AlarmEvent"> | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFilter<"AlarmEvent"> | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFilter<"AlarmEvent"> | Date | string
-  sensor?: Prisma.XOR<Prisma.SensorDataScalarRelationFilter, Prisma.SensorDataWhereInput>
+  status?: Prisma.EnumAlarmStatusFilter<"AlarmEvent"> | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.DateTimeNullableFilter<"AlarmEvent"> | Date | string | null
+  acknowledgedBy?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
+  resolvedAt?: Prisma.DateTimeNullableFilter<"AlarmEvent"> | Date | string | null
+  resolvedBy?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
+  sensorData?: Prisma.XOR<Prisma.SensorDataNullableScalarRelationFilter, Prisma.SensorDataWhereInput> | null
+  sensorReading?: Prisma.XOR<Prisma.SensorReadingNullableScalarRelationFilter, Prisma.SensorReadingWhereInput> | null
   device?: Prisma.XOR<Prisma.DeviceScalarRelationFilter, Prisma.DeviceWhereInput>
-  home?: Prisma.XOR<Prisma.HomeNullableScalarRelationFilter, Prisma.HomeWhereInput> | null
+  home?: Prisma.XOR<Prisma.HomeScalarRelationFilter, Prisma.HomeWhereInput>
+  acknowledgedByUser?: Prisma.XOR<Prisma.UserAccountNullableScalarRelationFilter, Prisma.UserAccountWhereInput> | null
+  resolvedByUser?: Prisma.XOR<Prisma.UserAccountNullableScalarRelationFilter, Prisma.UserAccountWhereInput> | null
+  notificationLogs?: Prisma.NotificationLogListRelationFilter
 }, "id">
 
 export type AlarmEventOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  sensorId?: Prisma.SortOrder
+  sensorDataId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sensorReadingId?: Prisma.SortOrderInput | Prisma.SortOrder
   deviceId?: Prisma.SortOrder
-  homeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  homeId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   message?: Prisma.SortOrder
   severity?: Prisma.SortOrder
   source?: Prisma.SortOrder
   triggeredAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  acknowledgedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  acknowledgedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  resolvedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AlarmEventCountOrderByAggregateInput
   _avg?: Prisma.AlarmEventAvgOrderByAggregateInput
   _max?: Prisma.AlarmEventMaxOrderByAggregateInput
@@ -320,14 +410,20 @@ export type AlarmEventScalarWhereWithAggregatesInput = {
   OR?: Prisma.AlarmEventScalarWhereWithAggregatesInput[]
   NOT?: Prisma.AlarmEventScalarWhereWithAggregatesInput | Prisma.AlarmEventScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"AlarmEvent"> | number
-  sensorId?: Prisma.IntWithAggregatesFilter<"AlarmEvent"> | number
+  sensorDataId?: Prisma.IntNullableWithAggregatesFilter<"AlarmEvent"> | number | null
+  sensorReadingId?: Prisma.IntNullableWithAggregatesFilter<"AlarmEvent"> | number | null
   deviceId?: Prisma.IntWithAggregatesFilter<"AlarmEvent"> | number
-  homeId?: Prisma.IntNullableWithAggregatesFilter<"AlarmEvent"> | number | null
+  homeId?: Prisma.IntWithAggregatesFilter<"AlarmEvent"> | number
   type?: Prisma.StringWithAggregatesFilter<"AlarmEvent"> | string
   message?: Prisma.StringWithAggregatesFilter<"AlarmEvent"> | string
   severity?: Prisma.EnumAlarmSeverityWithAggregatesFilter<"AlarmEvent"> | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceWithAggregatesFilter<"AlarmEvent"> | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeWithAggregatesFilter<"AlarmEvent"> | Date | string
+  status?: Prisma.EnumAlarmStatusWithAggregatesFilter<"AlarmEvent"> | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AlarmEvent"> | Date | string | null
+  acknowledgedBy?: Prisma.IntNullableWithAggregatesFilter<"AlarmEvent"> | number | null
+  resolvedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AlarmEvent"> | Date | string | null
+  resolvedBy?: Prisma.IntNullableWithAggregatesFilter<"AlarmEvent"> | number | null
 }
 
 export type AlarmEventCreateInput = {
@@ -336,21 +432,35 @@ export type AlarmEventCreateInput = {
   severity: $Enums.AlarmSeverity
   source?: $Enums.AlarmSource
   triggeredAt?: Date | string
-  sensor: Prisma.SensorDataCreateNestedOneWithoutAlarmsInput
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataCreateNestedOneWithoutAlarmEventsInput
+  sensorReading?: Prisma.SensorReadingCreateNestedOneWithoutAlarmEventsInput
   device: Prisma.DeviceCreateNestedOneWithoutAlarmEventsInput
-  home?: Prisma.HomeCreateNestedOneWithoutAlarmEventsInput
+  home: Prisma.HomeCreateNestedOneWithoutAlarmEventsInput
+  acknowledgedByUser?: Prisma.UserAccountCreateNestedOneWithoutAcknowledgedAlarmsInput
+  resolvedByUser?: Prisma.UserAccountCreateNestedOneWithoutResolvedAlarmsInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutAlarmInput
 }
 
 export type AlarmEventUncheckedCreateInput = {
   id?: number
-  sensorId: number
+  sensorDataId?: number | null
+  sensorReadingId?: number | null
   deviceId: number
-  homeId?: number | null
+  homeId: number
   type: string
   message: string
   severity: $Enums.AlarmSeverity
   source?: $Enums.AlarmSource
   triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  acknowledgedBy?: number | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: number | null
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAlarmInput
 }
 
 export type AlarmEventUpdateInput = {
@@ -359,33 +469,53 @@ export type AlarmEventUpdateInput = {
   severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sensor?: Prisma.SensorDataUpdateOneRequiredWithoutAlarmsNestedInput
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUpdateOneWithoutAlarmEventsNestedInput
+  sensorReading?: Prisma.SensorReadingUpdateOneWithoutAlarmEventsNestedInput
   device?: Prisma.DeviceUpdateOneRequiredWithoutAlarmEventsNestedInput
-  home?: Prisma.HomeUpdateOneWithoutAlarmEventsNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutAlarmEventsNestedInput
+  acknowledgedByUser?: Prisma.UserAccountUpdateOneWithoutAcknowledgedAlarmsNestedInput
+  resolvedByUser?: Prisma.UserAccountUpdateOneWithoutResolvedAlarmsNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutAlarmNestedInput
 }
 
 export type AlarmEventUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  sensorId?: Prisma.IntFieldUpdateOperationsInput | number
+  sensorDataId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorReadingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   deviceId?: Prisma.IntFieldUpdateOperationsInput | number
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutAlarmNestedInput
 }
 
 export type AlarmEventCreateManyInput = {
   id?: number
-  sensorId: number
+  sensorDataId?: number | null
+  sensorReadingId?: number | null
   deviceId: number
-  homeId?: number | null
+  homeId: number
   type: string
   message: string
   severity: $Enums.AlarmSeverity
   source?: $Enums.AlarmSource
   triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  acknowledgedBy?: number | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: number | null
 }
 
 export type AlarmEventUpdateManyMutationInput = {
@@ -394,18 +524,27 @@ export type AlarmEventUpdateManyMutationInput = {
   severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type AlarmEventUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  sensorId?: Prisma.IntFieldUpdateOperationsInput | number
+  sensorDataId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorReadingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   deviceId?: Prisma.IntFieldUpdateOperationsInput | number
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type AlarmEventListRelationFilter = {
@@ -420,7 +559,8 @@ export type AlarmEventOrderByRelationAggregateInput = {
 
 export type AlarmEventCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  sensorId?: Prisma.SortOrder
+  sensorDataId?: Prisma.SortOrder
+  sensorReadingId?: Prisma.SortOrder
   deviceId?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
   type?: Prisma.SortOrder
@@ -428,18 +568,27 @@ export type AlarmEventCountOrderByAggregateInput = {
   severity?: Prisma.SortOrder
   source?: Prisma.SortOrder
   triggeredAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  acknowledgedAt?: Prisma.SortOrder
+  acknowledgedBy?: Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrder
+  resolvedBy?: Prisma.SortOrder
 }
 
 export type AlarmEventAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  sensorId?: Prisma.SortOrder
+  sensorDataId?: Prisma.SortOrder
+  sensorReadingId?: Prisma.SortOrder
   deviceId?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
+  acknowledgedBy?: Prisma.SortOrder
+  resolvedBy?: Prisma.SortOrder
 }
 
 export type AlarmEventMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  sensorId?: Prisma.SortOrder
+  sensorDataId?: Prisma.SortOrder
+  sensorReadingId?: Prisma.SortOrder
   deviceId?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
   type?: Prisma.SortOrder
@@ -447,11 +596,17 @@ export type AlarmEventMaxOrderByAggregateInput = {
   severity?: Prisma.SortOrder
   source?: Prisma.SortOrder
   triggeredAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  acknowledgedAt?: Prisma.SortOrder
+  acknowledgedBy?: Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrder
+  resolvedBy?: Prisma.SortOrder
 }
 
 export type AlarmEventMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  sensorId?: Prisma.SortOrder
+  sensorDataId?: Prisma.SortOrder
+  sensorReadingId?: Prisma.SortOrder
   deviceId?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
   type?: Prisma.SortOrder
@@ -459,13 +614,110 @@ export type AlarmEventMinOrderByAggregateInput = {
   severity?: Prisma.SortOrder
   source?: Prisma.SortOrder
   triggeredAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  acknowledgedAt?: Prisma.SortOrder
+  acknowledgedBy?: Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrder
+  resolvedBy?: Prisma.SortOrder
 }
 
 export type AlarmEventSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  sensorId?: Prisma.SortOrder
+  sensorDataId?: Prisma.SortOrder
+  sensorReadingId?: Prisma.SortOrder
   deviceId?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
+  acknowledgedBy?: Prisma.SortOrder
+  resolvedBy?: Prisma.SortOrder
+}
+
+export type AlarmEventScalarRelationFilter = {
+  is?: Prisma.AlarmEventWhereInput
+  isNot?: Prisma.AlarmEventWhereInput
+}
+
+export type AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutAcknowledgedByUserInput, Prisma.AlarmEventUncheckedCreateWithoutAcknowledgedByUserInput> | Prisma.AlarmEventCreateWithoutAcknowledgedByUserInput[] | Prisma.AlarmEventUncheckedCreateWithoutAcknowledgedByUserInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutAcknowledgedByUserInput | Prisma.AlarmEventCreateOrConnectWithoutAcknowledgedByUserInput[]
+  createMany?: Prisma.AlarmEventCreateManyAcknowledgedByUserInputEnvelope
+  connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+}
+
+export type AlarmEventCreateNestedManyWithoutResolvedByUserInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutResolvedByUserInput, Prisma.AlarmEventUncheckedCreateWithoutResolvedByUserInput> | Prisma.AlarmEventCreateWithoutResolvedByUserInput[] | Prisma.AlarmEventUncheckedCreateWithoutResolvedByUserInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutResolvedByUserInput | Prisma.AlarmEventCreateOrConnectWithoutResolvedByUserInput[]
+  createMany?: Prisma.AlarmEventCreateManyResolvedByUserInputEnvelope
+  connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+}
+
+export type AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutAcknowledgedByUserInput, Prisma.AlarmEventUncheckedCreateWithoutAcknowledgedByUserInput> | Prisma.AlarmEventCreateWithoutAcknowledgedByUserInput[] | Prisma.AlarmEventUncheckedCreateWithoutAcknowledgedByUserInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutAcknowledgedByUserInput | Prisma.AlarmEventCreateOrConnectWithoutAcknowledgedByUserInput[]
+  createMany?: Prisma.AlarmEventCreateManyAcknowledgedByUserInputEnvelope
+  connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+}
+
+export type AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutResolvedByUserInput, Prisma.AlarmEventUncheckedCreateWithoutResolvedByUserInput> | Prisma.AlarmEventCreateWithoutResolvedByUserInput[] | Prisma.AlarmEventUncheckedCreateWithoutResolvedByUserInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutResolvedByUserInput | Prisma.AlarmEventCreateOrConnectWithoutResolvedByUserInput[]
+  createMany?: Prisma.AlarmEventCreateManyResolvedByUserInputEnvelope
+  connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+}
+
+export type AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutAcknowledgedByUserInput, Prisma.AlarmEventUncheckedCreateWithoutAcknowledgedByUserInput> | Prisma.AlarmEventCreateWithoutAcknowledgedByUserInput[] | Prisma.AlarmEventUncheckedCreateWithoutAcknowledgedByUserInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutAcknowledgedByUserInput | Prisma.AlarmEventCreateOrConnectWithoutAcknowledgedByUserInput[]
+  upsert?: Prisma.AlarmEventUpsertWithWhereUniqueWithoutAcknowledgedByUserInput | Prisma.AlarmEventUpsertWithWhereUniqueWithoutAcknowledgedByUserInput[]
+  createMany?: Prisma.AlarmEventCreateManyAcknowledgedByUserInputEnvelope
+  set?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  disconnect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  delete?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  update?: Prisma.AlarmEventUpdateWithWhereUniqueWithoutAcknowledgedByUserInput | Prisma.AlarmEventUpdateWithWhereUniqueWithoutAcknowledgedByUserInput[]
+  updateMany?: Prisma.AlarmEventUpdateManyWithWhereWithoutAcknowledgedByUserInput | Prisma.AlarmEventUpdateManyWithWhereWithoutAcknowledgedByUserInput[]
+  deleteMany?: Prisma.AlarmEventScalarWhereInput | Prisma.AlarmEventScalarWhereInput[]
+}
+
+export type AlarmEventUpdateManyWithoutResolvedByUserNestedInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutResolvedByUserInput, Prisma.AlarmEventUncheckedCreateWithoutResolvedByUserInput> | Prisma.AlarmEventCreateWithoutResolvedByUserInput[] | Prisma.AlarmEventUncheckedCreateWithoutResolvedByUserInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutResolvedByUserInput | Prisma.AlarmEventCreateOrConnectWithoutResolvedByUserInput[]
+  upsert?: Prisma.AlarmEventUpsertWithWhereUniqueWithoutResolvedByUserInput | Prisma.AlarmEventUpsertWithWhereUniqueWithoutResolvedByUserInput[]
+  createMany?: Prisma.AlarmEventCreateManyResolvedByUserInputEnvelope
+  set?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  disconnect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  delete?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  update?: Prisma.AlarmEventUpdateWithWhereUniqueWithoutResolvedByUserInput | Prisma.AlarmEventUpdateWithWhereUniqueWithoutResolvedByUserInput[]
+  updateMany?: Prisma.AlarmEventUpdateManyWithWhereWithoutResolvedByUserInput | Prisma.AlarmEventUpdateManyWithWhereWithoutResolvedByUserInput[]
+  deleteMany?: Prisma.AlarmEventScalarWhereInput | Prisma.AlarmEventScalarWhereInput[]
+}
+
+export type AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutAcknowledgedByUserInput, Prisma.AlarmEventUncheckedCreateWithoutAcknowledgedByUserInput> | Prisma.AlarmEventCreateWithoutAcknowledgedByUserInput[] | Prisma.AlarmEventUncheckedCreateWithoutAcknowledgedByUserInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutAcknowledgedByUserInput | Prisma.AlarmEventCreateOrConnectWithoutAcknowledgedByUserInput[]
+  upsert?: Prisma.AlarmEventUpsertWithWhereUniqueWithoutAcknowledgedByUserInput | Prisma.AlarmEventUpsertWithWhereUniqueWithoutAcknowledgedByUserInput[]
+  createMany?: Prisma.AlarmEventCreateManyAcknowledgedByUserInputEnvelope
+  set?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  disconnect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  delete?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  update?: Prisma.AlarmEventUpdateWithWhereUniqueWithoutAcknowledgedByUserInput | Prisma.AlarmEventUpdateWithWhereUniqueWithoutAcknowledgedByUserInput[]
+  updateMany?: Prisma.AlarmEventUpdateManyWithWhereWithoutAcknowledgedByUserInput | Prisma.AlarmEventUpdateManyWithWhereWithoutAcknowledgedByUserInput[]
+  deleteMany?: Prisma.AlarmEventScalarWhereInput | Prisma.AlarmEventScalarWhereInput[]
+}
+
+export type AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutResolvedByUserInput, Prisma.AlarmEventUncheckedCreateWithoutResolvedByUserInput> | Prisma.AlarmEventCreateWithoutResolvedByUserInput[] | Prisma.AlarmEventUncheckedCreateWithoutResolvedByUserInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutResolvedByUserInput | Prisma.AlarmEventCreateOrConnectWithoutResolvedByUserInput[]
+  upsert?: Prisma.AlarmEventUpsertWithWhereUniqueWithoutResolvedByUserInput | Prisma.AlarmEventUpsertWithWhereUniqueWithoutResolvedByUserInput[]
+  createMany?: Prisma.AlarmEventCreateManyResolvedByUserInputEnvelope
+  set?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  disconnect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  delete?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  update?: Prisma.AlarmEventUpdateWithWhereUniqueWithoutResolvedByUserInput | Prisma.AlarmEventUpdateWithWhereUniqueWithoutResolvedByUserInput[]
+  updateMany?: Prisma.AlarmEventUpdateManyWithWhereWithoutResolvedByUserInput | Prisma.AlarmEventUpdateManyWithWhereWithoutResolvedByUserInput[]
+  deleteMany?: Prisma.AlarmEventScalarWhereInput | Prisma.AlarmEventScalarWhereInput[]
 }
 
 export type AlarmEventCreateNestedManyWithoutHomeInput = {
@@ -552,45 +804,87 @@ export type AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput = {
   deleteMany?: Prisma.AlarmEventScalarWhereInput | Prisma.AlarmEventScalarWhereInput[]
 }
 
-export type AlarmEventCreateNestedManyWithoutSensorInput = {
-  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorInput, Prisma.AlarmEventUncheckedCreateWithoutSensorInput> | Prisma.AlarmEventCreateWithoutSensorInput[] | Prisma.AlarmEventUncheckedCreateWithoutSensorInput[]
-  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutSensorInput | Prisma.AlarmEventCreateOrConnectWithoutSensorInput[]
-  createMany?: Prisma.AlarmEventCreateManySensorInputEnvelope
+export type AlarmEventCreateNestedManyWithoutSensorDataInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorDataInput, Prisma.AlarmEventUncheckedCreateWithoutSensorDataInput> | Prisma.AlarmEventCreateWithoutSensorDataInput[] | Prisma.AlarmEventUncheckedCreateWithoutSensorDataInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutSensorDataInput | Prisma.AlarmEventCreateOrConnectWithoutSensorDataInput[]
+  createMany?: Prisma.AlarmEventCreateManySensorDataInputEnvelope
   connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
 }
 
-export type AlarmEventUncheckedCreateNestedManyWithoutSensorInput = {
-  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorInput, Prisma.AlarmEventUncheckedCreateWithoutSensorInput> | Prisma.AlarmEventCreateWithoutSensorInput[] | Prisma.AlarmEventUncheckedCreateWithoutSensorInput[]
-  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutSensorInput | Prisma.AlarmEventCreateOrConnectWithoutSensorInput[]
-  createMany?: Prisma.AlarmEventCreateManySensorInputEnvelope
+export type AlarmEventUncheckedCreateNestedManyWithoutSensorDataInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorDataInput, Prisma.AlarmEventUncheckedCreateWithoutSensorDataInput> | Prisma.AlarmEventCreateWithoutSensorDataInput[] | Prisma.AlarmEventUncheckedCreateWithoutSensorDataInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutSensorDataInput | Prisma.AlarmEventCreateOrConnectWithoutSensorDataInput[]
+  createMany?: Prisma.AlarmEventCreateManySensorDataInputEnvelope
   connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
 }
 
-export type AlarmEventUpdateManyWithoutSensorNestedInput = {
-  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorInput, Prisma.AlarmEventUncheckedCreateWithoutSensorInput> | Prisma.AlarmEventCreateWithoutSensorInput[] | Prisma.AlarmEventUncheckedCreateWithoutSensorInput[]
-  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutSensorInput | Prisma.AlarmEventCreateOrConnectWithoutSensorInput[]
-  upsert?: Prisma.AlarmEventUpsertWithWhereUniqueWithoutSensorInput | Prisma.AlarmEventUpsertWithWhereUniqueWithoutSensorInput[]
-  createMany?: Prisma.AlarmEventCreateManySensorInputEnvelope
+export type AlarmEventUpdateManyWithoutSensorDataNestedInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorDataInput, Prisma.AlarmEventUncheckedCreateWithoutSensorDataInput> | Prisma.AlarmEventCreateWithoutSensorDataInput[] | Prisma.AlarmEventUncheckedCreateWithoutSensorDataInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutSensorDataInput | Prisma.AlarmEventCreateOrConnectWithoutSensorDataInput[]
+  upsert?: Prisma.AlarmEventUpsertWithWhereUniqueWithoutSensorDataInput | Prisma.AlarmEventUpsertWithWhereUniqueWithoutSensorDataInput[]
+  createMany?: Prisma.AlarmEventCreateManySensorDataInputEnvelope
   set?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
   disconnect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
   delete?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
   connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
-  update?: Prisma.AlarmEventUpdateWithWhereUniqueWithoutSensorInput | Prisma.AlarmEventUpdateWithWhereUniqueWithoutSensorInput[]
-  updateMany?: Prisma.AlarmEventUpdateManyWithWhereWithoutSensorInput | Prisma.AlarmEventUpdateManyWithWhereWithoutSensorInput[]
+  update?: Prisma.AlarmEventUpdateWithWhereUniqueWithoutSensorDataInput | Prisma.AlarmEventUpdateWithWhereUniqueWithoutSensorDataInput[]
+  updateMany?: Prisma.AlarmEventUpdateManyWithWhereWithoutSensorDataInput | Prisma.AlarmEventUpdateManyWithWhereWithoutSensorDataInput[]
   deleteMany?: Prisma.AlarmEventScalarWhereInput | Prisma.AlarmEventScalarWhereInput[]
 }
 
-export type AlarmEventUncheckedUpdateManyWithoutSensorNestedInput = {
-  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorInput, Prisma.AlarmEventUncheckedCreateWithoutSensorInput> | Prisma.AlarmEventCreateWithoutSensorInput[] | Prisma.AlarmEventUncheckedCreateWithoutSensorInput[]
-  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutSensorInput | Prisma.AlarmEventCreateOrConnectWithoutSensorInput[]
-  upsert?: Prisma.AlarmEventUpsertWithWhereUniqueWithoutSensorInput | Prisma.AlarmEventUpsertWithWhereUniqueWithoutSensorInput[]
-  createMany?: Prisma.AlarmEventCreateManySensorInputEnvelope
+export type AlarmEventUncheckedUpdateManyWithoutSensorDataNestedInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorDataInput, Prisma.AlarmEventUncheckedCreateWithoutSensorDataInput> | Prisma.AlarmEventCreateWithoutSensorDataInput[] | Prisma.AlarmEventUncheckedCreateWithoutSensorDataInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutSensorDataInput | Prisma.AlarmEventCreateOrConnectWithoutSensorDataInput[]
+  upsert?: Prisma.AlarmEventUpsertWithWhereUniqueWithoutSensorDataInput | Prisma.AlarmEventUpsertWithWhereUniqueWithoutSensorDataInput[]
+  createMany?: Prisma.AlarmEventCreateManySensorDataInputEnvelope
   set?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
   disconnect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
   delete?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
   connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
-  update?: Prisma.AlarmEventUpdateWithWhereUniqueWithoutSensorInput | Prisma.AlarmEventUpdateWithWhereUniqueWithoutSensorInput[]
-  updateMany?: Prisma.AlarmEventUpdateManyWithWhereWithoutSensorInput | Prisma.AlarmEventUpdateManyWithWhereWithoutSensorInput[]
+  update?: Prisma.AlarmEventUpdateWithWhereUniqueWithoutSensorDataInput | Prisma.AlarmEventUpdateWithWhereUniqueWithoutSensorDataInput[]
+  updateMany?: Prisma.AlarmEventUpdateManyWithWhereWithoutSensorDataInput | Prisma.AlarmEventUpdateManyWithWhereWithoutSensorDataInput[]
+  deleteMany?: Prisma.AlarmEventScalarWhereInput | Prisma.AlarmEventScalarWhereInput[]
+}
+
+export type AlarmEventCreateNestedManyWithoutSensorReadingInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorReadingInput, Prisma.AlarmEventUncheckedCreateWithoutSensorReadingInput> | Prisma.AlarmEventCreateWithoutSensorReadingInput[] | Prisma.AlarmEventUncheckedCreateWithoutSensorReadingInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutSensorReadingInput | Prisma.AlarmEventCreateOrConnectWithoutSensorReadingInput[]
+  createMany?: Prisma.AlarmEventCreateManySensorReadingInputEnvelope
+  connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+}
+
+export type AlarmEventUncheckedCreateNestedManyWithoutSensorReadingInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorReadingInput, Prisma.AlarmEventUncheckedCreateWithoutSensorReadingInput> | Prisma.AlarmEventCreateWithoutSensorReadingInput[] | Prisma.AlarmEventUncheckedCreateWithoutSensorReadingInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutSensorReadingInput | Prisma.AlarmEventCreateOrConnectWithoutSensorReadingInput[]
+  createMany?: Prisma.AlarmEventCreateManySensorReadingInputEnvelope
+  connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+}
+
+export type AlarmEventUpdateManyWithoutSensorReadingNestedInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorReadingInput, Prisma.AlarmEventUncheckedCreateWithoutSensorReadingInput> | Prisma.AlarmEventCreateWithoutSensorReadingInput[] | Prisma.AlarmEventUncheckedCreateWithoutSensorReadingInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutSensorReadingInput | Prisma.AlarmEventCreateOrConnectWithoutSensorReadingInput[]
+  upsert?: Prisma.AlarmEventUpsertWithWhereUniqueWithoutSensorReadingInput | Prisma.AlarmEventUpsertWithWhereUniqueWithoutSensorReadingInput[]
+  createMany?: Prisma.AlarmEventCreateManySensorReadingInputEnvelope
+  set?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  disconnect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  delete?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  update?: Prisma.AlarmEventUpdateWithWhereUniqueWithoutSensorReadingInput | Prisma.AlarmEventUpdateWithWhereUniqueWithoutSensorReadingInput[]
+  updateMany?: Prisma.AlarmEventUpdateManyWithWhereWithoutSensorReadingInput | Prisma.AlarmEventUpdateManyWithWhereWithoutSensorReadingInput[]
+  deleteMany?: Prisma.AlarmEventScalarWhereInput | Prisma.AlarmEventScalarWhereInput[]
+}
+
+export type AlarmEventUncheckedUpdateManyWithoutSensorReadingNestedInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorReadingInput, Prisma.AlarmEventUncheckedCreateWithoutSensorReadingInput> | Prisma.AlarmEventCreateWithoutSensorReadingInput[] | Prisma.AlarmEventUncheckedCreateWithoutSensorReadingInput[]
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutSensorReadingInput | Prisma.AlarmEventCreateOrConnectWithoutSensorReadingInput[]
+  upsert?: Prisma.AlarmEventUpsertWithWhereUniqueWithoutSensorReadingInput | Prisma.AlarmEventUpsertWithWhereUniqueWithoutSensorReadingInput[]
+  createMany?: Prisma.AlarmEventCreateManySensorReadingInputEnvelope
+  set?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  disconnect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  delete?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  connect?: Prisma.AlarmEventWhereUniqueInput | Prisma.AlarmEventWhereUniqueInput[]
+  update?: Prisma.AlarmEventUpdateWithWhereUniqueWithoutSensorReadingInput | Prisma.AlarmEventUpdateWithWhereUniqueWithoutSensorReadingInput[]
+  updateMany?: Prisma.AlarmEventUpdateManyWithWhereWithoutSensorReadingInput | Prisma.AlarmEventUpdateManyWithWhereWithoutSensorReadingInput[]
   deleteMany?: Prisma.AlarmEventScalarWhereInput | Prisma.AlarmEventScalarWhereInput[]
 }
 
@@ -598,8 +892,165 @@ export type EnumAlarmSeverityFieldUpdateOperationsInput = {
   set?: $Enums.AlarmSeverity
 }
 
-export type EnumAlarmSourceFieldUpdateOperationsInput = {
-  set?: $Enums.AlarmSource
+export type EnumAlarmStatusFieldUpdateOperationsInput = {
+  set?: $Enums.AlarmStatus
+}
+
+export type AlarmEventCreateNestedOneWithoutNotificationLogsInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutNotificationLogsInput, Prisma.AlarmEventUncheckedCreateWithoutNotificationLogsInput>
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutNotificationLogsInput
+  connect?: Prisma.AlarmEventWhereUniqueInput
+}
+
+export type AlarmEventUpdateOneRequiredWithoutNotificationLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.AlarmEventCreateWithoutNotificationLogsInput, Prisma.AlarmEventUncheckedCreateWithoutNotificationLogsInput>
+  connectOrCreate?: Prisma.AlarmEventCreateOrConnectWithoutNotificationLogsInput
+  upsert?: Prisma.AlarmEventUpsertWithoutNotificationLogsInput
+  connect?: Prisma.AlarmEventWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AlarmEventUpdateToOneWithWhereWithoutNotificationLogsInput, Prisma.AlarmEventUpdateWithoutNotificationLogsInput>, Prisma.AlarmEventUncheckedUpdateWithoutNotificationLogsInput>
+}
+
+export type AlarmEventCreateWithoutAcknowledgedByUserInput = {
+  type: string
+  message: string
+  severity: $Enums.AlarmSeverity
+  source?: $Enums.AlarmSource
+  triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataCreateNestedOneWithoutAlarmEventsInput
+  sensorReading?: Prisma.SensorReadingCreateNestedOneWithoutAlarmEventsInput
+  device: Prisma.DeviceCreateNestedOneWithoutAlarmEventsInput
+  home: Prisma.HomeCreateNestedOneWithoutAlarmEventsInput
+  resolvedByUser?: Prisma.UserAccountCreateNestedOneWithoutResolvedAlarmsInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutAlarmInput
+}
+
+export type AlarmEventUncheckedCreateWithoutAcknowledgedByUserInput = {
+  id?: number
+  sensorDataId?: number | null
+  sensorReadingId?: number | null
+  deviceId: number
+  homeId: number
+  type: string
+  message: string
+  severity: $Enums.AlarmSeverity
+  source?: $Enums.AlarmSource
+  triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: number | null
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAlarmInput
+}
+
+export type AlarmEventCreateOrConnectWithoutAcknowledgedByUserInput = {
+  where: Prisma.AlarmEventWhereUniqueInput
+  create: Prisma.XOR<Prisma.AlarmEventCreateWithoutAcknowledgedByUserInput, Prisma.AlarmEventUncheckedCreateWithoutAcknowledgedByUserInput>
+}
+
+export type AlarmEventCreateManyAcknowledgedByUserInputEnvelope = {
+  data: Prisma.AlarmEventCreateManyAcknowledgedByUserInput | Prisma.AlarmEventCreateManyAcknowledgedByUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type AlarmEventCreateWithoutResolvedByUserInput = {
+  type: string
+  message: string
+  severity: $Enums.AlarmSeverity
+  source?: $Enums.AlarmSource
+  triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataCreateNestedOneWithoutAlarmEventsInput
+  sensorReading?: Prisma.SensorReadingCreateNestedOneWithoutAlarmEventsInput
+  device: Prisma.DeviceCreateNestedOneWithoutAlarmEventsInput
+  home: Prisma.HomeCreateNestedOneWithoutAlarmEventsInput
+  acknowledgedByUser?: Prisma.UserAccountCreateNestedOneWithoutAcknowledgedAlarmsInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutAlarmInput
+}
+
+export type AlarmEventUncheckedCreateWithoutResolvedByUserInput = {
+  id?: number
+  sensorDataId?: number | null
+  sensorReadingId?: number | null
+  deviceId: number
+  homeId: number
+  type: string
+  message: string
+  severity: $Enums.AlarmSeverity
+  source?: $Enums.AlarmSource
+  triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  acknowledgedBy?: number | null
+  resolvedAt?: Date | string | null
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAlarmInput
+}
+
+export type AlarmEventCreateOrConnectWithoutResolvedByUserInput = {
+  where: Prisma.AlarmEventWhereUniqueInput
+  create: Prisma.XOR<Prisma.AlarmEventCreateWithoutResolvedByUserInput, Prisma.AlarmEventUncheckedCreateWithoutResolvedByUserInput>
+}
+
+export type AlarmEventCreateManyResolvedByUserInputEnvelope = {
+  data: Prisma.AlarmEventCreateManyResolvedByUserInput | Prisma.AlarmEventCreateManyResolvedByUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type AlarmEventUpsertWithWhereUniqueWithoutAcknowledgedByUserInput = {
+  where: Prisma.AlarmEventWhereUniqueInput
+  update: Prisma.XOR<Prisma.AlarmEventUpdateWithoutAcknowledgedByUserInput, Prisma.AlarmEventUncheckedUpdateWithoutAcknowledgedByUserInput>
+  create: Prisma.XOR<Prisma.AlarmEventCreateWithoutAcknowledgedByUserInput, Prisma.AlarmEventUncheckedCreateWithoutAcknowledgedByUserInput>
+}
+
+export type AlarmEventUpdateWithWhereUniqueWithoutAcknowledgedByUserInput = {
+  where: Prisma.AlarmEventWhereUniqueInput
+  data: Prisma.XOR<Prisma.AlarmEventUpdateWithoutAcknowledgedByUserInput, Prisma.AlarmEventUncheckedUpdateWithoutAcknowledgedByUserInput>
+}
+
+export type AlarmEventUpdateManyWithWhereWithoutAcknowledgedByUserInput = {
+  where: Prisma.AlarmEventScalarWhereInput
+  data: Prisma.XOR<Prisma.AlarmEventUpdateManyMutationInput, Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserInput>
+}
+
+export type AlarmEventScalarWhereInput = {
+  AND?: Prisma.AlarmEventScalarWhereInput | Prisma.AlarmEventScalarWhereInput[]
+  OR?: Prisma.AlarmEventScalarWhereInput[]
+  NOT?: Prisma.AlarmEventScalarWhereInput | Prisma.AlarmEventScalarWhereInput[]
+  id?: Prisma.IntFilter<"AlarmEvent"> | number
+  sensorDataId?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
+  sensorReadingId?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
+  deviceId?: Prisma.IntFilter<"AlarmEvent"> | number
+  homeId?: Prisma.IntFilter<"AlarmEvent"> | number
+  type?: Prisma.StringFilter<"AlarmEvent"> | string
+  message?: Prisma.StringFilter<"AlarmEvent"> | string
+  severity?: Prisma.EnumAlarmSeverityFilter<"AlarmEvent"> | $Enums.AlarmSeverity
+  source?: Prisma.EnumAlarmSourceFilter<"AlarmEvent"> | $Enums.AlarmSource
+  triggeredAt?: Prisma.DateTimeFilter<"AlarmEvent"> | Date | string
+  status?: Prisma.EnumAlarmStatusFilter<"AlarmEvent"> | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.DateTimeNullableFilter<"AlarmEvent"> | Date | string | null
+  acknowledgedBy?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
+  resolvedAt?: Prisma.DateTimeNullableFilter<"AlarmEvent"> | Date | string | null
+  resolvedBy?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
+}
+
+export type AlarmEventUpsertWithWhereUniqueWithoutResolvedByUserInput = {
+  where: Prisma.AlarmEventWhereUniqueInput
+  update: Prisma.XOR<Prisma.AlarmEventUpdateWithoutResolvedByUserInput, Prisma.AlarmEventUncheckedUpdateWithoutResolvedByUserInput>
+  create: Prisma.XOR<Prisma.AlarmEventCreateWithoutResolvedByUserInput, Prisma.AlarmEventUncheckedCreateWithoutResolvedByUserInput>
+}
+
+export type AlarmEventUpdateWithWhereUniqueWithoutResolvedByUserInput = {
+  where: Prisma.AlarmEventWhereUniqueInput
+  data: Prisma.XOR<Prisma.AlarmEventUpdateWithoutResolvedByUserInput, Prisma.AlarmEventUncheckedUpdateWithoutResolvedByUserInput>
+}
+
+export type AlarmEventUpdateManyWithWhereWithoutResolvedByUserInput = {
+  where: Prisma.AlarmEventScalarWhereInput
+  data: Prisma.XOR<Prisma.AlarmEventUpdateManyMutationInput, Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserInput>
 }
 
 export type AlarmEventCreateWithoutHomeInput = {
@@ -608,19 +1059,33 @@ export type AlarmEventCreateWithoutHomeInput = {
   severity: $Enums.AlarmSeverity
   source?: $Enums.AlarmSource
   triggeredAt?: Date | string
-  sensor: Prisma.SensorDataCreateNestedOneWithoutAlarmsInput
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataCreateNestedOneWithoutAlarmEventsInput
+  sensorReading?: Prisma.SensorReadingCreateNestedOneWithoutAlarmEventsInput
   device: Prisma.DeviceCreateNestedOneWithoutAlarmEventsInput
+  acknowledgedByUser?: Prisma.UserAccountCreateNestedOneWithoutAcknowledgedAlarmsInput
+  resolvedByUser?: Prisma.UserAccountCreateNestedOneWithoutResolvedAlarmsInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutAlarmInput
 }
 
 export type AlarmEventUncheckedCreateWithoutHomeInput = {
   id?: number
-  sensorId: number
+  sensorDataId?: number | null
+  sensorReadingId?: number | null
   deviceId: number
   type: string
   message: string
   severity: $Enums.AlarmSeverity
   source?: $Enums.AlarmSource
   triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  acknowledgedBy?: number | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: number | null
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAlarmInput
 }
 
 export type AlarmEventCreateOrConnectWithoutHomeInput = {
@@ -649,40 +1114,39 @@ export type AlarmEventUpdateManyWithWhereWithoutHomeInput = {
   data: Prisma.XOR<Prisma.AlarmEventUpdateManyMutationInput, Prisma.AlarmEventUncheckedUpdateManyWithoutHomeInput>
 }
 
-export type AlarmEventScalarWhereInput = {
-  AND?: Prisma.AlarmEventScalarWhereInput | Prisma.AlarmEventScalarWhereInput[]
-  OR?: Prisma.AlarmEventScalarWhereInput[]
-  NOT?: Prisma.AlarmEventScalarWhereInput | Prisma.AlarmEventScalarWhereInput[]
-  id?: Prisma.IntFilter<"AlarmEvent"> | number
-  sensorId?: Prisma.IntFilter<"AlarmEvent"> | number
-  deviceId?: Prisma.IntFilter<"AlarmEvent"> | number
-  homeId?: Prisma.IntNullableFilter<"AlarmEvent"> | number | null
-  type?: Prisma.StringFilter<"AlarmEvent"> | string
-  message?: Prisma.StringFilter<"AlarmEvent"> | string
-  severity?: Prisma.EnumAlarmSeverityFilter<"AlarmEvent"> | $Enums.AlarmSeverity
-  source?: Prisma.EnumAlarmSourceFilter<"AlarmEvent"> | $Enums.AlarmSource
-  triggeredAt?: Prisma.DateTimeFilter<"AlarmEvent"> | Date | string
-}
-
 export type AlarmEventCreateWithoutDeviceInput = {
   type: string
   message: string
   severity: $Enums.AlarmSeverity
   source?: $Enums.AlarmSource
   triggeredAt?: Date | string
-  sensor: Prisma.SensorDataCreateNestedOneWithoutAlarmsInput
-  home?: Prisma.HomeCreateNestedOneWithoutAlarmEventsInput
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataCreateNestedOneWithoutAlarmEventsInput
+  sensorReading?: Prisma.SensorReadingCreateNestedOneWithoutAlarmEventsInput
+  home: Prisma.HomeCreateNestedOneWithoutAlarmEventsInput
+  acknowledgedByUser?: Prisma.UserAccountCreateNestedOneWithoutAcknowledgedAlarmsInput
+  resolvedByUser?: Prisma.UserAccountCreateNestedOneWithoutResolvedAlarmsInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutAlarmInput
 }
 
 export type AlarmEventUncheckedCreateWithoutDeviceInput = {
   id?: number
-  sensorId: number
-  homeId?: number | null
+  sensorDataId?: number | null
+  sensorReadingId?: number | null
+  homeId: number
   type: string
   message: string
   severity: $Enums.AlarmSeverity
   source?: $Enums.AlarmSource
   triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  acknowledgedBy?: number | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: number | null
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAlarmInput
 }
 
 export type AlarmEventCreateOrConnectWithoutDeviceInput = {
@@ -711,62 +1175,367 @@ export type AlarmEventUpdateManyWithWhereWithoutDeviceInput = {
   data: Prisma.XOR<Prisma.AlarmEventUpdateManyMutationInput, Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceInput>
 }
 
-export type AlarmEventCreateWithoutSensorInput = {
+export type AlarmEventCreateWithoutSensorDataInput = {
   type: string
   message: string
   severity: $Enums.AlarmSeverity
   source?: $Enums.AlarmSource
   triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  sensorReading?: Prisma.SensorReadingCreateNestedOneWithoutAlarmEventsInput
   device: Prisma.DeviceCreateNestedOneWithoutAlarmEventsInput
-  home?: Prisma.HomeCreateNestedOneWithoutAlarmEventsInput
+  home: Prisma.HomeCreateNestedOneWithoutAlarmEventsInput
+  acknowledgedByUser?: Prisma.UserAccountCreateNestedOneWithoutAcknowledgedAlarmsInput
+  resolvedByUser?: Prisma.UserAccountCreateNestedOneWithoutResolvedAlarmsInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutAlarmInput
 }
 
-export type AlarmEventUncheckedCreateWithoutSensorInput = {
+export type AlarmEventUncheckedCreateWithoutSensorDataInput = {
   id?: number
+  sensorReadingId?: number | null
   deviceId: number
-  homeId?: number | null
+  homeId: number
   type: string
   message: string
   severity: $Enums.AlarmSeverity
   source?: $Enums.AlarmSource
   triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  acknowledgedBy?: number | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: number | null
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAlarmInput
 }
 
-export type AlarmEventCreateOrConnectWithoutSensorInput = {
+export type AlarmEventCreateOrConnectWithoutSensorDataInput = {
   where: Prisma.AlarmEventWhereUniqueInput
-  create: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorInput, Prisma.AlarmEventUncheckedCreateWithoutSensorInput>
+  create: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorDataInput, Prisma.AlarmEventUncheckedCreateWithoutSensorDataInput>
 }
 
-export type AlarmEventCreateManySensorInputEnvelope = {
-  data: Prisma.AlarmEventCreateManySensorInput | Prisma.AlarmEventCreateManySensorInput[]
+export type AlarmEventCreateManySensorDataInputEnvelope = {
+  data: Prisma.AlarmEventCreateManySensorDataInput | Prisma.AlarmEventCreateManySensorDataInput[]
   skipDuplicates?: boolean
 }
 
-export type AlarmEventUpsertWithWhereUniqueWithoutSensorInput = {
+export type AlarmEventUpsertWithWhereUniqueWithoutSensorDataInput = {
   where: Prisma.AlarmEventWhereUniqueInput
-  update: Prisma.XOR<Prisma.AlarmEventUpdateWithoutSensorInput, Prisma.AlarmEventUncheckedUpdateWithoutSensorInput>
-  create: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorInput, Prisma.AlarmEventUncheckedCreateWithoutSensorInput>
+  update: Prisma.XOR<Prisma.AlarmEventUpdateWithoutSensorDataInput, Prisma.AlarmEventUncheckedUpdateWithoutSensorDataInput>
+  create: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorDataInput, Prisma.AlarmEventUncheckedCreateWithoutSensorDataInput>
 }
 
-export type AlarmEventUpdateWithWhereUniqueWithoutSensorInput = {
+export type AlarmEventUpdateWithWhereUniqueWithoutSensorDataInput = {
   where: Prisma.AlarmEventWhereUniqueInput
-  data: Prisma.XOR<Prisma.AlarmEventUpdateWithoutSensorInput, Prisma.AlarmEventUncheckedUpdateWithoutSensorInput>
+  data: Prisma.XOR<Prisma.AlarmEventUpdateWithoutSensorDataInput, Prisma.AlarmEventUncheckedUpdateWithoutSensorDataInput>
 }
 
-export type AlarmEventUpdateManyWithWhereWithoutSensorInput = {
+export type AlarmEventUpdateManyWithWhereWithoutSensorDataInput = {
   where: Prisma.AlarmEventScalarWhereInput
-  data: Prisma.XOR<Prisma.AlarmEventUpdateManyMutationInput, Prisma.AlarmEventUncheckedUpdateManyWithoutSensorInput>
+  data: Prisma.XOR<Prisma.AlarmEventUpdateManyMutationInput, Prisma.AlarmEventUncheckedUpdateManyWithoutSensorDataInput>
+}
+
+export type AlarmEventCreateWithoutSensorReadingInput = {
+  type: string
+  message: string
+  severity: $Enums.AlarmSeverity
+  source?: $Enums.AlarmSource
+  triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataCreateNestedOneWithoutAlarmEventsInput
+  device: Prisma.DeviceCreateNestedOneWithoutAlarmEventsInput
+  home: Prisma.HomeCreateNestedOneWithoutAlarmEventsInput
+  acknowledgedByUser?: Prisma.UserAccountCreateNestedOneWithoutAcknowledgedAlarmsInput
+  resolvedByUser?: Prisma.UserAccountCreateNestedOneWithoutResolvedAlarmsInput
+  notificationLogs?: Prisma.NotificationLogCreateNestedManyWithoutAlarmInput
+}
+
+export type AlarmEventUncheckedCreateWithoutSensorReadingInput = {
+  id?: number
+  sensorDataId?: number | null
+  deviceId: number
+  homeId: number
+  type: string
+  message: string
+  severity: $Enums.AlarmSeverity
+  source?: $Enums.AlarmSource
+  triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  acknowledgedBy?: number | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: number | null
+  notificationLogs?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAlarmInput
+}
+
+export type AlarmEventCreateOrConnectWithoutSensorReadingInput = {
+  where: Prisma.AlarmEventWhereUniqueInput
+  create: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorReadingInput, Prisma.AlarmEventUncheckedCreateWithoutSensorReadingInput>
+}
+
+export type AlarmEventCreateManySensorReadingInputEnvelope = {
+  data: Prisma.AlarmEventCreateManySensorReadingInput | Prisma.AlarmEventCreateManySensorReadingInput[]
+  skipDuplicates?: boolean
+}
+
+export type AlarmEventUpsertWithWhereUniqueWithoutSensorReadingInput = {
+  where: Prisma.AlarmEventWhereUniqueInput
+  update: Prisma.XOR<Prisma.AlarmEventUpdateWithoutSensorReadingInput, Prisma.AlarmEventUncheckedUpdateWithoutSensorReadingInput>
+  create: Prisma.XOR<Prisma.AlarmEventCreateWithoutSensorReadingInput, Prisma.AlarmEventUncheckedCreateWithoutSensorReadingInput>
+}
+
+export type AlarmEventUpdateWithWhereUniqueWithoutSensorReadingInput = {
+  where: Prisma.AlarmEventWhereUniqueInput
+  data: Prisma.XOR<Prisma.AlarmEventUpdateWithoutSensorReadingInput, Prisma.AlarmEventUncheckedUpdateWithoutSensorReadingInput>
+}
+
+export type AlarmEventUpdateManyWithWhereWithoutSensorReadingInput = {
+  where: Prisma.AlarmEventScalarWhereInput
+  data: Prisma.XOR<Prisma.AlarmEventUpdateManyMutationInput, Prisma.AlarmEventUncheckedUpdateManyWithoutSensorReadingInput>
+}
+
+export type AlarmEventCreateWithoutNotificationLogsInput = {
+  type: string
+  message: string
+  severity: $Enums.AlarmSeverity
+  source?: $Enums.AlarmSource
+  triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataCreateNestedOneWithoutAlarmEventsInput
+  sensorReading?: Prisma.SensorReadingCreateNestedOneWithoutAlarmEventsInput
+  device: Prisma.DeviceCreateNestedOneWithoutAlarmEventsInput
+  home: Prisma.HomeCreateNestedOneWithoutAlarmEventsInput
+  acknowledgedByUser?: Prisma.UserAccountCreateNestedOneWithoutAcknowledgedAlarmsInput
+  resolvedByUser?: Prisma.UserAccountCreateNestedOneWithoutResolvedAlarmsInput
+}
+
+export type AlarmEventUncheckedCreateWithoutNotificationLogsInput = {
+  id?: number
+  sensorDataId?: number | null
+  sensorReadingId?: number | null
+  deviceId: number
+  homeId: number
+  type: string
+  message: string
+  severity: $Enums.AlarmSeverity
+  source?: $Enums.AlarmSource
+  triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  acknowledgedBy?: number | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: number | null
+}
+
+export type AlarmEventCreateOrConnectWithoutNotificationLogsInput = {
+  where: Prisma.AlarmEventWhereUniqueInput
+  create: Prisma.XOR<Prisma.AlarmEventCreateWithoutNotificationLogsInput, Prisma.AlarmEventUncheckedCreateWithoutNotificationLogsInput>
+}
+
+export type AlarmEventUpsertWithoutNotificationLogsInput = {
+  update: Prisma.XOR<Prisma.AlarmEventUpdateWithoutNotificationLogsInput, Prisma.AlarmEventUncheckedUpdateWithoutNotificationLogsInput>
+  create: Prisma.XOR<Prisma.AlarmEventCreateWithoutNotificationLogsInput, Prisma.AlarmEventUncheckedCreateWithoutNotificationLogsInput>
+  where?: Prisma.AlarmEventWhereInput
+}
+
+export type AlarmEventUpdateToOneWithWhereWithoutNotificationLogsInput = {
+  where?: Prisma.AlarmEventWhereInput
+  data: Prisma.XOR<Prisma.AlarmEventUpdateWithoutNotificationLogsInput, Prisma.AlarmEventUncheckedUpdateWithoutNotificationLogsInput>
+}
+
+export type AlarmEventUpdateWithoutNotificationLogsInput = {
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
+  source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
+  triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUpdateOneWithoutAlarmEventsNestedInput
+  sensorReading?: Prisma.SensorReadingUpdateOneWithoutAlarmEventsNestedInput
+  device?: Prisma.DeviceUpdateOneRequiredWithoutAlarmEventsNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutAlarmEventsNestedInput
+  acknowledgedByUser?: Prisma.UserAccountUpdateOneWithoutAcknowledgedAlarmsNestedInput
+  resolvedByUser?: Prisma.UserAccountUpdateOneWithoutResolvedAlarmsNestedInput
+}
+
+export type AlarmEventUncheckedUpdateWithoutNotificationLogsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  sensorDataId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorReadingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
+  source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
+  triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type AlarmEventCreateManyAcknowledgedByUserInput = {
+  id?: number
+  sensorDataId?: number | null
+  sensorReadingId?: number | null
+  deviceId: number
+  homeId: number
+  type: string
+  message: string
+  severity: $Enums.AlarmSeverity
+  source?: $Enums.AlarmSource
+  triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: number | null
+}
+
+export type AlarmEventCreateManyResolvedByUserInput = {
+  id?: number
+  sensorDataId?: number | null
+  sensorReadingId?: number | null
+  deviceId: number
+  homeId: number
+  type: string
+  message: string
+  severity: $Enums.AlarmSeverity
+  source?: $Enums.AlarmSource
+  triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  acknowledgedBy?: number | null
+  resolvedAt?: Date | string | null
+}
+
+export type AlarmEventUpdateWithoutAcknowledgedByUserInput = {
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
+  source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
+  triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUpdateOneWithoutAlarmEventsNestedInput
+  sensorReading?: Prisma.SensorReadingUpdateOneWithoutAlarmEventsNestedInput
+  device?: Prisma.DeviceUpdateOneRequiredWithoutAlarmEventsNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutAlarmEventsNestedInput
+  resolvedByUser?: Prisma.UserAccountUpdateOneWithoutResolvedAlarmsNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutAlarmNestedInput
+}
+
+export type AlarmEventUncheckedUpdateWithoutAcknowledgedByUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  sensorDataId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorReadingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
+  source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
+  triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutAlarmNestedInput
+}
+
+export type AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  sensorDataId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorReadingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
+  source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
+  triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type AlarmEventUpdateWithoutResolvedByUserInput = {
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
+  source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
+  triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUpdateOneWithoutAlarmEventsNestedInput
+  sensorReading?: Prisma.SensorReadingUpdateOneWithoutAlarmEventsNestedInput
+  device?: Prisma.DeviceUpdateOneRequiredWithoutAlarmEventsNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutAlarmEventsNestedInput
+  acknowledgedByUser?: Prisma.UserAccountUpdateOneWithoutAcknowledgedAlarmsNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutAlarmNestedInput
+}
+
+export type AlarmEventUncheckedUpdateWithoutResolvedByUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  sensorDataId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorReadingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
+  source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
+  triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutAlarmNestedInput
+}
+
+export type AlarmEventUncheckedUpdateManyWithoutResolvedByUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  sensorDataId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorReadingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
+  source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
+  triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type AlarmEventCreateManyHomeInput = {
   id?: number
-  sensorId: number
+  sensorDataId?: number | null
+  sensorReadingId?: number | null
   deviceId: number
   type: string
   message: string
   severity: $Enums.AlarmSeverity
   source?: $Enums.AlarmSource
   triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  acknowledgedBy?: number | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: number | null
 }
 
 export type AlarmEventUpdateWithoutHomeInput = {
@@ -775,41 +1544,67 @@ export type AlarmEventUpdateWithoutHomeInput = {
   severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sensor?: Prisma.SensorDataUpdateOneRequiredWithoutAlarmsNestedInput
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUpdateOneWithoutAlarmEventsNestedInput
+  sensorReading?: Prisma.SensorReadingUpdateOneWithoutAlarmEventsNestedInput
   device?: Prisma.DeviceUpdateOneRequiredWithoutAlarmEventsNestedInput
+  acknowledgedByUser?: Prisma.UserAccountUpdateOneWithoutAcknowledgedAlarmsNestedInput
+  resolvedByUser?: Prisma.UserAccountUpdateOneWithoutResolvedAlarmsNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutAlarmNestedInput
 }
 
 export type AlarmEventUncheckedUpdateWithoutHomeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  sensorId?: Prisma.IntFieldUpdateOperationsInput | number
+  sensorDataId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorReadingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   deviceId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutAlarmNestedInput
 }
 
 export type AlarmEventUncheckedUpdateManyWithoutHomeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  sensorId?: Prisma.IntFieldUpdateOperationsInput | number
+  sensorDataId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorReadingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   deviceId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type AlarmEventCreateManyDeviceInput = {
   id?: number
-  sensorId: number
-  homeId?: number | null
+  sensorDataId?: number | null
+  sensorReadingId?: number | null
+  homeId: number
   type: string
   message: string
   severity: $Enums.AlarmSeverity
   source?: $Enums.AlarmSource
   triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  acknowledgedBy?: number | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: number | null
 }
 
 export type AlarmEventUpdateWithoutDeviceInput = {
@@ -818,80 +1613,225 @@ export type AlarmEventUpdateWithoutDeviceInput = {
   severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sensor?: Prisma.SensorDataUpdateOneRequiredWithoutAlarmsNestedInput
-  home?: Prisma.HomeUpdateOneWithoutAlarmEventsNestedInput
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUpdateOneWithoutAlarmEventsNestedInput
+  sensorReading?: Prisma.SensorReadingUpdateOneWithoutAlarmEventsNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutAlarmEventsNestedInput
+  acknowledgedByUser?: Prisma.UserAccountUpdateOneWithoutAcknowledgedAlarmsNestedInput
+  resolvedByUser?: Prisma.UserAccountUpdateOneWithoutResolvedAlarmsNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutAlarmNestedInput
 }
 
 export type AlarmEventUncheckedUpdateWithoutDeviceInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  sensorId?: Prisma.IntFieldUpdateOperationsInput | number
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorDataId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorReadingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutAlarmNestedInput
 }
 
 export type AlarmEventUncheckedUpdateManyWithoutDeviceInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  sensorId?: Prisma.IntFieldUpdateOperationsInput | number
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorDataId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sensorReadingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
-export type AlarmEventCreateManySensorInput = {
+export type AlarmEventCreateManySensorDataInput = {
   id?: number
+  sensorReadingId?: number | null
   deviceId: number
-  homeId?: number | null
+  homeId: number
   type: string
   message: string
   severity: $Enums.AlarmSeverity
   source?: $Enums.AlarmSource
   triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  acknowledgedBy?: number | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: number | null
 }
 
-export type AlarmEventUpdateWithoutSensorInput = {
+export type AlarmEventUpdateWithoutSensorDataInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorReading?: Prisma.SensorReadingUpdateOneWithoutAlarmEventsNestedInput
   device?: Prisma.DeviceUpdateOneRequiredWithoutAlarmEventsNestedInput
-  home?: Prisma.HomeUpdateOneWithoutAlarmEventsNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutAlarmEventsNestedInput
+  acknowledgedByUser?: Prisma.UserAccountUpdateOneWithoutAcknowledgedAlarmsNestedInput
+  resolvedByUser?: Prisma.UserAccountUpdateOneWithoutResolvedAlarmsNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutAlarmNestedInput
 }
 
-export type AlarmEventUncheckedUpdateWithoutSensorInput = {
+export type AlarmEventUncheckedUpdateWithoutSensorDataInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  sensorReadingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   deviceId?: Prisma.IntFieldUpdateOperationsInput | number
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutAlarmNestedInput
 }
 
-export type AlarmEventUncheckedUpdateManyWithoutSensorInput = {
+export type AlarmEventUncheckedUpdateManyWithoutSensorDataInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  sensorReadingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   deviceId?: Prisma.IntFieldUpdateOperationsInput | number
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
   source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
   triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
+export type AlarmEventCreateManySensorReadingInput = {
+  id?: number
+  sensorDataId?: number | null
+  deviceId: number
+  homeId: number
+  type: string
+  message: string
+  severity: $Enums.AlarmSeverity
+  source?: $Enums.AlarmSource
+  triggeredAt?: Date | string
+  status?: $Enums.AlarmStatus
+  acknowledgedAt?: Date | string | null
+  acknowledgedBy?: number | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: number | null
+}
+
+export type AlarmEventUpdateWithoutSensorReadingInput = {
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
+  source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
+  triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUpdateOneWithoutAlarmEventsNestedInput
+  device?: Prisma.DeviceUpdateOneRequiredWithoutAlarmEventsNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutAlarmEventsNestedInput
+  acknowledgedByUser?: Prisma.UserAccountUpdateOneWithoutAcknowledgedAlarmsNestedInput
+  resolvedByUser?: Prisma.UserAccountUpdateOneWithoutResolvedAlarmsNestedInput
+  notificationLogs?: Prisma.NotificationLogUpdateManyWithoutAlarmNestedInput
+}
+
+export type AlarmEventUncheckedUpdateWithoutSensorReadingInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  sensorDataId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
+  source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
+  triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  notificationLogs?: Prisma.NotificationLogUncheckedUpdateManyWithoutAlarmNestedInput
+}
+
+export type AlarmEventUncheckedUpdateManyWithoutSensorReadingInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  sensorDataId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.EnumAlarmSeverityFieldUpdateOperationsInput | $Enums.AlarmSeverity
+  source?: Prisma.EnumAlarmSourceFieldUpdateOperationsInput | $Enums.AlarmSource
+  triggeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAlarmStatusFieldUpdateOperationsInput | $Enums.AlarmStatus
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+
+/**
+ * Count Type AlarmEventCountOutputType
+ */
+
+export type AlarmEventCountOutputType = {
+  notificationLogs: number
+}
+
+export type AlarmEventCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  notificationLogs?: boolean | AlarmEventCountOutputTypeCountNotificationLogsArgs
+}
+
+/**
+ * AlarmEventCountOutputType without action
+ */
+export type AlarmEventCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AlarmEventCountOutputType
+   */
+  select?: Prisma.AlarmEventCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AlarmEventCountOutputType without action
+ */
+export type AlarmEventCountOutputTypeCountNotificationLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationLogWhereInput
+}
 
 
 export type AlarmEventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  sensorId?: boolean
+  sensorDataId?: boolean
+  sensorReadingId?: boolean
   deviceId?: boolean
   homeId?: boolean
   type?: boolean
@@ -899,14 +1839,25 @@ export type AlarmEventSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   severity?: boolean
   source?: boolean
   triggeredAt?: boolean
-  sensor?: boolean | Prisma.SensorDataDefaultArgs<ExtArgs>
+  status?: boolean
+  acknowledgedAt?: boolean
+  acknowledgedBy?: boolean
+  resolvedAt?: boolean
+  resolvedBy?: boolean
+  sensorData?: boolean | Prisma.AlarmEvent$sensorDataArgs<ExtArgs>
+  sensorReading?: boolean | Prisma.AlarmEvent$sensorReadingArgs<ExtArgs>
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
-  home?: boolean | Prisma.AlarmEvent$homeArgs<ExtArgs>
+  home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
+  acknowledgedByUser?: boolean | Prisma.AlarmEvent$acknowledgedByUserArgs<ExtArgs>
+  resolvedByUser?: boolean | Prisma.AlarmEvent$resolvedByUserArgs<ExtArgs>
+  notificationLogs?: boolean | Prisma.AlarmEvent$notificationLogsArgs<ExtArgs>
+  _count?: boolean | Prisma.AlarmEventCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["alarmEvent"]>
 
 export type AlarmEventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  sensorId?: boolean
+  sensorDataId?: boolean
+  sensorReadingId?: boolean
   deviceId?: boolean
   homeId?: boolean
   type?: boolean
@@ -914,14 +1865,23 @@ export type AlarmEventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   severity?: boolean
   source?: boolean
   triggeredAt?: boolean
-  sensor?: boolean | Prisma.SensorDataDefaultArgs<ExtArgs>
+  status?: boolean
+  acknowledgedAt?: boolean
+  acknowledgedBy?: boolean
+  resolvedAt?: boolean
+  resolvedBy?: boolean
+  sensorData?: boolean | Prisma.AlarmEvent$sensorDataArgs<ExtArgs>
+  sensorReading?: boolean | Prisma.AlarmEvent$sensorReadingArgs<ExtArgs>
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
-  home?: boolean | Prisma.AlarmEvent$homeArgs<ExtArgs>
+  home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
+  acknowledgedByUser?: boolean | Prisma.AlarmEvent$acknowledgedByUserArgs<ExtArgs>
+  resolvedByUser?: boolean | Prisma.AlarmEvent$resolvedByUserArgs<ExtArgs>
 }, ExtArgs["result"]["alarmEvent"]>
 
 export type AlarmEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  sensorId?: boolean
+  sensorDataId?: boolean
+  sensorReadingId?: boolean
   deviceId?: boolean
   homeId?: boolean
   type?: boolean
@@ -929,14 +1889,23 @@ export type AlarmEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   severity?: boolean
   source?: boolean
   triggeredAt?: boolean
-  sensor?: boolean | Prisma.SensorDataDefaultArgs<ExtArgs>
+  status?: boolean
+  acknowledgedAt?: boolean
+  acknowledgedBy?: boolean
+  resolvedAt?: boolean
+  resolvedBy?: boolean
+  sensorData?: boolean | Prisma.AlarmEvent$sensorDataArgs<ExtArgs>
+  sensorReading?: boolean | Prisma.AlarmEvent$sensorReadingArgs<ExtArgs>
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
-  home?: boolean | Prisma.AlarmEvent$homeArgs<ExtArgs>
+  home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
+  acknowledgedByUser?: boolean | Prisma.AlarmEvent$acknowledgedByUserArgs<ExtArgs>
+  resolvedByUser?: boolean | Prisma.AlarmEvent$resolvedByUserArgs<ExtArgs>
 }, ExtArgs["result"]["alarmEvent"]>
 
 export type AlarmEventSelectScalar = {
   id?: boolean
-  sensorId?: boolean
+  sensorDataId?: boolean
+  sensorReadingId?: boolean
   deviceId?: boolean
   homeId?: boolean
   type?: boolean
@@ -944,42 +1913,68 @@ export type AlarmEventSelectScalar = {
   severity?: boolean
   source?: boolean
   triggeredAt?: boolean
+  status?: boolean
+  acknowledgedAt?: boolean
+  acknowledgedBy?: boolean
+  resolvedAt?: boolean
+  resolvedBy?: boolean
 }
 
-export type AlarmEventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sensorId" | "deviceId" | "homeId" | "type" | "message" | "severity" | "source" | "triggeredAt", ExtArgs["result"]["alarmEvent"]>
+export type AlarmEventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sensorDataId" | "sensorReadingId" | "deviceId" | "homeId" | "type" | "message" | "severity" | "source" | "triggeredAt" | "status" | "acknowledgedAt" | "acknowledgedBy" | "resolvedAt" | "resolvedBy", ExtArgs["result"]["alarmEvent"]>
 export type AlarmEventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  sensor?: boolean | Prisma.SensorDataDefaultArgs<ExtArgs>
+  sensorData?: boolean | Prisma.AlarmEvent$sensorDataArgs<ExtArgs>
+  sensorReading?: boolean | Prisma.AlarmEvent$sensorReadingArgs<ExtArgs>
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
-  home?: boolean | Prisma.AlarmEvent$homeArgs<ExtArgs>
+  home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
+  acknowledgedByUser?: boolean | Prisma.AlarmEvent$acknowledgedByUserArgs<ExtArgs>
+  resolvedByUser?: boolean | Prisma.AlarmEvent$resolvedByUserArgs<ExtArgs>
+  notificationLogs?: boolean | Prisma.AlarmEvent$notificationLogsArgs<ExtArgs>
+  _count?: boolean | Prisma.AlarmEventCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AlarmEventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  sensor?: boolean | Prisma.SensorDataDefaultArgs<ExtArgs>
+  sensorData?: boolean | Prisma.AlarmEvent$sensorDataArgs<ExtArgs>
+  sensorReading?: boolean | Prisma.AlarmEvent$sensorReadingArgs<ExtArgs>
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
-  home?: boolean | Prisma.AlarmEvent$homeArgs<ExtArgs>
+  home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
+  acknowledgedByUser?: boolean | Prisma.AlarmEvent$acknowledgedByUserArgs<ExtArgs>
+  resolvedByUser?: boolean | Prisma.AlarmEvent$resolvedByUserArgs<ExtArgs>
 }
 export type AlarmEventIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  sensor?: boolean | Prisma.SensorDataDefaultArgs<ExtArgs>
+  sensorData?: boolean | Prisma.AlarmEvent$sensorDataArgs<ExtArgs>
+  sensorReading?: boolean | Prisma.AlarmEvent$sensorReadingArgs<ExtArgs>
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
-  home?: boolean | Prisma.AlarmEvent$homeArgs<ExtArgs>
+  home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
+  acknowledgedByUser?: boolean | Prisma.AlarmEvent$acknowledgedByUserArgs<ExtArgs>
+  resolvedByUser?: boolean | Prisma.AlarmEvent$resolvedByUserArgs<ExtArgs>
 }
 
 export type $AlarmEventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AlarmEvent"
   objects: {
-    sensor: Prisma.$SensorDataPayload<ExtArgs>
+    sensorData: Prisma.$SensorDataPayload<ExtArgs> | null
+    sensorReading: Prisma.$SensorReadingPayload<ExtArgs> | null
     device: Prisma.$DevicePayload<ExtArgs>
-    home: Prisma.$HomePayload<ExtArgs> | null
+    home: Prisma.$HomePayload<ExtArgs>
+    acknowledgedByUser: Prisma.$UserAccountPayload<ExtArgs> | null
+    resolvedByUser: Prisma.$UserAccountPayload<ExtArgs> | null
+    notificationLogs: Prisma.$NotificationLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    sensorId: number
+    sensorDataId: number | null
+    sensorReadingId: number | null
     deviceId: number
-    homeId: number | null
+    homeId: number
     type: string
     message: string
     severity: $Enums.AlarmSeverity
     source: $Enums.AlarmSource
     triggeredAt: Date
+    status: $Enums.AlarmStatus
+    acknowledgedAt: Date | null
+    acknowledgedBy: number | null
+    resolvedAt: Date | null
+    resolvedBy: number | null
   }, ExtArgs["result"]["alarmEvent"]>
   composites: {}
 }
@@ -1374,9 +2369,13 @@ readonly fields: AlarmEventFieldRefs;
  */
 export interface Prisma__AlarmEventClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  sensor<T extends Prisma.SensorDataDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SensorDataDefaultArgs<ExtArgs>>): Prisma.Prisma__SensorDataClient<runtime.Types.Result.GetResult<Prisma.$SensorDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  sensorData<T extends Prisma.AlarmEvent$sensorDataArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AlarmEvent$sensorDataArgs<ExtArgs>>): Prisma.Prisma__SensorDataClient<runtime.Types.Result.GetResult<Prisma.$SensorDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  sensorReading<T extends Prisma.AlarmEvent$sensorReadingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AlarmEvent$sensorReadingArgs<ExtArgs>>): Prisma.Prisma__SensorReadingClient<runtime.Types.Result.GetResult<Prisma.$SensorReadingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   device<T extends Prisma.DeviceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DeviceDefaultArgs<ExtArgs>>): Prisma.Prisma__DeviceClient<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  home<T extends Prisma.AlarmEvent$homeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AlarmEvent$homeArgs<ExtArgs>>): Prisma.Prisma__HomeClient<runtime.Types.Result.GetResult<Prisma.$HomePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  home<T extends Prisma.HomeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HomeDefaultArgs<ExtArgs>>): Prisma.Prisma__HomeClient<runtime.Types.Result.GetResult<Prisma.$HomePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  acknowledgedByUser<T extends Prisma.AlarmEvent$acknowledgedByUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AlarmEvent$acknowledgedByUserArgs<ExtArgs>>): Prisma.Prisma__UserAccountClient<runtime.Types.Result.GetResult<Prisma.$UserAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  resolvedByUser<T extends Prisma.AlarmEvent$resolvedByUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AlarmEvent$resolvedByUserArgs<ExtArgs>>): Prisma.Prisma__UserAccountClient<runtime.Types.Result.GetResult<Prisma.$UserAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  notificationLogs<T extends Prisma.AlarmEvent$notificationLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AlarmEvent$notificationLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1407,7 +2406,8 @@ export interface Prisma__AlarmEventClient<T, Null = never, ExtArgs extends runti
  */
 export interface AlarmEventFieldRefs {
   readonly id: Prisma.FieldRef<"AlarmEvent", 'Int'>
-  readonly sensorId: Prisma.FieldRef<"AlarmEvent", 'Int'>
+  readonly sensorDataId: Prisma.FieldRef<"AlarmEvent", 'Int'>
+  readonly sensorReadingId: Prisma.FieldRef<"AlarmEvent", 'Int'>
   readonly deviceId: Prisma.FieldRef<"AlarmEvent", 'Int'>
   readonly homeId: Prisma.FieldRef<"AlarmEvent", 'Int'>
   readonly type: Prisma.FieldRef<"AlarmEvent", 'String'>
@@ -1415,6 +2415,11 @@ export interface AlarmEventFieldRefs {
   readonly severity: Prisma.FieldRef<"AlarmEvent", 'AlarmSeverity'>
   readonly source: Prisma.FieldRef<"AlarmEvent", 'AlarmSource'>
   readonly triggeredAt: Prisma.FieldRef<"AlarmEvent", 'DateTime'>
+  readonly status: Prisma.FieldRef<"AlarmEvent", 'AlarmStatus'>
+  readonly acknowledgedAt: Prisma.FieldRef<"AlarmEvent", 'DateTime'>
+  readonly acknowledgedBy: Prisma.FieldRef<"AlarmEvent", 'Int'>
+  readonly resolvedAt: Prisma.FieldRef<"AlarmEvent", 'DateTime'>
+  readonly resolvedBy: Prisma.FieldRef<"AlarmEvent", 'Int'>
 }
     
 
@@ -1811,22 +2816,103 @@ export type AlarmEventDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * AlarmEvent.home
+ * AlarmEvent.sensorData
  */
-export type AlarmEvent$homeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type AlarmEvent$sensorDataArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Home
+   * Select specific fields to fetch from the SensorData
    */
-  select?: Prisma.HomeSelect<ExtArgs> | null
+  select?: Prisma.SensorDataSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Home
+   * Omit specific fields from the SensorData
    */
-  omit?: Prisma.HomeOmit<ExtArgs> | null
+  omit?: Prisma.SensorDataOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.HomeInclude<ExtArgs> | null
-  where?: Prisma.HomeWhereInput
+  include?: Prisma.SensorDataInclude<ExtArgs> | null
+  where?: Prisma.SensorDataWhereInput
+}
+
+/**
+ * AlarmEvent.sensorReading
+ */
+export type AlarmEvent$sensorReadingArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SensorReading
+   */
+  select?: Prisma.SensorReadingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SensorReading
+   */
+  omit?: Prisma.SensorReadingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SensorReadingInclude<ExtArgs> | null
+  where?: Prisma.SensorReadingWhereInput
+}
+
+/**
+ * AlarmEvent.acknowledgedByUser
+ */
+export type AlarmEvent$acknowledgedByUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserAccount
+   */
+  select?: Prisma.UserAccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserAccount
+   */
+  omit?: Prisma.UserAccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserAccountInclude<ExtArgs> | null
+  where?: Prisma.UserAccountWhereInput
+}
+
+/**
+ * AlarmEvent.resolvedByUser
+ */
+export type AlarmEvent$resolvedByUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserAccount
+   */
+  select?: Prisma.UserAccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserAccount
+   */
+  omit?: Prisma.UserAccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserAccountInclude<ExtArgs> | null
+  where?: Prisma.UserAccountWhereInput
+}
+
+/**
+ * AlarmEvent.notificationLogs
+ */
+export type AlarmEvent$notificationLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the NotificationLog
+   */
+  select?: Prisma.NotificationLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the NotificationLog
+   */
+  omit?: Prisma.NotificationLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationLogInclude<ExtArgs> | null
+  where?: Prisma.NotificationLogWhereInput
+  orderBy?: Prisma.NotificationLogOrderByWithRelationInput | Prisma.NotificationLogOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationLogScalarFieldEnum | Prisma.NotificationLogScalarFieldEnum[]
 }
 
 /**

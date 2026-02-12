@@ -44,3 +44,10 @@ public/styles.css
 
 # Logs
 *.log
+
+storage
+storage/
+*.bin
+
+# src/lib/generated/prisma
+# src/lib/generated/prisma/*

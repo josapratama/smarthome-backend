@@ -28,106 +28,130 @@ export type AggregateDevice = {
 
 export type DeviceAvgAggregateOutputType = {
   id: number | null
-  userId: number | null
+  roomId: number | null
+  pairedByUserId: number | null
   homeId: number | null
 }
 
 export type DeviceSumAggregateOutputType = {
   id: number | null
-  userId: number | null
+  roomId: number | null
+  pairedByUserId: number | null
   homeId: number | null
 }
 
 export type DeviceMinAggregateOutputType = {
   id: number | null
   deviceName: string | null
-  room: string | null
+  roomId: number | null
   status: boolean | null
   updatedAt: Date | null
   lastSeenAt: Date | null
   mqttClientId: string | null
   deviceKey: string | null
-  userId: number | null
+  deviceType: $Enums.DeviceType | null
+  pairedByUserId: number | null
   homeId: number | null
+  pairedAt: Date | null
+  unpairedAt: Date | null
 }
 
 export type DeviceMaxAggregateOutputType = {
   id: number | null
   deviceName: string | null
-  room: string | null
+  roomId: number | null
   status: boolean | null
   updatedAt: Date | null
   lastSeenAt: Date | null
   mqttClientId: string | null
   deviceKey: string | null
-  userId: number | null
+  deviceType: $Enums.DeviceType | null
+  pairedByUserId: number | null
   homeId: number | null
+  pairedAt: Date | null
+  unpairedAt: Date | null
 }
 
 export type DeviceCountAggregateOutputType = {
   id: number
   deviceName: number
-  room: number
+  roomId: number
   status: number
   updatedAt: number
   lastSeenAt: number
   mqttClientId: number
   deviceKey: number
-  userId: number
+  deviceType: number
+  capabilities: number
+  pairedByUserId: number
   homeId: number
+  pairedAt: number
+  unpairedAt: number
   _all: number
 }
 
 
 export type DeviceAvgAggregateInputType = {
   id?: true
-  userId?: true
+  roomId?: true
+  pairedByUserId?: true
   homeId?: true
 }
 
 export type DeviceSumAggregateInputType = {
   id?: true
-  userId?: true
+  roomId?: true
+  pairedByUserId?: true
   homeId?: true
 }
 
 export type DeviceMinAggregateInputType = {
   id?: true
   deviceName?: true
-  room?: true
+  roomId?: true
   status?: true
   updatedAt?: true
   lastSeenAt?: true
   mqttClientId?: true
   deviceKey?: true
-  userId?: true
+  deviceType?: true
+  pairedByUserId?: true
   homeId?: true
+  pairedAt?: true
+  unpairedAt?: true
 }
 
 export type DeviceMaxAggregateInputType = {
   id?: true
   deviceName?: true
-  room?: true
+  roomId?: true
   status?: true
   updatedAt?: true
   lastSeenAt?: true
   mqttClientId?: true
   deviceKey?: true
-  userId?: true
+  deviceType?: true
+  pairedByUserId?: true
   homeId?: true
+  pairedAt?: true
+  unpairedAt?: true
 }
 
 export type DeviceCountAggregateInputType = {
   id?: true
   deviceName?: true
-  room?: true
+  roomId?: true
   status?: true
   updatedAt?: true
   lastSeenAt?: true
   mqttClientId?: true
   deviceKey?: true
-  userId?: true
+  deviceType?: true
+  capabilities?: true
+  pairedByUserId?: true
   homeId?: true
+  pairedAt?: true
+  unpairedAt?: true
   _all?: true
 }
 
@@ -220,14 +244,18 @@ export type DeviceGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type DeviceGroupByOutputType = {
   id: number
   deviceName: string
-  room: string | null
+  roomId: number | null
   status: boolean
   updatedAt: Date
   lastSeenAt: Date | null
   mqttClientId: string | null
   deviceKey: string | null
-  userId: number
-  homeId: number | null
+  deviceType: $Enums.DeviceType
+  capabilities: runtime.JsonValue | null
+  pairedByUserId: number
+  homeId: number
+  pairedAt: Date | null
+  unpairedAt: Date | null
   _count: DeviceCountAggregateOutputType | null
   _avg: DeviceAvgAggregateOutputType | null
   _sum: DeviceSumAggregateOutputType | null
@@ -256,41 +284,63 @@ export type DeviceWhereInput = {
   NOT?: Prisma.DeviceWhereInput | Prisma.DeviceWhereInput[]
   id?: Prisma.IntFilter<"Device"> | number
   deviceName?: Prisma.StringFilter<"Device"> | string
-  room?: Prisma.StringNullableFilter<"Device"> | string | null
+  roomId?: Prisma.IntNullableFilter<"Device"> | number | null
   status?: Prisma.BoolFilter<"Device"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   lastSeenAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
   mqttClientId?: Prisma.StringNullableFilter<"Device"> | string | null
   deviceKey?: Prisma.StringNullableFilter<"Device"> | string | null
-  userId?: Prisma.IntFilter<"Device"> | number
-  homeId?: Prisma.IntNullableFilter<"Device"> | number | null
+  deviceType?: Prisma.EnumDeviceTypeFilter<"Device"> | $Enums.DeviceType
+  capabilities?: Prisma.JsonNullableFilter<"Device">
+  pairedByUserId?: Prisma.IntFilter<"Device"> | number
+  homeId?: Prisma.IntFilter<"Device"> | number
+  pairedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  unpairedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  roomR?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
   user?: Prisma.XOR<Prisma.UserAccountScalarRelationFilter, Prisma.UserAccountWhereInput>
-  home?: Prisma.XOR<Prisma.HomeNullableScalarRelationFilter, Prisma.HomeWhereInput> | null
+  home?: Prisma.XOR<Prisma.HomeScalarRelationFilter, Prisma.HomeWhereInput>
   sensorData?: Prisma.SensorDataListRelationFilter
+  sensorReadings?: Prisma.SensorReadingListRelationFilter
   energyPredictions?: Prisma.EnergyPredictionListRelationFilter
   commands?: Prisma.CommandListRelationFilter
   alarmEvents?: Prisma.AlarmEventListRelationFilter
   otaJobs?: Prisma.OtaJobListRelationFilter
+  config?: Prisma.XOR<Prisma.DeviceConfigNullableScalarRelationFilter, Prisma.DeviceConfigWhereInput> | null
+  stateHistories?: Prisma.DeviceStateHistoryListRelationFilter
+  energyUsageDaily?: Prisma.EnergyUsageDailyListRelationFilter
+  pairingHistories?: Prisma.DevicePairingHistoryListRelationFilter
+  deviceEventLogs?: Prisma.DeviceEventLogListRelationFilter
 }
 
 export type DeviceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   deviceName?: Prisma.SortOrder
-  room?: Prisma.SortOrderInput | Prisma.SortOrder
+  roomId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastSeenAt?: Prisma.SortOrderInput | Prisma.SortOrder
   mqttClientId?: Prisma.SortOrderInput | Prisma.SortOrder
   deviceKey?: Prisma.SortOrderInput | Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  homeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  deviceType?: Prisma.SortOrder
+  capabilities?: Prisma.SortOrderInput | Prisma.SortOrder
+  pairedByUserId?: Prisma.SortOrder
+  homeId?: Prisma.SortOrder
+  pairedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  unpairedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  roomR?: Prisma.RoomOrderByWithRelationInput
   user?: Prisma.UserAccountOrderByWithRelationInput
   home?: Prisma.HomeOrderByWithRelationInput
   sensorData?: Prisma.SensorDataOrderByRelationAggregateInput
+  sensorReadings?: Prisma.SensorReadingOrderByRelationAggregateInput
   energyPredictions?: Prisma.EnergyPredictionOrderByRelationAggregateInput
   commands?: Prisma.CommandOrderByRelationAggregateInput
   alarmEvents?: Prisma.AlarmEventOrderByRelationAggregateInput
   otaJobs?: Prisma.OtaJobOrderByRelationAggregateInput
+  config?: Prisma.DeviceConfigOrderByWithRelationInput
+  stateHistories?: Prisma.DeviceStateHistoryOrderByRelationAggregateInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyOrderByRelationAggregateInput
+  pairingHistories?: Prisma.DevicePairingHistoryOrderByRelationAggregateInput
+  deviceEventLogs?: Prisma.DeviceEventLogOrderByRelationAggregateInput
 }
 
 export type DeviceWhereUniqueInput = Prisma.AtLeast<{
@@ -301,32 +351,47 @@ export type DeviceWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.DeviceWhereInput[]
   NOT?: Prisma.DeviceWhereInput | Prisma.DeviceWhereInput[]
   deviceName?: Prisma.StringFilter<"Device"> | string
-  room?: Prisma.StringNullableFilter<"Device"> | string | null
+  roomId?: Prisma.IntNullableFilter<"Device"> | number | null
   status?: Prisma.BoolFilter<"Device"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   lastSeenAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
-  userId?: Prisma.IntFilter<"Device"> | number
-  homeId?: Prisma.IntNullableFilter<"Device"> | number | null
+  deviceType?: Prisma.EnumDeviceTypeFilter<"Device"> | $Enums.DeviceType
+  capabilities?: Prisma.JsonNullableFilter<"Device">
+  pairedByUserId?: Prisma.IntFilter<"Device"> | number
+  homeId?: Prisma.IntFilter<"Device"> | number
+  pairedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  unpairedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  roomR?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
   user?: Prisma.XOR<Prisma.UserAccountScalarRelationFilter, Prisma.UserAccountWhereInput>
-  home?: Prisma.XOR<Prisma.HomeNullableScalarRelationFilter, Prisma.HomeWhereInput> | null
+  home?: Prisma.XOR<Prisma.HomeScalarRelationFilter, Prisma.HomeWhereInput>
   sensorData?: Prisma.SensorDataListRelationFilter
+  sensorReadings?: Prisma.SensorReadingListRelationFilter
   energyPredictions?: Prisma.EnergyPredictionListRelationFilter
   commands?: Prisma.CommandListRelationFilter
   alarmEvents?: Prisma.AlarmEventListRelationFilter
   otaJobs?: Prisma.OtaJobListRelationFilter
+  config?: Prisma.XOR<Prisma.DeviceConfigNullableScalarRelationFilter, Prisma.DeviceConfigWhereInput> | null
+  stateHistories?: Prisma.DeviceStateHistoryListRelationFilter
+  energyUsageDaily?: Prisma.EnergyUsageDailyListRelationFilter
+  pairingHistories?: Prisma.DevicePairingHistoryListRelationFilter
+  deviceEventLogs?: Prisma.DeviceEventLogListRelationFilter
 }, "id" | "mqttClientId" | "deviceKey">
 
 export type DeviceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   deviceName?: Prisma.SortOrder
-  room?: Prisma.SortOrderInput | Prisma.SortOrder
+  roomId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastSeenAt?: Prisma.SortOrderInput | Prisma.SortOrder
   mqttClientId?: Prisma.SortOrderInput | Prisma.SortOrder
   deviceKey?: Prisma.SortOrderInput | Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  homeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  deviceType?: Prisma.SortOrder
+  capabilities?: Prisma.SortOrderInput | Prisma.SortOrder
+  pairedByUserId?: Prisma.SortOrder
+  homeId?: Prisma.SortOrder
+  pairedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  unpairedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DeviceCountOrderByAggregateInput
   _avg?: Prisma.DeviceAvgOrderByAggregateInput
   _max?: Prisma.DeviceMaxOrderByAggregateInput
@@ -340,120 +405,175 @@ export type DeviceScalarWhereWithAggregatesInput = {
   NOT?: Prisma.DeviceScalarWhereWithAggregatesInput | Prisma.DeviceScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Device"> | number
   deviceName?: Prisma.StringWithAggregatesFilter<"Device"> | string
-  room?: Prisma.StringNullableWithAggregatesFilter<"Device"> | string | null
+  roomId?: Prisma.IntNullableWithAggregatesFilter<"Device"> | number | null
   status?: Prisma.BoolWithAggregatesFilter<"Device"> | boolean
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Device"> | Date | string
   lastSeenAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Device"> | Date | string | null
   mqttClientId?: Prisma.StringNullableWithAggregatesFilter<"Device"> | string | null
   deviceKey?: Prisma.StringNullableWithAggregatesFilter<"Device"> | string | null
-  userId?: Prisma.IntWithAggregatesFilter<"Device"> | number
-  homeId?: Prisma.IntNullableWithAggregatesFilter<"Device"> | number | null
+  deviceType?: Prisma.EnumDeviceTypeWithAggregatesFilter<"Device"> | $Enums.DeviceType
+  capabilities?: Prisma.JsonNullableWithAggregatesFilter<"Device">
+  pairedByUserId?: Prisma.IntWithAggregatesFilter<"Device"> | number
+  homeId?: Prisma.IntWithAggregatesFilter<"Device"> | number
+  pairedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Device"> | Date | string | null
+  unpairedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Device"> | Date | string | null
 }
 
 export type DeviceCreateInput = {
   deviceName: string
-  room?: string | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
-  home?: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateInput = {
   id?: number
   deviceName: string
-  room?: string | null
+  roomId?: number | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
-  userId: number
-  homeId?: number | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
   sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUpdateInput = {
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
-  home?: Prisma.HomeUpdateOneWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateManyInput = {
   id?: number
   deviceName: string
-  room?: string | null
+  roomId?: number | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
-  userId: number
-  homeId?: number | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
 }
 
 export type DeviceUpdateManyMutationInput = {
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type DeviceUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type DeviceListRelationFilter = {
@@ -469,51 +589,63 @@ export type DeviceOrderByRelationAggregateInput = {
 export type DeviceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   deviceName?: Prisma.SortOrder
-  room?: Prisma.SortOrder
+  roomId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastSeenAt?: Prisma.SortOrder
   mqttClientId?: Prisma.SortOrder
   deviceKey?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  deviceType?: Prisma.SortOrder
+  capabilities?: Prisma.SortOrder
+  pairedByUserId?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
+  pairedAt?: Prisma.SortOrder
+  unpairedAt?: Prisma.SortOrder
 }
 
 export type DeviceAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  roomId?: Prisma.SortOrder
+  pairedByUserId?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
 }
 
 export type DeviceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   deviceName?: Prisma.SortOrder
-  room?: Prisma.SortOrder
+  roomId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastSeenAt?: Prisma.SortOrder
   mqttClientId?: Prisma.SortOrder
   deviceKey?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  deviceType?: Prisma.SortOrder
+  pairedByUserId?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
+  pairedAt?: Prisma.SortOrder
+  unpairedAt?: Prisma.SortOrder
 }
 
 export type DeviceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   deviceName?: Prisma.SortOrder
-  room?: Prisma.SortOrder
+  roomId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastSeenAt?: Prisma.SortOrder
   mqttClientId?: Prisma.SortOrder
   deviceKey?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  deviceType?: Prisma.SortOrder
+  pairedByUserId?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
+  pairedAt?: Prisma.SortOrder
+  unpairedAt?: Prisma.SortOrder
 }
 
 export type DeviceSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  roomId?: Prisma.SortOrder
+  pairedByUserId?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
 }
 
@@ -606,20 +738,92 @@ export type DeviceUncheckedUpdateManyWithoutHomeNestedInput = {
   deleteMany?: Prisma.DeviceScalarWhereInput | Prisma.DeviceScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
+export type DeviceCreateNestedManyWithoutRoomRInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutRoomRInput, Prisma.DeviceUncheckedCreateWithoutRoomRInput> | Prisma.DeviceCreateWithoutRoomRInput[] | Prisma.DeviceUncheckedCreateWithoutRoomRInput[]
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutRoomRInput | Prisma.DeviceCreateOrConnectWithoutRoomRInput[]
+  createMany?: Prisma.DeviceCreateManyRoomRInputEnvelope
+  connect?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
+export type DeviceUncheckedCreateNestedManyWithoutRoomRInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutRoomRInput, Prisma.DeviceUncheckedCreateWithoutRoomRInput> | Prisma.DeviceCreateWithoutRoomRInput[] | Prisma.DeviceUncheckedCreateWithoutRoomRInput[]
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutRoomRInput | Prisma.DeviceCreateOrConnectWithoutRoomRInput[]
+  createMany?: Prisma.DeviceCreateManyRoomRInputEnvelope
+  connect?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type DeviceUpdateManyWithoutRoomRNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutRoomRInput, Prisma.DeviceUncheckedCreateWithoutRoomRInput> | Prisma.DeviceCreateWithoutRoomRInput[] | Prisma.DeviceUncheckedCreateWithoutRoomRInput[]
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutRoomRInput | Prisma.DeviceCreateOrConnectWithoutRoomRInput[]
+  upsert?: Prisma.DeviceUpsertWithWhereUniqueWithoutRoomRInput | Prisma.DeviceUpsertWithWhereUniqueWithoutRoomRInput[]
+  createMany?: Prisma.DeviceCreateManyRoomRInputEnvelope
+  set?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
+  disconnect?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
+  delete?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
+  connect?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
+  update?: Prisma.DeviceUpdateWithWhereUniqueWithoutRoomRInput | Prisma.DeviceUpdateWithWhereUniqueWithoutRoomRInput[]
+  updateMany?: Prisma.DeviceUpdateManyWithWhereWithoutRoomRInput | Prisma.DeviceUpdateManyWithWhereWithoutRoomRInput[]
+  deleteMany?: Prisma.DeviceScalarWhereInput | Prisma.DeviceScalarWhereInput[]
+}
+
+export type DeviceUncheckedUpdateManyWithoutRoomRNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutRoomRInput, Prisma.DeviceUncheckedCreateWithoutRoomRInput> | Prisma.DeviceCreateWithoutRoomRInput[] | Prisma.DeviceUncheckedCreateWithoutRoomRInput[]
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutRoomRInput | Prisma.DeviceCreateOrConnectWithoutRoomRInput[]
+  upsert?: Prisma.DeviceUpsertWithWhereUniqueWithoutRoomRInput | Prisma.DeviceUpsertWithWhereUniqueWithoutRoomRInput[]
+  createMany?: Prisma.DeviceCreateManyRoomRInputEnvelope
+  set?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
+  disconnect?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
+  delete?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
+  connect?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
+  update?: Prisma.DeviceUpdateWithWhereUniqueWithoutRoomRInput | Prisma.DeviceUpdateWithWhereUniqueWithoutRoomRInput[]
+  updateMany?: Prisma.DeviceUpdateManyWithWhereWithoutRoomRInput | Prisma.DeviceUpdateManyWithWhereWithoutRoomRInput[]
+  deleteMany?: Prisma.DeviceScalarWhereInput | Prisma.DeviceScalarWhereInput[]
+}
+
+export type EnumDeviceTypeFieldUpdateOperationsInput = {
+  set?: $Enums.DeviceType
+}
+
+export type DeviceCreateNestedOneWithoutConfigInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutConfigInput, Prisma.DeviceUncheckedCreateWithoutConfigInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutConfigInput
+  connect?: Prisma.DeviceWhereUniqueInput
+}
+
+export type DeviceUpdateOneRequiredWithoutConfigNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutConfigInput, Prisma.DeviceUncheckedCreateWithoutConfigInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutConfigInput
+  upsert?: Prisma.DeviceUpsertWithoutConfigInput
+  connect?: Prisma.DeviceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutConfigInput, Prisma.DeviceUpdateWithoutConfigInput>, Prisma.DeviceUncheckedUpdateWithoutConfigInput>
+}
+
+export type DeviceCreateNestedOneWithoutPairingHistoriesInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutPairingHistoriesInput, Prisma.DeviceUncheckedCreateWithoutPairingHistoriesInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutPairingHistoriesInput
+  connect?: Prisma.DeviceWhereUniqueInput
+}
+
+export type DeviceUpdateOneRequiredWithoutPairingHistoriesNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutPairingHistoriesInput, Prisma.DeviceUncheckedCreateWithoutPairingHistoriesInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutPairingHistoriesInput
+  upsert?: Prisma.DeviceUpsertWithoutPairingHistoriesInput
+  connect?: Prisma.DeviceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutPairingHistoriesInput, Prisma.DeviceUpdateWithoutPairingHistoriesInput>, Prisma.DeviceUncheckedUpdateWithoutPairingHistoriesInput>
+}
+
+export type DeviceCreateNestedOneWithoutStateHistoriesInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutStateHistoriesInput, Prisma.DeviceUncheckedCreateWithoutStateHistoriesInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutStateHistoriesInput
+  connect?: Prisma.DeviceWhereUniqueInput
+}
+
+export type DeviceUpdateOneRequiredWithoutStateHistoriesNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutStateHistoriesInput, Prisma.DeviceUncheckedCreateWithoutStateHistoriesInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutStateHistoriesInput
+  upsert?: Prisma.DeviceUpsertWithoutStateHistoriesInput
+  connect?: Prisma.DeviceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutStateHistoriesInput, Prisma.DeviceUpdateWithoutStateHistoriesInput>, Prisma.DeviceUncheckedUpdateWithoutStateHistoriesInput>
 }
 
 export type DeviceCreateNestedOneWithoutSensorDataInput = {
@@ -634,6 +838,20 @@ export type DeviceUpdateOneRequiredWithoutSensorDataNestedInput = {
   upsert?: Prisma.DeviceUpsertWithoutSensorDataInput
   connect?: Prisma.DeviceWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutSensorDataInput, Prisma.DeviceUpdateWithoutSensorDataInput>, Prisma.DeviceUncheckedUpdateWithoutSensorDataInput>
+}
+
+export type DeviceCreateNestedOneWithoutSensorReadingsInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutSensorReadingsInput, Prisma.DeviceUncheckedCreateWithoutSensorReadingsInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutSensorReadingsInput
+  connect?: Prisma.DeviceWhereUniqueInput
+}
+
+export type DeviceUpdateOneRequiredWithoutSensorReadingsNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutSensorReadingsInput, Prisma.DeviceUncheckedCreateWithoutSensorReadingsInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutSensorReadingsInput
+  upsert?: Prisma.DeviceUpsertWithoutSensorReadingsInput
+  connect?: Prisma.DeviceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutSensorReadingsInput, Prisma.DeviceUpdateWithoutSensorReadingsInput>, Prisma.DeviceUncheckedUpdateWithoutSensorReadingsInput>
 }
 
 export type DeviceCreateNestedOneWithoutAlarmEventsInput = {
@@ -678,6 +896,20 @@ export type DeviceUpdateOneRequiredWithoutCommandsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutCommandsInput, Prisma.DeviceUpdateWithoutCommandsInput>, Prisma.DeviceUncheckedUpdateWithoutCommandsInput>
 }
 
+export type DeviceCreateNestedOneWithoutEnergyUsageDailyInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutEnergyUsageDailyInput, Prisma.DeviceUncheckedCreateWithoutEnergyUsageDailyInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutEnergyUsageDailyInput
+  connect?: Prisma.DeviceWhereUniqueInput
+}
+
+export type DeviceUpdateOneRequiredWithoutEnergyUsageDailyNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutEnergyUsageDailyInput, Prisma.DeviceUncheckedCreateWithoutEnergyUsageDailyInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutEnergyUsageDailyInput
+  upsert?: Prisma.DeviceUpsertWithoutEnergyUsageDailyInput
+  connect?: Prisma.DeviceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutEnergyUsageDailyInput, Prisma.DeviceUpdateWithoutEnergyUsageDailyInput>, Prisma.DeviceUncheckedUpdateWithoutEnergyUsageDailyInput>
+}
+
 export type DeviceCreateNestedOneWithoutOtaJobsInput = {
   create?: Prisma.XOR<Prisma.DeviceCreateWithoutOtaJobsInput, Prisma.DeviceUncheckedCreateWithoutOtaJobsInput>
   connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutOtaJobsInput
@@ -692,37 +924,71 @@ export type DeviceUpdateOneRequiredWithoutOtaJobsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutOtaJobsInput, Prisma.DeviceUpdateWithoutOtaJobsInput>, Prisma.DeviceUncheckedUpdateWithoutOtaJobsInput>
 }
 
+export type DeviceCreateNestedOneWithoutDeviceEventLogsInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutDeviceEventLogsInput, Prisma.DeviceUncheckedCreateWithoutDeviceEventLogsInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutDeviceEventLogsInput
+  connect?: Prisma.DeviceWhereUniqueInput
+}
+
+export type DeviceUpdateOneRequiredWithoutDeviceEventLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutDeviceEventLogsInput, Prisma.DeviceUncheckedCreateWithoutDeviceEventLogsInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutDeviceEventLogsInput
+  upsert?: Prisma.DeviceUpsertWithoutDeviceEventLogsInput
+  connect?: Prisma.DeviceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutDeviceEventLogsInput, Prisma.DeviceUpdateWithoutDeviceEventLogsInput>, Prisma.DeviceUncheckedUpdateWithoutDeviceEventLogsInput>
+}
+
 export type DeviceCreateWithoutUserInput = {
   deviceName: string
-  room?: string | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
-  home?: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutUserInput = {
   id?: number
   deviceName: string
-  room?: string | null
+  roomId?: number | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
-  homeId?: number | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
   sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutUserInput = {
@@ -757,47 +1023,71 @@ export type DeviceScalarWhereInput = {
   NOT?: Prisma.DeviceScalarWhereInput | Prisma.DeviceScalarWhereInput[]
   id?: Prisma.IntFilter<"Device"> | number
   deviceName?: Prisma.StringFilter<"Device"> | string
-  room?: Prisma.StringNullableFilter<"Device"> | string | null
+  roomId?: Prisma.IntNullableFilter<"Device"> | number | null
   status?: Prisma.BoolFilter<"Device"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   lastSeenAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
   mqttClientId?: Prisma.StringNullableFilter<"Device"> | string | null
   deviceKey?: Prisma.StringNullableFilter<"Device"> | string | null
-  userId?: Prisma.IntFilter<"Device"> | number
-  homeId?: Prisma.IntNullableFilter<"Device"> | number | null
+  deviceType?: Prisma.EnumDeviceTypeFilter<"Device"> | $Enums.DeviceType
+  capabilities?: Prisma.JsonNullableFilter<"Device">
+  pairedByUserId?: Prisma.IntFilter<"Device"> | number
+  homeId?: Prisma.IntFilter<"Device"> | number
+  pairedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  unpairedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
 }
 
 export type DeviceCreateWithoutHomeInput = {
   deviceName: string
-  room?: string | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutHomeInput = {
   id?: number
   deviceName: string
-  room?: string | null
+  roomId?: number | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
-  userId: number
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
   sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutHomeInput = {
@@ -826,37 +1116,502 @@ export type DeviceUpdateManyWithWhereWithoutHomeInput = {
   data: Prisma.XOR<Prisma.DeviceUpdateManyMutationInput, Prisma.DeviceUncheckedUpdateManyWithoutHomeInput>
 }
 
-export type DeviceCreateWithoutSensorDataInput = {
+export type DeviceCreateWithoutRoomRInput = {
   deviceName: string
-  room?: string | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
-  home?: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceUncheckedCreateWithoutRoomRInput = {
+  id?: number
+  deviceName: string
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceCreateOrConnectWithoutRoomRInput = {
+  where: Prisma.DeviceWhereUniqueInput
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutRoomRInput, Prisma.DeviceUncheckedCreateWithoutRoomRInput>
+}
+
+export type DeviceCreateManyRoomRInputEnvelope = {
+  data: Prisma.DeviceCreateManyRoomRInput | Prisma.DeviceCreateManyRoomRInput[]
+  skipDuplicates?: boolean
+}
+
+export type DeviceUpsertWithWhereUniqueWithoutRoomRInput = {
+  where: Prisma.DeviceWhereUniqueInput
+  update: Prisma.XOR<Prisma.DeviceUpdateWithoutRoomRInput, Prisma.DeviceUncheckedUpdateWithoutRoomRInput>
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutRoomRInput, Prisma.DeviceUncheckedCreateWithoutRoomRInput>
+}
+
+export type DeviceUpdateWithWhereUniqueWithoutRoomRInput = {
+  where: Prisma.DeviceWhereUniqueInput
+  data: Prisma.XOR<Prisma.DeviceUpdateWithoutRoomRInput, Prisma.DeviceUncheckedUpdateWithoutRoomRInput>
+}
+
+export type DeviceUpdateManyWithWhereWithoutRoomRInput = {
+  where: Prisma.DeviceScalarWhereInput
+  data: Prisma.XOR<Prisma.DeviceUpdateManyMutationInput, Prisma.DeviceUncheckedUpdateManyWithoutRoomRInput>
+}
+
+export type DeviceCreateWithoutConfigInput = {
+  deviceName: string
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceUncheckedCreateWithoutConfigInput = {
+  id?: number
+  deviceName: string
+  roomId?: number | null
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceCreateOrConnectWithoutConfigInput = {
+  where: Prisma.DeviceWhereUniqueInput
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutConfigInput, Prisma.DeviceUncheckedCreateWithoutConfigInput>
+}
+
+export type DeviceUpsertWithoutConfigInput = {
+  update: Prisma.XOR<Prisma.DeviceUpdateWithoutConfigInput, Prisma.DeviceUncheckedUpdateWithoutConfigInput>
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutConfigInput, Prisma.DeviceUncheckedCreateWithoutConfigInput>
+  where?: Prisma.DeviceWhereInput
+}
+
+export type DeviceUpdateToOneWithWhereWithoutConfigInput = {
+  where?: Prisma.DeviceWhereInput
+  data: Prisma.XOR<Prisma.DeviceUpdateWithoutConfigInput, Prisma.DeviceUncheckedUpdateWithoutConfigInput>
+}
+
+export type DeviceUpdateWithoutConfigInput = {
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
+  sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceUncheckedUpdateWithoutConfigInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceCreateWithoutPairingHistoriesInput = {
+  deviceName: string
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceUncheckedCreateWithoutPairingHistoriesInput = {
+  id?: number
+  deviceName: string
+  roomId?: number | null
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceCreateOrConnectWithoutPairingHistoriesInput = {
+  where: Prisma.DeviceWhereUniqueInput
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutPairingHistoriesInput, Prisma.DeviceUncheckedCreateWithoutPairingHistoriesInput>
+}
+
+export type DeviceUpsertWithoutPairingHistoriesInput = {
+  update: Prisma.XOR<Prisma.DeviceUpdateWithoutPairingHistoriesInput, Prisma.DeviceUncheckedUpdateWithoutPairingHistoriesInput>
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutPairingHistoriesInput, Prisma.DeviceUncheckedCreateWithoutPairingHistoriesInput>
+  where?: Prisma.DeviceWhereInput
+}
+
+export type DeviceUpdateToOneWithWhereWithoutPairingHistoriesInput = {
+  where?: Prisma.DeviceWhereInput
+  data: Prisma.XOR<Prisma.DeviceUpdateWithoutPairingHistoriesInput, Prisma.DeviceUncheckedUpdateWithoutPairingHistoriesInput>
+}
+
+export type DeviceUpdateWithoutPairingHistoriesInput = {
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
+  sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceUncheckedUpdateWithoutPairingHistoriesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceCreateWithoutStateHistoriesInput = {
+  deviceName: string
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceUncheckedCreateWithoutStateHistoriesInput = {
+  id?: number
+  deviceName: string
+  roomId?: number | null
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceCreateOrConnectWithoutStateHistoriesInput = {
+  where: Prisma.DeviceWhereUniqueInput
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutStateHistoriesInput, Prisma.DeviceUncheckedCreateWithoutStateHistoriesInput>
+}
+
+export type DeviceUpsertWithoutStateHistoriesInput = {
+  update: Prisma.XOR<Prisma.DeviceUpdateWithoutStateHistoriesInput, Prisma.DeviceUncheckedUpdateWithoutStateHistoriesInput>
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutStateHistoriesInput, Prisma.DeviceUncheckedCreateWithoutStateHistoriesInput>
+  where?: Prisma.DeviceWhereInput
+}
+
+export type DeviceUpdateToOneWithWhereWithoutStateHistoriesInput = {
+  where?: Prisma.DeviceWhereInput
+  data: Prisma.XOR<Prisma.DeviceUpdateWithoutStateHistoriesInput, Prisma.DeviceUncheckedUpdateWithoutStateHistoriesInput>
+}
+
+export type DeviceUpdateWithoutStateHistoriesInput = {
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
+  sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceUncheckedUpdateWithoutStateHistoriesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceCreateWithoutSensorDataInput = {
+  deviceName: string
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutSensorDataInput = {
   id?: number
   deviceName: string
-  room?: string | null
+  roomId?: number | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
-  userId: number
-  homeId?: number | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutSensorDataInput = {
@@ -877,68 +1632,230 @@ export type DeviceUpdateToOneWithWhereWithoutSensorDataInput = {
 
 export type DeviceUpdateWithoutSensorDataInput = {
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
-  home?: Prisma.HomeUpdateOneWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutSensorDataInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
-export type DeviceCreateWithoutAlarmEventsInput = {
+export type DeviceCreateWithoutSensorReadingsInput = {
   deviceName: string
-  room?: string | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
-  home?: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceUncheckedCreateWithoutSensorReadingsInput = {
+  id?: number
+  deviceName: string
+  roomId?: number | null
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceCreateOrConnectWithoutSensorReadingsInput = {
+  where: Prisma.DeviceWhereUniqueInput
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutSensorReadingsInput, Prisma.DeviceUncheckedCreateWithoutSensorReadingsInput>
+}
+
+export type DeviceUpsertWithoutSensorReadingsInput = {
+  update: Prisma.XOR<Prisma.DeviceUpdateWithoutSensorReadingsInput, Prisma.DeviceUncheckedUpdateWithoutSensorReadingsInput>
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutSensorReadingsInput, Prisma.DeviceUncheckedCreateWithoutSensorReadingsInput>
+  where?: Prisma.DeviceWhereInput
+}
+
+export type DeviceUpdateToOneWithWhereWithoutSensorReadingsInput = {
+  where?: Prisma.DeviceWhereInput
+  data: Prisma.XOR<Prisma.DeviceUpdateWithoutSensorReadingsInput, Prisma.DeviceUncheckedUpdateWithoutSensorReadingsInput>
+}
+
+export type DeviceUpdateWithoutSensorReadingsInput = {
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
+  sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceUncheckedUpdateWithoutSensorReadingsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceCreateWithoutAlarmEventsInput = {
+  deviceName: string
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutAlarmEventsInput = {
   id?: number
   deviceName: string
-  room?: string | null
+  roomId?: number | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
-  userId: number
-  homeId?: number | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
   sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutAlarmEventsInput = {
@@ -959,68 +1876,108 @@ export type DeviceUpdateToOneWithWhereWithoutAlarmEventsInput = {
 
 export type DeviceUpdateWithoutAlarmEventsInput = {
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
-  home?: Prisma.HomeUpdateOneWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutAlarmEventsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutEnergyPredictionsInput = {
   deviceName: string
-  room?: string | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
-  home?: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutEnergyPredictionsInput = {
   id?: number
   deviceName: string
-  room?: string | null
+  roomId?: number | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
-  userId: number
-  homeId?: number | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
   sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutEnergyPredictionsInput = {
@@ -1041,68 +1998,108 @@ export type DeviceUpdateToOneWithWhereWithoutEnergyPredictionsInput = {
 
 export type DeviceUpdateWithoutEnergyPredictionsInput = {
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
-  home?: Prisma.HomeUpdateOneWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutEnergyPredictionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutCommandsInput = {
   deviceName: string
-  room?: string | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
-  home?: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutCommandsInput = {
   id?: number
   deviceName: string
-  room?: string | null
+  roomId?: number | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
-  userId: number
-  homeId?: number | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
   sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
   otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutCommandsInput = {
@@ -1123,68 +2120,230 @@ export type DeviceUpdateToOneWithWhereWithoutCommandsInput = {
 
 export type DeviceUpdateWithoutCommandsInput = {
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
-  home?: Prisma.HomeUpdateOneWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutCommandsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
-export type DeviceCreateWithoutOtaJobsInput = {
+export type DeviceCreateWithoutEnergyUsageDailyInput = {
   deviceName: string
-  room?: string | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
-  home?: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceUncheckedCreateWithoutEnergyUsageDailyInput = {
+  id?: number
+  deviceName: string
+  roomId?: number | null
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceCreateOrConnectWithoutEnergyUsageDailyInput = {
+  where: Prisma.DeviceWhereUniqueInput
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutEnergyUsageDailyInput, Prisma.DeviceUncheckedCreateWithoutEnergyUsageDailyInput>
+}
+
+export type DeviceUpsertWithoutEnergyUsageDailyInput = {
+  update: Prisma.XOR<Prisma.DeviceUpdateWithoutEnergyUsageDailyInput, Prisma.DeviceUncheckedUpdateWithoutEnergyUsageDailyInput>
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutEnergyUsageDailyInput, Prisma.DeviceUncheckedCreateWithoutEnergyUsageDailyInput>
+  where?: Prisma.DeviceWhereInput
+}
+
+export type DeviceUpdateToOneWithWhereWithoutEnergyUsageDailyInput = {
+  where?: Prisma.DeviceWhereInput
+  data: Prisma.XOR<Prisma.DeviceUpdateWithoutEnergyUsageDailyInput, Prisma.DeviceUncheckedUpdateWithoutEnergyUsageDailyInput>
+}
+
+export type DeviceUpdateWithoutEnergyUsageDailyInput = {
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
+  sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceUncheckedUpdateWithoutEnergyUsageDailyInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceCreateWithoutOtaJobsInput = {
+  deviceName: string
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutOtaJobsInput = {
   id?: number
   deviceName: string
-  room?: string | null
+  roomId?: number | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
-  userId: number
-  homeId?: number | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
   sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
   commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutOtaJobsInput = {
@@ -1205,149 +2364,432 @@ export type DeviceUpdateToOneWithWhereWithoutOtaJobsInput = {
 
 export type DeviceUpdateWithoutOtaJobsInput = {
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
-  home?: Prisma.HomeUpdateOneWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutOtaJobsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceCreateWithoutDeviceEventLogsInput = {
+  deviceName: string
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceUncheckedCreateWithoutDeviceEventLogsInput = {
+  id?: number
+  deviceName: string
+  roomId?: number | null
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceCreateOrConnectWithoutDeviceEventLogsInput = {
+  where: Prisma.DeviceWhereUniqueInput
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutDeviceEventLogsInput, Prisma.DeviceUncheckedCreateWithoutDeviceEventLogsInput>
+}
+
+export type DeviceUpsertWithoutDeviceEventLogsInput = {
+  update: Prisma.XOR<Prisma.DeviceUpdateWithoutDeviceEventLogsInput, Prisma.DeviceUncheckedUpdateWithoutDeviceEventLogsInput>
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutDeviceEventLogsInput, Prisma.DeviceUncheckedCreateWithoutDeviceEventLogsInput>
+  where?: Prisma.DeviceWhereInput
+}
+
+export type DeviceUpdateToOneWithWhereWithoutDeviceEventLogsInput = {
+  where?: Prisma.DeviceWhereInput
+  data: Prisma.XOR<Prisma.DeviceUpdateWithoutDeviceEventLogsInput, Prisma.DeviceUncheckedUpdateWithoutDeviceEventLogsInput>
+}
+
+export type DeviceUpdateWithoutDeviceEventLogsInput = {
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
+  sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceUncheckedUpdateWithoutDeviceEventLogsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateManyUserInput = {
   id?: number
   deviceName: string
-  room?: string | null
+  roomId?: number | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
-  homeId?: number | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
 }
 
 export type DeviceUpdateWithoutUserInput = {
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  home?: Prisma.HomeUpdateOneWithoutDevicesNestedInput
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  homeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type DeviceCreateManyHomeInput = {
   id?: number
   deviceName: string
-  room?: string | null
+  roomId?: number | null
   status?: boolean
   updatedAt?: Date | string
   lastSeenAt?: Date | string | null
   mqttClientId?: string | null
   deviceKey?: string | null
-  userId: number
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
 }
 
 export type DeviceUpdateWithoutHomeInput = {
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutHomeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
   energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
   commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
   otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateManyWithoutHomeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
-  room?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type DeviceCreateManyRoomRInput = {
+  id?: number
+  deviceName: string
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+}
+
+export type DeviceUpdateWithoutRoomRInput = {
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
+  sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceUncheckedUpdateWithoutRoomRInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceUncheckedUpdateManyWithoutRoomRInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1357,18 +2799,28 @@ export type DeviceUncheckedUpdateManyWithoutHomeInput = {
 
 export type DeviceCountOutputType = {
   sensorData: number
+  sensorReadings: number
   energyPredictions: number
   commands: number
   alarmEvents: number
   otaJobs: number
+  stateHistories: number
+  energyUsageDaily: number
+  pairingHistories: number
+  deviceEventLogs: number
 }
 
 export type DeviceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sensorData?: boolean | DeviceCountOutputTypeCountSensorDataArgs
+  sensorReadings?: boolean | DeviceCountOutputTypeCountSensorReadingsArgs
   energyPredictions?: boolean | DeviceCountOutputTypeCountEnergyPredictionsArgs
   commands?: boolean | DeviceCountOutputTypeCountCommandsArgs
   alarmEvents?: boolean | DeviceCountOutputTypeCountAlarmEventsArgs
   otaJobs?: boolean | DeviceCountOutputTypeCountOtaJobsArgs
+  stateHistories?: boolean | DeviceCountOutputTypeCountStateHistoriesArgs
+  energyUsageDaily?: boolean | DeviceCountOutputTypeCountEnergyUsageDailyArgs
+  pairingHistories?: boolean | DeviceCountOutputTypeCountPairingHistoriesArgs
+  deviceEventLogs?: boolean | DeviceCountOutputTypeCountDeviceEventLogsArgs
 }
 
 /**
@@ -1386,6 +2838,13 @@ export type DeviceCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
  */
 export type DeviceCountOutputTypeCountSensorDataArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SensorDataWhereInput
+}
+
+/**
+ * DeviceCountOutputType without action
+ */
+export type DeviceCountOutputTypeCountSensorReadingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SensorReadingWhereInput
 }
 
 /**
@@ -1416,113 +2875,186 @@ export type DeviceCountOutputTypeCountOtaJobsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.OtaJobWhereInput
 }
 
+/**
+ * DeviceCountOutputType without action
+ */
+export type DeviceCountOutputTypeCountStateHistoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeviceStateHistoryWhereInput
+}
+
+/**
+ * DeviceCountOutputType without action
+ */
+export type DeviceCountOutputTypeCountEnergyUsageDailyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EnergyUsageDailyWhereInput
+}
+
+/**
+ * DeviceCountOutputType without action
+ */
+export type DeviceCountOutputTypeCountPairingHistoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DevicePairingHistoryWhereInput
+}
+
+/**
+ * DeviceCountOutputType without action
+ */
+export type DeviceCountOutputTypeCountDeviceEventLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeviceEventLogWhereInput
+}
+
 
 export type DeviceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   deviceName?: boolean
-  room?: boolean
+  roomId?: boolean
   status?: boolean
   updatedAt?: boolean
   lastSeenAt?: boolean
   mqttClientId?: boolean
   deviceKey?: boolean
-  userId?: boolean
+  deviceType?: boolean
+  capabilities?: boolean
+  pairedByUserId?: boolean
   homeId?: boolean
+  pairedAt?: boolean
+  unpairedAt?: boolean
+  roomR?: boolean | Prisma.Device$roomRArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
-  home?: boolean | Prisma.Device$homeArgs<ExtArgs>
+  home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
   sensorData?: boolean | Prisma.Device$sensorDataArgs<ExtArgs>
+  sensorReadings?: boolean | Prisma.Device$sensorReadingsArgs<ExtArgs>
   energyPredictions?: boolean | Prisma.Device$energyPredictionsArgs<ExtArgs>
   commands?: boolean | Prisma.Device$commandsArgs<ExtArgs>
   alarmEvents?: boolean | Prisma.Device$alarmEventsArgs<ExtArgs>
   otaJobs?: boolean | Prisma.Device$otaJobsArgs<ExtArgs>
+  config?: boolean | Prisma.Device$configArgs<ExtArgs>
+  stateHistories?: boolean | Prisma.Device$stateHistoriesArgs<ExtArgs>
+  energyUsageDaily?: boolean | Prisma.Device$energyUsageDailyArgs<ExtArgs>
+  pairingHistories?: boolean | Prisma.Device$pairingHistoriesArgs<ExtArgs>
+  deviceEventLogs?: boolean | Prisma.Device$deviceEventLogsArgs<ExtArgs>
   _count?: boolean | Prisma.DeviceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["device"]>
 
 export type DeviceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   deviceName?: boolean
-  room?: boolean
+  roomId?: boolean
   status?: boolean
   updatedAt?: boolean
   lastSeenAt?: boolean
   mqttClientId?: boolean
   deviceKey?: boolean
-  userId?: boolean
+  deviceType?: boolean
+  capabilities?: boolean
+  pairedByUserId?: boolean
   homeId?: boolean
+  pairedAt?: boolean
+  unpairedAt?: boolean
+  roomR?: boolean | Prisma.Device$roomRArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
-  home?: boolean | Prisma.Device$homeArgs<ExtArgs>
+  home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["device"]>
 
 export type DeviceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   deviceName?: boolean
-  room?: boolean
+  roomId?: boolean
   status?: boolean
   updatedAt?: boolean
   lastSeenAt?: boolean
   mqttClientId?: boolean
   deviceKey?: boolean
-  userId?: boolean
+  deviceType?: boolean
+  capabilities?: boolean
+  pairedByUserId?: boolean
   homeId?: boolean
+  pairedAt?: boolean
+  unpairedAt?: boolean
+  roomR?: boolean | Prisma.Device$roomRArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
-  home?: boolean | Prisma.Device$homeArgs<ExtArgs>
+  home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["device"]>
 
 export type DeviceSelectScalar = {
   id?: boolean
   deviceName?: boolean
-  room?: boolean
+  roomId?: boolean
   status?: boolean
   updatedAt?: boolean
   lastSeenAt?: boolean
   mqttClientId?: boolean
   deviceKey?: boolean
-  userId?: boolean
+  deviceType?: boolean
+  capabilities?: boolean
+  pairedByUserId?: boolean
   homeId?: boolean
+  pairedAt?: boolean
+  unpairedAt?: boolean
 }
 
-export type DeviceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "deviceName" | "room" | "status" | "updatedAt" | "lastSeenAt" | "mqttClientId" | "deviceKey" | "userId" | "homeId", ExtArgs["result"]["device"]>
+export type DeviceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "deviceName" | "roomId" | "status" | "updatedAt" | "lastSeenAt" | "mqttClientId" | "deviceKey" | "deviceType" | "capabilities" | "pairedByUserId" | "homeId" | "pairedAt" | "unpairedAt", ExtArgs["result"]["device"]>
 export type DeviceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  roomR?: boolean | Prisma.Device$roomRArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
-  home?: boolean | Prisma.Device$homeArgs<ExtArgs>
+  home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
   sensorData?: boolean | Prisma.Device$sensorDataArgs<ExtArgs>
+  sensorReadings?: boolean | Prisma.Device$sensorReadingsArgs<ExtArgs>
   energyPredictions?: boolean | Prisma.Device$energyPredictionsArgs<ExtArgs>
   commands?: boolean | Prisma.Device$commandsArgs<ExtArgs>
   alarmEvents?: boolean | Prisma.Device$alarmEventsArgs<ExtArgs>
   otaJobs?: boolean | Prisma.Device$otaJobsArgs<ExtArgs>
+  config?: boolean | Prisma.Device$configArgs<ExtArgs>
+  stateHistories?: boolean | Prisma.Device$stateHistoriesArgs<ExtArgs>
+  energyUsageDaily?: boolean | Prisma.Device$energyUsageDailyArgs<ExtArgs>
+  pairingHistories?: boolean | Prisma.Device$pairingHistoriesArgs<ExtArgs>
+  deviceEventLogs?: boolean | Prisma.Device$deviceEventLogsArgs<ExtArgs>
   _count?: boolean | Prisma.DeviceCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DeviceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  roomR?: boolean | Prisma.Device$roomRArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
-  home?: boolean | Prisma.Device$homeArgs<ExtArgs>
+  home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
 }
 export type DeviceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  roomR?: boolean | Prisma.Device$roomRArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
-  home?: boolean | Prisma.Device$homeArgs<ExtArgs>
+  home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
 }
 
 export type $DevicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Device"
   objects: {
+    roomR: Prisma.$RoomPayload<ExtArgs> | null
     user: Prisma.$UserAccountPayload<ExtArgs>
-    home: Prisma.$HomePayload<ExtArgs> | null
+    home: Prisma.$HomePayload<ExtArgs>
     sensorData: Prisma.$SensorDataPayload<ExtArgs>[]
+    sensorReadings: Prisma.$SensorReadingPayload<ExtArgs>[]
     energyPredictions: Prisma.$EnergyPredictionPayload<ExtArgs>[]
     commands: Prisma.$CommandPayload<ExtArgs>[]
     alarmEvents: Prisma.$AlarmEventPayload<ExtArgs>[]
     otaJobs: Prisma.$OtaJobPayload<ExtArgs>[]
+    config: Prisma.$DeviceConfigPayload<ExtArgs> | null
+    stateHistories: Prisma.$DeviceStateHistoryPayload<ExtArgs>[]
+    energyUsageDaily: Prisma.$EnergyUsageDailyPayload<ExtArgs>[]
+    pairingHistories: Prisma.$DevicePairingHistoryPayload<ExtArgs>[]
+    deviceEventLogs: Prisma.$DeviceEventLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     deviceName: string
-    room: string | null
+    roomId: number | null
     status: boolean
     updatedAt: Date
     lastSeenAt: Date | null
     mqttClientId: string | null
     deviceKey: string | null
-    userId: number
-    homeId: number | null
+    deviceType: $Enums.DeviceType
+    capabilities: runtime.JsonValue | null
+    pairedByUserId: number
+    homeId: number
+    pairedAt: Date | null
+    unpairedAt: Date | null
   }, ExtArgs["result"]["device"]>
   composites: {}
 }
@@ -1917,13 +3449,20 @@ readonly fields: DeviceFieldRefs;
  */
 export interface Prisma__DeviceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  roomR<T extends Prisma.Device$roomRArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$roomRArgs<ExtArgs>>): Prisma.Prisma__RoomClient<runtime.Types.Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserAccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccountDefaultArgs<ExtArgs>>): Prisma.Prisma__UserAccountClient<runtime.Types.Result.GetResult<Prisma.$UserAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  home<T extends Prisma.Device$homeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$homeArgs<ExtArgs>>): Prisma.Prisma__HomeClient<runtime.Types.Result.GetResult<Prisma.$HomePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  home<T extends Prisma.HomeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HomeDefaultArgs<ExtArgs>>): Prisma.Prisma__HomeClient<runtime.Types.Result.GetResult<Prisma.$HomePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sensorData<T extends Prisma.Device$sensorDataArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$sensorDataArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SensorDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sensorReadings<T extends Prisma.Device$sensorReadingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$sensorReadingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SensorReadingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   energyPredictions<T extends Prisma.Device$energyPredictionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$energyPredictionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnergyPredictionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   commands<T extends Prisma.Device$commandsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$commandsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommandPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   alarmEvents<T extends Prisma.Device$alarmEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$alarmEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlarmEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   otaJobs<T extends Prisma.Device$otaJobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$otaJobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OtaJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  config<T extends Prisma.Device$configArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$configArgs<ExtArgs>>): Prisma.Prisma__DeviceConfigClient<runtime.Types.Result.GetResult<Prisma.$DeviceConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  stateHistories<T extends Prisma.Device$stateHistoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$stateHistoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceStateHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  energyUsageDaily<T extends Prisma.Device$energyUsageDailyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$energyUsageDailyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnergyUsageDailyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pairingHistories<T extends Prisma.Device$pairingHistoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$pairingHistoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePairingHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  deviceEventLogs<T extends Prisma.Device$deviceEventLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$deviceEventLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceEventLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1955,14 +3494,18 @@ export interface Prisma__DeviceClient<T, Null = never, ExtArgs extends runtime.T
 export interface DeviceFieldRefs {
   readonly id: Prisma.FieldRef<"Device", 'Int'>
   readonly deviceName: Prisma.FieldRef<"Device", 'String'>
-  readonly room: Prisma.FieldRef<"Device", 'String'>
+  readonly roomId: Prisma.FieldRef<"Device", 'Int'>
   readonly status: Prisma.FieldRef<"Device", 'Boolean'>
   readonly updatedAt: Prisma.FieldRef<"Device", 'DateTime'>
   readonly lastSeenAt: Prisma.FieldRef<"Device", 'DateTime'>
   readonly mqttClientId: Prisma.FieldRef<"Device", 'String'>
   readonly deviceKey: Prisma.FieldRef<"Device", 'String'>
-  readonly userId: Prisma.FieldRef<"Device", 'Int'>
+  readonly deviceType: Prisma.FieldRef<"Device", 'DeviceType'>
+  readonly capabilities: Prisma.FieldRef<"Device", 'Json'>
+  readonly pairedByUserId: Prisma.FieldRef<"Device", 'Int'>
   readonly homeId: Prisma.FieldRef<"Device", 'Int'>
+  readonly pairedAt: Prisma.FieldRef<"Device", 'DateTime'>
+  readonly unpairedAt: Prisma.FieldRef<"Device", 'DateTime'>
 }
     
 
@@ -2359,22 +3902,22 @@ export type DeviceDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Device.home
+ * Device.roomR
  */
-export type Device$homeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Device$roomRArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Home
+   * Select specific fields to fetch from the Room
    */
-  select?: Prisma.HomeSelect<ExtArgs> | null
+  select?: Prisma.RoomSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Home
+   * Omit specific fields from the Room
    */
-  omit?: Prisma.HomeOmit<ExtArgs> | null
+  omit?: Prisma.RoomOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.HomeInclude<ExtArgs> | null
-  where?: Prisma.HomeWhereInput
+  include?: Prisma.RoomInclude<ExtArgs> | null
+  where?: Prisma.RoomWhereInput
 }
 
 /**
@@ -2399,6 +3942,30 @@ export type Device$sensorDataArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.SensorDataScalarFieldEnum | Prisma.SensorDataScalarFieldEnum[]
+}
+
+/**
+ * Device.sensorReadings
+ */
+export type Device$sensorReadingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SensorReading
+   */
+  select?: Prisma.SensorReadingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SensorReading
+   */
+  omit?: Prisma.SensorReadingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SensorReadingInclude<ExtArgs> | null
+  where?: Prisma.SensorReadingWhereInput
+  orderBy?: Prisma.SensorReadingOrderByWithRelationInput | Prisma.SensorReadingOrderByWithRelationInput[]
+  cursor?: Prisma.SensorReadingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SensorReadingScalarFieldEnum | Prisma.SensorReadingScalarFieldEnum[]
 }
 
 /**
@@ -2495,6 +4062,121 @@ export type Device$otaJobsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.OtaJobScalarFieldEnum | Prisma.OtaJobScalarFieldEnum[]
+}
+
+/**
+ * Device.config
+ */
+export type Device$configArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DeviceConfig
+   */
+  select?: Prisma.DeviceConfigSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DeviceConfig
+   */
+  omit?: Prisma.DeviceConfigOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeviceConfigInclude<ExtArgs> | null
+  where?: Prisma.DeviceConfigWhereInput
+}
+
+/**
+ * Device.stateHistories
+ */
+export type Device$stateHistoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DeviceStateHistory
+   */
+  select?: Prisma.DeviceStateHistorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DeviceStateHistory
+   */
+  omit?: Prisma.DeviceStateHistoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeviceStateHistoryInclude<ExtArgs> | null
+  where?: Prisma.DeviceStateHistoryWhereInput
+  orderBy?: Prisma.DeviceStateHistoryOrderByWithRelationInput | Prisma.DeviceStateHistoryOrderByWithRelationInput[]
+  cursor?: Prisma.DeviceStateHistoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DeviceStateHistoryScalarFieldEnum | Prisma.DeviceStateHistoryScalarFieldEnum[]
+}
+
+/**
+ * Device.energyUsageDaily
+ */
+export type Device$energyUsageDailyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EnergyUsageDaily
+   */
+  select?: Prisma.EnergyUsageDailySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EnergyUsageDaily
+   */
+  omit?: Prisma.EnergyUsageDailyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EnergyUsageDailyInclude<ExtArgs> | null
+  where?: Prisma.EnergyUsageDailyWhereInput
+  orderBy?: Prisma.EnergyUsageDailyOrderByWithRelationInput | Prisma.EnergyUsageDailyOrderByWithRelationInput[]
+  cursor?: Prisma.EnergyUsageDailyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EnergyUsageDailyScalarFieldEnum | Prisma.EnergyUsageDailyScalarFieldEnum[]
+}
+
+/**
+ * Device.pairingHistories
+ */
+export type Device$pairingHistoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DevicePairingHistory
+   */
+  select?: Prisma.DevicePairingHistorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DevicePairingHistory
+   */
+  omit?: Prisma.DevicePairingHistoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DevicePairingHistoryInclude<ExtArgs> | null
+  where?: Prisma.DevicePairingHistoryWhereInput
+  orderBy?: Prisma.DevicePairingHistoryOrderByWithRelationInput | Prisma.DevicePairingHistoryOrderByWithRelationInput[]
+  cursor?: Prisma.DevicePairingHistoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DevicePairingHistoryScalarFieldEnum | Prisma.DevicePairingHistoryScalarFieldEnum[]
+}
+
+/**
+ * Device.deviceEventLogs
+ */
+export type Device$deviceEventLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DeviceEventLog
+   */
+  select?: Prisma.DeviceEventLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DeviceEventLog
+   */
+  omit?: Prisma.DeviceEventLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeviceEventLogInclude<ExtArgs> | null
+  where?: Prisma.DeviceEventLogWhereInput
+  orderBy?: Prisma.DeviceEventLogOrderByWithRelationInput | Prisma.DeviceEventLogOrderByWithRelationInput[]
+  cursor?: Prisma.DeviceEventLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DeviceEventLogScalarFieldEnum | Prisma.DeviceEventLogScalarFieldEnum[]
 }
 
 /**

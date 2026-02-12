@@ -48,6 +48,15 @@ export const AlarmSource = {
 export type AlarmSource = (typeof AlarmSource)[keyof typeof AlarmSource]
 
 
+export const AlarmStatus = {
+  OPEN: 'OPEN',
+  ACKED: 'ACKED',
+  RESOLVED: 'RESOLVED'
+} as const
+
+export type AlarmStatus = (typeof AlarmStatus)[keyof typeof AlarmStatus]
+
+
 export const NotificationChannel = {
   FCM: 'FCM',
   MQTT: 'MQTT',
@@ -58,6 +67,16 @@ export const NotificationChannel = {
 } as const
 
 export type NotificationChannel = (typeof NotificationChannel)[keyof typeof NotificationChannel]
+
+
+export const NotificationDeliveryStatus = {
+  PENDING: 'PENDING',
+  SENT: 'SENT',
+  DELIVERED: 'DELIVERED',
+  FAILED: 'FAILED'
+} as const
+
+export type NotificationDeliveryStatus = (typeof NotificationDeliveryStatus)[keyof typeof NotificationDeliveryStatus]
 
 
 export const AnomalyMetric = {
@@ -80,3 +99,63 @@ export const OtaJobStatus = {
 } as const
 
 export type OtaJobStatus = (typeof OtaJobStatus)[keyof typeof OtaJobStatus]
+
+
+export const DeviceType = {
+  LIGHT: 'LIGHT',
+  FAN: 'FAN',
+  BELL: 'BELL',
+  DOOR: 'DOOR',
+  SENSOR_NODE: 'SENSOR_NODE',
+  POWER_METER: 'POWER_METER',
+  OTHER: 'OTHER'
+} as const
+
+export type DeviceType = (typeof DeviceType)[keyof typeof DeviceType]
+
+
+export const HomeMemberRole = {
+  OWNER: 'OWNER',
+  MEMBER: 'MEMBER',
+  GUEST: 'GUEST'
+} as const
+
+export type HomeMemberRole = (typeof HomeMemberRole)[keyof typeof HomeMemberRole]
+
+
+export const HomeMemberStatus = {
+  INVITED: 'INVITED',
+  ACTIVE: 'ACTIVE',
+  REVOKED: 'REVOKED'
+} as const
+
+export type HomeMemberStatus = (typeof HomeMemberStatus)[keyof typeof HomeMemberStatus]
+
+
+export const PairingMethod = {
+  DEVICE_KEY: 'DEVICE_KEY',
+  QR_CODE: 'QR_CODE',
+  ADMIN: 'ADMIN',
+  OTHER: 'OTHER'
+} as const
+
+export type PairingMethod = (typeof PairingMethod)[keyof typeof PairingMethod]
+
+
+export const DeviceEventSeverity = {
+  INFO: 'INFO',
+  WARN: 'WARN',
+  ERROR: 'ERROR'
+} as const
+
+export type DeviceEventSeverity = (typeof DeviceEventSeverity)[keyof typeof DeviceEventSeverity]
+
+
+export const CommandSource = {
+  USER: 'USER',
+  BACKEND: 'BACKEND',
+  AI: 'AI',
+  ADMIN: 'ADMIN'
+} as const
+
+export type CommandSource = (typeof CommandSource)[keyof typeof CommandSource]

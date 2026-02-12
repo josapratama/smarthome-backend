@@ -29,11 +29,13 @@ export type AggregateCommand = {
 export type CommandAvgAggregateOutputType = {
   id: number | null
   deviceId: number | null
+  requestedBy: number | null
 }
 
 export type CommandSumAggregateOutputType = {
   id: number | null
   deviceId: number | null
+  requestedBy: number | null
 }
 
 export type CommandMinAggregateOutputType = {
@@ -45,6 +47,9 @@ export type CommandMinAggregateOutputType = {
   lastError: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  requestedBy: number | null
+  source: $Enums.CommandSource | null
+  correlationId: string | null
 }
 
 export type CommandMaxAggregateOutputType = {
@@ -56,6 +61,9 @@ export type CommandMaxAggregateOutputType = {
   lastError: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  requestedBy: number | null
+  source: $Enums.CommandSource | null
+  correlationId: string | null
 }
 
 export type CommandCountAggregateOutputType = {
@@ -68,6 +76,9 @@ export type CommandCountAggregateOutputType = {
   lastError: number
   createdAt: number
   updatedAt: number
+  requestedBy: number
+  source: number
+  correlationId: number
   _all: number
 }
 
@@ -75,11 +86,13 @@ export type CommandCountAggregateOutputType = {
 export type CommandAvgAggregateInputType = {
   id?: true
   deviceId?: true
+  requestedBy?: true
 }
 
 export type CommandSumAggregateInputType = {
   id?: true
   deviceId?: true
+  requestedBy?: true
 }
 
 export type CommandMinAggregateInputType = {
@@ -91,6 +104,9 @@ export type CommandMinAggregateInputType = {
   lastError?: true
   createdAt?: true
   updatedAt?: true
+  requestedBy?: true
+  source?: true
+  correlationId?: true
 }
 
 export type CommandMaxAggregateInputType = {
@@ -102,6 +118,9 @@ export type CommandMaxAggregateInputType = {
   lastError?: true
   createdAt?: true
   updatedAt?: true
+  requestedBy?: true
+  source?: true
+  correlationId?: true
 }
 
 export type CommandCountAggregateInputType = {
@@ -114,6 +133,9 @@ export type CommandCountAggregateInputType = {
   lastError?: true
   createdAt?: true
   updatedAt?: true
+  requestedBy?: true
+  source?: true
+  correlationId?: true
   _all?: true
 }
 
@@ -213,6 +235,9 @@ export type CommandGroupByOutputType = {
   lastError: string | null
   createdAt: Date
   updatedAt: Date
+  requestedBy: number | null
+  source: $Enums.CommandSource
+  correlationId: string
   _count: CommandCountAggregateOutputType | null
   _avg: CommandAvgAggregateOutputType | null
   _sum: CommandSumAggregateOutputType | null
@@ -248,8 +273,13 @@ export type CommandWhereInput = {
   lastError?: Prisma.StringNullableFilter<"Command"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Command"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Command"> | Date | string
+  requestedBy?: Prisma.IntNullableFilter<"Command"> | number | null
+  source?: Prisma.EnumCommandSourceFilter<"Command"> | $Enums.CommandSource
+  correlationId?: Prisma.UuidFilter<"Command"> | string
   device?: Prisma.XOR<Prisma.DeviceScalarRelationFilter, Prisma.DeviceWhereInput>
+  requester?: Prisma.XOR<Prisma.UserAccountNullableScalarRelationFilter, Prisma.UserAccountWhereInput> | null
   otaJob?: Prisma.XOR<Prisma.OtaJobNullableScalarRelationFilter, Prisma.OtaJobWhereInput> | null
+  stateHistories?: Prisma.DeviceStateHistoryListRelationFilter
 }
 
 export type CommandOrderByWithRelationInput = {
@@ -262,12 +292,18 @@ export type CommandOrderByWithRelationInput = {
   lastError?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  source?: Prisma.SortOrder
+  correlationId?: Prisma.SortOrder
   device?: Prisma.DeviceOrderByWithRelationInput
+  requester?: Prisma.UserAccountOrderByWithRelationInput
   otaJob?: Prisma.OtaJobOrderByWithRelationInput
+  stateHistories?: Prisma.DeviceStateHistoryOrderByRelationAggregateInput
 }
 
 export type CommandWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  correlationId?: string
   AND?: Prisma.CommandWhereInput | Prisma.CommandWhereInput[]
   OR?: Prisma.CommandWhereInput[]
   NOT?: Prisma.CommandWhereInput | Prisma.CommandWhereInput[]
@@ -279,9 +315,13 @@ export type CommandWhereUniqueInput = Prisma.AtLeast<{
   lastError?: Prisma.StringNullableFilter<"Command"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Command"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Command"> | Date | string
+  requestedBy?: Prisma.IntNullableFilter<"Command"> | number | null
+  source?: Prisma.EnumCommandSourceFilter<"Command"> | $Enums.CommandSource
   device?: Prisma.XOR<Prisma.DeviceScalarRelationFilter, Prisma.DeviceWhereInput>
+  requester?: Prisma.XOR<Prisma.UserAccountNullableScalarRelationFilter, Prisma.UserAccountWhereInput> | null
   otaJob?: Prisma.XOR<Prisma.OtaJobNullableScalarRelationFilter, Prisma.OtaJobWhereInput> | null
-}, "id">
+  stateHistories?: Prisma.DeviceStateHistoryListRelationFilter
+}, "id" | "correlationId">
 
 export type CommandOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -293,6 +333,9 @@ export type CommandOrderByWithAggregationInput = {
   lastError?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  source?: Prisma.SortOrder
+  correlationId?: Prisma.SortOrder
   _count?: Prisma.CommandCountOrderByAggregateInput
   _avg?: Prisma.CommandAvgOrderByAggregateInput
   _max?: Prisma.CommandMaxOrderByAggregateInput
@@ -313,6 +356,9 @@ export type CommandScalarWhereWithAggregatesInput = {
   lastError?: Prisma.StringNullableWithAggregatesFilter<"Command"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Command"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Command"> | Date | string
+  requestedBy?: Prisma.IntNullableWithAggregatesFilter<"Command"> | number | null
+  source?: Prisma.EnumCommandSourceWithAggregatesFilter<"Command"> | $Enums.CommandSource
+  correlationId?: Prisma.UuidWithAggregatesFilter<"Command"> | string
 }
 
 export type CommandCreateInput = {
@@ -323,8 +369,12 @@ export type CommandCreateInput = {
   lastError?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  source?: $Enums.CommandSource
+  correlationId: string
   device: Prisma.DeviceCreateNestedOneWithoutCommandsInput
+  requester?: Prisma.UserAccountCreateNestedOneWithoutRequestedCommandsInput
   otaJob?: Prisma.OtaJobCreateNestedOneWithoutCommandInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutCommandInput
 }
 
 export type CommandUncheckedCreateInput = {
@@ -337,7 +387,11 @@ export type CommandUncheckedCreateInput = {
   lastError?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  requestedBy?: number | null
+  source?: $Enums.CommandSource
+  correlationId: string
   otaJob?: Prisma.OtaJobUncheckedCreateNestedOneWithoutCommandInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutCommandInput
 }
 
 export type CommandUpdateInput = {
@@ -348,8 +402,12 @@ export type CommandUpdateInput = {
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
   device?: Prisma.DeviceUpdateOneRequiredWithoutCommandsNestedInput
+  requester?: Prisma.UserAccountUpdateOneWithoutRequestedCommandsNestedInput
   otaJob?: Prisma.OtaJobUpdateOneWithoutCommandNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutCommandNestedInput
 }
 
 export type CommandUncheckedUpdateInput = {
@@ -362,7 +420,11 @@ export type CommandUncheckedUpdateInput = {
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requestedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
   otaJob?: Prisma.OtaJobUncheckedUpdateOneWithoutCommandNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutCommandNestedInput
 }
 
 export type CommandCreateManyInput = {
@@ -375,6 +437,9 @@ export type CommandCreateManyInput = {
   lastError?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  requestedBy?: number | null
+  source?: $Enums.CommandSource
+  correlationId: string
 }
 
 export type CommandUpdateManyMutationInput = {
@@ -385,6 +450,8 @@ export type CommandUpdateManyMutationInput = {
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type CommandUncheckedUpdateManyInput = {
@@ -397,6 +464,9 @@ export type CommandUncheckedUpdateManyInput = {
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requestedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type CommandListRelationFilter = {
@@ -409,6 +479,11 @@ export type CommandOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type CommandNullableScalarRelationFilter = {
+  is?: Prisma.CommandWhereInput | null
+  isNot?: Prisma.CommandWhereInput | null
+}
+
 export type CommandCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   deviceId?: Prisma.SortOrder
@@ -419,11 +494,15 @@ export type CommandCountOrderByAggregateInput = {
   lastError?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  correlationId?: Prisma.SortOrder
 }
 
 export type CommandAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   deviceId?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrder
 }
 
 export type CommandMaxOrderByAggregateInput = {
@@ -435,6 +514,9 @@ export type CommandMaxOrderByAggregateInput = {
   lastError?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  correlationId?: Prisma.SortOrder
 }
 
 export type CommandMinOrderByAggregateInput = {
@@ -446,16 +528,57 @@ export type CommandMinOrderByAggregateInput = {
   lastError?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  correlationId?: Prisma.SortOrder
 }
 
 export type CommandSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   deviceId?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrder
 }
 
-export type CommandNullableScalarRelationFilter = {
-  is?: Prisma.CommandWhereInput | null
-  isNot?: Prisma.CommandWhereInput | null
+export type CommandCreateNestedManyWithoutRequesterInput = {
+  create?: Prisma.XOR<Prisma.CommandCreateWithoutRequesterInput, Prisma.CommandUncheckedCreateWithoutRequesterInput> | Prisma.CommandCreateWithoutRequesterInput[] | Prisma.CommandUncheckedCreateWithoutRequesterInput[]
+  connectOrCreate?: Prisma.CommandCreateOrConnectWithoutRequesterInput | Prisma.CommandCreateOrConnectWithoutRequesterInput[]
+  createMany?: Prisma.CommandCreateManyRequesterInputEnvelope
+  connect?: Prisma.CommandWhereUniqueInput | Prisma.CommandWhereUniqueInput[]
+}
+
+export type CommandUncheckedCreateNestedManyWithoutRequesterInput = {
+  create?: Prisma.XOR<Prisma.CommandCreateWithoutRequesterInput, Prisma.CommandUncheckedCreateWithoutRequesterInput> | Prisma.CommandCreateWithoutRequesterInput[] | Prisma.CommandUncheckedCreateWithoutRequesterInput[]
+  connectOrCreate?: Prisma.CommandCreateOrConnectWithoutRequesterInput | Prisma.CommandCreateOrConnectWithoutRequesterInput[]
+  createMany?: Prisma.CommandCreateManyRequesterInputEnvelope
+  connect?: Prisma.CommandWhereUniqueInput | Prisma.CommandWhereUniqueInput[]
+}
+
+export type CommandUpdateManyWithoutRequesterNestedInput = {
+  create?: Prisma.XOR<Prisma.CommandCreateWithoutRequesterInput, Prisma.CommandUncheckedCreateWithoutRequesterInput> | Prisma.CommandCreateWithoutRequesterInput[] | Prisma.CommandUncheckedCreateWithoutRequesterInput[]
+  connectOrCreate?: Prisma.CommandCreateOrConnectWithoutRequesterInput | Prisma.CommandCreateOrConnectWithoutRequesterInput[]
+  upsert?: Prisma.CommandUpsertWithWhereUniqueWithoutRequesterInput | Prisma.CommandUpsertWithWhereUniqueWithoutRequesterInput[]
+  createMany?: Prisma.CommandCreateManyRequesterInputEnvelope
+  set?: Prisma.CommandWhereUniqueInput | Prisma.CommandWhereUniqueInput[]
+  disconnect?: Prisma.CommandWhereUniqueInput | Prisma.CommandWhereUniqueInput[]
+  delete?: Prisma.CommandWhereUniqueInput | Prisma.CommandWhereUniqueInput[]
+  connect?: Prisma.CommandWhereUniqueInput | Prisma.CommandWhereUniqueInput[]
+  update?: Prisma.CommandUpdateWithWhereUniqueWithoutRequesterInput | Prisma.CommandUpdateWithWhereUniqueWithoutRequesterInput[]
+  updateMany?: Prisma.CommandUpdateManyWithWhereWithoutRequesterInput | Prisma.CommandUpdateManyWithWhereWithoutRequesterInput[]
+  deleteMany?: Prisma.CommandScalarWhereInput | Prisma.CommandScalarWhereInput[]
+}
+
+export type CommandUncheckedUpdateManyWithoutRequesterNestedInput = {
+  create?: Prisma.XOR<Prisma.CommandCreateWithoutRequesterInput, Prisma.CommandUncheckedCreateWithoutRequesterInput> | Prisma.CommandCreateWithoutRequesterInput[] | Prisma.CommandUncheckedCreateWithoutRequesterInput[]
+  connectOrCreate?: Prisma.CommandCreateOrConnectWithoutRequesterInput | Prisma.CommandCreateOrConnectWithoutRequesterInput[]
+  upsert?: Prisma.CommandUpsertWithWhereUniqueWithoutRequesterInput | Prisma.CommandUpsertWithWhereUniqueWithoutRequesterInput[]
+  createMany?: Prisma.CommandCreateManyRequesterInputEnvelope
+  set?: Prisma.CommandWhereUniqueInput | Prisma.CommandWhereUniqueInput[]
+  disconnect?: Prisma.CommandWhereUniqueInput | Prisma.CommandWhereUniqueInput[]
+  delete?: Prisma.CommandWhereUniqueInput | Prisma.CommandWhereUniqueInput[]
+  connect?: Prisma.CommandWhereUniqueInput | Prisma.CommandWhereUniqueInput[]
+  update?: Prisma.CommandUpdateWithWhereUniqueWithoutRequesterInput | Prisma.CommandUpdateWithWhereUniqueWithoutRequesterInput[]
+  updateMany?: Prisma.CommandUpdateManyWithWhereWithoutRequesterInput | Prisma.CommandUpdateManyWithWhereWithoutRequesterInput[]
+  deleteMany?: Prisma.CommandScalarWhereInput | Prisma.CommandScalarWhereInput[]
 }
 
 export type CommandCreateNestedManyWithoutDeviceInput = {
@@ -500,8 +623,28 @@ export type CommandUncheckedUpdateManyWithoutDeviceNestedInput = {
   deleteMany?: Prisma.CommandScalarWhereInput | Prisma.CommandScalarWhereInput[]
 }
 
+export type CommandCreateNestedOneWithoutStateHistoriesInput = {
+  create?: Prisma.XOR<Prisma.CommandCreateWithoutStateHistoriesInput, Prisma.CommandUncheckedCreateWithoutStateHistoriesInput>
+  connectOrCreate?: Prisma.CommandCreateOrConnectWithoutStateHistoriesInput
+  connect?: Prisma.CommandWhereUniqueInput
+}
+
+export type CommandUpdateOneWithoutStateHistoriesNestedInput = {
+  create?: Prisma.XOR<Prisma.CommandCreateWithoutStateHistoriesInput, Prisma.CommandUncheckedCreateWithoutStateHistoriesInput>
+  connectOrCreate?: Prisma.CommandCreateOrConnectWithoutStateHistoriesInput
+  upsert?: Prisma.CommandUpsertWithoutStateHistoriesInput
+  disconnect?: Prisma.CommandWhereInput | boolean
+  delete?: Prisma.CommandWhereInput | boolean
+  connect?: Prisma.CommandWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CommandUpdateToOneWithWhereWithoutStateHistoriesInput, Prisma.CommandUpdateWithoutStateHistoriesInput>, Prisma.CommandUncheckedUpdateWithoutStateHistoriesInput>
+}
+
 export type EnumCommandStatusFieldUpdateOperationsInput = {
   set?: $Enums.CommandStatus
+}
+
+export type EnumCommandSourceFieldUpdateOperationsInput = {
+  set?: $Enums.CommandSource
 }
 
 export type CommandCreateNestedOneWithoutOtaJobInput = {
@@ -520,6 +663,81 @@ export type CommandUpdateOneWithoutOtaJobNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CommandUpdateToOneWithWhereWithoutOtaJobInput, Prisma.CommandUpdateWithoutOtaJobInput>, Prisma.CommandUncheckedUpdateWithoutOtaJobInput>
 }
 
+export type CommandCreateWithoutRequesterInput = {
+  type: string
+  payload: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.CommandStatus
+  ackedAt?: Date | string | null
+  lastError?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  source?: $Enums.CommandSource
+  correlationId: string
+  device: Prisma.DeviceCreateNestedOneWithoutCommandsInput
+  otaJob?: Prisma.OtaJobCreateNestedOneWithoutCommandInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutCommandInput
+}
+
+export type CommandUncheckedCreateWithoutRequesterInput = {
+  id?: number
+  deviceId: number
+  type: string
+  payload: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.CommandStatus
+  ackedAt?: Date | string | null
+  lastError?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  source?: $Enums.CommandSource
+  correlationId: string
+  otaJob?: Prisma.OtaJobUncheckedCreateNestedOneWithoutCommandInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutCommandInput
+}
+
+export type CommandCreateOrConnectWithoutRequesterInput = {
+  where: Prisma.CommandWhereUniqueInput
+  create: Prisma.XOR<Prisma.CommandCreateWithoutRequesterInput, Prisma.CommandUncheckedCreateWithoutRequesterInput>
+}
+
+export type CommandCreateManyRequesterInputEnvelope = {
+  data: Prisma.CommandCreateManyRequesterInput | Prisma.CommandCreateManyRequesterInput[]
+  skipDuplicates?: boolean
+}
+
+export type CommandUpsertWithWhereUniqueWithoutRequesterInput = {
+  where: Prisma.CommandWhereUniqueInput
+  update: Prisma.XOR<Prisma.CommandUpdateWithoutRequesterInput, Prisma.CommandUncheckedUpdateWithoutRequesterInput>
+  create: Prisma.XOR<Prisma.CommandCreateWithoutRequesterInput, Prisma.CommandUncheckedCreateWithoutRequesterInput>
+}
+
+export type CommandUpdateWithWhereUniqueWithoutRequesterInput = {
+  where: Prisma.CommandWhereUniqueInput
+  data: Prisma.XOR<Prisma.CommandUpdateWithoutRequesterInput, Prisma.CommandUncheckedUpdateWithoutRequesterInput>
+}
+
+export type CommandUpdateManyWithWhereWithoutRequesterInput = {
+  where: Prisma.CommandScalarWhereInput
+  data: Prisma.XOR<Prisma.CommandUpdateManyMutationInput, Prisma.CommandUncheckedUpdateManyWithoutRequesterInput>
+}
+
+export type CommandScalarWhereInput = {
+  AND?: Prisma.CommandScalarWhereInput | Prisma.CommandScalarWhereInput[]
+  OR?: Prisma.CommandScalarWhereInput[]
+  NOT?: Prisma.CommandScalarWhereInput | Prisma.CommandScalarWhereInput[]
+  id?: Prisma.IntFilter<"Command"> | number
+  deviceId?: Prisma.IntFilter<"Command"> | number
+  type?: Prisma.StringFilter<"Command"> | string
+  payload?: Prisma.JsonFilter<"Command">
+  status?: Prisma.EnumCommandStatusFilter<"Command"> | $Enums.CommandStatus
+  ackedAt?: Prisma.DateTimeNullableFilter<"Command"> | Date | string | null
+  lastError?: Prisma.StringNullableFilter<"Command"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Command"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Command"> | Date | string
+  requestedBy?: Prisma.IntNullableFilter<"Command"> | number | null
+  source?: Prisma.EnumCommandSourceFilter<"Command"> | $Enums.CommandSource
+  correlationId?: Prisma.UuidFilter<"Command"> | string
+}
+
 export type CommandCreateWithoutDeviceInput = {
   type: string
   payload: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -528,7 +746,11 @@ export type CommandCreateWithoutDeviceInput = {
   lastError?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  source?: $Enums.CommandSource
+  correlationId: string
+  requester?: Prisma.UserAccountCreateNestedOneWithoutRequestedCommandsInput
   otaJob?: Prisma.OtaJobCreateNestedOneWithoutCommandInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutCommandInput
 }
 
 export type CommandUncheckedCreateWithoutDeviceInput = {
@@ -540,7 +762,11 @@ export type CommandUncheckedCreateWithoutDeviceInput = {
   lastError?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  requestedBy?: number | null
+  source?: $Enums.CommandSource
+  correlationId: string
   otaJob?: Prisma.OtaJobUncheckedCreateNestedOneWithoutCommandInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutCommandInput
 }
 
 export type CommandCreateOrConnectWithoutDeviceInput = {
@@ -569,19 +795,82 @@ export type CommandUpdateManyWithWhereWithoutDeviceInput = {
   data: Prisma.XOR<Prisma.CommandUpdateManyMutationInput, Prisma.CommandUncheckedUpdateManyWithoutDeviceInput>
 }
 
-export type CommandScalarWhereInput = {
-  AND?: Prisma.CommandScalarWhereInput | Prisma.CommandScalarWhereInput[]
-  OR?: Prisma.CommandScalarWhereInput[]
-  NOT?: Prisma.CommandScalarWhereInput | Prisma.CommandScalarWhereInput[]
-  id?: Prisma.IntFilter<"Command"> | number
-  deviceId?: Prisma.IntFilter<"Command"> | number
-  type?: Prisma.StringFilter<"Command"> | string
-  payload?: Prisma.JsonFilter<"Command">
-  status?: Prisma.EnumCommandStatusFilter<"Command"> | $Enums.CommandStatus
-  ackedAt?: Prisma.DateTimeNullableFilter<"Command"> | Date | string | null
-  lastError?: Prisma.StringNullableFilter<"Command"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"Command"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Command"> | Date | string
+export type CommandCreateWithoutStateHistoriesInput = {
+  type: string
+  payload: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.CommandStatus
+  ackedAt?: Date | string | null
+  lastError?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  source?: $Enums.CommandSource
+  correlationId: string
+  device: Prisma.DeviceCreateNestedOneWithoutCommandsInput
+  requester?: Prisma.UserAccountCreateNestedOneWithoutRequestedCommandsInput
+  otaJob?: Prisma.OtaJobCreateNestedOneWithoutCommandInput
+}
+
+export type CommandUncheckedCreateWithoutStateHistoriesInput = {
+  id?: number
+  deviceId: number
+  type: string
+  payload: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.CommandStatus
+  ackedAt?: Date | string | null
+  lastError?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  requestedBy?: number | null
+  source?: $Enums.CommandSource
+  correlationId: string
+  otaJob?: Prisma.OtaJobUncheckedCreateNestedOneWithoutCommandInput
+}
+
+export type CommandCreateOrConnectWithoutStateHistoriesInput = {
+  where: Prisma.CommandWhereUniqueInput
+  create: Prisma.XOR<Prisma.CommandCreateWithoutStateHistoriesInput, Prisma.CommandUncheckedCreateWithoutStateHistoriesInput>
+}
+
+export type CommandUpsertWithoutStateHistoriesInput = {
+  update: Prisma.XOR<Prisma.CommandUpdateWithoutStateHistoriesInput, Prisma.CommandUncheckedUpdateWithoutStateHistoriesInput>
+  create: Prisma.XOR<Prisma.CommandCreateWithoutStateHistoriesInput, Prisma.CommandUncheckedCreateWithoutStateHistoriesInput>
+  where?: Prisma.CommandWhereInput
+}
+
+export type CommandUpdateToOneWithWhereWithoutStateHistoriesInput = {
+  where?: Prisma.CommandWhereInput
+  data: Prisma.XOR<Prisma.CommandUpdateWithoutStateHistoriesInput, Prisma.CommandUncheckedUpdateWithoutStateHistoriesInput>
+}
+
+export type CommandUpdateWithoutStateHistoriesInput = {
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  payload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumCommandStatusFieldUpdateOperationsInput | $Enums.CommandStatus
+  ackedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
+  device?: Prisma.DeviceUpdateOneRequiredWithoutCommandsNestedInput
+  requester?: Prisma.UserAccountUpdateOneWithoutRequestedCommandsNestedInput
+  otaJob?: Prisma.OtaJobUpdateOneWithoutCommandNestedInput
+}
+
+export type CommandUncheckedUpdateWithoutStateHistoriesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  payload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumCommandStatusFieldUpdateOperationsInput | $Enums.CommandStatus
+  ackedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requestedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
+  otaJob?: Prisma.OtaJobUncheckedUpdateOneWithoutCommandNestedInput
 }
 
 export type CommandCreateWithoutOtaJobInput = {
@@ -592,7 +881,11 @@ export type CommandCreateWithoutOtaJobInput = {
   lastError?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  source?: $Enums.CommandSource
+  correlationId: string
   device: Prisma.DeviceCreateNestedOneWithoutCommandsInput
+  requester?: Prisma.UserAccountCreateNestedOneWithoutRequestedCommandsInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutCommandInput
 }
 
 export type CommandUncheckedCreateWithoutOtaJobInput = {
@@ -605,6 +898,10 @@ export type CommandUncheckedCreateWithoutOtaJobInput = {
   lastError?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  requestedBy?: number | null
+  source?: $Enums.CommandSource
+  correlationId: string
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutCommandInput
 }
 
 export type CommandCreateOrConnectWithoutOtaJobInput = {
@@ -631,7 +928,11 @@ export type CommandUpdateWithoutOtaJobInput = {
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
   device?: Prisma.DeviceUpdateOneRequiredWithoutCommandsNestedInput
+  requester?: Prisma.UserAccountUpdateOneWithoutRequestedCommandsNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutCommandNestedInput
 }
 
 export type CommandUncheckedUpdateWithoutOtaJobInput = {
@@ -644,6 +945,69 @@ export type CommandUncheckedUpdateWithoutOtaJobInput = {
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requestedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutCommandNestedInput
+}
+
+export type CommandCreateManyRequesterInput = {
+  id?: number
+  deviceId: number
+  type: string
+  payload: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.CommandStatus
+  ackedAt?: Date | string | null
+  lastError?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  source?: $Enums.CommandSource
+  correlationId: string
+}
+
+export type CommandUpdateWithoutRequesterInput = {
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  payload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumCommandStatusFieldUpdateOperationsInput | $Enums.CommandStatus
+  ackedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
+  device?: Prisma.DeviceUpdateOneRequiredWithoutCommandsNestedInput
+  otaJob?: Prisma.OtaJobUpdateOneWithoutCommandNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutCommandNestedInput
+}
+
+export type CommandUncheckedUpdateWithoutRequesterInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  payload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumCommandStatusFieldUpdateOperationsInput | $Enums.CommandStatus
+  ackedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
+  otaJob?: Prisma.OtaJobUncheckedUpdateOneWithoutCommandNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutCommandNestedInput
+}
+
+export type CommandUncheckedUpdateManyWithoutRequesterInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  payload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumCommandStatusFieldUpdateOperationsInput | $Enums.CommandStatus
+  ackedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type CommandCreateManyDeviceInput = {
@@ -655,6 +1019,9 @@ export type CommandCreateManyDeviceInput = {
   lastError?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  requestedBy?: number | null
+  source?: $Enums.CommandSource
+  correlationId: string
 }
 
 export type CommandUpdateWithoutDeviceInput = {
@@ -665,7 +1032,11 @@ export type CommandUpdateWithoutDeviceInput = {
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
+  requester?: Prisma.UserAccountUpdateOneWithoutRequestedCommandsNestedInput
   otaJob?: Prisma.OtaJobUpdateOneWithoutCommandNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutCommandNestedInput
 }
 
 export type CommandUncheckedUpdateWithoutDeviceInput = {
@@ -677,7 +1048,11 @@ export type CommandUncheckedUpdateWithoutDeviceInput = {
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requestedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
   otaJob?: Prisma.OtaJobUncheckedUpdateOneWithoutCommandNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutCommandNestedInput
 }
 
 export type CommandUncheckedUpdateManyWithoutDeviceInput = {
@@ -689,8 +1064,40 @@ export type CommandUncheckedUpdateManyWithoutDeviceInput = {
   lastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requestedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  source?: Prisma.EnumCommandSourceFieldUpdateOperationsInput | $Enums.CommandSource
+  correlationId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
+
+/**
+ * Count Type CommandCountOutputType
+ */
+
+export type CommandCountOutputType = {
+  stateHistories: number
+}
+
+export type CommandCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  stateHistories?: boolean | CommandCountOutputTypeCountStateHistoriesArgs
+}
+
+/**
+ * CommandCountOutputType without action
+ */
+export type CommandCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CommandCountOutputType
+   */
+  select?: Prisma.CommandCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * CommandCountOutputType without action
+ */
+export type CommandCountOutputTypeCountStateHistoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeviceStateHistoryWhereInput
+}
 
 
 export type CommandSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -703,8 +1110,14 @@ export type CommandSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   lastError?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  requestedBy?: boolean
+  source?: boolean
+  correlationId?: boolean
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  requester?: boolean | Prisma.Command$requesterArgs<ExtArgs>
   otaJob?: boolean | Prisma.Command$otaJobArgs<ExtArgs>
+  stateHistories?: boolean | Prisma.Command$stateHistoriesArgs<ExtArgs>
+  _count?: boolean | Prisma.CommandCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["command"]>
 
 export type CommandSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -717,7 +1130,11 @@ export type CommandSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   lastError?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  requestedBy?: boolean
+  source?: boolean
+  correlationId?: boolean
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  requester?: boolean | Prisma.Command$requesterArgs<ExtArgs>
 }, ExtArgs["result"]["command"]>
 
 export type CommandSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -730,7 +1147,11 @@ export type CommandSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   lastError?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  requestedBy?: boolean
+  source?: boolean
+  correlationId?: boolean
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  requester?: boolean | Prisma.Command$requesterArgs<ExtArgs>
 }, ExtArgs["result"]["command"]>
 
 export type CommandSelectScalar = {
@@ -743,25 +1164,35 @@ export type CommandSelectScalar = {
   lastError?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  requestedBy?: boolean
+  source?: boolean
+  correlationId?: boolean
 }
 
-export type CommandOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "deviceId" | "type" | "payload" | "status" | "ackedAt" | "lastError" | "createdAt" | "updatedAt", ExtArgs["result"]["command"]>
+export type CommandOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "deviceId" | "type" | "payload" | "status" | "ackedAt" | "lastError" | "createdAt" | "updatedAt" | "requestedBy" | "source" | "correlationId", ExtArgs["result"]["command"]>
 export type CommandInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  requester?: boolean | Prisma.Command$requesterArgs<ExtArgs>
   otaJob?: boolean | Prisma.Command$otaJobArgs<ExtArgs>
+  stateHistories?: boolean | Prisma.Command$stateHistoriesArgs<ExtArgs>
+  _count?: boolean | Prisma.CommandCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CommandIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  requester?: boolean | Prisma.Command$requesterArgs<ExtArgs>
 }
 export type CommandIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  requester?: boolean | Prisma.Command$requesterArgs<ExtArgs>
 }
 
 export type $CommandPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Command"
   objects: {
     device: Prisma.$DevicePayload<ExtArgs>
+    requester: Prisma.$UserAccountPayload<ExtArgs> | null
     otaJob: Prisma.$OtaJobPayload<ExtArgs> | null
+    stateHistories: Prisma.$DeviceStateHistoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -773,6 +1204,9 @@ export type $CommandPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     lastError: string | null
     createdAt: Date
     updatedAt: Date
+    requestedBy: number | null
+    source: $Enums.CommandSource
+    correlationId: string
   }, ExtArgs["result"]["command"]>
   composites: {}
 }
@@ -1168,7 +1602,9 @@ readonly fields: CommandFieldRefs;
 export interface Prisma__CommandClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   device<T extends Prisma.DeviceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DeviceDefaultArgs<ExtArgs>>): Prisma.Prisma__DeviceClient<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  requester<T extends Prisma.Command$requesterArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Command$requesterArgs<ExtArgs>>): Prisma.Prisma__UserAccountClient<runtime.Types.Result.GetResult<Prisma.$UserAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   otaJob<T extends Prisma.Command$otaJobArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Command$otaJobArgs<ExtArgs>>): Prisma.Prisma__OtaJobClient<runtime.Types.Result.GetResult<Prisma.$OtaJobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  stateHistories<T extends Prisma.Command$stateHistoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Command$stateHistoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceStateHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1207,6 +1643,9 @@ export interface CommandFieldRefs {
   readonly lastError: Prisma.FieldRef<"Command", 'String'>
   readonly createdAt: Prisma.FieldRef<"Command", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Command", 'DateTime'>
+  readonly requestedBy: Prisma.FieldRef<"Command", 'Int'>
+  readonly source: Prisma.FieldRef<"Command", 'CommandSource'>
+  readonly correlationId: Prisma.FieldRef<"Command", 'String'>
 }
     
 
@@ -1603,6 +2042,25 @@ export type CommandDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Command.requester
+ */
+export type Command$requesterArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserAccount
+   */
+  select?: Prisma.UserAccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserAccount
+   */
+  omit?: Prisma.UserAccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserAccountInclude<ExtArgs> | null
+  where?: Prisma.UserAccountWhereInput
+}
+
+/**
  * Command.otaJob
  */
 export type Command$otaJobArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1619,6 +2077,30 @@ export type Command$otaJobArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   include?: Prisma.OtaJobInclude<ExtArgs> | null
   where?: Prisma.OtaJobWhereInput
+}
+
+/**
+ * Command.stateHistories
+ */
+export type Command$stateHistoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DeviceStateHistory
+   */
+  select?: Prisma.DeviceStateHistorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DeviceStateHistory
+   */
+  omit?: Prisma.DeviceStateHistoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeviceStateHistoryInclude<ExtArgs> | null
+  where?: Prisma.DeviceStateHistoryWhereInput
+  orderBy?: Prisma.DeviceStateHistoryOrderByWithRelationInput | Prisma.DeviceStateHistoryOrderByWithRelationInput[]
+  cursor?: Prisma.DeviceStateHistoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DeviceStateHistoryScalarFieldEnum | Prisma.DeviceStateHistoryScalarFieldEnum[]
 }
 
 /**

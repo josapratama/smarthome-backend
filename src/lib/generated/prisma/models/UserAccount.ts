@@ -28,10 +28,12 @@ export type AggregateUserAccount = {
 
 export type UserAccountAvgAggregateOutputType = {
   id: number | null
+  failedLoginCount: number | null
 }
 
 export type UserAccountSumAggregateOutputType = {
   id: number | null
+  failedLoginCount: number | null
 }
 
 export type UserAccountMinAggregateOutputType = {
@@ -40,6 +42,12 @@ export type UserAccountMinAggregateOutputType = {
   email: string | null
   password: string | null
   role: $Enums.UserRole | null
+  isActive: boolean | null
+  emailVerifiedAt: Date | null
+  deletedAt: Date | null
+  passwordChangedAt: Date | null
+  failedLoginCount: number | null
+  lockedUntil: Date | null
   createdAt: Date | null
 }
 
@@ -49,6 +57,12 @@ export type UserAccountMaxAggregateOutputType = {
   email: string | null
   password: string | null
   role: $Enums.UserRole | null
+  isActive: boolean | null
+  emailVerifiedAt: Date | null
+  deletedAt: Date | null
+  passwordChangedAt: Date | null
+  failedLoginCount: number | null
+  lockedUntil: Date | null
   createdAt: Date | null
 }
 
@@ -58,6 +72,12 @@ export type UserAccountCountAggregateOutputType = {
   email: number
   password: number
   role: number
+  isActive: number
+  emailVerifiedAt: number
+  deletedAt: number
+  passwordChangedAt: number
+  failedLoginCount: number
+  lockedUntil: number
   createdAt: number
   _all: number
 }
@@ -65,10 +85,12 @@ export type UserAccountCountAggregateOutputType = {
 
 export type UserAccountAvgAggregateInputType = {
   id?: true
+  failedLoginCount?: true
 }
 
 export type UserAccountSumAggregateInputType = {
   id?: true
+  failedLoginCount?: true
 }
 
 export type UserAccountMinAggregateInputType = {
@@ -77,6 +99,12 @@ export type UserAccountMinAggregateInputType = {
   email?: true
   password?: true
   role?: true
+  isActive?: true
+  emailVerifiedAt?: true
+  deletedAt?: true
+  passwordChangedAt?: true
+  failedLoginCount?: true
+  lockedUntil?: true
   createdAt?: true
 }
 
@@ -86,6 +114,12 @@ export type UserAccountMaxAggregateInputType = {
   email?: true
   password?: true
   role?: true
+  isActive?: true
+  emailVerifiedAt?: true
+  deletedAt?: true
+  passwordChangedAt?: true
+  failedLoginCount?: true
+  lockedUntil?: true
   createdAt?: true
 }
 
@@ -95,6 +129,12 @@ export type UserAccountCountAggregateInputType = {
   email?: true
   password?: true
   role?: true
+  isActive?: true
+  emailVerifiedAt?: true
+  deletedAt?: true
+  passwordChangedAt?: true
+  failedLoginCount?: true
+  lockedUntil?: true
   createdAt?: true
   _all?: true
 }
@@ -191,6 +231,12 @@ export type UserAccountGroupByOutputType = {
   email: string
   password: string
   role: $Enums.UserRole
+  isActive: boolean
+  emailVerifiedAt: Date | null
+  deletedAt: Date | null
+  passwordChangedAt: Date | null
+  failedLoginCount: number
+  lockedUntil: Date | null
   createdAt: Date
   _count: UserAccountCountAggregateOutputType | null
   _avg: UserAccountAvgAggregateOutputType | null
@@ -223,11 +269,26 @@ export type UserAccountWhereInput = {
   email?: Prisma.StringFilter<"UserAccount"> | string
   password?: Prisma.StringFilter<"UserAccount"> | string
   role?: Prisma.EnumUserRoleFilter<"UserAccount"> | $Enums.UserRole
+  isActive?: Prisma.BoolFilter<"UserAccount"> | boolean
+  emailVerifiedAt?: Prisma.DateTimeNullableFilter<"UserAccount"> | Date | string | null
+  deletedAt?: Prisma.DateTimeNullableFilter<"UserAccount"> | Date | string | null
+  passwordChangedAt?: Prisma.DateTimeNullableFilter<"UserAccount"> | Date | string | null
+  failedLoginCount?: Prisma.IntFilter<"UserAccount"> | number
+  lockedUntil?: Prisma.DateTimeNullableFilter<"UserAccount"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"UserAccount"> | Date | string
   loginHistory?: Prisma.LoginHistoryListRelationFilter
+  loginAttempts?: Prisma.LoginAttemptListRelationFilter
+  sessions?: Prisma.UserSessionListRelationFilter
+  passwordResets?: Prisma.PasswordResetListRelationFilter
   devices?: Prisma.DeviceListRelationFilter
-  homes?: Prisma.HomeListRelationFilter
   notificationEndpoints?: Prisma.NotificationEndpointListRelationFilter
+  homesOwned?: Prisma.HomeListRelationFilter
+  homeMemberships?: Prisma.HomeMemberListRelationFilter
+  acknowledgedAlarms?: Prisma.AlarmEventListRelationFilter
+  resolvedAlarms?: Prisma.AlarmEventListRelationFilter
+  updatedDeviceConfigs?: Prisma.DeviceConfigListRelationFilter
+  pairingHistories?: Prisma.DevicePairingHistoryListRelationFilter
+  requestedCommands?: Prisma.CommandListRelationFilter
 }
 
 export type UserAccountOrderByWithRelationInput = {
@@ -236,11 +297,26 @@ export type UserAccountOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordChangedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  failedLoginCount?: Prisma.SortOrder
+  lockedUntil?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   loginHistory?: Prisma.LoginHistoryOrderByRelationAggregateInput
+  loginAttempts?: Prisma.LoginAttemptOrderByRelationAggregateInput
+  sessions?: Prisma.UserSessionOrderByRelationAggregateInput
+  passwordResets?: Prisma.PasswordResetOrderByRelationAggregateInput
   devices?: Prisma.DeviceOrderByRelationAggregateInput
-  homes?: Prisma.HomeOrderByRelationAggregateInput
   notificationEndpoints?: Prisma.NotificationEndpointOrderByRelationAggregateInput
+  homesOwned?: Prisma.HomeOrderByRelationAggregateInput
+  homeMemberships?: Prisma.HomeMemberOrderByRelationAggregateInput
+  acknowledgedAlarms?: Prisma.AlarmEventOrderByRelationAggregateInput
+  resolvedAlarms?: Prisma.AlarmEventOrderByRelationAggregateInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigOrderByRelationAggregateInput
+  pairingHistories?: Prisma.DevicePairingHistoryOrderByRelationAggregateInput
+  requestedCommands?: Prisma.CommandOrderByRelationAggregateInput
 }
 
 export type UserAccountWhereUniqueInput = Prisma.AtLeast<{
@@ -252,11 +328,26 @@ export type UserAccountWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserAccountWhereInput | Prisma.UserAccountWhereInput[]
   password?: Prisma.StringFilter<"UserAccount"> | string
   role?: Prisma.EnumUserRoleFilter<"UserAccount"> | $Enums.UserRole
+  isActive?: Prisma.BoolFilter<"UserAccount"> | boolean
+  emailVerifiedAt?: Prisma.DateTimeNullableFilter<"UserAccount"> | Date | string | null
+  deletedAt?: Prisma.DateTimeNullableFilter<"UserAccount"> | Date | string | null
+  passwordChangedAt?: Prisma.DateTimeNullableFilter<"UserAccount"> | Date | string | null
+  failedLoginCount?: Prisma.IntFilter<"UserAccount"> | number
+  lockedUntil?: Prisma.DateTimeNullableFilter<"UserAccount"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"UserAccount"> | Date | string
   loginHistory?: Prisma.LoginHistoryListRelationFilter
+  loginAttempts?: Prisma.LoginAttemptListRelationFilter
+  sessions?: Prisma.UserSessionListRelationFilter
+  passwordResets?: Prisma.PasswordResetListRelationFilter
   devices?: Prisma.DeviceListRelationFilter
-  homes?: Prisma.HomeListRelationFilter
   notificationEndpoints?: Prisma.NotificationEndpointListRelationFilter
+  homesOwned?: Prisma.HomeListRelationFilter
+  homeMemberships?: Prisma.HomeMemberListRelationFilter
+  acknowledgedAlarms?: Prisma.AlarmEventListRelationFilter
+  resolvedAlarms?: Prisma.AlarmEventListRelationFilter
+  updatedDeviceConfigs?: Prisma.DeviceConfigListRelationFilter
+  pairingHistories?: Prisma.DevicePairingHistoryListRelationFilter
+  requestedCommands?: Prisma.CommandListRelationFilter
 }, "id" | "username" | "email">
 
 export type UserAccountOrderByWithAggregationInput = {
@@ -265,6 +356,12 @@ export type UserAccountOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordChangedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  failedLoginCount?: Prisma.SortOrder
+  lockedUntil?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.UserAccountCountOrderByAggregateInput
   _avg?: Prisma.UserAccountAvgOrderByAggregateInput
@@ -282,6 +379,12 @@ export type UserAccountScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"UserAccount"> | string
   password?: Prisma.StringWithAggregatesFilter<"UserAccount"> | string
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"UserAccount"> | $Enums.UserRole
+  isActive?: Prisma.BoolWithAggregatesFilter<"UserAccount"> | boolean
+  emailVerifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"UserAccount"> | Date | string | null
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"UserAccount"> | Date | string | null
+  passwordChangedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"UserAccount"> | Date | string | null
+  failedLoginCount?: Prisma.IntWithAggregatesFilter<"UserAccount"> | number
+  lockedUntil?: Prisma.DateTimeNullableWithAggregatesFilter<"UserAccount"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserAccount"> | Date | string
 }
 
@@ -290,11 +393,26 @@ export type UserAccountCreateInput = {
   email: string
   password: string
   role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
   devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
-  homes?: Prisma.HomeCreateNestedManyWithoutOwnerInput
   notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
 export type UserAccountUncheckedCreateInput = {
@@ -303,11 +421,26 @@ export type UserAccountUncheckedCreateInput = {
   email: string
   password: string
   role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
-  homes?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
   notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
 export type UserAccountUpdateInput = {
@@ -315,11 +448,26 @@ export type UserAccountUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
-  homes?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
   notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
 export type UserAccountUncheckedUpdateInput = {
@@ -328,11 +476,26 @@ export type UserAccountUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
-  homes?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
   notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
 export type UserAccountCreateManyInput = {
@@ -341,6 +504,12 @@ export type UserAccountCreateManyInput = {
   email: string
   password: string
   role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -349,6 +518,12 @@ export type UserAccountUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -358,6 +533,12 @@ export type UserAccountUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -367,11 +548,18 @@ export type UserAccountCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
+  passwordChangedAt?: Prisma.SortOrder
+  failedLoginCount?: Prisma.SortOrder
+  lockedUntil?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type UserAccountAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  failedLoginCount?: Prisma.SortOrder
 }
 
 export type UserAccountMaxOrderByAggregateInput = {
@@ -380,6 +568,12 @@ export type UserAccountMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
+  passwordChangedAt?: Prisma.SortOrder
+  failedLoginCount?: Prisma.SortOrder
+  lockedUntil?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -389,16 +583,28 @@ export type UserAccountMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
+  passwordChangedAt?: Prisma.SortOrder
+  failedLoginCount?: Prisma.SortOrder
+  lockedUntil?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type UserAccountSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  failedLoginCount?: Prisma.SortOrder
 }
 
 export type UserAccountScalarRelationFilter = {
   is?: Prisma.UserAccountWhereInput
   isNot?: Prisma.UserAccountWhereInput
+}
+
+export type UserAccountNullableScalarRelationFilter = {
+  is?: Prisma.UserAccountWhereInput | null
+  isNot?: Prisma.UserAccountWhereInput | null
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -409,8 +615,12 @@ export type EnumUserRoleFieldUpdateOperationsInput = {
   set?: $Enums.UserRole
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -419,6 +629,10 @@ export type IntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type UserAccountCreateNestedOneWithoutLoginHistoryInput = {
@@ -435,18 +649,62 @@ export type UserAccountUpdateOneRequiredWithoutLoginHistoryNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutLoginHistoryInput, Prisma.UserAccountUpdateWithoutLoginHistoryInput>, Prisma.UserAccountUncheckedUpdateWithoutLoginHistoryInput>
 }
 
-export type UserAccountCreateNestedOneWithoutHomesInput = {
-  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutHomesInput, Prisma.UserAccountUncheckedCreateWithoutHomesInput>
-  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutHomesInput
+export type UserAccountCreateNestedOneWithoutLoginAttemptsInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutLoginAttemptsInput, Prisma.UserAccountUncheckedCreateWithoutLoginAttemptsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutLoginAttemptsInput
   connect?: Prisma.UserAccountWhereUniqueInput
 }
 
-export type UserAccountUpdateOneRequiredWithoutHomesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutHomesInput, Prisma.UserAccountUncheckedCreateWithoutHomesInput>
-  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutHomesInput
-  upsert?: Prisma.UserAccountUpsertWithoutHomesInput
+export type UserAccountUpdateOneWithoutLoginAttemptsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutLoginAttemptsInput, Prisma.UserAccountUncheckedCreateWithoutLoginAttemptsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutLoginAttemptsInput
+  upsert?: Prisma.UserAccountUpsertWithoutLoginAttemptsInput
+  disconnect?: Prisma.UserAccountWhereInput | boolean
+  delete?: Prisma.UserAccountWhereInput | boolean
   connect?: Prisma.UserAccountWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutHomesInput, Prisma.UserAccountUpdateWithoutHomesInput>, Prisma.UserAccountUncheckedUpdateWithoutHomesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutLoginAttemptsInput, Prisma.UserAccountUpdateWithoutLoginAttemptsInput>, Prisma.UserAccountUncheckedUpdateWithoutLoginAttemptsInput>
+}
+
+export type UserAccountCreateNestedOneWithoutSessionsInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutSessionsInput, Prisma.UserAccountUncheckedCreateWithoutSessionsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutSessionsInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+}
+
+export type UserAccountUpdateOneRequiredWithoutSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutSessionsInput, Prisma.UserAccountUncheckedCreateWithoutSessionsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutSessionsInput
+  upsert?: Prisma.UserAccountUpsertWithoutSessionsInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutSessionsInput, Prisma.UserAccountUpdateWithoutSessionsInput>, Prisma.UserAccountUncheckedUpdateWithoutSessionsInput>
+}
+
+export type UserAccountCreateNestedOneWithoutHomesOwnedInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutHomesOwnedInput, Prisma.UserAccountUncheckedCreateWithoutHomesOwnedInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutHomesOwnedInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+}
+
+export type UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutHomesOwnedInput, Prisma.UserAccountUncheckedCreateWithoutHomesOwnedInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutHomesOwnedInput
+  upsert?: Prisma.UserAccountUpsertWithoutHomesOwnedInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutHomesOwnedInput, Prisma.UserAccountUpdateWithoutHomesOwnedInput>, Prisma.UserAccountUncheckedUpdateWithoutHomesOwnedInput>
+}
+
+export type UserAccountCreateNestedOneWithoutHomeMembershipsInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutHomeMembershipsInput, Prisma.UserAccountUncheckedCreateWithoutHomeMembershipsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutHomeMembershipsInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+}
+
+export type UserAccountUpdateOneRequiredWithoutHomeMembershipsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutHomeMembershipsInput, Prisma.UserAccountUncheckedCreateWithoutHomeMembershipsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutHomeMembershipsInput
+  upsert?: Prisma.UserAccountUpsertWithoutHomeMembershipsInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutHomeMembershipsInput, Prisma.UserAccountUpdateWithoutHomeMembershipsInput>, Prisma.UserAccountUncheckedUpdateWithoutHomeMembershipsInput>
 }
 
 export type UserAccountCreateNestedOneWithoutDevicesInput = {
@@ -463,6 +721,84 @@ export type UserAccountUpdateOneRequiredWithoutDevicesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutDevicesInput, Prisma.UserAccountUpdateWithoutDevicesInput>, Prisma.UserAccountUncheckedUpdateWithoutDevicesInput>
 }
 
+export type UserAccountCreateNestedOneWithoutUpdatedDeviceConfigsInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutUpdatedDeviceConfigsInput, Prisma.UserAccountUncheckedCreateWithoutUpdatedDeviceConfigsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutUpdatedDeviceConfigsInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+}
+
+export type UserAccountUpdateOneWithoutUpdatedDeviceConfigsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutUpdatedDeviceConfigsInput, Prisma.UserAccountUncheckedCreateWithoutUpdatedDeviceConfigsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutUpdatedDeviceConfigsInput
+  upsert?: Prisma.UserAccountUpsertWithoutUpdatedDeviceConfigsInput
+  disconnect?: Prisma.UserAccountWhereInput | boolean
+  delete?: Prisma.UserAccountWhereInput | boolean
+  connect?: Prisma.UserAccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutUpdatedDeviceConfigsInput, Prisma.UserAccountUpdateWithoutUpdatedDeviceConfigsInput>, Prisma.UserAccountUncheckedUpdateWithoutUpdatedDeviceConfigsInput>
+}
+
+export type UserAccountCreateNestedOneWithoutPairingHistoriesInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutPairingHistoriesInput, Prisma.UserAccountUncheckedCreateWithoutPairingHistoriesInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutPairingHistoriesInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+}
+
+export type UserAccountUpdateOneRequiredWithoutPairingHistoriesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutPairingHistoriesInput, Prisma.UserAccountUncheckedCreateWithoutPairingHistoriesInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutPairingHistoriesInput
+  upsert?: Prisma.UserAccountUpsertWithoutPairingHistoriesInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutPairingHistoriesInput, Prisma.UserAccountUpdateWithoutPairingHistoriesInput>, Prisma.UserAccountUncheckedUpdateWithoutPairingHistoriesInput>
+}
+
+export type UserAccountCreateNestedOneWithoutAcknowledgedAlarmsInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutAcknowledgedAlarmsInput, Prisma.UserAccountUncheckedCreateWithoutAcknowledgedAlarmsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutAcknowledgedAlarmsInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+}
+
+export type UserAccountCreateNestedOneWithoutResolvedAlarmsInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutResolvedAlarmsInput, Prisma.UserAccountUncheckedCreateWithoutResolvedAlarmsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutResolvedAlarmsInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+}
+
+export type UserAccountUpdateOneWithoutAcknowledgedAlarmsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutAcknowledgedAlarmsInput, Prisma.UserAccountUncheckedCreateWithoutAcknowledgedAlarmsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutAcknowledgedAlarmsInput
+  upsert?: Prisma.UserAccountUpsertWithoutAcknowledgedAlarmsInput
+  disconnect?: Prisma.UserAccountWhereInput | boolean
+  delete?: Prisma.UserAccountWhereInput | boolean
+  connect?: Prisma.UserAccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutAcknowledgedAlarmsInput, Prisma.UserAccountUpdateWithoutAcknowledgedAlarmsInput>, Prisma.UserAccountUncheckedUpdateWithoutAcknowledgedAlarmsInput>
+}
+
+export type UserAccountUpdateOneWithoutResolvedAlarmsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutResolvedAlarmsInput, Prisma.UserAccountUncheckedCreateWithoutResolvedAlarmsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutResolvedAlarmsInput
+  upsert?: Prisma.UserAccountUpsertWithoutResolvedAlarmsInput
+  disconnect?: Prisma.UserAccountWhereInput | boolean
+  delete?: Prisma.UserAccountWhereInput | boolean
+  connect?: Prisma.UserAccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutResolvedAlarmsInput, Prisma.UserAccountUpdateWithoutResolvedAlarmsInput>, Prisma.UserAccountUncheckedUpdateWithoutResolvedAlarmsInput>
+}
+
+export type UserAccountCreateNestedOneWithoutRequestedCommandsInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutRequestedCommandsInput, Prisma.UserAccountUncheckedCreateWithoutRequestedCommandsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutRequestedCommandsInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+}
+
+export type UserAccountUpdateOneWithoutRequestedCommandsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutRequestedCommandsInput, Prisma.UserAccountUncheckedCreateWithoutRequestedCommandsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutRequestedCommandsInput
+  upsert?: Prisma.UserAccountUpsertWithoutRequestedCommandsInput
+  disconnect?: Prisma.UserAccountWhereInput | boolean
+  delete?: Prisma.UserAccountWhereInput | boolean
+  connect?: Prisma.UserAccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutRequestedCommandsInput, Prisma.UserAccountUpdateWithoutRequestedCommandsInput>, Prisma.UserAccountUncheckedUpdateWithoutRequestedCommandsInput>
+}
+
 export type UserAccountCreateNestedOneWithoutNotificationEndpointsInput = {
   create?: Prisma.XOR<Prisma.UserAccountCreateWithoutNotificationEndpointsInput, Prisma.UserAccountUncheckedCreateWithoutNotificationEndpointsInput>
   connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutNotificationEndpointsInput
@@ -477,15 +813,44 @@ export type UserAccountUpdateOneRequiredWithoutNotificationEndpointsNestedInput 
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutNotificationEndpointsInput, Prisma.UserAccountUpdateWithoutNotificationEndpointsInput>, Prisma.UserAccountUncheckedUpdateWithoutNotificationEndpointsInput>
 }
 
+export type UserAccountCreateNestedOneWithoutPasswordResetsInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutPasswordResetsInput, Prisma.UserAccountUncheckedCreateWithoutPasswordResetsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutPasswordResetsInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+}
+
+export type UserAccountUpdateOneRequiredWithoutPasswordResetsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAccountCreateWithoutPasswordResetsInput, Prisma.UserAccountUncheckedCreateWithoutPasswordResetsInput>
+  connectOrCreate?: Prisma.UserAccountCreateOrConnectWithoutPasswordResetsInput
+  upsert?: Prisma.UserAccountUpsertWithoutPasswordResetsInput
+  connect?: Prisma.UserAccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserAccountUpdateToOneWithWhereWithoutPasswordResetsInput, Prisma.UserAccountUpdateWithoutPasswordResetsInput>, Prisma.UserAccountUncheckedUpdateWithoutPasswordResetsInput>
+}
+
 export type UserAccountCreateWithoutLoginHistoryInput = {
   username: string
   email: string
   password: string
   role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
   createdAt?: Date | string
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
   devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
-  homes?: Prisma.HomeCreateNestedManyWithoutOwnerInput
   notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
 export type UserAccountUncheckedCreateWithoutLoginHistoryInput = {
@@ -494,10 +859,25 @@ export type UserAccountUncheckedCreateWithoutLoginHistoryInput = {
   email: string
   password: string
   role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
   createdAt?: Date | string
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
-  homes?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
   notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
 export type UserAccountCreateOrConnectWithoutLoginHistoryInput = {
@@ -521,10 +901,25 @@ export type UserAccountUpdateWithoutLoginHistoryInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
-  homes?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
   notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
 export type UserAccountUncheckedUpdateWithoutLoginHistoryInput = {
@@ -533,72 +928,513 @@ export type UserAccountUncheckedUpdateWithoutLoginHistoryInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
-  homes?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
   notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
-export type UserAccountCreateWithoutHomesInput = {
+export type UserAccountCreateWithoutLoginAttemptsInput = {
   username: string
   email: string
   password: string
   role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
   devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
   notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
-export type UserAccountUncheckedCreateWithoutHomesInput = {
+export type UserAccountUncheckedCreateWithoutLoginAttemptsInput = {
   id?: number
   username: string
   email: string
   password: string
   role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
   notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
-export type UserAccountCreateOrConnectWithoutHomesInput = {
+export type UserAccountCreateOrConnectWithoutLoginAttemptsInput = {
   where: Prisma.UserAccountWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserAccountCreateWithoutHomesInput, Prisma.UserAccountUncheckedCreateWithoutHomesInput>
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutLoginAttemptsInput, Prisma.UserAccountUncheckedCreateWithoutLoginAttemptsInput>
 }
 
-export type UserAccountUpsertWithoutHomesInput = {
-  update: Prisma.XOR<Prisma.UserAccountUpdateWithoutHomesInput, Prisma.UserAccountUncheckedUpdateWithoutHomesInput>
-  create: Prisma.XOR<Prisma.UserAccountCreateWithoutHomesInput, Prisma.UserAccountUncheckedCreateWithoutHomesInput>
+export type UserAccountUpsertWithoutLoginAttemptsInput = {
+  update: Prisma.XOR<Prisma.UserAccountUpdateWithoutLoginAttemptsInput, Prisma.UserAccountUncheckedUpdateWithoutLoginAttemptsInput>
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutLoginAttemptsInput, Prisma.UserAccountUncheckedCreateWithoutLoginAttemptsInput>
   where?: Prisma.UserAccountWhereInput
 }
 
-export type UserAccountUpdateToOneWithWhereWithoutHomesInput = {
+export type UserAccountUpdateToOneWithWhereWithoutLoginAttemptsInput = {
   where?: Prisma.UserAccountWhereInput
-  data: Prisma.XOR<Prisma.UserAccountUpdateWithoutHomesInput, Prisma.UserAccountUncheckedUpdateWithoutHomesInput>
+  data: Prisma.XOR<Prisma.UserAccountUpdateWithoutLoginAttemptsInput, Prisma.UserAccountUncheckedUpdateWithoutLoginAttemptsInput>
 }
 
-export type UserAccountUpdateWithoutHomesInput = {
+export type UserAccountUpdateWithoutLoginAttemptsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
   notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
-export type UserAccountUncheckedUpdateWithoutHomesInput = {
+export type UserAccountUncheckedUpdateWithoutLoginAttemptsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
   notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountCreateWithoutSessionsInput = {
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountUncheckedCreateWithoutSessionsInput = {
+  id?: number
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountCreateOrConnectWithoutSessionsInput = {
+  where: Prisma.UserAccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutSessionsInput, Prisma.UserAccountUncheckedCreateWithoutSessionsInput>
+}
+
+export type UserAccountUpsertWithoutSessionsInput = {
+  update: Prisma.XOR<Prisma.UserAccountUpdateWithoutSessionsInput, Prisma.UserAccountUncheckedUpdateWithoutSessionsInput>
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutSessionsInput, Prisma.UserAccountUncheckedCreateWithoutSessionsInput>
+  where?: Prisma.UserAccountWhereInput
+}
+
+export type UserAccountUpdateToOneWithWhereWithoutSessionsInput = {
+  where?: Prisma.UserAccountWhereInput
+  data: Prisma.XOR<Prisma.UserAccountUpdateWithoutSessionsInput, Prisma.UserAccountUncheckedUpdateWithoutSessionsInput>
+}
+
+export type UserAccountUpdateWithoutSessionsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountUncheckedUpdateWithoutSessionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountCreateWithoutHomesOwnedInput = {
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountUncheckedCreateWithoutHomesOwnedInput = {
+  id?: number
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountCreateOrConnectWithoutHomesOwnedInput = {
+  where: Prisma.UserAccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutHomesOwnedInput, Prisma.UserAccountUncheckedCreateWithoutHomesOwnedInput>
+}
+
+export type UserAccountUpsertWithoutHomesOwnedInput = {
+  update: Prisma.XOR<Prisma.UserAccountUpdateWithoutHomesOwnedInput, Prisma.UserAccountUncheckedUpdateWithoutHomesOwnedInput>
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutHomesOwnedInput, Prisma.UserAccountUncheckedCreateWithoutHomesOwnedInput>
+  where?: Prisma.UserAccountWhereInput
+}
+
+export type UserAccountUpdateToOneWithWhereWithoutHomesOwnedInput = {
+  where?: Prisma.UserAccountWhereInput
+  data: Prisma.XOR<Prisma.UserAccountUpdateWithoutHomesOwnedInput, Prisma.UserAccountUncheckedUpdateWithoutHomesOwnedInput>
+}
+
+export type UserAccountUpdateWithoutHomesOwnedInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountUncheckedUpdateWithoutHomesOwnedInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountCreateWithoutHomeMembershipsInput = {
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountUncheckedCreateWithoutHomeMembershipsInput = {
+  id?: number
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountCreateOrConnectWithoutHomeMembershipsInput = {
+  where: Prisma.UserAccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutHomeMembershipsInput, Prisma.UserAccountUncheckedCreateWithoutHomeMembershipsInput>
+}
+
+export type UserAccountUpsertWithoutHomeMembershipsInput = {
+  update: Prisma.XOR<Prisma.UserAccountUpdateWithoutHomeMembershipsInput, Prisma.UserAccountUncheckedUpdateWithoutHomeMembershipsInput>
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutHomeMembershipsInput, Prisma.UserAccountUncheckedCreateWithoutHomeMembershipsInput>
+  where?: Prisma.UserAccountWhereInput
+}
+
+export type UserAccountUpdateToOneWithWhereWithoutHomeMembershipsInput = {
+  where?: Prisma.UserAccountWhereInput
+  data: Prisma.XOR<Prisma.UserAccountUpdateWithoutHomeMembershipsInput, Prisma.UserAccountUncheckedUpdateWithoutHomeMembershipsInput>
+}
+
+export type UserAccountUpdateWithoutHomeMembershipsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountUncheckedUpdateWithoutHomeMembershipsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
 export type UserAccountCreateWithoutDevicesInput = {
@@ -606,10 +1442,25 @@ export type UserAccountCreateWithoutDevicesInput = {
   email: string
   password: string
   role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
-  homes?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
   notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
 export type UserAccountUncheckedCreateWithoutDevicesInput = {
@@ -618,10 +1469,25 @@ export type UserAccountUncheckedCreateWithoutDevicesInput = {
   email: string
   password: string
   role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
-  homes?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
   notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
 export type UserAccountCreateOrConnectWithoutDevicesInput = {
@@ -645,10 +1511,25 @@ export type UserAccountUpdateWithoutDevicesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
-  homes?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
   notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
 export type UserAccountUncheckedUpdateWithoutDevicesInput = {
@@ -657,10 +1538,635 @@ export type UserAccountUncheckedUpdateWithoutDevicesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
-  homes?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
   notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountCreateWithoutUpdatedDeviceConfigsInput = {
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountUncheckedCreateWithoutUpdatedDeviceConfigsInput = {
+  id?: number
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountCreateOrConnectWithoutUpdatedDeviceConfigsInput = {
+  where: Prisma.UserAccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutUpdatedDeviceConfigsInput, Prisma.UserAccountUncheckedCreateWithoutUpdatedDeviceConfigsInput>
+}
+
+export type UserAccountUpsertWithoutUpdatedDeviceConfigsInput = {
+  update: Prisma.XOR<Prisma.UserAccountUpdateWithoutUpdatedDeviceConfigsInput, Prisma.UserAccountUncheckedUpdateWithoutUpdatedDeviceConfigsInput>
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutUpdatedDeviceConfigsInput, Prisma.UserAccountUncheckedCreateWithoutUpdatedDeviceConfigsInput>
+  where?: Prisma.UserAccountWhereInput
+}
+
+export type UserAccountUpdateToOneWithWhereWithoutUpdatedDeviceConfigsInput = {
+  where?: Prisma.UserAccountWhereInput
+  data: Prisma.XOR<Prisma.UserAccountUpdateWithoutUpdatedDeviceConfigsInput, Prisma.UserAccountUncheckedUpdateWithoutUpdatedDeviceConfigsInput>
+}
+
+export type UserAccountUpdateWithoutUpdatedDeviceConfigsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountUncheckedUpdateWithoutUpdatedDeviceConfigsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountCreateWithoutPairingHistoriesInput = {
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountUncheckedCreateWithoutPairingHistoriesInput = {
+  id?: number
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountCreateOrConnectWithoutPairingHistoriesInput = {
+  where: Prisma.UserAccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutPairingHistoriesInput, Prisma.UserAccountUncheckedCreateWithoutPairingHistoriesInput>
+}
+
+export type UserAccountUpsertWithoutPairingHistoriesInput = {
+  update: Prisma.XOR<Prisma.UserAccountUpdateWithoutPairingHistoriesInput, Prisma.UserAccountUncheckedUpdateWithoutPairingHistoriesInput>
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutPairingHistoriesInput, Prisma.UserAccountUncheckedCreateWithoutPairingHistoriesInput>
+  where?: Prisma.UserAccountWhereInput
+}
+
+export type UserAccountUpdateToOneWithWhereWithoutPairingHistoriesInput = {
+  where?: Prisma.UserAccountWhereInput
+  data: Prisma.XOR<Prisma.UserAccountUpdateWithoutPairingHistoriesInput, Prisma.UserAccountUncheckedUpdateWithoutPairingHistoriesInput>
+}
+
+export type UserAccountUpdateWithoutPairingHistoriesInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountUncheckedUpdateWithoutPairingHistoriesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountCreateWithoutAcknowledgedAlarmsInput = {
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountUncheckedCreateWithoutAcknowledgedAlarmsInput = {
+  id?: number
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountCreateOrConnectWithoutAcknowledgedAlarmsInput = {
+  where: Prisma.UserAccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutAcknowledgedAlarmsInput, Prisma.UserAccountUncheckedCreateWithoutAcknowledgedAlarmsInput>
+}
+
+export type UserAccountCreateWithoutResolvedAlarmsInput = {
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountUncheckedCreateWithoutResolvedAlarmsInput = {
+  id?: number
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountCreateOrConnectWithoutResolvedAlarmsInput = {
+  where: Prisma.UserAccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutResolvedAlarmsInput, Prisma.UserAccountUncheckedCreateWithoutResolvedAlarmsInput>
+}
+
+export type UserAccountUpsertWithoutAcknowledgedAlarmsInput = {
+  update: Prisma.XOR<Prisma.UserAccountUpdateWithoutAcknowledgedAlarmsInput, Prisma.UserAccountUncheckedUpdateWithoutAcknowledgedAlarmsInput>
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutAcknowledgedAlarmsInput, Prisma.UserAccountUncheckedCreateWithoutAcknowledgedAlarmsInput>
+  where?: Prisma.UserAccountWhereInput
+}
+
+export type UserAccountUpdateToOneWithWhereWithoutAcknowledgedAlarmsInput = {
+  where?: Prisma.UserAccountWhereInput
+  data: Prisma.XOR<Prisma.UserAccountUpdateWithoutAcknowledgedAlarmsInput, Prisma.UserAccountUncheckedUpdateWithoutAcknowledgedAlarmsInput>
+}
+
+export type UserAccountUpdateWithoutAcknowledgedAlarmsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountUncheckedUpdateWithoutAcknowledgedAlarmsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountUpsertWithoutResolvedAlarmsInput = {
+  update: Prisma.XOR<Prisma.UserAccountUpdateWithoutResolvedAlarmsInput, Prisma.UserAccountUncheckedUpdateWithoutResolvedAlarmsInput>
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutResolvedAlarmsInput, Prisma.UserAccountUncheckedCreateWithoutResolvedAlarmsInput>
+  where?: Prisma.UserAccountWhereInput
+}
+
+export type UserAccountUpdateToOneWithWhereWithoutResolvedAlarmsInput = {
+  where?: Prisma.UserAccountWhereInput
+  data: Prisma.XOR<Prisma.UserAccountUpdateWithoutResolvedAlarmsInput, Prisma.UserAccountUncheckedUpdateWithoutResolvedAlarmsInput>
+}
+
+export type UserAccountUpdateWithoutResolvedAlarmsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountUncheckedUpdateWithoutResolvedAlarmsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountCreateWithoutRequestedCommandsInput = {
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+}
+
+export type UserAccountUncheckedCreateWithoutRequestedCommandsInput = {
+  id?: number
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserAccountCreateOrConnectWithoutRequestedCommandsInput = {
+  where: Prisma.UserAccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutRequestedCommandsInput, Prisma.UserAccountUncheckedCreateWithoutRequestedCommandsInput>
+}
+
+export type UserAccountUpsertWithoutRequestedCommandsInput = {
+  update: Prisma.XOR<Prisma.UserAccountUpdateWithoutRequestedCommandsInput, Prisma.UserAccountUncheckedUpdateWithoutRequestedCommandsInput>
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutRequestedCommandsInput, Prisma.UserAccountUncheckedCreateWithoutRequestedCommandsInput>
+  where?: Prisma.UserAccountWhereInput
+}
+
+export type UserAccountUpdateToOneWithWhereWithoutRequestedCommandsInput = {
+  where?: Prisma.UserAccountWhereInput
+  data: Prisma.XOR<Prisma.UserAccountUpdateWithoutRequestedCommandsInput, Prisma.UserAccountUncheckedUpdateWithoutRequestedCommandsInput>
+}
+
+export type UserAccountUpdateWithoutRequestedCommandsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+}
+
+export type UserAccountUncheckedUpdateWithoutRequestedCommandsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserAccountCreateWithoutNotificationEndpointsInput = {
@@ -668,10 +2174,25 @@ export type UserAccountCreateWithoutNotificationEndpointsInput = {
   email: string
   password: string
   role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
   devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
-  homes?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
 }
 
 export type UserAccountUncheckedCreateWithoutNotificationEndpointsInput = {
@@ -680,10 +2201,25 @@ export type UserAccountUncheckedCreateWithoutNotificationEndpointsInput = {
   email: string
   password: string
   role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
-  homes?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
 }
 
 export type UserAccountCreateOrConnectWithoutNotificationEndpointsInput = {
@@ -707,10 +2243,25 @@ export type UserAccountUpdateWithoutNotificationEndpointsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
-  homes?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
 }
 
 export type UserAccountUncheckedUpdateWithoutNotificationEndpointsInput = {
@@ -719,10 +2270,147 @@ export type UserAccountUncheckedUpdateWithoutNotificationEndpointsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
-  homes?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountCreateWithoutPasswordResetsInput = {
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountUncheckedCreateWithoutPasswordResetsInput = {
+  id?: number
+  username: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  failedLoginCount?: number
+  lockedUntil?: Date | string | null
+  createdAt?: Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedCreateNestedManyWithoutUserInput
+  homesOwned?: Prisma.HomeUncheckedCreateNestedManyWithoutOwnerInput
+  homeMemberships?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutUserInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutAcknowledgedByUserInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutResolvedByUserInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedCreateNestedManyWithoutUpdaterInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutUserInput
+  requestedCommands?: Prisma.CommandUncheckedCreateNestedManyWithoutRequesterInput
+}
+
+export type UserAccountCreateOrConnectWithoutPasswordResetsInput = {
+  where: Prisma.UserAccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutPasswordResetsInput, Prisma.UserAccountUncheckedCreateWithoutPasswordResetsInput>
+}
+
+export type UserAccountUpsertWithoutPasswordResetsInput = {
+  update: Prisma.XOR<Prisma.UserAccountUpdateWithoutPasswordResetsInput, Prisma.UserAccountUncheckedUpdateWithoutPasswordResetsInput>
+  create: Prisma.XOR<Prisma.UserAccountCreateWithoutPasswordResetsInput, Prisma.UserAccountUncheckedCreateWithoutPasswordResetsInput>
+  where?: Prisma.UserAccountWhereInput
+}
+
+export type UserAccountUpdateToOneWithWhereWithoutPasswordResetsInput = {
+  where?: Prisma.UserAccountWhereInput
+  data: Prisma.XOR<Prisma.UserAccountUpdateWithoutPasswordResetsInput, Prisma.UserAccountUncheckedUpdateWithoutPasswordResetsInput>
+}
+
+export type UserAccountUpdateWithoutPasswordResetsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUpdateManyWithoutRequesterNestedInput
+}
+
+export type UserAccountUncheckedUpdateWithoutPasswordResetsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+  loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  notificationEndpoints?: Prisma.NotificationEndpointUncheckedUpdateManyWithoutUserNestedInput
+  homesOwned?: Prisma.HomeUncheckedUpdateManyWithoutOwnerNestedInput
+  homeMemberships?: Prisma.HomeMemberUncheckedUpdateManyWithoutUserNestedInput
+  acknowledgedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutAcknowledgedByUserNestedInput
+  resolvedAlarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutResolvedByUserNestedInput
+  updatedDeviceConfigs?: Prisma.DeviceConfigUncheckedUpdateManyWithoutUpdaterNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutUserNestedInput
+  requestedCommands?: Prisma.CommandUncheckedUpdateManyWithoutRequesterNestedInput
 }
 
 
@@ -732,16 +2420,34 @@ export type UserAccountUncheckedUpdateWithoutNotificationEndpointsInput = {
 
 export type UserAccountCountOutputType = {
   loginHistory: number
+  loginAttempts: number
+  sessions: number
+  passwordResets: number
   devices: number
-  homes: number
   notificationEndpoints: number
+  homesOwned: number
+  homeMemberships: number
+  acknowledgedAlarms: number
+  resolvedAlarms: number
+  updatedDeviceConfigs: number
+  pairingHistories: number
+  requestedCommands: number
 }
 
 export type UserAccountCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   loginHistory?: boolean | UserAccountCountOutputTypeCountLoginHistoryArgs
+  loginAttempts?: boolean | UserAccountCountOutputTypeCountLoginAttemptsArgs
+  sessions?: boolean | UserAccountCountOutputTypeCountSessionsArgs
+  passwordResets?: boolean | UserAccountCountOutputTypeCountPasswordResetsArgs
   devices?: boolean | UserAccountCountOutputTypeCountDevicesArgs
-  homes?: boolean | UserAccountCountOutputTypeCountHomesArgs
   notificationEndpoints?: boolean | UserAccountCountOutputTypeCountNotificationEndpointsArgs
+  homesOwned?: boolean | UserAccountCountOutputTypeCountHomesOwnedArgs
+  homeMemberships?: boolean | UserAccountCountOutputTypeCountHomeMembershipsArgs
+  acknowledgedAlarms?: boolean | UserAccountCountOutputTypeCountAcknowledgedAlarmsArgs
+  resolvedAlarms?: boolean | UserAccountCountOutputTypeCountResolvedAlarmsArgs
+  updatedDeviceConfigs?: boolean | UserAccountCountOutputTypeCountUpdatedDeviceConfigsArgs
+  pairingHistories?: boolean | UserAccountCountOutputTypeCountPairingHistoriesArgs
+  requestedCommands?: boolean | UserAccountCountOutputTypeCountRequestedCommandsArgs
 }
 
 /**
@@ -764,15 +2470,29 @@ export type UserAccountCountOutputTypeCountLoginHistoryArgs<ExtArgs extends runt
 /**
  * UserAccountCountOutputType without action
  */
-export type UserAccountCountOutputTypeCountDevicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DeviceWhereInput
+export type UserAccountCountOutputTypeCountLoginAttemptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LoginAttemptWhereInput
 }
 
 /**
  * UserAccountCountOutputType without action
  */
-export type UserAccountCountOutputTypeCountHomesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.HomeWhereInput
+export type UserAccountCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserSessionWhereInput
+}
+
+/**
+ * UserAccountCountOutputType without action
+ */
+export type UserAccountCountOutputTypeCountPasswordResetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PasswordResetWhereInput
+}
+
+/**
+ * UserAccountCountOutputType without action
+ */
+export type UserAccountCountOutputTypeCountDevicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeviceWhereInput
 }
 
 /**
@@ -782,6 +2502,55 @@ export type UserAccountCountOutputTypeCountNotificationEndpointsArgs<ExtArgs ext
   where?: Prisma.NotificationEndpointWhereInput
 }
 
+/**
+ * UserAccountCountOutputType without action
+ */
+export type UserAccountCountOutputTypeCountHomesOwnedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HomeWhereInput
+}
+
+/**
+ * UserAccountCountOutputType without action
+ */
+export type UserAccountCountOutputTypeCountHomeMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HomeMemberWhereInput
+}
+
+/**
+ * UserAccountCountOutputType without action
+ */
+export type UserAccountCountOutputTypeCountAcknowledgedAlarmsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AlarmEventWhereInput
+}
+
+/**
+ * UserAccountCountOutputType without action
+ */
+export type UserAccountCountOutputTypeCountResolvedAlarmsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AlarmEventWhereInput
+}
+
+/**
+ * UserAccountCountOutputType without action
+ */
+export type UserAccountCountOutputTypeCountUpdatedDeviceConfigsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeviceConfigWhereInput
+}
+
+/**
+ * UserAccountCountOutputType without action
+ */
+export type UserAccountCountOutputTypeCountPairingHistoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DevicePairingHistoryWhereInput
+}
+
+/**
+ * UserAccountCountOutputType without action
+ */
+export type UserAccountCountOutputTypeCountRequestedCommandsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommandWhereInput
+}
+
 
 export type UserAccountSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -789,11 +2558,26 @@ export type UserAccountSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   email?: boolean
   password?: boolean
   role?: boolean
+  isActive?: boolean
+  emailVerifiedAt?: boolean
+  deletedAt?: boolean
+  passwordChangedAt?: boolean
+  failedLoginCount?: boolean
+  lockedUntil?: boolean
   createdAt?: boolean
   loginHistory?: boolean | Prisma.UserAccount$loginHistoryArgs<ExtArgs>
+  loginAttempts?: boolean | Prisma.UserAccount$loginAttemptsArgs<ExtArgs>
+  sessions?: boolean | Prisma.UserAccount$sessionsArgs<ExtArgs>
+  passwordResets?: boolean | Prisma.UserAccount$passwordResetsArgs<ExtArgs>
   devices?: boolean | Prisma.UserAccount$devicesArgs<ExtArgs>
-  homes?: boolean | Prisma.UserAccount$homesArgs<ExtArgs>
   notificationEndpoints?: boolean | Prisma.UserAccount$notificationEndpointsArgs<ExtArgs>
+  homesOwned?: boolean | Prisma.UserAccount$homesOwnedArgs<ExtArgs>
+  homeMemberships?: boolean | Prisma.UserAccount$homeMembershipsArgs<ExtArgs>
+  acknowledgedAlarms?: boolean | Prisma.UserAccount$acknowledgedAlarmsArgs<ExtArgs>
+  resolvedAlarms?: boolean | Prisma.UserAccount$resolvedAlarmsArgs<ExtArgs>
+  updatedDeviceConfigs?: boolean | Prisma.UserAccount$updatedDeviceConfigsArgs<ExtArgs>
+  pairingHistories?: boolean | Prisma.UserAccount$pairingHistoriesArgs<ExtArgs>
+  requestedCommands?: boolean | Prisma.UserAccount$requestedCommandsArgs<ExtArgs>
   _count?: boolean | Prisma.UserAccountCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userAccount"]>
 
@@ -803,6 +2587,12 @@ export type UserAccountSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   email?: boolean
   password?: boolean
   role?: boolean
+  isActive?: boolean
+  emailVerifiedAt?: boolean
+  deletedAt?: boolean
+  passwordChangedAt?: boolean
+  failedLoginCount?: boolean
+  lockedUntil?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["userAccount"]>
 
@@ -812,6 +2602,12 @@ export type UserAccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   email?: boolean
   password?: boolean
   role?: boolean
+  isActive?: boolean
+  emailVerifiedAt?: boolean
+  deletedAt?: boolean
+  passwordChangedAt?: boolean
+  failedLoginCount?: boolean
+  lockedUntil?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["userAccount"]>
 
@@ -821,15 +2617,30 @@ export type UserAccountSelectScalar = {
   email?: boolean
   password?: boolean
   role?: boolean
+  isActive?: boolean
+  emailVerifiedAt?: boolean
+  deletedAt?: boolean
+  passwordChangedAt?: boolean
+  failedLoginCount?: boolean
+  lockedUntil?: boolean
   createdAt?: boolean
 }
 
-export type UserAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password" | "role" | "createdAt", ExtArgs["result"]["userAccount"]>
+export type UserAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password" | "role" | "isActive" | "emailVerifiedAt" | "deletedAt" | "passwordChangedAt" | "failedLoginCount" | "lockedUntil" | "createdAt", ExtArgs["result"]["userAccount"]>
 export type UserAccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   loginHistory?: boolean | Prisma.UserAccount$loginHistoryArgs<ExtArgs>
+  loginAttempts?: boolean | Prisma.UserAccount$loginAttemptsArgs<ExtArgs>
+  sessions?: boolean | Prisma.UserAccount$sessionsArgs<ExtArgs>
+  passwordResets?: boolean | Prisma.UserAccount$passwordResetsArgs<ExtArgs>
   devices?: boolean | Prisma.UserAccount$devicesArgs<ExtArgs>
-  homes?: boolean | Prisma.UserAccount$homesArgs<ExtArgs>
   notificationEndpoints?: boolean | Prisma.UserAccount$notificationEndpointsArgs<ExtArgs>
+  homesOwned?: boolean | Prisma.UserAccount$homesOwnedArgs<ExtArgs>
+  homeMemberships?: boolean | Prisma.UserAccount$homeMembershipsArgs<ExtArgs>
+  acknowledgedAlarms?: boolean | Prisma.UserAccount$acknowledgedAlarmsArgs<ExtArgs>
+  resolvedAlarms?: boolean | Prisma.UserAccount$resolvedAlarmsArgs<ExtArgs>
+  updatedDeviceConfigs?: boolean | Prisma.UserAccount$updatedDeviceConfigsArgs<ExtArgs>
+  pairingHistories?: boolean | Prisma.UserAccount$pairingHistoriesArgs<ExtArgs>
+  requestedCommands?: boolean | Prisma.UserAccount$requestedCommandsArgs<ExtArgs>
   _count?: boolean | Prisma.UserAccountCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserAccountIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -839,9 +2650,18 @@ export type $UserAccountPayload<ExtArgs extends runtime.Types.Extensions.Interna
   name: "UserAccount"
   objects: {
     loginHistory: Prisma.$LoginHistoryPayload<ExtArgs>[]
+    loginAttempts: Prisma.$LoginAttemptPayload<ExtArgs>[]
+    sessions: Prisma.$UserSessionPayload<ExtArgs>[]
+    passwordResets: Prisma.$PasswordResetPayload<ExtArgs>[]
     devices: Prisma.$DevicePayload<ExtArgs>[]
-    homes: Prisma.$HomePayload<ExtArgs>[]
     notificationEndpoints: Prisma.$NotificationEndpointPayload<ExtArgs>[]
+    homesOwned: Prisma.$HomePayload<ExtArgs>[]
+    homeMemberships: Prisma.$HomeMemberPayload<ExtArgs>[]
+    acknowledgedAlarms: Prisma.$AlarmEventPayload<ExtArgs>[]
+    resolvedAlarms: Prisma.$AlarmEventPayload<ExtArgs>[]
+    updatedDeviceConfigs: Prisma.$DeviceConfigPayload<ExtArgs>[]
+    pairingHistories: Prisma.$DevicePairingHistoryPayload<ExtArgs>[]
+    requestedCommands: Prisma.$CommandPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -849,6 +2669,12 @@ export type $UserAccountPayload<ExtArgs extends runtime.Types.Extensions.Interna
     email: string
     password: string
     role: $Enums.UserRole
+    isActive: boolean
+    emailVerifiedAt: Date | null
+    deletedAt: Date | null
+    passwordChangedAt: Date | null
+    failedLoginCount: number
+    lockedUntil: Date | null
     createdAt: Date
   }, ExtArgs["result"]["userAccount"]>
   composites: {}
@@ -1245,9 +3071,18 @@ readonly fields: UserAccountFieldRefs;
 export interface Prisma__UserAccountClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   loginHistory<T extends Prisma.UserAccount$loginHistoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$loginHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoginHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  loginAttempts<T extends Prisma.UserAccount$loginAttemptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$loginAttemptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoginAttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sessions<T extends Prisma.UserAccount$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  passwordResets<T extends Prisma.UserAccount$passwordResetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$passwordResetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   devices<T extends Prisma.UserAccount$devicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$devicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  homes<T extends Prisma.UserAccount$homesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$homesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HomePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notificationEndpoints<T extends Prisma.UserAccount$notificationEndpointsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$notificationEndpointsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationEndpointPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  homesOwned<T extends Prisma.UserAccount$homesOwnedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$homesOwnedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HomePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  homeMemberships<T extends Prisma.UserAccount$homeMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$homeMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HomeMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  acknowledgedAlarms<T extends Prisma.UserAccount$acknowledgedAlarmsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$acknowledgedAlarmsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlarmEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  resolvedAlarms<T extends Prisma.UserAccount$resolvedAlarmsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$resolvedAlarmsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlarmEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  updatedDeviceConfigs<T extends Prisma.UserAccount$updatedDeviceConfigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$updatedDeviceConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pairingHistories<T extends Prisma.UserAccount$pairingHistoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$pairingHistoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePairingHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  requestedCommands<T extends Prisma.UserAccount$requestedCommandsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccount$requestedCommandsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommandPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1282,6 +3117,12 @@ export interface UserAccountFieldRefs {
   readonly email: Prisma.FieldRef<"UserAccount", 'String'>
   readonly password: Prisma.FieldRef<"UserAccount", 'String'>
   readonly role: Prisma.FieldRef<"UserAccount", 'UserRole'>
+  readonly isActive: Prisma.FieldRef<"UserAccount", 'Boolean'>
+  readonly emailVerifiedAt: Prisma.FieldRef<"UserAccount", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"UserAccount", 'DateTime'>
+  readonly passwordChangedAt: Prisma.FieldRef<"UserAccount", 'DateTime'>
+  readonly failedLoginCount: Prisma.FieldRef<"UserAccount", 'Int'>
+  readonly lockedUntil: Prisma.FieldRef<"UserAccount", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"UserAccount", 'DateTime'>
 }
     
@@ -1695,6 +3536,78 @@ export type UserAccount$loginHistoryArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
+ * UserAccount.loginAttempts
+ */
+export type UserAccount$loginAttemptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LoginAttempt
+   */
+  select?: Prisma.LoginAttemptSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LoginAttempt
+   */
+  omit?: Prisma.LoginAttemptOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LoginAttemptInclude<ExtArgs> | null
+  where?: Prisma.LoginAttemptWhereInput
+  orderBy?: Prisma.LoginAttemptOrderByWithRelationInput | Prisma.LoginAttemptOrderByWithRelationInput[]
+  cursor?: Prisma.LoginAttemptWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LoginAttemptScalarFieldEnum | Prisma.LoginAttemptScalarFieldEnum[]
+}
+
+/**
+ * UserAccount.sessions
+ */
+export type UserAccount$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserSession
+   */
+  select?: Prisma.UserSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserSession
+   */
+  omit?: Prisma.UserSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserSessionInclude<ExtArgs> | null
+  where?: Prisma.UserSessionWhereInput
+  orderBy?: Prisma.UserSessionOrderByWithRelationInput | Prisma.UserSessionOrderByWithRelationInput[]
+  cursor?: Prisma.UserSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserSessionScalarFieldEnum | Prisma.UserSessionScalarFieldEnum[]
+}
+
+/**
+ * UserAccount.passwordResets
+ */
+export type UserAccount$passwordResetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PasswordReset
+   */
+  select?: Prisma.PasswordResetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PasswordReset
+   */
+  omit?: Prisma.PasswordResetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PasswordResetInclude<ExtArgs> | null
+  where?: Prisma.PasswordResetWhereInput
+  orderBy?: Prisma.PasswordResetOrderByWithRelationInput | Prisma.PasswordResetOrderByWithRelationInput[]
+  cursor?: Prisma.PasswordResetWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PasswordResetScalarFieldEnum | Prisma.PasswordResetScalarFieldEnum[]
+}
+
+/**
  * UserAccount.devices
  */
 export type UserAccount$devicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1719,30 +3632,6 @@ export type UserAccount$devicesArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * UserAccount.homes
- */
-export type UserAccount$homesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Home
-   */
-  select?: Prisma.HomeSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Home
-   */
-  omit?: Prisma.HomeOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.HomeInclude<ExtArgs> | null
-  where?: Prisma.HomeWhereInput
-  orderBy?: Prisma.HomeOrderByWithRelationInput | Prisma.HomeOrderByWithRelationInput[]
-  cursor?: Prisma.HomeWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.HomeScalarFieldEnum | Prisma.HomeScalarFieldEnum[]
-}
-
-/**
  * UserAccount.notificationEndpoints
  */
 export type UserAccount$notificationEndpointsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1764,6 +3653,174 @@ export type UserAccount$notificationEndpointsArgs<ExtArgs extends runtime.Types.
   take?: number
   skip?: number
   distinct?: Prisma.NotificationEndpointScalarFieldEnum | Prisma.NotificationEndpointScalarFieldEnum[]
+}
+
+/**
+ * UserAccount.homesOwned
+ */
+export type UserAccount$homesOwnedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Home
+   */
+  select?: Prisma.HomeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Home
+   */
+  omit?: Prisma.HomeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HomeInclude<ExtArgs> | null
+  where?: Prisma.HomeWhereInput
+  orderBy?: Prisma.HomeOrderByWithRelationInput | Prisma.HomeOrderByWithRelationInput[]
+  cursor?: Prisma.HomeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HomeScalarFieldEnum | Prisma.HomeScalarFieldEnum[]
+}
+
+/**
+ * UserAccount.homeMemberships
+ */
+export type UserAccount$homeMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HomeMember
+   */
+  select?: Prisma.HomeMemberSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HomeMember
+   */
+  omit?: Prisma.HomeMemberOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HomeMemberInclude<ExtArgs> | null
+  where?: Prisma.HomeMemberWhereInput
+  orderBy?: Prisma.HomeMemberOrderByWithRelationInput | Prisma.HomeMemberOrderByWithRelationInput[]
+  cursor?: Prisma.HomeMemberWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HomeMemberScalarFieldEnum | Prisma.HomeMemberScalarFieldEnum[]
+}
+
+/**
+ * UserAccount.acknowledgedAlarms
+ */
+export type UserAccount$acknowledgedAlarmsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AlarmEvent
+   */
+  select?: Prisma.AlarmEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AlarmEvent
+   */
+  omit?: Prisma.AlarmEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlarmEventInclude<ExtArgs> | null
+  where?: Prisma.AlarmEventWhereInput
+  orderBy?: Prisma.AlarmEventOrderByWithRelationInput | Prisma.AlarmEventOrderByWithRelationInput[]
+  cursor?: Prisma.AlarmEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AlarmEventScalarFieldEnum | Prisma.AlarmEventScalarFieldEnum[]
+}
+
+/**
+ * UserAccount.resolvedAlarms
+ */
+export type UserAccount$resolvedAlarmsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AlarmEvent
+   */
+  select?: Prisma.AlarmEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AlarmEvent
+   */
+  omit?: Prisma.AlarmEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlarmEventInclude<ExtArgs> | null
+  where?: Prisma.AlarmEventWhereInput
+  orderBy?: Prisma.AlarmEventOrderByWithRelationInput | Prisma.AlarmEventOrderByWithRelationInput[]
+  cursor?: Prisma.AlarmEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AlarmEventScalarFieldEnum | Prisma.AlarmEventScalarFieldEnum[]
+}
+
+/**
+ * UserAccount.updatedDeviceConfigs
+ */
+export type UserAccount$updatedDeviceConfigsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DeviceConfig
+   */
+  select?: Prisma.DeviceConfigSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DeviceConfig
+   */
+  omit?: Prisma.DeviceConfigOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeviceConfigInclude<ExtArgs> | null
+  where?: Prisma.DeviceConfigWhereInput
+  orderBy?: Prisma.DeviceConfigOrderByWithRelationInput | Prisma.DeviceConfigOrderByWithRelationInput[]
+  cursor?: Prisma.DeviceConfigWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DeviceConfigScalarFieldEnum | Prisma.DeviceConfigScalarFieldEnum[]
+}
+
+/**
+ * UserAccount.pairingHistories
+ */
+export type UserAccount$pairingHistoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DevicePairingHistory
+   */
+  select?: Prisma.DevicePairingHistorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DevicePairingHistory
+   */
+  omit?: Prisma.DevicePairingHistoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DevicePairingHistoryInclude<ExtArgs> | null
+  where?: Prisma.DevicePairingHistoryWhereInput
+  orderBy?: Prisma.DevicePairingHistoryOrderByWithRelationInput | Prisma.DevicePairingHistoryOrderByWithRelationInput[]
+  cursor?: Prisma.DevicePairingHistoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DevicePairingHistoryScalarFieldEnum | Prisma.DevicePairingHistoryScalarFieldEnum[]
+}
+
+/**
+ * UserAccount.requestedCommands
+ */
+export type UserAccount$requestedCommandsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Command
+   */
+  select?: Prisma.CommandSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Command
+   */
+  omit?: Prisma.CommandOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommandInclude<ExtArgs> | null
+  where?: Prisma.CommandWhereInput
+  orderBy?: Prisma.CommandOrderByWithRelationInput | Prisma.CommandOrderByWithRelationInput[]
+  cursor?: Prisma.CommandWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommandScalarFieldEnum | Prisma.CommandScalarFieldEnum[]
 }
 
 /**

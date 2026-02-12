@@ -34,6 +34,12 @@ enum AlarmSource {
   USER
 }
 
+enum AlarmStatus {
+  OPEN
+  ACKED
+  RESOLVED
+}
+
 enum NotificationChannel {
   FCM
   MQTT
@@ -41,6 +47,13 @@ enum NotificationChannel {
   SSE
   WEBHOOK
   CUSTOM
+}
+
+enum NotificationDeliveryStatus {
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
 }
 
 enum AnomalyMetric {
@@ -59,18 +72,94 @@ enum OtaJobStatus {
   TIMEOUT
 }
 
+enum DeviceType {
+  LIGHT
+  FAN
+  BELL
+  DOOR
+  SENSOR_NODE
+  POWER_METER
+  OTHER
+}
+
+enum HomeMemberRole {
+  OWNER
+  MEMBER
+  GUEST
+}
+
+enum HomeMemberStatus {
+  INVITED
+  ACTIVE
+  REVOKED
+}
+
+enum PairingMethod {
+  DEVICE_KEY
+  QR_CODE
+  ADMIN
+  OTHER
+}
+
+// Tambahan untuk tabel log diagnostik (opsional)
+enum DeviceEventSeverity {
+  INFO
+  WARN
+  ERROR
+}
+
+// Tambahan untuk sumber perintah (Command.source)
+enum CommandSource {
+  USER
+  BACKEND
+  AI
+  ADMIN
+}
+
 model UserAccount {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  email     String   @unique
-  password  String   @map("password")
-  role      UserRole @default(USER)
+  id              Int      @id @default(autoincrement())
+  username        String   @unique
+  email           String   @unique
+  password        String   @map("password")
+  role            UserRole @default(USER)
+
+  isActive        Boolean   @default(true) @map("is_active")
+  emailVerifiedAt DateTime? @map("email_verified_at")
+  deletedAt       DateTime? @map("deleted_at")
+
+  passwordChangedAt DateTime? @map("password_changed_at")
+  failedLoginCount  Int       @default(0) @map("failed_login_count")
+  lockedUntil       DateTime? @map("locked_until")
+
   createdAt DateTime @default(now()) @map("created_at")
 
+  // Relations
   loginHistory          LoginHistory[]
-  devices               Device[]
-  homes                 Home[]
+  loginAttempts         LoginAttempt[]
+  sessions              UserSession[]
+  passwordResets        PasswordReset[]
+
+  devices               Device[] // paired devices
   notificationEndpoints NotificationEndpoint[]
+
+  // Home ownership (home.owner_user_id)
+  homesOwned Home[] @relation("HomeOwner")
+
+  // Home membership (home_member)
+  homeMemberships HomeMember[]
+
+  // Alarm acknowledgement / resolution
+  acknowledgedAlarms AlarmEvent[] @relation("AlarmAcknowledgedBy")
+  resolvedAlarms     AlarmEvent[] @relation("AlarmResolvedBy")
+
+  // Device config updater
+  updatedDeviceConfigs DeviceConfig[] @relation("DeviceConfigUpdatedBy")
+
+  // Device pairing history
+  pairingHistories DevicePairingHistory[]
+
+  // Command requester
+  requestedCommands Command[] @relation("CommandRequestedBy")
 
   @@map("user_account")
 }
@@ -87,86 +176,289 @@ model LoginHistory {
   @@map("login_history")
 }
 
+model LoginAttempt {
+  id            Int      @id @default(autoincrement())
+  userId        Int?     @map("user_id")
+  usernameInput String?  @map("username_input")
+  attemptTime   DateTime @default(now()) @map("attempt_time")
+  ipAddress     String?  @map("ip_address")
+  isSuccess     Boolean  @map("is_success")
+  failReason    String?  @map("fail_reason")
+
+  user UserAccount? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, attemptTime])
+  @@index([ipAddress, attemptTime])
+  @@map("login_attempt")
+}
+
+model UserSession {
+  id               Int       @id @default(autoincrement())
+  userId           Int       @map("user_id")
+  refreshTokenHash String    @unique @map("refresh_token_hash")
+  userAgent        String?   @map("user_agent")
+  ipAddress        String?   @map("ip_address")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  expiresAt        DateTime  @map("expires_at")
+  revokedAt        DateTime? @map("revoked_at")
+
+  user UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+  @@map("user_session")
+}
+
 model Home {
-  id        Int      @id @default(autoincrement())
-  ownerId   Int      @map("user_id")
-  name      String
+  id          Int    @id @default(autoincrement())
+  ownerUserId Int    @map("owner_user_id")
+  name        String
+
+  addressText String? @map("address_text")
+  city        String?
+  postalCode  String? @map("postal_code")
+  latitude    Float?
+  longitude   Float?
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  owner       UserAccount  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  devices     Device[]
-  alarmEvents AlarmEvent[]
+  owner UserAccount @relation("HomeOwner", fields: [ownerUserId], references: [id], onDelete: Cascade)
 
-  @@index([ownerId])
+  devices          Device[]
+  rooms            Room[]
+  alarmEvents      AlarmEvent[]
+  energyUsageDaily EnergyUsageDaily[]
+
+  members HomeMember[]
+  pairingHistories DevicePairingHistory[]
+
+  deviceEventLogs DeviceEventLog[]
+
+  @@index([ownerUserId])
   @@map("home")
 }
 
+model HomeMember {
+  id     Int @id @default(autoincrement())
+  homeId Int @map("home_id")
+  userId Int @map("user_id")
+
+  roleInHome HomeMemberRole   @map("role_in_home")
+  status     HomeMemberStatus @default(INVITED)
+
+  invitedAt DateTime  @default(now()) @map("invited_at")
+  joinedAt  DateTime? @map("joined_at")
+
+  home Home        @relation(fields: [homeId], references: [id], onDelete: Cascade)
+  user UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([homeId, userId])
+  @@index([homeId])
+  @@index([userId])
+  @@map("home_member")
+}
+
+model Room {
+  id        Int      @id @default(autoincrement())
+  homeId    Int      @map("home_id")
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  home    Home    @relation(fields: [homeId], references: [id], onDelete: Cascade)
+  devices Device[]
+
+  @@unique([homeId, name])
+  @@index([homeId])
+  @@map("room")
+}
+
 model Device {
-  id         Int      @id @default(autoincrement())
-  deviceName String   @map("device_name")
-  room       String?
-  status     Boolean  @default(false)
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  id         Int    @id @default(autoincrement())
+  deviceName String @map("device_name")
+
+  roomId Int?  @map("room_id")
+  roomR  Room? @relation(fields: [roomId], references: [id], onDelete: SetNull)
+
+  status    Boolean  @default(false)
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   lastSeenAt   DateTime? @map("last_seen_at")
   mqttClientId String?   @unique @map("mqtt_client_id")
   deviceKey    String?   @unique @map("device_key")
 
-  userId Int  @map("user_id")
-  homeId Int? @map("home_id")
+  deviceType   DeviceType @default(OTHER) @map("device_type")
+  capabilities Json?      @map("capabilities")
 
-  user UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
-  home Home?       @relation(fields: [homeId], references: [id], onDelete: SetNull)
+  // paired_by_user_id (tetap memakai kolom user_id di database)
+  pairedByUserId Int @map("user_id")
 
-  sensorData        SensorData[]
-  energyPredictions EnergyPrediction[]
-  commands          Command[]
-  alarmEvents       AlarmEvent[]
+  // home_id dibuat wajib agar akses perangkat konsisten berbasis rumah
+  homeId Int @map("home_id")
 
-  otaJobs OtaJob[]
+  pairedAt   DateTime? @map("paired_at")
+  unpairedAt DateTime? @map("unpaired_at")
 
-  @@index([userId])
+  user UserAccount @relation(fields: [pairedByUserId], references: [id], onDelete: Cascade)
+  home Home        @relation(fields: [homeId], references: [id], onDelete: Cascade)
+
+  sensorData         SensorData[]
+  sensorReadings     SensorReading[]
+  energyPredictions  EnergyPrediction[]
+  commands           Command[]
+  alarmEvents        AlarmEvent[]
+  otaJobs            OtaJob[]
+
+  config            DeviceConfig?
+  stateHistories    DeviceStateHistory[]
+  energyUsageDaily  EnergyUsageDaily[]
+
+  pairingHistories DevicePairingHistory[]
+  deviceEventLogs  DeviceEventLog[]
+
+  @@index([pairedByUserId])
   @@index([homeId])
+  @@index([roomId])
   @@map("device_status")
+}
+
+model DeviceConfig {
+  id       Int  @id @default(autoincrement())
+  deviceId Int  @unique @map("device_id")
+  config   Json @map("config")
+
+  updatedBy Int?     @map("updated_by")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  device  Device       @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  updater UserAccount? @relation("DeviceConfigUpdatedBy", fields: [updatedBy], references: [id], onDelete: SetNull)
+
+  @@index([updatedBy, updatedAt])
+  @@map("device_config")
+}
+
+model DevicePairingHistory {
+  id       Int            @id @default(autoincrement())
+  deviceId Int            @map("device_id")
+  userId   Int            @map("user_id")
+  homeId   Int?           @map("home_id")
+  method   PairingMethod? @map("method")
+
+  pairedAt   DateTime  @default(now()) @map("paired_at")
+  unpairedAt DateTime? @map("unpaired_at")
+  note       String?   @map("note")
+
+  device Device      @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  user   UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+  home   Home?       @relation(fields: [homeId], references: [id], onDelete: SetNull)
+
+  @@index([deviceId, pairedAt])
+  @@index([userId, pairedAt])
+  @@index([homeId, pairedAt])
+  @@map("device_pairing_history")
+}
+
+model DeviceStateHistory {
+  id         Int         @id @default(autoincrement())
+  deviceId   Int         @map("device_id")
+  eventType  String?     @map("event_type")
+  state      Json        @map("state")
+  source     AlarmSource @map("source")
+  commandId  Int?        @map("command_id")
+  recordedAt DateTime    @default(now()) @map("recorded_at")
+
+  device  Device   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  command Command? @relation(fields: [commandId], references: [id], onDelete: SetNull)
+
+  @@index([deviceId, recordedAt])
+  @@index([commandId])
+  @@map("device_state_history")
 }
 
 model SensorData {
   id       Int @id @default(autoincrement())
   deviceId Int @map("device_id")
 
-  current   Float
-  gasPpm    Float    @map("gas_ppm")
-  flame     Boolean
-  binLevel  Float    @map("bin_level")
+  current  Float
+  gasPpm   Float   @map("gas_ppm")
+  flame    Boolean
+  binLevel Float   @map("bin_level")
+
+  powerW    Float? @map("power_w")
+  energyKwh Float? @map("energy_kwh")
+
   timestamp DateTime @default(now())
 
-  device Device       @relation(fields: [deviceId], references: [id], onDelete: Cascade)
-  alarms AlarmEvent[]
+  device Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
 
+  alarmEvents AlarmEvent[] @relation("AlarmFromSensorData")
+
+  // index time-series utama
   @@index([deviceId, timestamp])
   @@map("sensor_data")
 }
 
-model AlarmEvent {
+model SensorReading {
   id       Int @id @default(autoincrement())
-  sensorId Int @map("sensor_id")
+  deviceId Int @map("device_id")
 
-  deviceId Int  @map("device_id")
-  homeId   Int? @map("home_id")
+  metric    String
+  valueNum  Float?   @map("value_num")
+  valueBool Boolean? @map("value_bool")
+  unit      String?
+  timestamp DateTime @default(now())
+
+  device Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  alarmEvents AlarmEvent[] @relation("AlarmFromSensorReading")
+
+  // index time-series fleksibel (disarankan)
+  @@index([deviceId, metric, timestamp])
+  @@map("sensor_reading")
+}
+
+model AlarmEvent {
+  id Int @id @default(autoincrement())
+
+  sensorDataId    Int? @map("sensor_data_id")
+  sensorReadingId Int? @map("sensor_reading_id")
+
+  deviceId Int @map("device_id")
+
+  // home_id dibuat wajib agar konsisten dengan akses berbasis rumah
+  homeId Int @map("home_id")
 
   type        String
   message     String
   severity    AlarmSeverity
-  source      AlarmSource   @default(DEVICE)
-  triggeredAt DateTime      @default(now()) @map("triggered_at")
+  source      AlarmSource @default(DEVICE)
+  triggeredAt DateTime    @default(now()) @map("triggered_at")
 
-  sensor SensorData @relation(fields: [sensorId], references: [id], onDelete: Cascade)
-  device Device     @relation(fields: [deviceId], references: [id], onDelete: Cascade)
-  home   Home?      @relation(fields: [homeId], references: [id], onDelete: SetNull)
+  status         AlarmStatus @default(OPEN)
+  acknowledgedAt DateTime?   @map("acknowledged_at")
+  acknowledgedBy Int?        @map("acknowledged_by")
+
+  resolvedAt DateTime? @map("resolved_at")
+  resolvedBy Int?      @map("resolved_by")
+
+  sensorData    SensorData?    @relation("AlarmFromSensorData", fields: [sensorDataId], references: [id], onDelete: SetNull)
+  sensorReading SensorReading? @relation("AlarmFromSensorReading", fields: [sensorReadingId], references: [id], onDelete: SetNull)
+
+  device Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  home   Home   @relation(fields: [homeId], references: [id], onDelete: Cascade)
+
+  acknowledgedByUser UserAccount? @relation("AlarmAcknowledgedBy", fields: [acknowledgedBy], references: [id], onDelete: SetNull)
+  resolvedByUser     UserAccount? @relation("AlarmResolvedBy", fields: [resolvedBy], references: [id], onDelete: SetNull)
+
+  notificationLogs NotificationLog[]
 
   @@index([deviceId, triggeredAt])
   @@index([homeId, triggeredAt])
+  @@index([status, triggeredAt])
+  @@index([acknowledgedBy, acknowledgedAt])
+  @@index([resolvedBy, resolvedAt])
+  @@index([sensorDataId, triggeredAt])
+  @@index([sensorReadingId, triggeredAt])
   @@map("alarm_event")
 }
 
@@ -220,11 +512,20 @@ model Command {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  // Penambahan: siapa yang meminta command + sumber command + idempotensi
+  requestedBy   Int?          @map("requested_by")
+  source        CommandSource @default(USER) @map("source")
+  correlationId String        @unique @map("correlation_id") @db.Uuid
+
   device Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
 
-  otaJob OtaJob?
+  requester UserAccount? @relation("CommandRequestedBy", fields: [requestedBy], references: [id], onDelete: SetNull)
+
+  otaJob         OtaJob?
+  stateHistories DeviceStateHistory[]
 
   @@index([deviceId, status, createdAt])
+  @@index([requestedBy, createdAt])
   @@map("command")
 }
 
@@ -237,24 +538,67 @@ model NotificationEndpoint {
 
   user UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  notificationLogs NotificationLog[]
+
   @@index([userId])
   @@map("notification_endpoint")
 }
 
+model NotificationLog {
+  id Int @id @default(autoincrement())
+
+  alarmId    Int @map("alarm_id")
+  endpointId Int @map("endpoint_id")
+  channel    NotificationChannel @map("channel")
+
+  status           NotificationDeliveryStatus @default(PENDING)
+  providerResponse String? @map("provider_response")
+  sentAt           DateTime? @map("sent_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+
+  alarm    AlarmEvent           @relation(fields: [alarmId], references: [id], onDelete: Cascade)
+  endpoint NotificationEndpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+
+  @@index([alarmId, createdAt])
+  @@index([endpointId, createdAt])
+  @@index([status, createdAt])
+  @@map("notification_log")
+}
+
+model EnergyUsageDaily {
+  id       Int      @id @default(autoincrement())
+  deviceId Int      @map("device_id")
+  homeId   Int?     @map("home_id")
+
+  usageDate  DateTime @map("usage_date") @db.Date
+  energyKwh  Float    @map("energy_kwh")
+  avgPowerW  Float?   @map("avg_power_w")
+  peakPowerW Float?   @map("peak_power_w")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  device Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  home   Home?  @relation(fields: [homeId], references: [id], onDelete: SetNull)
+
+  @@unique([deviceId, usageDate])
+  @@index([homeId, usageDate])
+  @@map("energy_usage_daily")
+}
+
 model FirmwareRelease {
   id        Int    @id @default(autoincrement())
-  platform  String // "esp32"
+  platform  String
   version   String
   sha256    String @unique
   sizeBytes Int    @map("size_bytes")
 
-  filePath  String   @map("file_path")
+  filePath  String  @map("file_path")
   notes     String?
   createdAt DateTime @default(now()) @map("created_at")
 
   otaJobs OtaJob[]
 
-  @@index([platform, version])
+  @@unique([platform, version])
   @@map("firmware_release")
 }
 
@@ -284,4 +628,40 @@ model OtaJob {
   @@index([deviceId, status, createdAt])
   @@index([releaseId, createdAt])
   @@map("ota_job")
+}
+
+model PasswordReset {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("password_reset")
+}
+
+// Tabel baru (opsional) untuk debugging/admin
+model DeviceEventLog {
+  id        Int                @id @default(autoincrement())
+  deviceId  Int                @map("device_id")
+  homeId    Int                @map("home_id")
+
+  eventType String             @map("event_type")
+  payload   Json?              @map("payload")
+  severity  DeviceEventSeverity @default(INFO)
+
+  recordedAt DateTime @default(now()) @map("recorded_at")
+
+  device Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  home   Home   @relation(fields: [homeId], references: [id], onDelete: Cascade)
+
+  @@index([deviceId, recordedAt])
+  @@index([homeId, recordedAt])
+  @@index([eventType, recordedAt])
+  @@map("device_event_log")
 }

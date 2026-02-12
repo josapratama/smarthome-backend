@@ -496,14 +496,6 @@ export type EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput = {
   deleteMany?: Prisma.EnergyPredictionScalarWhereInput | Prisma.EnergyPredictionScalarWhereInput[]
 }
 
-export type NullableFloatFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type EnergyPredictionCreateNestedOneWithoutAnomalyResultsInput = {
   create?: Prisma.XOR<Prisma.EnergyPredictionCreateWithoutAnomalyResultsInput, Prisma.EnergyPredictionUncheckedCreateWithoutAnomalyResultsInput>
   connectOrCreate?: Prisma.EnergyPredictionCreateOrConnectWithoutAnomalyResultsInput

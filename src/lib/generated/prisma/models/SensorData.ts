@@ -32,6 +32,8 @@ export type SensorDataAvgAggregateOutputType = {
   current: number | null
   gasPpm: number | null
   binLevel: number | null
+  powerW: number | null
+  energyKwh: number | null
 }
 
 export type SensorDataSumAggregateOutputType = {
@@ -40,6 +42,8 @@ export type SensorDataSumAggregateOutputType = {
   current: number | null
   gasPpm: number | null
   binLevel: number | null
+  powerW: number | null
+  energyKwh: number | null
 }
 
 export type SensorDataMinAggregateOutputType = {
@@ -49,6 +53,8 @@ export type SensorDataMinAggregateOutputType = {
   gasPpm: number | null
   flame: boolean | null
   binLevel: number | null
+  powerW: number | null
+  energyKwh: number | null
   timestamp: Date | null
 }
 
@@ -59,6 +65,8 @@ export type SensorDataMaxAggregateOutputType = {
   gasPpm: number | null
   flame: boolean | null
   binLevel: number | null
+  powerW: number | null
+  energyKwh: number | null
   timestamp: Date | null
 }
 
@@ -69,6 +77,8 @@ export type SensorDataCountAggregateOutputType = {
   gasPpm: number
   flame: number
   binLevel: number
+  powerW: number
+  energyKwh: number
   timestamp: number
   _all: number
 }
@@ -80,6 +90,8 @@ export type SensorDataAvgAggregateInputType = {
   current?: true
   gasPpm?: true
   binLevel?: true
+  powerW?: true
+  energyKwh?: true
 }
 
 export type SensorDataSumAggregateInputType = {
@@ -88,6 +100,8 @@ export type SensorDataSumAggregateInputType = {
   current?: true
   gasPpm?: true
   binLevel?: true
+  powerW?: true
+  energyKwh?: true
 }
 
 export type SensorDataMinAggregateInputType = {
@@ -97,6 +111,8 @@ export type SensorDataMinAggregateInputType = {
   gasPpm?: true
   flame?: true
   binLevel?: true
+  powerW?: true
+  energyKwh?: true
   timestamp?: true
 }
 
@@ -107,6 +123,8 @@ export type SensorDataMaxAggregateInputType = {
   gasPpm?: true
   flame?: true
   binLevel?: true
+  powerW?: true
+  energyKwh?: true
   timestamp?: true
 }
 
@@ -117,6 +135,8 @@ export type SensorDataCountAggregateInputType = {
   gasPpm?: true
   flame?: true
   binLevel?: true
+  powerW?: true
+  energyKwh?: true
   timestamp?: true
   _all?: true
 }
@@ -214,6 +234,8 @@ export type SensorDataGroupByOutputType = {
   gasPpm: number
   flame: boolean
   binLevel: number
+  powerW: number | null
+  energyKwh: number | null
   timestamp: Date
   _count: SensorDataCountAggregateOutputType | null
   _avg: SensorDataAvgAggregateOutputType | null
@@ -247,9 +269,11 @@ export type SensorDataWhereInput = {
   gasPpm?: Prisma.FloatFilter<"SensorData"> | number
   flame?: Prisma.BoolFilter<"SensorData"> | boolean
   binLevel?: Prisma.FloatFilter<"SensorData"> | number
+  powerW?: Prisma.FloatNullableFilter<"SensorData"> | number | null
+  energyKwh?: Prisma.FloatNullableFilter<"SensorData"> | number | null
   timestamp?: Prisma.DateTimeFilter<"SensorData"> | Date | string
   device?: Prisma.XOR<Prisma.DeviceScalarRelationFilter, Prisma.DeviceWhereInput>
-  alarms?: Prisma.AlarmEventListRelationFilter
+  alarmEvents?: Prisma.AlarmEventListRelationFilter
 }
 
 export type SensorDataOrderByWithRelationInput = {
@@ -259,9 +283,11 @@ export type SensorDataOrderByWithRelationInput = {
   gasPpm?: Prisma.SortOrder
   flame?: Prisma.SortOrder
   binLevel?: Prisma.SortOrder
+  powerW?: Prisma.SortOrderInput | Prisma.SortOrder
+  energyKwh?: Prisma.SortOrderInput | Prisma.SortOrder
   timestamp?: Prisma.SortOrder
   device?: Prisma.DeviceOrderByWithRelationInput
-  alarms?: Prisma.AlarmEventOrderByRelationAggregateInput
+  alarmEvents?: Prisma.AlarmEventOrderByRelationAggregateInput
 }
 
 export type SensorDataWhereUniqueInput = Prisma.AtLeast<{
@@ -274,9 +300,11 @@ export type SensorDataWhereUniqueInput = Prisma.AtLeast<{
   gasPpm?: Prisma.FloatFilter<"SensorData"> | number
   flame?: Prisma.BoolFilter<"SensorData"> | boolean
   binLevel?: Prisma.FloatFilter<"SensorData"> | number
+  powerW?: Prisma.FloatNullableFilter<"SensorData"> | number | null
+  energyKwh?: Prisma.FloatNullableFilter<"SensorData"> | number | null
   timestamp?: Prisma.DateTimeFilter<"SensorData"> | Date | string
   device?: Prisma.XOR<Prisma.DeviceScalarRelationFilter, Prisma.DeviceWhereInput>
-  alarms?: Prisma.AlarmEventListRelationFilter
+  alarmEvents?: Prisma.AlarmEventListRelationFilter
 }, "id">
 
 export type SensorDataOrderByWithAggregationInput = {
@@ -286,6 +314,8 @@ export type SensorDataOrderByWithAggregationInput = {
   gasPpm?: Prisma.SortOrder
   flame?: Prisma.SortOrder
   binLevel?: Prisma.SortOrder
+  powerW?: Prisma.SortOrderInput | Prisma.SortOrder
+  energyKwh?: Prisma.SortOrderInput | Prisma.SortOrder
   timestamp?: Prisma.SortOrder
   _count?: Prisma.SensorDataCountOrderByAggregateInput
   _avg?: Prisma.SensorDataAvgOrderByAggregateInput
@@ -304,6 +334,8 @@ export type SensorDataScalarWhereWithAggregatesInput = {
   gasPpm?: Prisma.FloatWithAggregatesFilter<"SensorData"> | number
   flame?: Prisma.BoolWithAggregatesFilter<"SensorData"> | boolean
   binLevel?: Prisma.FloatWithAggregatesFilter<"SensorData"> | number
+  powerW?: Prisma.FloatNullableWithAggregatesFilter<"SensorData"> | number | null
+  energyKwh?: Prisma.FloatNullableWithAggregatesFilter<"SensorData"> | number | null
   timestamp?: Prisma.DateTimeWithAggregatesFilter<"SensorData"> | Date | string
 }
 
@@ -312,9 +344,11 @@ export type SensorDataCreateInput = {
   gasPpm: number
   flame: boolean
   binLevel: number
+  powerW?: number | null
+  energyKwh?: number | null
   timestamp?: Date | string
   device: Prisma.DeviceCreateNestedOneWithoutSensorDataInput
-  alarms?: Prisma.AlarmEventCreateNestedManyWithoutSensorInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutSensorDataInput
 }
 
 export type SensorDataUncheckedCreateInput = {
@@ -324,8 +358,10 @@ export type SensorDataUncheckedCreateInput = {
   gasPpm: number
   flame: boolean
   binLevel: number
+  powerW?: number | null
+  energyKwh?: number | null
   timestamp?: Date | string
-  alarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutSensorInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutSensorDataInput
 }
 
 export type SensorDataUpdateInput = {
@@ -333,9 +369,11 @@ export type SensorDataUpdateInput = {
   gasPpm?: Prisma.FloatFieldUpdateOperationsInput | number
   flame?: Prisma.BoolFieldUpdateOperationsInput | boolean
   binLevel?: Prisma.FloatFieldUpdateOperationsInput | number
+  powerW?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  energyKwh?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   device?: Prisma.DeviceUpdateOneRequiredWithoutSensorDataNestedInput
-  alarms?: Prisma.AlarmEventUpdateManyWithoutSensorNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutSensorDataNestedInput
 }
 
 export type SensorDataUncheckedUpdateInput = {
@@ -345,8 +383,10 @@ export type SensorDataUncheckedUpdateInput = {
   gasPpm?: Prisma.FloatFieldUpdateOperationsInput | number
   flame?: Prisma.BoolFieldUpdateOperationsInput | boolean
   binLevel?: Prisma.FloatFieldUpdateOperationsInput | number
+  powerW?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  energyKwh?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  alarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutSensorNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutSensorDataNestedInput
 }
 
 export type SensorDataCreateManyInput = {
@@ -356,6 +396,8 @@ export type SensorDataCreateManyInput = {
   gasPpm: number
   flame: boolean
   binLevel: number
+  powerW?: number | null
+  energyKwh?: number | null
   timestamp?: Date | string
 }
 
@@ -364,6 +406,8 @@ export type SensorDataUpdateManyMutationInput = {
   gasPpm?: Prisma.FloatFieldUpdateOperationsInput | number
   flame?: Prisma.BoolFieldUpdateOperationsInput | boolean
   binLevel?: Prisma.FloatFieldUpdateOperationsInput | number
+  powerW?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  energyKwh?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -374,6 +418,8 @@ export type SensorDataUncheckedUpdateManyInput = {
   gasPpm?: Prisma.FloatFieldUpdateOperationsInput | number
   flame?: Prisma.BoolFieldUpdateOperationsInput | boolean
   binLevel?: Prisma.FloatFieldUpdateOperationsInput | number
+  powerW?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  energyKwh?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -394,6 +440,8 @@ export type SensorDataCountOrderByAggregateInput = {
   gasPpm?: Prisma.SortOrder
   flame?: Prisma.SortOrder
   binLevel?: Prisma.SortOrder
+  powerW?: Prisma.SortOrder
+  energyKwh?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
 
@@ -403,6 +451,8 @@ export type SensorDataAvgOrderByAggregateInput = {
   current?: Prisma.SortOrder
   gasPpm?: Prisma.SortOrder
   binLevel?: Prisma.SortOrder
+  powerW?: Prisma.SortOrder
+  energyKwh?: Prisma.SortOrder
 }
 
 export type SensorDataMaxOrderByAggregateInput = {
@@ -412,6 +462,8 @@ export type SensorDataMaxOrderByAggregateInput = {
   gasPpm?: Prisma.SortOrder
   flame?: Prisma.SortOrder
   binLevel?: Prisma.SortOrder
+  powerW?: Prisma.SortOrder
+  energyKwh?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
 
@@ -422,6 +474,8 @@ export type SensorDataMinOrderByAggregateInput = {
   gasPpm?: Prisma.SortOrder
   flame?: Prisma.SortOrder
   binLevel?: Prisma.SortOrder
+  powerW?: Prisma.SortOrder
+  energyKwh?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
 
@@ -431,11 +485,13 @@ export type SensorDataSumOrderByAggregateInput = {
   current?: Prisma.SortOrder
   gasPpm?: Prisma.SortOrder
   binLevel?: Prisma.SortOrder
+  powerW?: Prisma.SortOrder
+  energyKwh?: Prisma.SortOrder
 }
 
-export type SensorDataScalarRelationFilter = {
-  is?: Prisma.SensorDataWhereInput
-  isNot?: Prisma.SensorDataWhereInput
+export type SensorDataNullableScalarRelationFilter = {
+  is?: Prisma.SensorDataWhereInput | null
+  isNot?: Prisma.SensorDataWhereInput | null
 }
 
 export type SensorDataCreateNestedManyWithoutDeviceInput = {
@@ -488,18 +544,20 @@ export type FloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type SensorDataCreateNestedOneWithoutAlarmsInput = {
-  create?: Prisma.XOR<Prisma.SensorDataCreateWithoutAlarmsInput, Prisma.SensorDataUncheckedCreateWithoutAlarmsInput>
-  connectOrCreate?: Prisma.SensorDataCreateOrConnectWithoutAlarmsInput
+export type SensorDataCreateNestedOneWithoutAlarmEventsInput = {
+  create?: Prisma.XOR<Prisma.SensorDataCreateWithoutAlarmEventsInput, Prisma.SensorDataUncheckedCreateWithoutAlarmEventsInput>
+  connectOrCreate?: Prisma.SensorDataCreateOrConnectWithoutAlarmEventsInput
   connect?: Prisma.SensorDataWhereUniqueInput
 }
 
-export type SensorDataUpdateOneRequiredWithoutAlarmsNestedInput = {
-  create?: Prisma.XOR<Prisma.SensorDataCreateWithoutAlarmsInput, Prisma.SensorDataUncheckedCreateWithoutAlarmsInput>
-  connectOrCreate?: Prisma.SensorDataCreateOrConnectWithoutAlarmsInput
-  upsert?: Prisma.SensorDataUpsertWithoutAlarmsInput
+export type SensorDataUpdateOneWithoutAlarmEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.SensorDataCreateWithoutAlarmEventsInput, Prisma.SensorDataUncheckedCreateWithoutAlarmEventsInput>
+  connectOrCreate?: Prisma.SensorDataCreateOrConnectWithoutAlarmEventsInput
+  upsert?: Prisma.SensorDataUpsertWithoutAlarmEventsInput
+  disconnect?: Prisma.SensorDataWhereInput | boolean
+  delete?: Prisma.SensorDataWhereInput | boolean
   connect?: Prisma.SensorDataWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.SensorDataUpdateToOneWithWhereWithoutAlarmsInput, Prisma.SensorDataUpdateWithoutAlarmsInput>, Prisma.SensorDataUncheckedUpdateWithoutAlarmsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SensorDataUpdateToOneWithWhereWithoutAlarmEventsInput, Prisma.SensorDataUpdateWithoutAlarmEventsInput>, Prisma.SensorDataUncheckedUpdateWithoutAlarmEventsInput>
 }
 
 export type SensorDataCreateWithoutDeviceInput = {
@@ -507,8 +565,10 @@ export type SensorDataCreateWithoutDeviceInput = {
   gasPpm: number
   flame: boolean
   binLevel: number
+  powerW?: number | null
+  energyKwh?: number | null
   timestamp?: Date | string
-  alarms?: Prisma.AlarmEventCreateNestedManyWithoutSensorInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutSensorDataInput
 }
 
 export type SensorDataUncheckedCreateWithoutDeviceInput = {
@@ -517,8 +577,10 @@ export type SensorDataUncheckedCreateWithoutDeviceInput = {
   gasPpm: number
   flame: boolean
   binLevel: number
+  powerW?: number | null
+  energyKwh?: number | null
   timestamp?: Date | string
-  alarms?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutSensorInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutSensorDataInput
 }
 
 export type SensorDataCreateOrConnectWithoutDeviceInput = {
@@ -557,60 +619,70 @@ export type SensorDataScalarWhereInput = {
   gasPpm?: Prisma.FloatFilter<"SensorData"> | number
   flame?: Prisma.BoolFilter<"SensorData"> | boolean
   binLevel?: Prisma.FloatFilter<"SensorData"> | number
+  powerW?: Prisma.FloatNullableFilter<"SensorData"> | number | null
+  energyKwh?: Prisma.FloatNullableFilter<"SensorData"> | number | null
   timestamp?: Prisma.DateTimeFilter<"SensorData"> | Date | string
 }
 
-export type SensorDataCreateWithoutAlarmsInput = {
+export type SensorDataCreateWithoutAlarmEventsInput = {
   current: number
   gasPpm: number
   flame: boolean
   binLevel: number
+  powerW?: number | null
+  energyKwh?: number | null
   timestamp?: Date | string
   device: Prisma.DeviceCreateNestedOneWithoutSensorDataInput
 }
 
-export type SensorDataUncheckedCreateWithoutAlarmsInput = {
+export type SensorDataUncheckedCreateWithoutAlarmEventsInput = {
   id?: number
   deviceId: number
   current: number
   gasPpm: number
   flame: boolean
   binLevel: number
+  powerW?: number | null
+  energyKwh?: number | null
   timestamp?: Date | string
 }
 
-export type SensorDataCreateOrConnectWithoutAlarmsInput = {
+export type SensorDataCreateOrConnectWithoutAlarmEventsInput = {
   where: Prisma.SensorDataWhereUniqueInput
-  create: Prisma.XOR<Prisma.SensorDataCreateWithoutAlarmsInput, Prisma.SensorDataUncheckedCreateWithoutAlarmsInput>
+  create: Prisma.XOR<Prisma.SensorDataCreateWithoutAlarmEventsInput, Prisma.SensorDataUncheckedCreateWithoutAlarmEventsInput>
 }
 
-export type SensorDataUpsertWithoutAlarmsInput = {
-  update: Prisma.XOR<Prisma.SensorDataUpdateWithoutAlarmsInput, Prisma.SensorDataUncheckedUpdateWithoutAlarmsInput>
-  create: Prisma.XOR<Prisma.SensorDataCreateWithoutAlarmsInput, Prisma.SensorDataUncheckedCreateWithoutAlarmsInput>
+export type SensorDataUpsertWithoutAlarmEventsInput = {
+  update: Prisma.XOR<Prisma.SensorDataUpdateWithoutAlarmEventsInput, Prisma.SensorDataUncheckedUpdateWithoutAlarmEventsInput>
+  create: Prisma.XOR<Prisma.SensorDataCreateWithoutAlarmEventsInput, Prisma.SensorDataUncheckedCreateWithoutAlarmEventsInput>
   where?: Prisma.SensorDataWhereInput
 }
 
-export type SensorDataUpdateToOneWithWhereWithoutAlarmsInput = {
+export type SensorDataUpdateToOneWithWhereWithoutAlarmEventsInput = {
   where?: Prisma.SensorDataWhereInput
-  data: Prisma.XOR<Prisma.SensorDataUpdateWithoutAlarmsInput, Prisma.SensorDataUncheckedUpdateWithoutAlarmsInput>
+  data: Prisma.XOR<Prisma.SensorDataUpdateWithoutAlarmEventsInput, Prisma.SensorDataUncheckedUpdateWithoutAlarmEventsInput>
 }
 
-export type SensorDataUpdateWithoutAlarmsInput = {
+export type SensorDataUpdateWithoutAlarmEventsInput = {
   current?: Prisma.FloatFieldUpdateOperationsInput | number
   gasPpm?: Prisma.FloatFieldUpdateOperationsInput | number
   flame?: Prisma.BoolFieldUpdateOperationsInput | boolean
   binLevel?: Prisma.FloatFieldUpdateOperationsInput | number
+  powerW?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  energyKwh?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   device?: Prisma.DeviceUpdateOneRequiredWithoutSensorDataNestedInput
 }
 
-export type SensorDataUncheckedUpdateWithoutAlarmsInput = {
+export type SensorDataUncheckedUpdateWithoutAlarmEventsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceId?: Prisma.IntFieldUpdateOperationsInput | number
   current?: Prisma.FloatFieldUpdateOperationsInput | number
   gasPpm?: Prisma.FloatFieldUpdateOperationsInput | number
   flame?: Prisma.BoolFieldUpdateOperationsInput | boolean
   binLevel?: Prisma.FloatFieldUpdateOperationsInput | number
+  powerW?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  energyKwh?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -620,6 +692,8 @@ export type SensorDataCreateManyDeviceInput = {
   gasPpm: number
   flame: boolean
   binLevel: number
+  powerW?: number | null
+  energyKwh?: number | null
   timestamp?: Date | string
 }
 
@@ -628,8 +702,10 @@ export type SensorDataUpdateWithoutDeviceInput = {
   gasPpm?: Prisma.FloatFieldUpdateOperationsInput | number
   flame?: Prisma.BoolFieldUpdateOperationsInput | boolean
   binLevel?: Prisma.FloatFieldUpdateOperationsInput | number
+  powerW?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  energyKwh?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  alarms?: Prisma.AlarmEventUpdateManyWithoutSensorNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutSensorDataNestedInput
 }
 
 export type SensorDataUncheckedUpdateWithoutDeviceInput = {
@@ -638,8 +714,10 @@ export type SensorDataUncheckedUpdateWithoutDeviceInput = {
   gasPpm?: Prisma.FloatFieldUpdateOperationsInput | number
   flame?: Prisma.BoolFieldUpdateOperationsInput | boolean
   binLevel?: Prisma.FloatFieldUpdateOperationsInput | number
+  powerW?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  energyKwh?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  alarms?: Prisma.AlarmEventUncheckedUpdateManyWithoutSensorNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutSensorDataNestedInput
 }
 
 export type SensorDataUncheckedUpdateManyWithoutDeviceInput = {
@@ -648,6 +726,8 @@ export type SensorDataUncheckedUpdateManyWithoutDeviceInput = {
   gasPpm?: Prisma.FloatFieldUpdateOperationsInput | number
   flame?: Prisma.BoolFieldUpdateOperationsInput | boolean
   binLevel?: Prisma.FloatFieldUpdateOperationsInput | number
+  powerW?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  energyKwh?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -657,11 +737,11 @@ export type SensorDataUncheckedUpdateManyWithoutDeviceInput = {
  */
 
 export type SensorDataCountOutputType = {
-  alarms: number
+  alarmEvents: number
 }
 
 export type SensorDataCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  alarms?: boolean | SensorDataCountOutputTypeCountAlarmsArgs
+  alarmEvents?: boolean | SensorDataCountOutputTypeCountAlarmEventsArgs
 }
 
 /**
@@ -677,7 +757,7 @@ export type SensorDataCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.E
 /**
  * SensorDataCountOutputType without action
  */
-export type SensorDataCountOutputTypeCountAlarmsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type SensorDataCountOutputTypeCountAlarmEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AlarmEventWhereInput
 }
 
@@ -689,9 +769,11 @@ export type SensorDataSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   gasPpm?: boolean
   flame?: boolean
   binLevel?: boolean
+  powerW?: boolean
+  energyKwh?: boolean
   timestamp?: boolean
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
-  alarms?: boolean | Prisma.SensorData$alarmsArgs<ExtArgs>
+  alarmEvents?: boolean | Prisma.SensorData$alarmEventsArgs<ExtArgs>
   _count?: boolean | Prisma.SensorDataCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sensorData"]>
 
@@ -702,6 +784,8 @@ export type SensorDataSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   gasPpm?: boolean
   flame?: boolean
   binLevel?: boolean
+  powerW?: boolean
+  energyKwh?: boolean
   timestamp?: boolean
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sensorData"]>
@@ -713,6 +797,8 @@ export type SensorDataSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   gasPpm?: boolean
   flame?: boolean
   binLevel?: boolean
+  powerW?: boolean
+  energyKwh?: boolean
   timestamp?: boolean
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sensorData"]>
@@ -724,13 +810,15 @@ export type SensorDataSelectScalar = {
   gasPpm?: boolean
   flame?: boolean
   binLevel?: boolean
+  powerW?: boolean
+  energyKwh?: boolean
   timestamp?: boolean
 }
 
-export type SensorDataOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "deviceId" | "current" | "gasPpm" | "flame" | "binLevel" | "timestamp", ExtArgs["result"]["sensorData"]>
+export type SensorDataOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "deviceId" | "current" | "gasPpm" | "flame" | "binLevel" | "powerW" | "energyKwh" | "timestamp", ExtArgs["result"]["sensorData"]>
 export type SensorDataInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
-  alarms?: boolean | Prisma.SensorData$alarmsArgs<ExtArgs>
+  alarmEvents?: boolean | Prisma.SensorData$alarmEventsArgs<ExtArgs>
   _count?: boolean | Prisma.SensorDataCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SensorDataIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -744,7 +832,7 @@ export type $SensorDataPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "SensorData"
   objects: {
     device: Prisma.$DevicePayload<ExtArgs>
-    alarms: Prisma.$AlarmEventPayload<ExtArgs>[]
+    alarmEvents: Prisma.$AlarmEventPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -753,6 +841,8 @@ export type $SensorDataPayload<ExtArgs extends runtime.Types.Extensions.Internal
     gasPpm: number
     flame: boolean
     binLevel: number
+    powerW: number | null
+    energyKwh: number | null
     timestamp: Date
   }, ExtArgs["result"]["sensorData"]>
   composites: {}
@@ -1149,7 +1239,7 @@ readonly fields: SensorDataFieldRefs;
 export interface Prisma__SensorDataClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   device<T extends Prisma.DeviceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DeviceDefaultArgs<ExtArgs>>): Prisma.Prisma__DeviceClient<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  alarms<T extends Prisma.SensorData$alarmsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SensorData$alarmsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlarmEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  alarmEvents<T extends Prisma.SensorData$alarmEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SensorData$alarmEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlarmEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1185,6 +1275,8 @@ export interface SensorDataFieldRefs {
   readonly gasPpm: Prisma.FieldRef<"SensorData", 'Float'>
   readonly flame: Prisma.FieldRef<"SensorData", 'Boolean'>
   readonly binLevel: Prisma.FieldRef<"SensorData", 'Float'>
+  readonly powerW: Prisma.FieldRef<"SensorData", 'Float'>
+  readonly energyKwh: Prisma.FieldRef<"SensorData", 'Float'>
   readonly timestamp: Prisma.FieldRef<"SensorData", 'DateTime'>
 }
     
@@ -1582,9 +1674,9 @@ export type SensorDataDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * SensorData.alarms
+ * SensorData.alarmEvents
  */
-export type SensorData$alarmsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type SensorData$alarmEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the AlarmEvent
    */

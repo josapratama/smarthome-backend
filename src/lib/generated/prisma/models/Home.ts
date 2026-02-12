@@ -28,34 +28,53 @@ export type AggregateHome = {
 
 export type HomeAvgAggregateOutputType = {
   id: number | null
-  ownerId: number | null
+  ownerUserId: number | null
+  latitude: number | null
+  longitude: number | null
 }
 
 export type HomeSumAggregateOutputType = {
   id: number | null
-  ownerId: number | null
+  ownerUserId: number | null
+  latitude: number | null
+  longitude: number | null
 }
 
 export type HomeMinAggregateOutputType = {
   id: number | null
-  ownerId: number | null
+  ownerUserId: number | null
   name: string | null
+  addressText: string | null
+  city: string | null
+  postalCode: string | null
+  latitude: number | null
+  longitude: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type HomeMaxAggregateOutputType = {
   id: number | null
-  ownerId: number | null
+  ownerUserId: number | null
   name: string | null
+  addressText: string | null
+  city: string | null
+  postalCode: string | null
+  latitude: number | null
+  longitude: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type HomeCountAggregateOutputType = {
   id: number
-  ownerId: number
+  ownerUserId: number
   name: number
+  addressText: number
+  city: number
+  postalCode: number
+  latitude: number
+  longitude: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -64,34 +83,53 @@ export type HomeCountAggregateOutputType = {
 
 export type HomeAvgAggregateInputType = {
   id?: true
-  ownerId?: true
+  ownerUserId?: true
+  latitude?: true
+  longitude?: true
 }
 
 export type HomeSumAggregateInputType = {
   id?: true
-  ownerId?: true
+  ownerUserId?: true
+  latitude?: true
+  longitude?: true
 }
 
 export type HomeMinAggregateInputType = {
   id?: true
-  ownerId?: true
+  ownerUserId?: true
   name?: true
+  addressText?: true
+  city?: true
+  postalCode?: true
+  latitude?: true
+  longitude?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type HomeMaxAggregateInputType = {
   id?: true
-  ownerId?: true
+  ownerUserId?: true
   name?: true
+  addressText?: true
+  city?: true
+  postalCode?: true
+  latitude?: true
+  longitude?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type HomeCountAggregateInputType = {
   id?: true
-  ownerId?: true
+  ownerUserId?: true
   name?: true
+  addressText?: true
+  city?: true
+  postalCode?: true
+  latitude?: true
+  longitude?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -185,8 +223,13 @@ export type HomeGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type HomeGroupByOutputType = {
   id: number
-  ownerId: number
+  ownerUserId: number
   name: string
+  addressText: string | null
+  city: string | null
+  postalCode: string | null
+  latitude: number | null
+  longitude: number | null
   createdAt: Date
   updatedAt: Date
   _count: HomeCountAggregateOutputType | null
@@ -216,24 +259,44 @@ export type HomeWhereInput = {
   OR?: Prisma.HomeWhereInput[]
   NOT?: Prisma.HomeWhereInput | Prisma.HomeWhereInput[]
   id?: Prisma.IntFilter<"Home"> | number
-  ownerId?: Prisma.IntFilter<"Home"> | number
+  ownerUserId?: Prisma.IntFilter<"Home"> | number
   name?: Prisma.StringFilter<"Home"> | string
+  addressText?: Prisma.StringNullableFilter<"Home"> | string | null
+  city?: Prisma.StringNullableFilter<"Home"> | string | null
+  postalCode?: Prisma.StringNullableFilter<"Home"> | string | null
+  latitude?: Prisma.FloatNullableFilter<"Home"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"Home"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Home"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Home"> | Date | string
   owner?: Prisma.XOR<Prisma.UserAccountScalarRelationFilter, Prisma.UserAccountWhereInput>
   devices?: Prisma.DeviceListRelationFilter
+  rooms?: Prisma.RoomListRelationFilter
   alarmEvents?: Prisma.AlarmEventListRelationFilter
+  energyUsageDaily?: Prisma.EnergyUsageDailyListRelationFilter
+  members?: Prisma.HomeMemberListRelationFilter
+  pairingHistories?: Prisma.DevicePairingHistoryListRelationFilter
+  deviceEventLogs?: Prisma.DeviceEventLogListRelationFilter
 }
 
 export type HomeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  ownerId?: Prisma.SortOrder
+  ownerUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  addressText?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  postalCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  latitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  longitude?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   owner?: Prisma.UserAccountOrderByWithRelationInput
   devices?: Prisma.DeviceOrderByRelationAggregateInput
+  rooms?: Prisma.RoomOrderByRelationAggregateInput
   alarmEvents?: Prisma.AlarmEventOrderByRelationAggregateInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyOrderByRelationAggregateInput
+  members?: Prisma.HomeMemberOrderByRelationAggregateInput
+  pairingHistories?: Prisma.DevicePairingHistoryOrderByRelationAggregateInput
+  deviceEventLogs?: Prisma.DeviceEventLogOrderByRelationAggregateInput
 }
 
 export type HomeWhereUniqueInput = Prisma.AtLeast<{
@@ -241,19 +304,34 @@ export type HomeWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.HomeWhereInput | Prisma.HomeWhereInput[]
   OR?: Prisma.HomeWhereInput[]
   NOT?: Prisma.HomeWhereInput | Prisma.HomeWhereInput[]
-  ownerId?: Prisma.IntFilter<"Home"> | number
+  ownerUserId?: Prisma.IntFilter<"Home"> | number
   name?: Prisma.StringFilter<"Home"> | string
+  addressText?: Prisma.StringNullableFilter<"Home"> | string | null
+  city?: Prisma.StringNullableFilter<"Home"> | string | null
+  postalCode?: Prisma.StringNullableFilter<"Home"> | string | null
+  latitude?: Prisma.FloatNullableFilter<"Home"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"Home"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Home"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Home"> | Date | string
   owner?: Prisma.XOR<Prisma.UserAccountScalarRelationFilter, Prisma.UserAccountWhereInput>
   devices?: Prisma.DeviceListRelationFilter
+  rooms?: Prisma.RoomListRelationFilter
   alarmEvents?: Prisma.AlarmEventListRelationFilter
+  energyUsageDaily?: Prisma.EnergyUsageDailyListRelationFilter
+  members?: Prisma.HomeMemberListRelationFilter
+  pairingHistories?: Prisma.DevicePairingHistoryListRelationFilter
+  deviceEventLogs?: Prisma.DeviceEventLogListRelationFilter
 }, "id">
 
 export type HomeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  ownerId?: Prisma.SortOrder
+  ownerUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  addressText?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  postalCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  latitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  longitude?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.HomeCountOrderByAggregateInput
@@ -268,68 +346,128 @@ export type HomeScalarWhereWithAggregatesInput = {
   OR?: Prisma.HomeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.HomeScalarWhereWithAggregatesInput | Prisma.HomeScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Home"> | number
-  ownerId?: Prisma.IntWithAggregatesFilter<"Home"> | number
+  ownerUserId?: Prisma.IntWithAggregatesFilter<"Home"> | number
   name?: Prisma.StringWithAggregatesFilter<"Home"> | string
+  addressText?: Prisma.StringNullableWithAggregatesFilter<"Home"> | string | null
+  city?: Prisma.StringNullableWithAggregatesFilter<"Home"> | string | null
+  postalCode?: Prisma.StringNullableWithAggregatesFilter<"Home"> | string | null
+  latitude?: Prisma.FloatNullableWithAggregatesFilter<"Home"> | number | null
+  longitude?: Prisma.FloatNullableWithAggregatesFilter<"Home"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Home"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Home"> | Date | string
 }
 
 export type HomeCreateInput = {
   name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  owner: Prisma.UserAccountCreateNestedOneWithoutHomesInput
+  owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
   devices?: Prisma.DeviceCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomCreateNestedManyWithoutHomeInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutHomeInput
 }
 
 export type HomeUncheckedCreateInput = {
   id?: number
-  ownerId: number
+  ownerUserId: number
   name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutHomeInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutHomeInput
 }
 
 export type HomeUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesNestedInput
+  owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUpdateManyWithoutHomeNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  ownerId?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerUserId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUncheckedUpdateManyWithoutHomeNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUncheckedUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeCreateManyInput = {
   id?: number
-  ownerId: number
+  ownerUserId: number
   name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type HomeUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type HomeUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  ownerId?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerUserId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -346,36 +484,60 @@ export type HomeOrderByRelationAggregateInput = {
 
 export type HomeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  ownerId?: Prisma.SortOrder
+  ownerUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  addressText?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type HomeAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  ownerId?: Prisma.SortOrder
+  ownerUserId?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
 }
 
 export type HomeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  ownerId?: Prisma.SortOrder
+  ownerUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  addressText?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type HomeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  ownerId?: Prisma.SortOrder
+  ownerUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  addressText?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type HomeSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  ownerId?: Prisma.SortOrder
+  ownerUserId?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
+}
+
+export type HomeScalarRelationFilter = {
+  is?: Prisma.HomeWhereInput
+  isNot?: Prisma.HomeWhereInput
 }
 
 export type HomeNullableScalarRelationFilter = {
@@ -425,20 +587,70 @@ export type HomeUncheckedUpdateManyWithoutOwnerNestedInput = {
   deleteMany?: Prisma.HomeScalarWhereInput | Prisma.HomeScalarWhereInput[]
 }
 
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type HomeCreateNestedOneWithoutMembersInput = {
+  create?: Prisma.XOR<Prisma.HomeCreateWithoutMembersInput, Prisma.HomeUncheckedCreateWithoutMembersInput>
+  connectOrCreate?: Prisma.HomeCreateOrConnectWithoutMembersInput
+  connect?: Prisma.HomeWhereUniqueInput
+}
+
+export type HomeUpdateOneRequiredWithoutMembersNestedInput = {
+  create?: Prisma.XOR<Prisma.HomeCreateWithoutMembersInput, Prisma.HomeUncheckedCreateWithoutMembersInput>
+  connectOrCreate?: Prisma.HomeCreateOrConnectWithoutMembersInput
+  upsert?: Prisma.HomeUpsertWithoutMembersInput
+  connect?: Prisma.HomeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HomeUpdateToOneWithWhereWithoutMembersInput, Prisma.HomeUpdateWithoutMembersInput>, Prisma.HomeUncheckedUpdateWithoutMembersInput>
+}
+
+export type HomeCreateNestedOneWithoutRoomsInput = {
+  create?: Prisma.XOR<Prisma.HomeCreateWithoutRoomsInput, Prisma.HomeUncheckedCreateWithoutRoomsInput>
+  connectOrCreate?: Prisma.HomeCreateOrConnectWithoutRoomsInput
+  connect?: Prisma.HomeWhereUniqueInput
+}
+
+export type HomeUpdateOneRequiredWithoutRoomsNestedInput = {
+  create?: Prisma.XOR<Prisma.HomeCreateWithoutRoomsInput, Prisma.HomeUncheckedCreateWithoutRoomsInput>
+  connectOrCreate?: Prisma.HomeCreateOrConnectWithoutRoomsInput
+  upsert?: Prisma.HomeUpsertWithoutRoomsInput
+  connect?: Prisma.HomeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HomeUpdateToOneWithWhereWithoutRoomsInput, Prisma.HomeUpdateWithoutRoomsInput>, Prisma.HomeUncheckedUpdateWithoutRoomsInput>
+}
+
 export type HomeCreateNestedOneWithoutDevicesInput = {
   create?: Prisma.XOR<Prisma.HomeCreateWithoutDevicesInput, Prisma.HomeUncheckedCreateWithoutDevicesInput>
   connectOrCreate?: Prisma.HomeCreateOrConnectWithoutDevicesInput
   connect?: Prisma.HomeWhereUniqueInput
 }
 
-export type HomeUpdateOneWithoutDevicesNestedInput = {
+export type HomeUpdateOneRequiredWithoutDevicesNestedInput = {
   create?: Prisma.XOR<Prisma.HomeCreateWithoutDevicesInput, Prisma.HomeUncheckedCreateWithoutDevicesInput>
   connectOrCreate?: Prisma.HomeCreateOrConnectWithoutDevicesInput
   upsert?: Prisma.HomeUpsertWithoutDevicesInput
+  connect?: Prisma.HomeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HomeUpdateToOneWithWhereWithoutDevicesInput, Prisma.HomeUpdateWithoutDevicesInput>, Prisma.HomeUncheckedUpdateWithoutDevicesInput>
+}
+
+export type HomeCreateNestedOneWithoutPairingHistoriesInput = {
+  create?: Prisma.XOR<Prisma.HomeCreateWithoutPairingHistoriesInput, Prisma.HomeUncheckedCreateWithoutPairingHistoriesInput>
+  connectOrCreate?: Prisma.HomeCreateOrConnectWithoutPairingHistoriesInput
+  connect?: Prisma.HomeWhereUniqueInput
+}
+
+export type HomeUpdateOneWithoutPairingHistoriesNestedInput = {
+  create?: Prisma.XOR<Prisma.HomeCreateWithoutPairingHistoriesInput, Prisma.HomeUncheckedCreateWithoutPairingHistoriesInput>
+  connectOrCreate?: Prisma.HomeCreateOrConnectWithoutPairingHistoriesInput
+  upsert?: Prisma.HomeUpsertWithoutPairingHistoriesInput
   disconnect?: Prisma.HomeWhereInput | boolean
   delete?: Prisma.HomeWhereInput | boolean
   connect?: Prisma.HomeWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.HomeUpdateToOneWithWhereWithoutDevicesInput, Prisma.HomeUpdateWithoutDevicesInput>, Prisma.HomeUncheckedUpdateWithoutDevicesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HomeUpdateToOneWithWhereWithoutPairingHistoriesInput, Prisma.HomeUpdateWithoutPairingHistoriesInput>, Prisma.HomeUncheckedUpdateWithoutPairingHistoriesInput>
 }
 
 export type HomeCreateNestedOneWithoutAlarmEventsInput = {
@@ -447,31 +659,79 @@ export type HomeCreateNestedOneWithoutAlarmEventsInput = {
   connect?: Prisma.HomeWhereUniqueInput
 }
 
-export type HomeUpdateOneWithoutAlarmEventsNestedInput = {
+export type HomeUpdateOneRequiredWithoutAlarmEventsNestedInput = {
   create?: Prisma.XOR<Prisma.HomeCreateWithoutAlarmEventsInput, Prisma.HomeUncheckedCreateWithoutAlarmEventsInput>
   connectOrCreate?: Prisma.HomeCreateOrConnectWithoutAlarmEventsInput
   upsert?: Prisma.HomeUpsertWithoutAlarmEventsInput
-  disconnect?: Prisma.HomeWhereInput | boolean
-  delete?: Prisma.HomeWhereInput | boolean
   connect?: Prisma.HomeWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.HomeUpdateToOneWithWhereWithoutAlarmEventsInput, Prisma.HomeUpdateWithoutAlarmEventsInput>, Prisma.HomeUncheckedUpdateWithoutAlarmEventsInput>
 }
 
+export type HomeCreateNestedOneWithoutEnergyUsageDailyInput = {
+  create?: Prisma.XOR<Prisma.HomeCreateWithoutEnergyUsageDailyInput, Prisma.HomeUncheckedCreateWithoutEnergyUsageDailyInput>
+  connectOrCreate?: Prisma.HomeCreateOrConnectWithoutEnergyUsageDailyInput
+  connect?: Prisma.HomeWhereUniqueInput
+}
+
+export type HomeUpdateOneWithoutEnergyUsageDailyNestedInput = {
+  create?: Prisma.XOR<Prisma.HomeCreateWithoutEnergyUsageDailyInput, Prisma.HomeUncheckedCreateWithoutEnergyUsageDailyInput>
+  connectOrCreate?: Prisma.HomeCreateOrConnectWithoutEnergyUsageDailyInput
+  upsert?: Prisma.HomeUpsertWithoutEnergyUsageDailyInput
+  disconnect?: Prisma.HomeWhereInput | boolean
+  delete?: Prisma.HomeWhereInput | boolean
+  connect?: Prisma.HomeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HomeUpdateToOneWithWhereWithoutEnergyUsageDailyInput, Prisma.HomeUpdateWithoutEnergyUsageDailyInput>, Prisma.HomeUncheckedUpdateWithoutEnergyUsageDailyInput>
+}
+
+export type HomeCreateNestedOneWithoutDeviceEventLogsInput = {
+  create?: Prisma.XOR<Prisma.HomeCreateWithoutDeviceEventLogsInput, Prisma.HomeUncheckedCreateWithoutDeviceEventLogsInput>
+  connectOrCreate?: Prisma.HomeCreateOrConnectWithoutDeviceEventLogsInput
+  connect?: Prisma.HomeWhereUniqueInput
+}
+
+export type HomeUpdateOneRequiredWithoutDeviceEventLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.HomeCreateWithoutDeviceEventLogsInput, Prisma.HomeUncheckedCreateWithoutDeviceEventLogsInput>
+  connectOrCreate?: Prisma.HomeCreateOrConnectWithoutDeviceEventLogsInput
+  upsert?: Prisma.HomeUpsertWithoutDeviceEventLogsInput
+  connect?: Prisma.HomeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HomeUpdateToOneWithWhereWithoutDeviceEventLogsInput, Prisma.HomeUpdateWithoutDeviceEventLogsInput>, Prisma.HomeUncheckedUpdateWithoutDeviceEventLogsInput>
+}
+
 export type HomeCreateWithoutOwnerInput = {
   name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomCreateNestedManyWithoutHomeInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutHomeInput
 }
 
 export type HomeUncheckedCreateWithoutOwnerInput = {
   id?: number
   name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutHomeInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutHomeInput
 }
 
 export type HomeCreateOrConnectWithoutOwnerInput = {
@@ -505,27 +765,232 @@ export type HomeScalarWhereInput = {
   OR?: Prisma.HomeScalarWhereInput[]
   NOT?: Prisma.HomeScalarWhereInput | Prisma.HomeScalarWhereInput[]
   id?: Prisma.IntFilter<"Home"> | number
-  ownerId?: Prisma.IntFilter<"Home"> | number
+  ownerUserId?: Prisma.IntFilter<"Home"> | number
   name?: Prisma.StringFilter<"Home"> | string
+  addressText?: Prisma.StringNullableFilter<"Home"> | string | null
+  city?: Prisma.StringNullableFilter<"Home"> | string | null
+  postalCode?: Prisma.StringNullableFilter<"Home"> | string | null
+  latitude?: Prisma.FloatNullableFilter<"Home"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"Home"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Home"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Home"> | Date | string
 }
 
-export type HomeCreateWithoutDevicesInput = {
+export type HomeCreateWithoutMembersInput = {
   name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  owner: Prisma.UserAccountCreateNestedOneWithoutHomesInput
+  owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomCreateNestedManyWithoutHomeInput
   alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutHomeInput
+}
+
+export type HomeUncheckedCreateWithoutMembersInput = {
+  id?: number
+  ownerUserId: number
+  name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutHomeInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutHomeInput
+}
+
+export type HomeCreateOrConnectWithoutMembersInput = {
+  where: Prisma.HomeWhereUniqueInput
+  create: Prisma.XOR<Prisma.HomeCreateWithoutMembersInput, Prisma.HomeUncheckedCreateWithoutMembersInput>
+}
+
+export type HomeUpsertWithoutMembersInput = {
+  update: Prisma.XOR<Prisma.HomeUpdateWithoutMembersInput, Prisma.HomeUncheckedUpdateWithoutMembersInput>
+  create: Prisma.XOR<Prisma.HomeCreateWithoutMembersInput, Prisma.HomeUncheckedCreateWithoutMembersInput>
+  where?: Prisma.HomeWhereInput
+}
+
+export type HomeUpdateToOneWithWhereWithoutMembersInput = {
+  where?: Prisma.HomeWhereInput
+  data: Prisma.XOR<Prisma.HomeUpdateWithoutMembersInput, Prisma.HomeUncheckedUpdateWithoutMembersInput>
+}
+
+export type HomeUpdateWithoutMembersInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUpdateManyWithoutHomeNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutHomeNestedInput
+}
+
+export type HomeUncheckedUpdateWithoutMembersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUncheckedUpdateManyWithoutHomeNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutHomeNestedInput
+}
+
+export type HomeCreateWithoutRoomsInput = {
+  name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutHomeInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutHomeInput
+}
+
+export type HomeUncheckedCreateWithoutRoomsInput = {
+  id?: number
+  ownerUserId: number
+  name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutHomeInput
+}
+
+export type HomeCreateOrConnectWithoutRoomsInput = {
+  where: Prisma.HomeWhereUniqueInput
+  create: Prisma.XOR<Prisma.HomeCreateWithoutRoomsInput, Prisma.HomeUncheckedCreateWithoutRoomsInput>
+}
+
+export type HomeUpsertWithoutRoomsInput = {
+  update: Prisma.XOR<Prisma.HomeUpdateWithoutRoomsInput, Prisma.HomeUncheckedUpdateWithoutRoomsInput>
+  create: Prisma.XOR<Prisma.HomeCreateWithoutRoomsInput, Prisma.HomeUncheckedCreateWithoutRoomsInput>
+  where?: Prisma.HomeWhereInput
+}
+
+export type HomeUpdateToOneWithWhereWithoutRoomsInput = {
+  where?: Prisma.HomeWhereInput
+  data: Prisma.XOR<Prisma.HomeUpdateWithoutRoomsInput, Prisma.HomeUncheckedUpdateWithoutRoomsInput>
+}
+
+export type HomeUpdateWithoutRoomsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutHomeNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutHomeNestedInput
+}
+
+export type HomeUncheckedUpdateWithoutRoomsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUncheckedUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutHomeNestedInput
+}
+
+export type HomeCreateWithoutDevicesInput = {
+  name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
+  rooms?: Prisma.RoomCreateNestedManyWithoutHomeInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutHomeInput
 }
 
 export type HomeUncheckedCreateWithoutDevicesInput = {
   id?: number
-  ownerId: number
+  ownerUserId: number
   name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutHomeInput
   alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutHomeInput
 }
 
 export type HomeCreateOrConnectWithoutDevicesInput = {
@@ -546,36 +1011,166 @@ export type HomeUpdateToOneWithWhereWithoutDevicesInput = {
 
 export type HomeUpdateWithoutDevicesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesNestedInput
+  owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
+  rooms?: Prisma.RoomUpdateManyWithoutHomeNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeUncheckedUpdateWithoutDevicesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  ownerId?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerUserId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rooms?: Prisma.RoomUncheckedUpdateManyWithoutHomeNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUncheckedUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutHomeNestedInput
+}
+
+export type HomeCreateWithoutPairingHistoriesInput = {
+  name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomCreateNestedManyWithoutHomeInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutHomeInput
+}
+
+export type HomeUncheckedCreateWithoutPairingHistoriesInput = {
+  id?: number
+  ownerUserId: number
+  name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutHomeInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutHomeInput
+}
+
+export type HomeCreateOrConnectWithoutPairingHistoriesInput = {
+  where: Prisma.HomeWhereUniqueInput
+  create: Prisma.XOR<Prisma.HomeCreateWithoutPairingHistoriesInput, Prisma.HomeUncheckedCreateWithoutPairingHistoriesInput>
+}
+
+export type HomeUpsertWithoutPairingHistoriesInput = {
+  update: Prisma.XOR<Prisma.HomeUpdateWithoutPairingHistoriesInput, Prisma.HomeUncheckedUpdateWithoutPairingHistoriesInput>
+  create: Prisma.XOR<Prisma.HomeCreateWithoutPairingHistoriesInput, Prisma.HomeUncheckedCreateWithoutPairingHistoriesInput>
+  where?: Prisma.HomeWhereInput
+}
+
+export type HomeUpdateToOneWithWhereWithoutPairingHistoriesInput = {
+  where?: Prisma.HomeWhereInput
+  data: Prisma.XOR<Prisma.HomeUpdateWithoutPairingHistoriesInput, Prisma.HomeUncheckedUpdateWithoutPairingHistoriesInput>
+}
+
+export type HomeUpdateWithoutPairingHistoriesInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUpdateManyWithoutHomeNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutHomeNestedInput
+}
+
+export type HomeUncheckedUpdateWithoutPairingHistoriesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUncheckedUpdateManyWithoutHomeNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUncheckedUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeCreateWithoutAlarmEventsInput = {
   name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  owner: Prisma.UserAccountCreateNestedOneWithoutHomesInput
+  owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
   devices?: Prisma.DeviceCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutHomeInput
 }
 
 export type HomeUncheckedCreateWithoutAlarmEventsInput = {
   id?: number
-  ownerId: number
+  ownerUserId: number
   name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutHomeInput
 }
 
 export type HomeCreateOrConnectWithoutAlarmEventsInput = {
@@ -596,48 +1191,278 @@ export type HomeUpdateToOneWithWhereWithoutAlarmEventsInput = {
 
 export type HomeUpdateWithoutAlarmEventsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesNestedInput
+  owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeUncheckedUpdateWithoutAlarmEventsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  ownerId?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerUserId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUncheckedUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUncheckedUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutHomeNestedInput
+}
+
+export type HomeCreateWithoutEnergyUsageDailyInput = {
+  name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomCreateNestedManyWithoutHomeInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutHomeInput
+}
+
+export type HomeUncheckedCreateWithoutEnergyUsageDailyInput = {
+  id?: number
+  ownerUserId: number
+  name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutHomeInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutHomeInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutHomeInput
+}
+
+export type HomeCreateOrConnectWithoutEnergyUsageDailyInput = {
+  where: Prisma.HomeWhereUniqueInput
+  create: Prisma.XOR<Prisma.HomeCreateWithoutEnergyUsageDailyInput, Prisma.HomeUncheckedCreateWithoutEnergyUsageDailyInput>
+}
+
+export type HomeUpsertWithoutEnergyUsageDailyInput = {
+  update: Prisma.XOR<Prisma.HomeUpdateWithoutEnergyUsageDailyInput, Prisma.HomeUncheckedUpdateWithoutEnergyUsageDailyInput>
+  create: Prisma.XOR<Prisma.HomeCreateWithoutEnergyUsageDailyInput, Prisma.HomeUncheckedCreateWithoutEnergyUsageDailyInput>
+  where?: Prisma.HomeWhereInput
+}
+
+export type HomeUpdateToOneWithWhereWithoutEnergyUsageDailyInput = {
+  where?: Prisma.HomeWhereInput
+  data: Prisma.XOR<Prisma.HomeUpdateWithoutEnergyUsageDailyInput, Prisma.HomeUncheckedUpdateWithoutEnergyUsageDailyInput>
+}
+
+export type HomeUpdateWithoutEnergyUsageDailyInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUpdateManyWithoutHomeNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutHomeNestedInput
+}
+
+export type HomeUncheckedUpdateWithoutEnergyUsageDailyInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUncheckedUpdateManyWithoutHomeNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUncheckedUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutHomeNestedInput
+}
+
+export type HomeCreateWithoutDeviceEventLogsInput = {
+  name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserAccountCreateNestedOneWithoutHomesOwnedInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomCreateNestedManyWithoutHomeInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutHomeInput
+}
+
+export type HomeUncheckedCreateWithoutDeviceEventLogsInput = {
+  id?: number
+  ownerUserId: number
+  name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutHomeInput
+  rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutHomeInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutHomeInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutHomeInput
+  members?: Prisma.HomeMemberUncheckedCreateNestedManyWithoutHomeInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutHomeInput
+}
+
+export type HomeCreateOrConnectWithoutDeviceEventLogsInput = {
+  where: Prisma.HomeWhereUniqueInput
+  create: Prisma.XOR<Prisma.HomeCreateWithoutDeviceEventLogsInput, Prisma.HomeUncheckedCreateWithoutDeviceEventLogsInput>
+}
+
+export type HomeUpsertWithoutDeviceEventLogsInput = {
+  update: Prisma.XOR<Prisma.HomeUpdateWithoutDeviceEventLogsInput, Prisma.HomeUncheckedUpdateWithoutDeviceEventLogsInput>
+  create: Prisma.XOR<Prisma.HomeCreateWithoutDeviceEventLogsInput, Prisma.HomeUncheckedCreateWithoutDeviceEventLogsInput>
+  where?: Prisma.HomeWhereInput
+}
+
+export type HomeUpdateToOneWithWhereWithoutDeviceEventLogsInput = {
+  where?: Prisma.HomeWhereInput
+  data: Prisma.XOR<Prisma.HomeUpdateWithoutDeviceEventLogsInput, Prisma.HomeUncheckedUpdateWithoutDeviceEventLogsInput>
+}
+
+export type HomeUpdateWithoutDeviceEventLogsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserAccountUpdateOneRequiredWithoutHomesOwnedNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUpdateManyWithoutHomeNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutHomeNestedInput
+}
+
+export type HomeUncheckedUpdateWithoutDeviceEventLogsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUncheckedUpdateManyWithoutHomeNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUncheckedUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeCreateManyOwnerInput = {
   id?: number
   name: string
+  addressText?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type HomeUpdateWithoutOwnerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUpdateManyWithoutHomeNestedInput
   alarmEvents?: Prisma.AlarmEventUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeUncheckedUpdateWithoutOwnerInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutHomeNestedInput
+  rooms?: Prisma.RoomUncheckedUpdateManyWithoutHomeNestedInput
   alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutHomeNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutHomeNestedInput
+  members?: Prisma.HomeMemberUncheckedUpdateManyWithoutHomeNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutHomeNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeUncheckedUpdateManyWithoutOwnerInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  addressText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -649,12 +1474,22 @@ export type HomeUncheckedUpdateManyWithoutOwnerInput = {
 
 export type HomeCountOutputType = {
   devices: number
+  rooms: number
   alarmEvents: number
+  energyUsageDaily: number
+  members: number
+  pairingHistories: number
+  deviceEventLogs: number
 }
 
 export type HomeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   devices?: boolean | HomeCountOutputTypeCountDevicesArgs
+  rooms?: boolean | HomeCountOutputTypeCountRoomsArgs
   alarmEvents?: boolean | HomeCountOutputTypeCountAlarmEventsArgs
+  energyUsageDaily?: boolean | HomeCountOutputTypeCountEnergyUsageDailyArgs
+  members?: boolean | HomeCountOutputTypeCountMembersArgs
+  pairingHistories?: boolean | HomeCountOutputTypeCountPairingHistoriesArgs
+  deviceEventLogs?: boolean | HomeCountOutputTypeCountDeviceEventLogsArgs
 }
 
 /**
@@ -677,27 +1512,77 @@ export type HomeCountOutputTypeCountDevicesArgs<ExtArgs extends runtime.Types.Ex
 /**
  * HomeCountOutputType without action
  */
+export type HomeCountOutputTypeCountRoomsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RoomWhereInput
+}
+
+/**
+ * HomeCountOutputType without action
+ */
 export type HomeCountOutputTypeCountAlarmEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AlarmEventWhereInput
+}
+
+/**
+ * HomeCountOutputType without action
+ */
+export type HomeCountOutputTypeCountEnergyUsageDailyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EnergyUsageDailyWhereInput
+}
+
+/**
+ * HomeCountOutputType without action
+ */
+export type HomeCountOutputTypeCountMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HomeMemberWhereInput
+}
+
+/**
+ * HomeCountOutputType without action
+ */
+export type HomeCountOutputTypeCountPairingHistoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DevicePairingHistoryWhereInput
+}
+
+/**
+ * HomeCountOutputType without action
+ */
+export type HomeCountOutputTypeCountDeviceEventLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeviceEventLogWhereInput
 }
 
 
 export type HomeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  ownerId?: boolean
+  ownerUserId?: boolean
   name?: boolean
+  addressText?: boolean
+  city?: boolean
+  postalCode?: boolean
+  latitude?: boolean
+  longitude?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
   devices?: boolean | Prisma.Home$devicesArgs<ExtArgs>
+  rooms?: boolean | Prisma.Home$roomsArgs<ExtArgs>
   alarmEvents?: boolean | Prisma.Home$alarmEventsArgs<ExtArgs>
+  energyUsageDaily?: boolean | Prisma.Home$energyUsageDailyArgs<ExtArgs>
+  members?: boolean | Prisma.Home$membersArgs<ExtArgs>
+  pairingHistories?: boolean | Prisma.Home$pairingHistoriesArgs<ExtArgs>
+  deviceEventLogs?: boolean | Prisma.Home$deviceEventLogsArgs<ExtArgs>
   _count?: boolean | Prisma.HomeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["home"]>
 
 export type HomeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  ownerId?: boolean
+  ownerUserId?: boolean
   name?: boolean
+  addressText?: boolean
+  city?: boolean
+  postalCode?: boolean
+  latitude?: boolean
+  longitude?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
@@ -705,8 +1590,13 @@ export type HomeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 
 export type HomeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  ownerId?: boolean
+  ownerUserId?: boolean
   name?: boolean
+  addressText?: boolean
+  city?: boolean
+  postalCode?: boolean
+  latitude?: boolean
+  longitude?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
@@ -714,17 +1604,27 @@ export type HomeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 
 export type HomeSelectScalar = {
   id?: boolean
-  ownerId?: boolean
+  ownerUserId?: boolean
   name?: boolean
+  addressText?: boolean
+  city?: boolean
+  postalCode?: boolean
+  latitude?: boolean
+  longitude?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type HomeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerId" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["home"]>
+export type HomeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerUserId" | "name" | "addressText" | "city" | "postalCode" | "latitude" | "longitude" | "createdAt" | "updatedAt", ExtArgs["result"]["home"]>
 export type HomeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
   devices?: boolean | Prisma.Home$devicesArgs<ExtArgs>
+  rooms?: boolean | Prisma.Home$roomsArgs<ExtArgs>
   alarmEvents?: boolean | Prisma.Home$alarmEventsArgs<ExtArgs>
+  energyUsageDaily?: boolean | Prisma.Home$energyUsageDailyArgs<ExtArgs>
+  members?: boolean | Prisma.Home$membersArgs<ExtArgs>
+  pairingHistories?: boolean | Prisma.Home$pairingHistoriesArgs<ExtArgs>
+  deviceEventLogs?: boolean | Prisma.Home$deviceEventLogsArgs<ExtArgs>
   _count?: boolean | Prisma.HomeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type HomeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -739,12 +1639,22 @@ export type $HomePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     owner: Prisma.$UserAccountPayload<ExtArgs>
     devices: Prisma.$DevicePayload<ExtArgs>[]
+    rooms: Prisma.$RoomPayload<ExtArgs>[]
     alarmEvents: Prisma.$AlarmEventPayload<ExtArgs>[]
+    energyUsageDaily: Prisma.$EnergyUsageDailyPayload<ExtArgs>[]
+    members: Prisma.$HomeMemberPayload<ExtArgs>[]
+    pairingHistories: Prisma.$DevicePairingHistoryPayload<ExtArgs>[]
+    deviceEventLogs: Prisma.$DeviceEventLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    ownerId: number
+    ownerUserId: number
     name: string
+    addressText: string | null
+    city: string | null
+    postalCode: string | null
+    latitude: number | null
+    longitude: number | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["home"]>
@@ -1143,7 +2053,12 @@ export interface Prisma__HomeClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   owner<T extends Prisma.UserAccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccountDefaultArgs<ExtArgs>>): Prisma.Prisma__UserAccountClient<runtime.Types.Result.GetResult<Prisma.$UserAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   devices<T extends Prisma.Home$devicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Home$devicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  rooms<T extends Prisma.Home$roomsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Home$roomsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   alarmEvents<T extends Prisma.Home$alarmEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Home$alarmEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlarmEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  energyUsageDaily<T extends Prisma.Home$energyUsageDailyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Home$energyUsageDailyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnergyUsageDailyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  members<T extends Prisma.Home$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Home$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HomeMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pairingHistories<T extends Prisma.Home$pairingHistoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Home$pairingHistoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePairingHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  deviceEventLogs<T extends Prisma.Home$deviceEventLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Home$deviceEventLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceEventLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1174,8 +2089,13 @@ export interface Prisma__HomeClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface HomeFieldRefs {
   readonly id: Prisma.FieldRef<"Home", 'Int'>
-  readonly ownerId: Prisma.FieldRef<"Home", 'Int'>
+  readonly ownerUserId: Prisma.FieldRef<"Home", 'Int'>
   readonly name: Prisma.FieldRef<"Home", 'String'>
+  readonly addressText: Prisma.FieldRef<"Home", 'String'>
+  readonly city: Prisma.FieldRef<"Home", 'String'>
+  readonly postalCode: Prisma.FieldRef<"Home", 'String'>
+  readonly latitude: Prisma.FieldRef<"Home", 'Float'>
+  readonly longitude: Prisma.FieldRef<"Home", 'Float'>
   readonly createdAt: Prisma.FieldRef<"Home", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Home", 'DateTime'>
 }
@@ -1598,6 +2518,30 @@ export type Home$devicesArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 /**
+ * Home.rooms
+ */
+export type Home$roomsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Room
+   */
+  select?: Prisma.RoomSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Room
+   */
+  omit?: Prisma.RoomOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoomInclude<ExtArgs> | null
+  where?: Prisma.RoomWhereInput
+  orderBy?: Prisma.RoomOrderByWithRelationInput | Prisma.RoomOrderByWithRelationInput[]
+  cursor?: Prisma.RoomWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RoomScalarFieldEnum | Prisma.RoomScalarFieldEnum[]
+}
+
+/**
  * Home.alarmEvents
  */
 export type Home$alarmEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1619,6 +2563,102 @@ export type Home$alarmEventsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.AlarmEventScalarFieldEnum | Prisma.AlarmEventScalarFieldEnum[]
+}
+
+/**
+ * Home.energyUsageDaily
+ */
+export type Home$energyUsageDailyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EnergyUsageDaily
+   */
+  select?: Prisma.EnergyUsageDailySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EnergyUsageDaily
+   */
+  omit?: Prisma.EnergyUsageDailyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EnergyUsageDailyInclude<ExtArgs> | null
+  where?: Prisma.EnergyUsageDailyWhereInput
+  orderBy?: Prisma.EnergyUsageDailyOrderByWithRelationInput | Prisma.EnergyUsageDailyOrderByWithRelationInput[]
+  cursor?: Prisma.EnergyUsageDailyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EnergyUsageDailyScalarFieldEnum | Prisma.EnergyUsageDailyScalarFieldEnum[]
+}
+
+/**
+ * Home.members
+ */
+export type Home$membersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HomeMember
+   */
+  select?: Prisma.HomeMemberSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HomeMember
+   */
+  omit?: Prisma.HomeMemberOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HomeMemberInclude<ExtArgs> | null
+  where?: Prisma.HomeMemberWhereInput
+  orderBy?: Prisma.HomeMemberOrderByWithRelationInput | Prisma.HomeMemberOrderByWithRelationInput[]
+  cursor?: Prisma.HomeMemberWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HomeMemberScalarFieldEnum | Prisma.HomeMemberScalarFieldEnum[]
+}
+
+/**
+ * Home.pairingHistories
+ */
+export type Home$pairingHistoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DevicePairingHistory
+   */
+  select?: Prisma.DevicePairingHistorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DevicePairingHistory
+   */
+  omit?: Prisma.DevicePairingHistoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DevicePairingHistoryInclude<ExtArgs> | null
+  where?: Prisma.DevicePairingHistoryWhereInput
+  orderBy?: Prisma.DevicePairingHistoryOrderByWithRelationInput | Prisma.DevicePairingHistoryOrderByWithRelationInput[]
+  cursor?: Prisma.DevicePairingHistoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DevicePairingHistoryScalarFieldEnum | Prisma.DevicePairingHistoryScalarFieldEnum[]
+}
+
+/**
+ * Home.deviceEventLogs
+ */
+export type Home$deviceEventLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DeviceEventLog
+   */
+  select?: Prisma.DeviceEventLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DeviceEventLog
+   */
+  omit?: Prisma.DeviceEventLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeviceEventLogInclude<ExtArgs> | null
+  where?: Prisma.DeviceEventLogWhereInput
+  orderBy?: Prisma.DeviceEventLogOrderByWithRelationInput | Prisma.DeviceEventLogOrderByWithRelationInput[]
+  cursor?: Prisma.DeviceEventLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DeviceEventLogScalarFieldEnum | Prisma.DeviceEventLogScalarFieldEnum[]
 }
 
 /**

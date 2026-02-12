@@ -262,6 +262,7 @@ export type FirmwareReleaseOrderByWithRelationInput = {
 export type FirmwareReleaseWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   sha256?: string
+  platform_version?: Prisma.FirmwareReleasePlatformVersionCompoundUniqueInput
   AND?: Prisma.FirmwareReleaseWhereInput | Prisma.FirmwareReleaseWhereInput[]
   OR?: Prisma.FirmwareReleaseWhereInput[]
   NOT?: Prisma.FirmwareReleaseWhereInput | Prisma.FirmwareReleaseWhereInput[]
@@ -272,7 +273,7 @@ export type FirmwareReleaseWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"FirmwareRelease"> | string | null
   createdAt?: Prisma.DateTimeFilter<"FirmwareRelease"> | Date | string
   otaJobs?: Prisma.OtaJobListRelationFilter
-}, "id" | "sha256">
+}, "id" | "sha256" | "platform_version">
 
 export type FirmwareReleaseOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -380,6 +381,11 @@ export type FirmwareReleaseUncheckedUpdateManyInput = {
   filePath?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type FirmwareReleasePlatformVersionCompoundUniqueInput = {
+  platform: string
+  version: string
 }
 
 export type FirmwareReleaseCountOrderByAggregateInput = {

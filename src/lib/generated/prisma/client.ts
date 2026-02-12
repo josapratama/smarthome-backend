@@ -50,20 +50,60 @@ export type UserAccount = Prisma.UserAccountModel
  */
 export type LoginHistory = Prisma.LoginHistoryModel
 /**
+ * Model LoginAttempt
+ * 
+ */
+export type LoginAttempt = Prisma.LoginAttemptModel
+/**
+ * Model UserSession
+ * 
+ */
+export type UserSession = Prisma.UserSessionModel
+/**
  * Model Home
  * 
  */
 export type Home = Prisma.HomeModel
+/**
+ * Model HomeMember
+ * 
+ */
+export type HomeMember = Prisma.HomeMemberModel
+/**
+ * Model Room
+ * 
+ */
+export type Room = Prisma.RoomModel
 /**
  * Model Device
  * 
  */
 export type Device = Prisma.DeviceModel
 /**
+ * Model DeviceConfig
+ * 
+ */
+export type DeviceConfig = Prisma.DeviceConfigModel
+/**
+ * Model DevicePairingHistory
+ * 
+ */
+export type DevicePairingHistory = Prisma.DevicePairingHistoryModel
+/**
+ * Model DeviceStateHistory
+ * 
+ */
+export type DeviceStateHistory = Prisma.DeviceStateHistoryModel
+/**
  * Model SensorData
  * 
  */
 export type SensorData = Prisma.SensorDataModel
+/**
+ * Model SensorReading
+ * 
+ */
+export type SensorReading = Prisma.SensorReadingModel
 /**
  * Model AlarmEvent
  * 
@@ -90,6 +130,16 @@ export type Command = Prisma.CommandModel
  */
 export type NotificationEndpoint = Prisma.NotificationEndpointModel
 /**
+ * Model NotificationLog
+ * 
+ */
+export type NotificationLog = Prisma.NotificationLogModel
+/**
+ * Model EnergyUsageDaily
+ * 
+ */
+export type EnergyUsageDaily = Prisma.EnergyUsageDailyModel
+/**
  * Model FirmwareRelease
  * 
  */
@@ -99,3 +149,13 @@ export type FirmwareRelease = Prisma.FirmwareReleaseModel
  * 
  */
 export type OtaJob = Prisma.OtaJobModel
+/**
+ * Model PasswordReset
+ * 
+ */
+export type PasswordReset = Prisma.PasswordResetModel
+/**
+ * Model DeviceEventLog
+ * 
+ */
+export type DeviceEventLog = Prisma.DeviceEventLogModel

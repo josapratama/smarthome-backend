@@ -53,16 +53,28 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   UserAccount: 'UserAccount',
   LoginHistory: 'LoginHistory',
+  LoginAttempt: 'LoginAttempt',
+  UserSession: 'UserSession',
   Home: 'Home',
+  HomeMember: 'HomeMember',
+  Room: 'Room',
   Device: 'Device',
+  DeviceConfig: 'DeviceConfig',
+  DevicePairingHistory: 'DevicePairingHistory',
+  DeviceStateHistory: 'DeviceStateHistory',
   SensorData: 'SensorData',
+  SensorReading: 'SensorReading',
   AlarmEvent: 'AlarmEvent',
   EnergyPrediction: 'EnergyPrediction',
   AnomalyResult: 'AnomalyResult',
   Command: 'Command',
   NotificationEndpoint: 'NotificationEndpoint',
+  NotificationLog: 'NotificationLog',
+  EnergyUsageDaily: 'EnergyUsageDaily',
   FirmwareRelease: 'FirmwareRelease',
-  OtaJob: 'OtaJob'
+  OtaJob: 'OtaJob',
+  PasswordReset: 'PasswordReset',
+  DeviceEventLog: 'DeviceEventLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -87,6 +99,12 @@ export const UserAccountScalarFieldEnum = {
   email: 'email',
   password: 'password',
   role: 'role',
+  isActive: 'isActive',
+  emailVerifiedAt: 'emailVerifiedAt',
+  deletedAt: 'deletedAt',
+  passwordChangedAt: 'passwordChangedAt',
+  failedLoginCount: 'failedLoginCount',
+  lockedUntil: 'lockedUntil',
   createdAt: 'createdAt'
 } as const
 
@@ -103,10 +121,42 @@ export const LoginHistoryScalarFieldEnum = {
 export type LoginHistoryScalarFieldEnum = (typeof LoginHistoryScalarFieldEnum)[keyof typeof LoginHistoryScalarFieldEnum]
 
 
+export const LoginAttemptScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  usernameInput: 'usernameInput',
+  attemptTime: 'attemptTime',
+  ipAddress: 'ipAddress',
+  isSuccess: 'isSuccess',
+  failReason: 'failReason'
+} as const
+
+export type LoginAttemptScalarFieldEnum = (typeof LoginAttemptScalarFieldEnum)[keyof typeof LoginAttemptScalarFieldEnum]
+
+
+export const UserSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  refreshTokenHash: 'refreshTokenHash',
+  userAgent: 'userAgent',
+  ipAddress: 'ipAddress',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt',
+  revokedAt: 'revokedAt'
+} as const
+
+export type UserSessionScalarFieldEnum = (typeof UserSessionScalarFieldEnum)[keyof typeof UserSessionScalarFieldEnum]
+
+
 export const HomeScalarFieldEnum = {
   id: 'id',
-  ownerId: 'ownerId',
+  ownerUserId: 'ownerUserId',
   name: 'name',
+  addressText: 'addressText',
+  city: 'city',
+  postalCode: 'postalCode',
+  latitude: 'latitude',
+  longitude: 'longitude',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -114,20 +164,86 @@ export const HomeScalarFieldEnum = {
 export type HomeScalarFieldEnum = (typeof HomeScalarFieldEnum)[keyof typeof HomeScalarFieldEnum]
 
 
+export const HomeMemberScalarFieldEnum = {
+  id: 'id',
+  homeId: 'homeId',
+  userId: 'userId',
+  roleInHome: 'roleInHome',
+  status: 'status',
+  invitedAt: 'invitedAt',
+  joinedAt: 'joinedAt'
+} as const
+
+export type HomeMemberScalarFieldEnum = (typeof HomeMemberScalarFieldEnum)[keyof typeof HomeMemberScalarFieldEnum]
+
+
+export const RoomScalarFieldEnum = {
+  id: 'id',
+  homeId: 'homeId',
+  name: 'name',
+  createdAt: 'createdAt'
+} as const
+
+export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
+
+
 export const DeviceScalarFieldEnum = {
   id: 'id',
   deviceName: 'deviceName',
-  room: 'room',
+  roomId: 'roomId',
   status: 'status',
   updatedAt: 'updatedAt',
   lastSeenAt: 'lastSeenAt',
   mqttClientId: 'mqttClientId',
   deviceKey: 'deviceKey',
-  userId: 'userId',
-  homeId: 'homeId'
+  deviceType: 'deviceType',
+  capabilities: 'capabilities',
+  pairedByUserId: 'pairedByUserId',
+  homeId: 'homeId',
+  pairedAt: 'pairedAt',
+  unpairedAt: 'unpairedAt'
 } as const
 
 export type DeviceScalarFieldEnum = (typeof DeviceScalarFieldEnum)[keyof typeof DeviceScalarFieldEnum]
+
+
+export const DeviceConfigScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  config: 'config',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type DeviceConfigScalarFieldEnum = (typeof DeviceConfigScalarFieldEnum)[keyof typeof DeviceConfigScalarFieldEnum]
+
+
+export const DevicePairingHistoryScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  userId: 'userId',
+  homeId: 'homeId',
+  method: 'method',
+  pairedAt: 'pairedAt',
+  unpairedAt: 'unpairedAt',
+  note: 'note'
+} as const
+
+export type DevicePairingHistoryScalarFieldEnum = (typeof DevicePairingHistoryScalarFieldEnum)[keyof typeof DevicePairingHistoryScalarFieldEnum]
+
+
+export const DeviceStateHistoryScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  eventType: 'eventType',
+  state: 'state',
+  source: 'source',
+  commandId: 'commandId',
+  recordedAt: 'recordedAt'
+} as const
+
+export type DeviceStateHistoryScalarFieldEnum = (typeof DeviceStateHistoryScalarFieldEnum)[keyof typeof DeviceStateHistoryScalarFieldEnum]
 
 
 export const SensorDataScalarFieldEnum = {
@@ -137,22 +253,43 @@ export const SensorDataScalarFieldEnum = {
   gasPpm: 'gasPpm',
   flame: 'flame',
   binLevel: 'binLevel',
+  powerW: 'powerW',
+  energyKwh: 'energyKwh',
   timestamp: 'timestamp'
 } as const
 
 export type SensorDataScalarFieldEnum = (typeof SensorDataScalarFieldEnum)[keyof typeof SensorDataScalarFieldEnum]
 
 
+export const SensorReadingScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  metric: 'metric',
+  valueNum: 'valueNum',
+  valueBool: 'valueBool',
+  unit: 'unit',
+  timestamp: 'timestamp'
+} as const
+
+export type SensorReadingScalarFieldEnum = (typeof SensorReadingScalarFieldEnum)[keyof typeof SensorReadingScalarFieldEnum]
+
+
 export const AlarmEventScalarFieldEnum = {
   id: 'id',
-  sensorId: 'sensorId',
+  sensorDataId: 'sensorDataId',
+  sensorReadingId: 'sensorReadingId',
   deviceId: 'deviceId',
   homeId: 'homeId',
   type: 'type',
   message: 'message',
   severity: 'severity',
   source: 'source',
-  triggeredAt: 'triggeredAt'
+  triggeredAt: 'triggeredAt',
+  status: 'status',
+  acknowledgedAt: 'acknowledgedAt',
+  acknowledgedBy: 'acknowledgedBy',
+  resolvedAt: 'resolvedAt',
+  resolvedBy: 'resolvedBy'
 } as const
 
 export type AlarmEventScalarFieldEnum = (typeof AlarmEventScalarFieldEnum)[keyof typeof AlarmEventScalarFieldEnum]
@@ -194,7 +331,10 @@ export const CommandScalarFieldEnum = {
   ackedAt: 'ackedAt',
   lastError: 'lastError',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  requestedBy: 'requestedBy',
+  source: 'source',
+  correlationId: 'correlationId'
 } as const
 
 export type CommandScalarFieldEnum = (typeof CommandScalarFieldEnum)[keyof typeof CommandScalarFieldEnum]
@@ -209,6 +349,34 @@ export const NotificationEndpointScalarFieldEnum = {
 } as const
 
 export type NotificationEndpointScalarFieldEnum = (typeof NotificationEndpointScalarFieldEnum)[keyof typeof NotificationEndpointScalarFieldEnum]
+
+
+export const NotificationLogScalarFieldEnum = {
+  id: 'id',
+  alarmId: 'alarmId',
+  endpointId: 'endpointId',
+  channel: 'channel',
+  status: 'status',
+  providerResponse: 'providerResponse',
+  sentAt: 'sentAt',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationLogScalarFieldEnum = (typeof NotificationLogScalarFieldEnum)[keyof typeof NotificationLogScalarFieldEnum]
+
+
+export const EnergyUsageDailyScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  homeId: 'homeId',
+  usageDate: 'usageDate',
+  energyKwh: 'energyKwh',
+  avgPowerW: 'avgPowerW',
+  peakPowerW: 'peakPowerW',
+  createdAt: 'createdAt'
+} as const
+
+export type EnergyUsageDailyScalarFieldEnum = (typeof EnergyUsageDailyScalarFieldEnum)[keyof typeof EnergyUsageDailyScalarFieldEnum]
 
 
 export const FirmwareReleaseScalarFieldEnum = {
@@ -242,6 +410,31 @@ export const OtaJobScalarFieldEnum = {
 } as const
 
 export type OtaJobScalarFieldEnum = (typeof OtaJobScalarFieldEnum)[keyof typeof OtaJobScalarFieldEnum]
+
+
+export const PasswordResetScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordResetScalarFieldEnum = (typeof PasswordResetScalarFieldEnum)[keyof typeof PasswordResetScalarFieldEnum]
+
+
+export const DeviceEventLogScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  homeId: 'homeId',
+  eventType: 'eventType',
+  payload: 'payload',
+  severity: 'severity',
+  recordedAt: 'recordedAt'
+} as const
+
+export type DeviceEventLogScalarFieldEnum = (typeof DeviceEventLogScalarFieldEnum)[keyof typeof DeviceEventLogScalarFieldEnum]
 
 
 export const SortOrder = {

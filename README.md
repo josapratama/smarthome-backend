@@ -148,7 +148,7 @@ cd smarthome-backend
 bun install
 ```
 
-2. **Siapkan env**
+2.**Siapkan env**
 
 ```bash
 cp .env.example .env
@@ -156,13 +156,13 @@ cp .env.example .env
 
 > Untuk dev dengan Postgres di Docker (port 5432), biarkan `DATABASE_URL` default.
 
-3. **Jalankan Postgres + MQTT**
+3.**Jalankan Postgres + MQTT**
 
 ```bash
 docker compose up -d db mqtt
 ```
 
-4. **Migrasi DB (buat tabel)**
+4.**Migrasi DB (buat tabel)**
 
 ```bash
 bunx prisma migrate dev --name init
@@ -170,13 +170,13 @@ bunx prisma migrate dev --name init
 
 > Perintah ini akan membuat folder `prisma/migrations` dan mengaplikasikan schema.
 
-5. **Generate Tailwind CSS**
+5.**Generate Tailwind CSS**
 
 ```bash
 bun run tailwind:build
 ```
 
-6. **Jalankan server**
+6.**Jalankan server**
 
 ```bash
 bun run dev
@@ -184,7 +184,7 @@ bun run dev
 # bun run dev:ui
 ```
 
-7. **Buka**
+7.**Buka**
 
 - Landing: `http://localhost:3000/`
 - Swagger: `http://localhost:3000/docs`
