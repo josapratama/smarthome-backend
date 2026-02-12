@@ -1,6 +1,10 @@
 import { z } from "@hono/zod-openapi";
 import { DeviceId, PredictionId } from "../common/ids";
 
+export const LimitQuery = z.object({
+  limit: z.coerce.number().int().min(1).max(5000).default(200),
+});
+
 export const EnergyPredictionCreateBody = z
   .object({
     predictedEnergy: z.number().openapi({ example: 1.25 }),
@@ -24,12 +28,14 @@ export const EnergyPredictionDTO = z
   })
   .openapi("EnergyPredictionDTO");
 
+export const AnomalyMetricEnum = z.enum(["POWER", "GAS", "FLAME", "TRASH"]);
+
 export const AnomalyCreateBody = z
   .object({
     isAnomaly: z.boolean(),
     score: z.number().openapi({ example: 0.87 }),
-    metric: z.enum(["POWER", "GAS", "FLAME", "TRASH"]).optional(),
-    details: z.record(z.string(), z.any()).optional(),
+    metric: AnomalyMetricEnum.optional(),
+    details: z.any().optional(), // prisma Json, bebas
     detectedAt: z.iso.datetime().optional(),
   })
   .openapi("AnomalyCreateBody");
@@ -40,12 +46,8 @@ export const AnomalyDTO = z
     predictionId: PredictionId,
     isAnomaly: z.boolean(),
     score: z.number(),
-    metric: z.enum(["POWER", "GAS", "FLAME", "TRASH"]).nullable(),
+    metric: AnomalyMetricEnum.nullable(),
     details: z.any().nullable(),
     detectedAt: z.string(),
   })
   .openapi("AnomalyDTO");
-
-export const LimitQuery200 = z.object({
-  limit: z.coerce.number().int().min(1).max(5000).default(200),
-});

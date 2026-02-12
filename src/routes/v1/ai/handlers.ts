@@ -1,83 +1,66 @@
-import { prisma } from "../../../lib/prisma";
-import { toISO } from "../common/helpers";
+import type { RouteHandler } from "@hono/zod-openapi";
+import type { AppEnv } from "../../../types/app-env";
 
-export function mapPredictionDTO(p: any) {
-  return {
-    id: p.id,
-    deviceId: p.deviceId,
-    predictedEnergy: p.predictedEnergy,
-    actualEnergy: p.actualEnergy ?? null,
-    windowStart: toISO(p.windowStart),
-    windowEnd: toISO(p.windowEnd),
-    modelVersion: p.modelVersion ?? null,
-    createdAt: p.createdAt.toISOString(),
-  };
-}
+import type {
+  CreateEnergyPredictionRoute,
+  ListEnergyPredictionsRoute,
+  CreateAnomalyRoute,
+  ListAnomaliesRoute,
+} from "./openapi";
 
-export function mapAnomalyDTO(r: any) {
-  return {
-    id: r.id,
-    predictionId: r.predictionId,
-    isAnomaly: r.isAnomaly,
-    score: r.score,
-    metric: (r.metric as any) ?? null,
-    details: (r.details as any) ?? null,
-    detectedAt: r.detectedAt.toISOString(),
-  };
-}
+import {
+  createPrediction,
+  listPredictions,
+  createAnomaly,
+  listAnomalies,
+  mapPredictionDTO,
+  mapAnomalyDTO,
+} from "../../../services/ai/ai.service";
 
-export async function createPrediction(deviceId: number, body: any) {
-  const device = await prisma.device.findUnique({ where: { id: deviceId } });
-  if (!device) return { error: "DEVICE_NOT_FOUND" as const };
+export const handleCreateEnergyPrediction: RouteHandler<
+  CreateEnergyPredictionRoute,
+  AppEnv
+> = async (c) => {
+  const { deviceId } = c.req.valid("param");
+  const body = c.req.valid("json");
 
-  const p = await prisma.energyPrediction.create({
-    data: {
-      deviceId,
-      predictedEnergy: body.predictedEnergy,
-      actualEnergy: body.actualEnergy,
-      windowStart: body.windowStart ? new Date(body.windowStart) : undefined,
-      windowEnd: body.windowEnd ? new Date(body.windowEnd) : undefined,
-      modelVersion: body.modelVersion,
-    },
-  });
+  const res = await createPrediction(Number(deviceId), body);
+  if ("error" in res) return c.json({ error: res.error }, 404);
 
-  return { p };
-}
+  return c.json({ data: mapPredictionDTO(res.p) }, 201);
+};
 
-export async function listPredictions(deviceId: number, limit: number) {
-  const rows = await prisma.energyPrediction.findMany({
-    where: { deviceId },
-    orderBy: { createdAt: "desc" },
-    take: limit,
-  });
-  return rows;
-}
+export const handleListEnergyPredictions: RouteHandler<
+  ListEnergyPredictionsRoute,
+  AppEnv
+> = async (c) => {
+  const { deviceId } = c.req.valid("param");
+  const { limit } = c.req.valid("query");
 
-export async function createAnomaly(predictionId: number, body: any) {
-  const pred = await prisma.energyPrediction.findUnique({
-    where: { id: predictionId },
-  });
-  if (!pred) return { error: "PREDICTION_NOT_FOUND" as const };
+  const rows = await listPredictions(Number(deviceId), limit);
+  return c.json({ data: rows.map(mapPredictionDTO) }, 200);
+};
 
-  const row = await prisma.anomalyResult.create({
-    data: {
-      predictionId,
-      isAnomaly: body.isAnomaly,
-      score: body.score,
-      metric: body.metric,
-      details: body.details,
-      detectedAt: body.detectedAt ? new Date(body.detectedAt) : new Date(),
-    },
-  });
+export const handleCreateAnomaly: RouteHandler<
+  CreateAnomalyRoute,
+  AppEnv
+> = async (c) => {
+  const { predictionId } = c.req.valid("param");
+  const body = c.req.valid("json");
 
-  return { row };
-}
+  const res = await createAnomaly(Number(predictionId), body);
+  if ("error" in res) return c.json({ error: res.error }, 404);
 
-export async function listAnomalies(predictionId: number, limit: number) {
-  const rows = await prisma.anomalyResult.findMany({
-    where: { predictionId },
-    orderBy: { detectedAt: "desc" },
-    take: limit,
-  });
-  return rows;
-}
+  return c.json({ data: mapAnomalyDTO(res.row) }, 201);
+};
+
+export const handleListAnomalies: RouteHandler<
+  ListAnomaliesRoute,
+  AppEnv
+> = async (c) => {
+  const { predictionId } = c.req.valid("param");
+  const { limit } = c.req.valid("query");
+
+  const rows = await listAnomalies(Number(predictionId), limit);
+  return c.json({ data: rows.map(mapAnomalyDTO) }, 200);
+};
