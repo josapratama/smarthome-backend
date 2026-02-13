@@ -1,6 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import type { AppEnv } from "../../../types/app-env";
-import { requireAuth } from "../../../middlewares/auth";
+import { requireAuth, requireAdmin } from "../../../middlewares/auth";
 
 import {
   listHomesRoute,
@@ -49,7 +49,7 @@ import {
 export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
   const r = new OpenAPIHono<AppEnv>();
 
-  r.use("*", requireAuth);
+  r.use("*", requireAuth, requireAdmin);
 
   r.openapi(listHomesRoute, handleListHomes);
   r.openapi(createHomeRoute, handleCreateHome);

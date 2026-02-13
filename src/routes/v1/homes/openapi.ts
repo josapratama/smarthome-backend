@@ -11,7 +11,7 @@ import {
 
 export const listHomesRoute = createRoute({
   method: "get",
-  path: "/api/v1/",
+  path: "/api/v1/homes",
   request: { query: HomesListQuery },
   responses: {
     200: {
@@ -26,7 +26,7 @@ export const listHomesRoute = createRoute({
 
 export const createHomeRoute = createRoute({
   method: "post",
-  path: "/api/v1/",
+  path: "/api/v1/homes",
   request: {
     body: { content: { "application/json": { schema: HomeCreateBody } } },
   },
@@ -37,12 +37,12 @@ export const createHomeRoute = createRoute({
     },
     404: { description: "Owner not found" },
   },
-  tags: ["Rooms"],
+  tags: ["Homes"],
 });
 
 export const getHomeRoute = createRoute({
   method: "get",
-  path: "/api/v1/{homeId}",
+  path: "/api/v1/homes/{homeId}",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
     200: {
@@ -56,7 +56,7 @@ export const getHomeRoute = createRoute({
 
 export const updateHomeRoute = createRoute({
   method: "patch",
-  path: "/api/v1/{homeId}",
+  path: "/api/v1/homes/{homeId}",
   request: {
     params: z.object({ homeId: HomeId }),
     body: { content: { "application/json": { schema: HomeUpdateBody } } },
@@ -73,7 +73,7 @@ export const updateHomeRoute = createRoute({
 
 export const deleteHomeRoute = createRoute({
   method: "delete",
-  path: "/api/v1/{homeId}",
+  path: "/api/v1/homes/{homeId}",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
     204: { description: "Soft deleted" },
@@ -84,7 +84,7 @@ export const deleteHomeRoute = createRoute({
 
 export const restoreHomeRoute = createRoute({
   method: "post",
-  path: "/api/v1/{homeId}/restore",
+  path: "/api/v1/homes/{homeId}/restore",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
     200: {
@@ -98,7 +98,7 @@ export const restoreHomeRoute = createRoute({
 
 export const transferOwnershipRoute = createRoute({
   method: "post",
-  path: "/api/v1/{homeId}/transfer-ownership",
+  path: "/api/v1/homes/{homeId}/transfer-ownership",
   request: {
     params: z.object({ homeId: HomeId }),
     body: {
@@ -118,7 +118,7 @@ export const transferOwnershipRoute = createRoute({
 
 export const listNearbyHomesRoute = createRoute({
   method: "get",
-  path: "/api/v1/nearby",
+  path: "/api/v1/homes/nearby",
   request: {
     query: z.object({
       lat: z.coerce.number().min(-90).max(90),

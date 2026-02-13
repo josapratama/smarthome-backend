@@ -1,6 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import type { AppEnv } from "../../../types/app-env";
-import { requireAuth } from "../../../middlewares/auth";
+import { requireAuth, requireAdmin } from "../../../middlewares/auth";
 
 import {
   listMyNotificationEndpointsRoute,
@@ -17,7 +17,8 @@ import {
 export function registerNotificationRoutes(app: OpenAPIHono<AppEnv>) {
   const r = new OpenAPIHono<AppEnv>();
 
-  r.use("*", requireAuth);
+  // Admin only access for notification management
+  r.use("*", requireAuth, requireAdmin);
 
   r.openapi(
     listMyNotificationEndpointsRoute,

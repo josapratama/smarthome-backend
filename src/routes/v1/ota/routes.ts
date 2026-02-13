@@ -11,13 +11,13 @@ import {
   handleListDeviceOtaJobs,
   handleGetOtaJob,
 } from "./handlers";
-import { requireAuth } from "../../../middlewares/auth";
+import { requireAuth, requireAdmin } from "../../../middlewares/auth";
 
 export function registerOtaRoutes(app: OpenAPIHono<AppEnv>) {
   const r = new OpenAPIHono<AppEnv>();
 
-  // kalau mau protect, uncomment:
-  r.use("/*", requireAuth);
+  // Admin only access for OTA management
+  r.use("/*", requireAuth, requireAdmin);
 
   r.openapi(triggerOtaRoute, handleTriggerOta);
   r.openapi(listDeviceOtaJobsRoute, handleListDeviceOtaJobs);

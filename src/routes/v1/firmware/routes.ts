@@ -1,5 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import type { AppEnv } from "../../../types/app-env";
+import { requireAuth, requireAdmin } from "../../../middlewares/auth";
 
 import {
   firmwareListReleasesRoute,
@@ -16,7 +17,9 @@ import {
 export function registerFirmwareRoutes(app: OpenAPIHono<AppEnv>) {
   const r = new OpenAPIHono<AppEnv>();
 
-  // public (atau kalau mau auth, tinggal r.use("/*", requireAuth))
+  // Admin only access for firmware management
+  r.use("/*", requireAuth, requireAdmin);
+
   r.openapi(firmwareListReleasesRoute, handleFirmwareListReleases);
   r.openapi(firmwareUploadReleaseRoute, handleFirmwareUploadRelease);
   r.openapi(firmwareDownloadReleaseRoute, handleFirmwareDownloadRelease);
