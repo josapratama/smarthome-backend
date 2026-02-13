@@ -12,6 +12,11 @@ export async function processAlarmsFromTelemetry(input: {
     binLevel: number;
     powerW?: number;
     energyKwh?: number;
+    voltageV?: number;
+    currentA?: number;
+    frequencyHz?: number;
+    powerFactor?: number;
+    distanceCm?: number;
   };
 }) {
   const { sensorDataId, deviceId, homeId, source, telemetry } = input;
@@ -48,6 +53,40 @@ export async function processAlarmsFromTelemetry(input: {
       message: `Bin level tinggi: ${telemetry.binLevel}%`,
       severity: telemetry.binLevel >= 95 ? "HIGH" : "MEDIUM",
     });
+  }
+
+  // PZEM004 v3 voltage monitoring
+  if (telemetry.voltageV !== undefined) {
+    if (telemetry.voltageV < 200 || telemetry.voltageV > 250) {
+      alarms.push({
+        type: "voltage_abnormal",
+        message: `Voltage abnormal: ${telemetry.voltageV}V`,
+        severity:
+          telemetry.voltageV < 180 || telemetry.voltageV > 260
+            ? "HIGH"
+            : "MEDIUM",
+      });
+    }
+  }
+
+  // PZEM004 v3 current monitoring (overcurrent protection)
+  if (telemetry.currentA !== undefined && telemetry.currentA > 10) {
+    alarms.push({
+      type: "overcurrent",
+      message: `High current detected: ${telemetry.currentA}A`,
+      severity: telemetry.currentA > 15 ? "CRITICAL" : "HIGH",
+    });
+  }
+
+  // Ultrasonic sensor distance monitoring (sensor malfunction)
+  if (telemetry.distanceCm !== undefined) {
+    if (telemetry.distanceCm < 2 || telemetry.distanceCm > 400) {
+      alarms.push({
+        type: "sensor_malfunction",
+        message: `Ultrasonic sensor out of range: ${telemetry.distanceCm}cm`,
+        severity: "MEDIUM",
+      });
+    }
   }
 
   if (alarms.length === 0) return { created: 0 };

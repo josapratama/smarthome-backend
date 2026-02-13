@@ -8,9 +8,18 @@ export const SensorDataIngestBody = z
     flame: z.boolean().optional().openapi({ example: false }),
     binLevel: z.number().optional().openapi({ example: 35.5 }),
 
-    // ✅ sesuai prisma terbaru
+    // Power meter fields
     powerW: z.number().optional().openapi({ example: 120.5 }),
     energyKwh: z.number().optional().openapi({ example: 3.14 }),
+
+    // PZEM004 v3 additional fields
+    voltageV: z.number().optional().openapi({ example: 220.5 }),
+    currentA: z.number().optional().openapi({ example: 0.55 }),
+    frequencyHz: z.number().optional().openapi({ example: 50.0 }),
+    powerFactor: z.number().optional().openapi({ example: 0.95 }),
+
+    // Ultrasonic sensor raw distance
+    distanceCm: z.number().optional().openapi({ example: 25.3 }),
 
     timestamp: z.iso
       .datetime()
@@ -30,6 +39,15 @@ export const SensorDataDTO = z
 
     powerW: z.number().nullable(),
     energyKwh: z.number().nullable(),
+
+    // PZEM004 v3 additional fields
+    voltageV: z.number().nullable(),
+    currentA: z.number().nullable(),
+    frequencyHz: z.number().nullable(),
+    powerFactor: z.number().nullable(),
+
+    // Ultrasonic raw distance
+    distanceCm: z.number().nullable(),
 
     timestamp: z.string(),
   })

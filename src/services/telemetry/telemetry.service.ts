@@ -8,6 +8,16 @@ type TelemetryInput = {
   binLevel?: number;
   powerW?: number;
   energyKwh?: number;
+
+  // PZEM004 v3 additional fields
+  voltageV?: number;
+  currentA?: number;
+  frequencyHz?: number;
+  powerFactor?: number;
+
+  // Ultrasonic raw distance
+  distanceCm?: number;
+
   timestamp?: string | Date;
 };
 
@@ -45,6 +55,16 @@ export async function ingestTelemetry(params: {
       binLevel,
       powerW: telemetry.powerW ?? null,
       energyKwh: telemetry.energyKwh ?? null,
+
+      // PZEM004 v3 fields
+      voltageV: telemetry.voltageV ?? null,
+      currentA: telemetry.currentA ?? null,
+      frequencyHz: telemetry.frequencyHz ?? null,
+      powerFactor: telemetry.powerFactor ?? null,
+
+      // Ultrasonic distance
+      distanceCm: telemetry.distanceCm ?? null,
+
       timestamp: ts,
     },
   });
@@ -67,6 +87,11 @@ export async function ingestTelemetry(params: {
       binLevel,
       powerW: telemetry.powerW,
       energyKwh: telemetry.energyKwh,
+      voltageV: telemetry.voltageV,
+      currentA: telemetry.currentA,
+      frequencyHz: telemetry.frequencyHz,
+      powerFactor: telemetry.powerFactor,
+      distanceCm: telemetry.distanceCm,
     },
   });
 

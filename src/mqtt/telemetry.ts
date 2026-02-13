@@ -11,6 +11,19 @@ const TelemetryMqttSchema = z.object({
     gasPpm: z.number(),
     flame: z.boolean(),
     binLevel: z.number(),
+
+    // PZEM004 v3 additional fields
+    voltageV: z.number().optional(),
+    currentA: z.number().optional(),
+    frequencyHz: z.number().optional(),
+    powerFactor: z.number().optional(),
+
+    // Power fields (existing)
+    powerW: z.number().optional(),
+    energyKwh: z.number().optional(),
+
+    // Ultrasonic raw distance
+    distanceCm: z.number().optional(),
   }),
 });
 
@@ -65,6 +78,20 @@ export function registerTelemetrySubscription(mqttClient: MqttClient) {
         gasPpm: parsed.data.data.gasPpm,
         flame: parsed.data.data.flame,
         binLevel: parsed.data.data.binLevel,
+
+        // PZEM004 v3 fields
+        voltageV: parsed.data.data.voltageV ?? null,
+        currentA: parsed.data.data.currentA ?? null,
+        frequencyHz: parsed.data.data.frequencyHz ?? null,
+        powerFactor: parsed.data.data.powerFactor ?? null,
+
+        // Power fields
+        powerW: parsed.data.data.powerW ?? null,
+        energyKwh: parsed.data.data.energyKwh ?? null,
+
+        // Ultrasonic distance
+        distanceCm: parsed.data.data.distanceCm ?? null,
+
         timestamp: parsed.data.ts ? new Date(parsed.data.ts) : new Date(),
       },
     });

@@ -415,6 +415,15 @@ model SensorData {
   powerW    Float? @map("power_w")
   energyKwh Float? @map("energy_kwh")
 
+  // PZEM004 v3 additional fields
+  voltageV    Float? @map("voltage_v")
+  currentA    Float? @map("current_a")
+  frequencyHz Float? @map("frequency_hz")
+  powerFactor Float? @map("power_factor")
+
+  // Ultrasonic sensor raw distance
+  distanceCm Float? @map("distance_cm")
+
   timestamp DateTime @default(now())
 
   device Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
