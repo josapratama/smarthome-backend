@@ -1,4 +1,3 @@
-// src/routes/v1/auth/handlers.ts
 import type { RouteHandler } from "@hono/zod-openapi";
 import type { AppEnv } from "../../../types/app-env";
 
@@ -26,13 +25,24 @@ import type {
   AdminListUsersRoute,
 } from "./openapi";
 
+import { toHomeDTO, toUserDTO } from "../../../services/auth/auth.dto";
+
 export const handleRegister: RouteHandler<RegisterRoute, AppEnv> = async (
   c,
 ) => {
   const body = c.req.valid("json");
   const res = await registerUser(c, body);
   if ("error" in res) return c.json({ error: res.error }, 409);
-  return c.json({ data: res }, 201);
+
+  return c.json(
+    {
+      data: {
+        user: toUserDTO(res.user),
+        home: res.home ? toHomeDTO(res.home) : null,
+      },
+    },
+    201,
+  );
 };
 
 export const handleLogin: RouteHandler<LoginRoute, AppEnv> = async (c) => {
@@ -45,7 +55,7 @@ export const handleLogin: RouteHandler<LoginRoute, AppEnv> = async (c) => {
       accessToken: res.accessToken,
       refreshToken: res.refreshToken,
       sessionId: res.sessionId,
-      user: res.user,
+      user: toUserDTO(res.user),
     },
   });
 };
@@ -60,22 +70,22 @@ export const handleRefresh: RouteHandler<RefreshRoute, AppEnv> = async (c) => {
       accessToken: res.accessToken,
       refreshToken: res.refreshToken,
       sessionId: res.sessionId,
-      user: res.user,
+      user: toUserDTO(res.user),
     },
   });
 };
 
 export const handleLogout: RouteHandler<LogoutRoute, AppEnv> = async (c) => {
   const body = c.req.valid("json");
-  const res = await logout(body);
-  return c.json({ data: res });
+  await logout(body);
+  return c.json({ data: { ok: true } });
 };
 
 export const handleMe: RouteHandler<MeRoute, AppEnv> = async (c) => {
   const a = c.get("auth");
   const res = await getMe(a.user.id);
   if ("error" in res) return c.json(res, 404);
-  return c.json({ data: res.user });
+  return c.json({ data: toUserDTO(res.user) });
 };
 
 export const handleChangePassword: RouteHandler<
@@ -86,7 +96,7 @@ export const handleChangePassword: RouteHandler<
   const body = c.req.valid("json");
   const res = await changePassword(a.user.id, body);
   if ("error" in res) return c.json(res, 400);
-  return c.json({ data: res });
+  return c.json({ data: { ok: true } });
 };
 
 export const handleForgotPassword: RouteHandler<
@@ -95,7 +105,10 @@ export const handleForgotPassword: RouteHandler<
 > = async (c) => {
   const body = c.req.valid("json");
   const res = await requestPasswordReset(body);
-  return c.json({ data: res }); // produksi: jangan return token
+
+  // Produksi: jangan kirim token
+  // Kalau mau aman tanpa flag env: cukup return ok saja di handler.
+  return c.json({ data: res });
 };
 
 export const handleResetPassword: RouteHandler<
@@ -105,7 +118,7 @@ export const handleResetPassword: RouteHandler<
   const body = c.req.valid("json");
   const res = await resetPassword(body);
   if ("error" in res) return c.json(res, 400);
-  return c.json({ data: res });
+  return c.json({ data: { ok: true } });
 };
 
 export const handleAdminListUsers: RouteHandler<
@@ -115,5 +128,16 @@ export const handleAdminListUsers: RouteHandler<
   const q = c.req.valid("query");
   const limit = Number(q.limit ?? "50");
   const users = await adminListUsers(limit);
-  return c.json({ data: users });
+
+  // Kalau adminListUsers sudah pakai select minimal fields, ini aman.
+  // Kalau belum, jangan pakai ...u (bisa kebocoran password).
+  return c.json({
+    data: users.map((u) => ({
+      id: u.id,
+      username: u.username,
+      email: u.email,
+      role: u.role,
+      createdAt: u.createdAt.toISOString(),
+    })),
+  });
 };

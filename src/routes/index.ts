@@ -18,8 +18,8 @@ import { registerRoomsRoutes } from "./v1/rooms/routes";
 import { registerDeviceConfigRoutes } from "./v1/device-config/routes";
 
 export function registerV1Routes(app: OpenAPIHono<AppEnv>) {
-  registerOverviewRoutes(app);
   registerAuthRoutes(app);
+  registerOverviewRoutes(app);
   registerHomesRoutes(app);
   registerDeviceHeartbeatRoutes(app);
   registerDevicesRoutes(app);

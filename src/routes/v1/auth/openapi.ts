@@ -21,9 +21,19 @@ export const registerRoute = createRoute({
   },
   responses: {
     201: {
-      content: { "application/json": { schema: z.object({ data: z.any() }) } },
+      content: {
+        "application/json": {
+          schema: z.object({
+            data: z.object({
+              user: UserDTO,
+              home: z.any().nullable(),
+            }),
+          }),
+        },
+      },
       description: "Register user.",
     },
+
     409: { description: "Conflict (e.g. username/email exists)" },
   },
   tags: ["Auth"],

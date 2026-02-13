@@ -300,6 +300,13 @@ export async function adminListUsers(limit = 50) {
     where: { deletedAt: null },
     orderBy: { createdAt: "desc" },
     take: Math.min(Math.max(limit, 1), 500),
+    select: {
+      id: true,
+      username: true,
+      email: true,
+      role: true,
+      createdAt: true,
+    },
   });
 }
 

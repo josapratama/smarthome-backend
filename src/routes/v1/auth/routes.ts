@@ -29,7 +29,6 @@ import {
 export function registerAuthRoutes(app: OpenAPIHono<AppEnv>) {
   const r = new OpenAPIHono<AppEnv>();
 
-  // public
   r.openapi(registerRoute, handleRegister);
   r.openapi(loginRoute, handleLogin);
   r.openapi(refreshRoute, handleRefresh);
@@ -45,6 +44,6 @@ export function registerAuthRoutes(app: OpenAPIHono<AppEnv>) {
 
   r.use("/admin/*", requireAuth, requireAdmin);
   r.openapi(adminListUsersRoute, handleAdminListUsers);
-
+  app.get("/favicon.ico", (c) => c.body(null, 204));
   app.route("/", r);
 }
