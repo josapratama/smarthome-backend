@@ -91,11 +91,11 @@ bun run dev
 
 ### Access Points
 
-- **Landing Page**: http://localhost:3000/
-- **API Documentation**: http://localhost:3000/docs
-- **OpenAPI Spec**: http://localhost:3000/openapi.json
-- **AsyncAPI Spec**: http://localhost:3000/docs/asyncapi.yaml
-- **Health Check**: http://localhost:3000/health
+- **Landing Page**: <http://localhost:3000/>
+- **API Documentation**: <http://localhost:3000/docs>
+- **OpenAPI Spec**: <http://localhost:3000/openapi.json>
+- **AsyncAPI Spec**: <http://localhost:3000/docs/asyncapi.yaml>
+- **Health Check**: <http://localhost:3000/health>
 
 ## 📚 Documentation
 
@@ -118,21 +118,12 @@ bun run dev
 
 ## 🏗️ Architecture
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   IoT Devices   │◄──►│   MQTT Broker   │◄──►│  Smart Home     │
-│  (ESP32/Arduino)│    │  (Mosquitto)    │    │    Backend      │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-                                                        │
-                       ┌─────────────────┐             │
-                       │   PostgreSQL    │◄────────────┤
-                       │   Database      │             │
-                       └─────────────────┘             │
-                                                        │
-                       ┌─────────────────┐             │
-                       │  Frontend Apps  │◄────────────┘
-                       │ (Web/Mobile)    │
-                       └─────────────────┘
+```mermaid
+graph TB
+    A[IoT Devices<br/>ESP32/Arduino] <--> B[MQTT Broker<br/>Mosquitto]
+    B <--> C[Smart Home<br/>Backend]
+    C --> D[PostgreSQL<br/>Database]
+    C <--> E[Frontend Apps<br/>Web/Mobile]
 ```
 
 ## 🔧 Tech Stack
@@ -145,7 +136,7 @@ bun run dev
 - **API Documentation**: OpenAPI 3.1 with Swagger UI
 - **Real-time**: MQTT with Mosquitto broker
 
-### **AI & Analytics**
+### **AI & Machine Learning**
 
 - **Energy Prediction**: Moving Average, Linear Regression, Seasonal Decomposition
 - **Anomaly Detection**: Statistical analysis and threshold monitoring
@@ -209,9 +200,9 @@ GET  /api/v1/ai-models                         # List AI models
 
 ## 🔌 MQTT Topics
 
-### **Device Communication**
+### **MQTT Communication**
 
-```
+```text
 smarthome/{homeId}/{deviceId}/telemetry    # Sensor data from devices
 smarthome/{homeId}/{deviceId}/status       # Device online/offline status
 smarthome/{homeId}/{deviceId}/heartbeat    # Periodic health checks
