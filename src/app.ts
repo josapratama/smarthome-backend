@@ -30,6 +30,15 @@ app.get("/", serveStatic({ path: "./public/index.html" }));
 app.get("/styles.css", serveStatic({ path: "./public/styles.css" }));
 app.get("/docs/asyncapi.yaml", serveStatic({ path: "./docs/asyncapi.yaml" }));
 
+// Documentation files
+app.get(
+  "/docs/:filename",
+  serveStatic({
+    root: "./docs/",
+    rewriteRequestPath: (path) => path.replace(/^\/docs\//, ""),
+  }),
+);
+
 // OpenAPI (Swagger)
 app.doc("/openapi.json", {
   openapi: "3.1.0",

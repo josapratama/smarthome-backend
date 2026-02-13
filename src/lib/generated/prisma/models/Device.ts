@@ -304,7 +304,7 @@ export type DeviceWhereInput = {
   pairedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
   unpairedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
   deletedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
-  roomR?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
+  room?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
   user?: Prisma.XOR<Prisma.UserAccountScalarRelationFilter, Prisma.UserAccountWhereInput>
   home?: Prisma.XOR<Prisma.HomeScalarRelationFilter, Prisma.HomeWhereInput>
   sensorData?: Prisma.SensorDataListRelationFilter
@@ -318,6 +318,7 @@ export type DeviceWhereInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyListRelationFilter
   pairingHistories?: Prisma.DevicePairingHistoryListRelationFilter
   deviceEventLogs?: Prisma.DeviceEventLogListRelationFilter
+  aiModelPerformances?: Prisma.AIModelPerformanceListRelationFilter
 }
 
 export type DeviceOrderByWithRelationInput = {
@@ -336,7 +337,7 @@ export type DeviceOrderByWithRelationInput = {
   pairedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   unpairedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  roomR?: Prisma.RoomOrderByWithRelationInput
+  room?: Prisma.RoomOrderByWithRelationInput
   user?: Prisma.UserAccountOrderByWithRelationInput
   home?: Prisma.HomeOrderByWithRelationInput
   sensorData?: Prisma.SensorDataOrderByRelationAggregateInput
@@ -350,6 +351,7 @@ export type DeviceOrderByWithRelationInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyOrderByRelationAggregateInput
   pairingHistories?: Prisma.DevicePairingHistoryOrderByRelationAggregateInput
   deviceEventLogs?: Prisma.DeviceEventLogOrderByRelationAggregateInput
+  aiModelPerformances?: Prisma.AIModelPerformanceOrderByRelationAggregateInput
 }
 
 export type DeviceWhereUniqueInput = Prisma.AtLeast<{
@@ -371,7 +373,7 @@ export type DeviceWhereUniqueInput = Prisma.AtLeast<{
   pairedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
   unpairedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
   deletedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
-  roomR?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
+  room?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
   user?: Prisma.XOR<Prisma.UserAccountScalarRelationFilter, Prisma.UserAccountWhereInput>
   home?: Prisma.XOR<Prisma.HomeScalarRelationFilter, Prisma.HomeWhereInput>
   sensorData?: Prisma.SensorDataListRelationFilter
@@ -385,6 +387,7 @@ export type DeviceWhereUniqueInput = Prisma.AtLeast<{
   energyUsageDaily?: Prisma.EnergyUsageDailyListRelationFilter
   pairingHistories?: Prisma.DevicePairingHistoryListRelationFilter
   deviceEventLogs?: Prisma.DeviceEventLogListRelationFilter
+  aiModelPerformances?: Prisma.AIModelPerformanceListRelationFilter
 }, "id">
 
 export type DeviceOrderByWithAggregationInput = {
@@ -443,7 +446,7 @@ export type DeviceCreateInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
@@ -457,6 +460,7 @@ export type DeviceCreateInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateInput = {
@@ -486,6 +490,7 @@ export type DeviceUncheckedCreateInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUpdateInput = {
@@ -500,7 +505,7 @@ export type DeviceUpdateInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
@@ -514,6 +519,7 @@ export type DeviceUpdateInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateInput = {
@@ -543,6 +549,7 @@ export type DeviceUncheckedUpdateInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateManyInput = {
@@ -760,45 +767,45 @@ export type DeviceUncheckedUpdateManyWithoutHomeNestedInput = {
   deleteMany?: Prisma.DeviceScalarWhereInput | Prisma.DeviceScalarWhereInput[]
 }
 
-export type DeviceCreateNestedManyWithoutRoomRInput = {
-  create?: Prisma.XOR<Prisma.DeviceCreateWithoutRoomRInput, Prisma.DeviceUncheckedCreateWithoutRoomRInput> | Prisma.DeviceCreateWithoutRoomRInput[] | Prisma.DeviceUncheckedCreateWithoutRoomRInput[]
-  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutRoomRInput | Prisma.DeviceCreateOrConnectWithoutRoomRInput[]
-  createMany?: Prisma.DeviceCreateManyRoomRInputEnvelope
+export type DeviceCreateNestedManyWithoutRoomInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutRoomInput, Prisma.DeviceUncheckedCreateWithoutRoomInput> | Prisma.DeviceCreateWithoutRoomInput[] | Prisma.DeviceUncheckedCreateWithoutRoomInput[]
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutRoomInput | Prisma.DeviceCreateOrConnectWithoutRoomInput[]
+  createMany?: Prisma.DeviceCreateManyRoomInputEnvelope
   connect?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
 }
 
-export type DeviceUncheckedCreateNestedManyWithoutRoomRInput = {
-  create?: Prisma.XOR<Prisma.DeviceCreateWithoutRoomRInput, Prisma.DeviceUncheckedCreateWithoutRoomRInput> | Prisma.DeviceCreateWithoutRoomRInput[] | Prisma.DeviceUncheckedCreateWithoutRoomRInput[]
-  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutRoomRInput | Prisma.DeviceCreateOrConnectWithoutRoomRInput[]
-  createMany?: Prisma.DeviceCreateManyRoomRInputEnvelope
+export type DeviceUncheckedCreateNestedManyWithoutRoomInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutRoomInput, Prisma.DeviceUncheckedCreateWithoutRoomInput> | Prisma.DeviceCreateWithoutRoomInput[] | Prisma.DeviceUncheckedCreateWithoutRoomInput[]
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutRoomInput | Prisma.DeviceCreateOrConnectWithoutRoomInput[]
+  createMany?: Prisma.DeviceCreateManyRoomInputEnvelope
   connect?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
 }
 
-export type DeviceUpdateManyWithoutRoomRNestedInput = {
-  create?: Prisma.XOR<Prisma.DeviceCreateWithoutRoomRInput, Prisma.DeviceUncheckedCreateWithoutRoomRInput> | Prisma.DeviceCreateWithoutRoomRInput[] | Prisma.DeviceUncheckedCreateWithoutRoomRInput[]
-  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutRoomRInput | Prisma.DeviceCreateOrConnectWithoutRoomRInput[]
-  upsert?: Prisma.DeviceUpsertWithWhereUniqueWithoutRoomRInput | Prisma.DeviceUpsertWithWhereUniqueWithoutRoomRInput[]
-  createMany?: Prisma.DeviceCreateManyRoomRInputEnvelope
+export type DeviceUpdateManyWithoutRoomNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutRoomInput, Prisma.DeviceUncheckedCreateWithoutRoomInput> | Prisma.DeviceCreateWithoutRoomInput[] | Prisma.DeviceUncheckedCreateWithoutRoomInput[]
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutRoomInput | Prisma.DeviceCreateOrConnectWithoutRoomInput[]
+  upsert?: Prisma.DeviceUpsertWithWhereUniqueWithoutRoomInput | Prisma.DeviceUpsertWithWhereUniqueWithoutRoomInput[]
+  createMany?: Prisma.DeviceCreateManyRoomInputEnvelope
   set?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
   disconnect?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
   delete?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
   connect?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
-  update?: Prisma.DeviceUpdateWithWhereUniqueWithoutRoomRInput | Prisma.DeviceUpdateWithWhereUniqueWithoutRoomRInput[]
-  updateMany?: Prisma.DeviceUpdateManyWithWhereWithoutRoomRInput | Prisma.DeviceUpdateManyWithWhereWithoutRoomRInput[]
+  update?: Prisma.DeviceUpdateWithWhereUniqueWithoutRoomInput | Prisma.DeviceUpdateWithWhereUniqueWithoutRoomInput[]
+  updateMany?: Prisma.DeviceUpdateManyWithWhereWithoutRoomInput | Prisma.DeviceUpdateManyWithWhereWithoutRoomInput[]
   deleteMany?: Prisma.DeviceScalarWhereInput | Prisma.DeviceScalarWhereInput[]
 }
 
-export type DeviceUncheckedUpdateManyWithoutRoomRNestedInput = {
-  create?: Prisma.XOR<Prisma.DeviceCreateWithoutRoomRInput, Prisma.DeviceUncheckedCreateWithoutRoomRInput> | Prisma.DeviceCreateWithoutRoomRInput[] | Prisma.DeviceUncheckedCreateWithoutRoomRInput[]
-  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutRoomRInput | Prisma.DeviceCreateOrConnectWithoutRoomRInput[]
-  upsert?: Prisma.DeviceUpsertWithWhereUniqueWithoutRoomRInput | Prisma.DeviceUpsertWithWhereUniqueWithoutRoomRInput[]
-  createMany?: Prisma.DeviceCreateManyRoomRInputEnvelope
+export type DeviceUncheckedUpdateManyWithoutRoomNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutRoomInput, Prisma.DeviceUncheckedCreateWithoutRoomInput> | Prisma.DeviceCreateWithoutRoomInput[] | Prisma.DeviceUncheckedCreateWithoutRoomInput[]
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutRoomInput | Prisma.DeviceCreateOrConnectWithoutRoomInput[]
+  upsert?: Prisma.DeviceUpsertWithWhereUniqueWithoutRoomInput | Prisma.DeviceUpsertWithWhereUniqueWithoutRoomInput[]
+  createMany?: Prisma.DeviceCreateManyRoomInputEnvelope
   set?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
   disconnect?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
   delete?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
   connect?: Prisma.DeviceWhereUniqueInput | Prisma.DeviceWhereUniqueInput[]
-  update?: Prisma.DeviceUpdateWithWhereUniqueWithoutRoomRInput | Prisma.DeviceUpdateWithWhereUniqueWithoutRoomRInput[]
-  updateMany?: Prisma.DeviceUpdateManyWithWhereWithoutRoomRInput | Prisma.DeviceUpdateManyWithWhereWithoutRoomRInput[]
+  update?: Prisma.DeviceUpdateWithWhereUniqueWithoutRoomInput | Prisma.DeviceUpdateWithWhereUniqueWithoutRoomInput[]
+  updateMany?: Prisma.DeviceUpdateManyWithWhereWithoutRoomInput | Prisma.DeviceUpdateManyWithWhereWithoutRoomInput[]
   deleteMany?: Prisma.DeviceScalarWhereInput | Prisma.DeviceScalarWhereInput[]
 }
 
@@ -960,6 +967,20 @@ export type DeviceUpdateOneRequiredWithoutDeviceEventLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutDeviceEventLogsInput, Prisma.DeviceUpdateWithoutDeviceEventLogsInput>, Prisma.DeviceUncheckedUpdateWithoutDeviceEventLogsInput>
 }
 
+export type DeviceCreateNestedOneWithoutAiModelPerformancesInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutAiModelPerformancesInput, Prisma.DeviceUncheckedCreateWithoutAiModelPerformancesInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutAiModelPerformancesInput
+  connect?: Prisma.DeviceWhereUniqueInput
+}
+
+export type DeviceUpdateOneRequiredWithoutAiModelPerformancesNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutAiModelPerformancesInput, Prisma.DeviceUncheckedCreateWithoutAiModelPerformancesInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutAiModelPerformancesInput
+  upsert?: Prisma.DeviceUpsertWithoutAiModelPerformancesInput
+  connect?: Prisma.DeviceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutAiModelPerformancesInput, Prisma.DeviceUpdateWithoutAiModelPerformancesInput>, Prisma.DeviceUncheckedUpdateWithoutAiModelPerformancesInput>
+}
+
 export type DeviceCreateWithoutUserInput = {
   deviceName: string
   status?: boolean
@@ -972,7 +993,7 @@ export type DeviceCreateWithoutUserInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
   sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
@@ -985,6 +1006,7 @@ export type DeviceCreateWithoutUserInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutUserInput = {
@@ -1013,6 +1035,7 @@ export type DeviceUncheckedCreateWithoutUserInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutUserInput = {
@@ -1074,7 +1097,7 @@ export type DeviceCreateWithoutHomeInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
   sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
@@ -1087,6 +1110,7 @@ export type DeviceCreateWithoutHomeInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutHomeInput = {
@@ -1115,6 +1139,7 @@ export type DeviceUncheckedCreateWithoutHomeInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutHomeInput = {
@@ -1143,7 +1168,7 @@ export type DeviceUpdateManyWithWhereWithoutHomeInput = {
   data: Prisma.XOR<Prisma.DeviceUpdateManyMutationInput, Prisma.DeviceUncheckedUpdateManyWithoutHomeInput>
 }
 
-export type DeviceCreateWithoutRoomRInput = {
+export type DeviceCreateWithoutRoomInput = {
   deviceName: string
   status?: boolean
   updatedAt?: Date | string
@@ -1168,9 +1193,10 @@ export type DeviceCreateWithoutRoomRInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
-export type DeviceUncheckedCreateWithoutRoomRInput = {
+export type DeviceUncheckedCreateWithoutRoomInput = {
   id?: number
   deviceName: string
   status?: boolean
@@ -1196,32 +1222,33 @@ export type DeviceUncheckedCreateWithoutRoomRInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
-export type DeviceCreateOrConnectWithoutRoomRInput = {
+export type DeviceCreateOrConnectWithoutRoomInput = {
   where: Prisma.DeviceWhereUniqueInput
-  create: Prisma.XOR<Prisma.DeviceCreateWithoutRoomRInput, Prisma.DeviceUncheckedCreateWithoutRoomRInput>
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutRoomInput, Prisma.DeviceUncheckedCreateWithoutRoomInput>
 }
 
-export type DeviceCreateManyRoomRInputEnvelope = {
-  data: Prisma.DeviceCreateManyRoomRInput | Prisma.DeviceCreateManyRoomRInput[]
+export type DeviceCreateManyRoomInputEnvelope = {
+  data: Prisma.DeviceCreateManyRoomInput | Prisma.DeviceCreateManyRoomInput[]
   skipDuplicates?: boolean
 }
 
-export type DeviceUpsertWithWhereUniqueWithoutRoomRInput = {
+export type DeviceUpsertWithWhereUniqueWithoutRoomInput = {
   where: Prisma.DeviceWhereUniqueInput
-  update: Prisma.XOR<Prisma.DeviceUpdateWithoutRoomRInput, Prisma.DeviceUncheckedUpdateWithoutRoomRInput>
-  create: Prisma.XOR<Prisma.DeviceCreateWithoutRoomRInput, Prisma.DeviceUncheckedCreateWithoutRoomRInput>
+  update: Prisma.XOR<Prisma.DeviceUpdateWithoutRoomInput, Prisma.DeviceUncheckedUpdateWithoutRoomInput>
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutRoomInput, Prisma.DeviceUncheckedCreateWithoutRoomInput>
 }
 
-export type DeviceUpdateWithWhereUniqueWithoutRoomRInput = {
+export type DeviceUpdateWithWhereUniqueWithoutRoomInput = {
   where: Prisma.DeviceWhereUniqueInput
-  data: Prisma.XOR<Prisma.DeviceUpdateWithoutRoomRInput, Prisma.DeviceUncheckedUpdateWithoutRoomRInput>
+  data: Prisma.XOR<Prisma.DeviceUpdateWithoutRoomInput, Prisma.DeviceUncheckedUpdateWithoutRoomInput>
 }
 
-export type DeviceUpdateManyWithWhereWithoutRoomRInput = {
+export type DeviceUpdateManyWithWhereWithoutRoomInput = {
   where: Prisma.DeviceScalarWhereInput
-  data: Prisma.XOR<Prisma.DeviceUpdateManyMutationInput, Prisma.DeviceUncheckedUpdateManyWithoutRoomRInput>
+  data: Prisma.XOR<Prisma.DeviceUpdateManyMutationInput, Prisma.DeviceUncheckedUpdateManyWithoutRoomInput>
 }
 
 export type DeviceCreateWithoutConfigInput = {
@@ -1236,7 +1263,7 @@ export type DeviceCreateWithoutConfigInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
@@ -1249,6 +1276,7 @@ export type DeviceCreateWithoutConfigInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutConfigInput = {
@@ -1277,6 +1305,7 @@ export type DeviceUncheckedCreateWithoutConfigInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutConfigInput = {
@@ -1307,7 +1336,7 @@ export type DeviceUpdateWithoutConfigInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
@@ -1320,6 +1349,7 @@ export type DeviceUpdateWithoutConfigInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutConfigInput = {
@@ -1348,6 +1378,7 @@ export type DeviceUncheckedUpdateWithoutConfigInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutPairingHistoriesInput = {
@@ -1362,7 +1393,7 @@ export type DeviceCreateWithoutPairingHistoriesInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
@@ -1375,6 +1406,7 @@ export type DeviceCreateWithoutPairingHistoriesInput = {
   stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutPairingHistoriesInput = {
@@ -1403,6 +1435,7 @@ export type DeviceUncheckedCreateWithoutPairingHistoriesInput = {
   stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutPairingHistoriesInput = {
@@ -1433,7 +1466,7 @@ export type DeviceUpdateWithoutPairingHistoriesInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
@@ -1446,6 +1479,7 @@ export type DeviceUpdateWithoutPairingHistoriesInput = {
   stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutPairingHistoriesInput = {
@@ -1474,6 +1508,7 @@ export type DeviceUncheckedUpdateWithoutPairingHistoriesInput = {
   stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutStateHistoriesInput = {
@@ -1488,7 +1523,7 @@ export type DeviceCreateWithoutStateHistoriesInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
@@ -1501,6 +1536,7 @@ export type DeviceCreateWithoutStateHistoriesInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutStateHistoriesInput = {
@@ -1529,6 +1565,7 @@ export type DeviceUncheckedCreateWithoutStateHistoriesInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutStateHistoriesInput = {
@@ -1559,7 +1596,7 @@ export type DeviceUpdateWithoutStateHistoriesInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
@@ -1572,6 +1609,7 @@ export type DeviceUpdateWithoutStateHistoriesInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutStateHistoriesInput = {
@@ -1600,6 +1638,7 @@ export type DeviceUncheckedUpdateWithoutStateHistoriesInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutSensorDataInput = {
@@ -1614,7 +1653,7 @@ export type DeviceCreateWithoutSensorDataInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
@@ -1627,6 +1666,7 @@ export type DeviceCreateWithoutSensorDataInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutSensorDataInput = {
@@ -1655,6 +1695,7 @@ export type DeviceUncheckedCreateWithoutSensorDataInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutSensorDataInput = {
@@ -1685,7 +1726,7 @@ export type DeviceUpdateWithoutSensorDataInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
@@ -1698,6 +1739,7 @@ export type DeviceUpdateWithoutSensorDataInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutSensorDataInput = {
@@ -1726,6 +1768,7 @@ export type DeviceUncheckedUpdateWithoutSensorDataInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutSensorReadingsInput = {
@@ -1740,7 +1783,7 @@ export type DeviceCreateWithoutSensorReadingsInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
@@ -1753,6 +1796,7 @@ export type DeviceCreateWithoutSensorReadingsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutSensorReadingsInput = {
@@ -1781,6 +1825,7 @@ export type DeviceUncheckedCreateWithoutSensorReadingsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutSensorReadingsInput = {
@@ -1811,7 +1856,7 @@ export type DeviceUpdateWithoutSensorReadingsInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
@@ -1824,6 +1869,7 @@ export type DeviceUpdateWithoutSensorReadingsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutSensorReadingsInput = {
@@ -1852,6 +1898,7 @@ export type DeviceUncheckedUpdateWithoutSensorReadingsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutAlarmEventsInput = {
@@ -1866,7 +1913,7 @@ export type DeviceCreateWithoutAlarmEventsInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
@@ -1879,6 +1926,7 @@ export type DeviceCreateWithoutAlarmEventsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutAlarmEventsInput = {
@@ -1907,6 +1955,7 @@ export type DeviceUncheckedCreateWithoutAlarmEventsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutAlarmEventsInput = {
@@ -1937,7 +1986,7 @@ export type DeviceUpdateWithoutAlarmEventsInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
@@ -1950,6 +1999,7 @@ export type DeviceUpdateWithoutAlarmEventsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutAlarmEventsInput = {
@@ -1978,6 +2028,7 @@ export type DeviceUncheckedUpdateWithoutAlarmEventsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutEnergyPredictionsInput = {
@@ -1992,7 +2043,7 @@ export type DeviceCreateWithoutEnergyPredictionsInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
@@ -2005,6 +2056,7 @@ export type DeviceCreateWithoutEnergyPredictionsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutEnergyPredictionsInput = {
@@ -2033,6 +2085,7 @@ export type DeviceUncheckedCreateWithoutEnergyPredictionsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutEnergyPredictionsInput = {
@@ -2063,7 +2116,7 @@ export type DeviceUpdateWithoutEnergyPredictionsInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
@@ -2076,6 +2129,7 @@ export type DeviceUpdateWithoutEnergyPredictionsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutEnergyPredictionsInput = {
@@ -2104,6 +2158,7 @@ export type DeviceUncheckedUpdateWithoutEnergyPredictionsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutCommandsInput = {
@@ -2118,7 +2173,7 @@ export type DeviceCreateWithoutCommandsInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
@@ -2131,6 +2186,7 @@ export type DeviceCreateWithoutCommandsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutCommandsInput = {
@@ -2159,6 +2215,7 @@ export type DeviceUncheckedCreateWithoutCommandsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutCommandsInput = {
@@ -2189,7 +2246,7 @@ export type DeviceUpdateWithoutCommandsInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
@@ -2202,6 +2259,7 @@ export type DeviceUpdateWithoutCommandsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutCommandsInput = {
@@ -2230,6 +2288,7 @@ export type DeviceUncheckedUpdateWithoutCommandsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutEnergyUsageDailyInput = {
@@ -2244,7 +2303,7 @@ export type DeviceCreateWithoutEnergyUsageDailyInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
@@ -2257,6 +2316,7 @@ export type DeviceCreateWithoutEnergyUsageDailyInput = {
   stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutEnergyUsageDailyInput = {
@@ -2285,6 +2345,7 @@ export type DeviceUncheckedCreateWithoutEnergyUsageDailyInput = {
   stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutEnergyUsageDailyInput = {
@@ -2315,7 +2376,7 @@ export type DeviceUpdateWithoutEnergyUsageDailyInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
@@ -2328,6 +2389,7 @@ export type DeviceUpdateWithoutEnergyUsageDailyInput = {
   stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutEnergyUsageDailyInput = {
@@ -2356,6 +2418,7 @@ export type DeviceUncheckedUpdateWithoutEnergyUsageDailyInput = {
   stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutOtaJobsInput = {
@@ -2370,7 +2433,7 @@ export type DeviceCreateWithoutOtaJobsInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
@@ -2383,6 +2446,7 @@ export type DeviceCreateWithoutOtaJobsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutOtaJobsInput = {
@@ -2411,6 +2475,7 @@ export type DeviceUncheckedCreateWithoutOtaJobsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutOtaJobsInput = {
@@ -2441,7 +2506,7 @@ export type DeviceUpdateWithoutOtaJobsInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
@@ -2454,6 +2519,7 @@ export type DeviceUpdateWithoutOtaJobsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutOtaJobsInput = {
@@ -2482,6 +2548,7 @@ export type DeviceUncheckedUpdateWithoutOtaJobsInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutDeviceEventLogsInput = {
@@ -2496,7 +2563,7 @@ export type DeviceCreateWithoutDeviceEventLogsInput = {
   pairedAt?: Date | string | null
   unpairedAt?: Date | string | null
   deletedAt?: Date | string | null
-  roomR?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
   user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
   home: Prisma.HomeCreateNestedOneWithoutDevicesInput
   sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
@@ -2509,6 +2576,7 @@ export type DeviceCreateWithoutDeviceEventLogsInput = {
   stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
   energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutDeviceEventLogsInput = {
@@ -2537,6 +2605,7 @@ export type DeviceUncheckedCreateWithoutDeviceEventLogsInput = {
   stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutDeviceEventLogsInput = {
@@ -2567,7 +2636,7 @@ export type DeviceUpdateWithoutDeviceEventLogsInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
@@ -2580,6 +2649,7 @@ export type DeviceUpdateWithoutDeviceEventLogsInput = {
   stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutDeviceEventLogsInput = {
@@ -2608,6 +2678,137 @@ export type DeviceUncheckedUpdateWithoutDeviceEventLogsInput = {
   stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceCreateWithoutAiModelPerformancesInput = {
+  deviceName: string
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  room?: Prisma.RoomCreateNestedOneWithoutDevicesInput
+  user: Prisma.UserAccountCreateNestedOneWithoutDevicesInput
+  home: Prisma.HomeCreateNestedOneWithoutDevicesInput
+  sensorData?: Prisma.SensorDataCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceUncheckedCreateWithoutAiModelPerformancesInput = {
+  id?: number
+  deviceName: string
+  roomId?: number | null
+  status?: boolean
+  updatedAt?: Date | string
+  lastSeenAt?: Date | string | null
+  mqttClientId?: string | null
+  deviceKey?: string | null
+  deviceType?: $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId: number
+  homeId: number
+  pairedAt?: Date | string | null
+  unpairedAt?: Date | string | null
+  deletedAt?: Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedCreateNestedManyWithoutDeviceInput
+  sensorReadings?: Prisma.SensorReadingUncheckedCreateNestedManyWithoutDeviceInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedCreateNestedManyWithoutDeviceInput
+  commands?: Prisma.CommandUncheckedCreateNestedManyWithoutDeviceInput
+  alarmEvents?: Prisma.AlarmEventUncheckedCreateNestedManyWithoutDeviceInput
+  otaJobs?: Prisma.OtaJobUncheckedCreateNestedManyWithoutDeviceInput
+  config?: Prisma.DeviceConfigUncheckedCreateNestedOneWithoutDeviceInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedCreateNestedManyWithoutDeviceInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedCreateNestedManyWithoutDeviceInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceCreateOrConnectWithoutAiModelPerformancesInput = {
+  where: Prisma.DeviceWhereUniqueInput
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutAiModelPerformancesInput, Prisma.DeviceUncheckedCreateWithoutAiModelPerformancesInput>
+}
+
+export type DeviceUpsertWithoutAiModelPerformancesInput = {
+  update: Prisma.XOR<Prisma.DeviceUpdateWithoutAiModelPerformancesInput, Prisma.DeviceUncheckedUpdateWithoutAiModelPerformancesInput>
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutAiModelPerformancesInput, Prisma.DeviceUncheckedCreateWithoutAiModelPerformancesInput>
+  where?: Prisma.DeviceWhereInput
+}
+
+export type DeviceUpdateToOneWithWhereWithoutAiModelPerformancesInput = {
+  where?: Prisma.DeviceWhereInput
+  data: Prisma.XOR<Prisma.DeviceUpdateWithoutAiModelPerformancesInput, Prisma.DeviceUncheckedUpdateWithoutAiModelPerformancesInput>
+}
+
+export type DeviceUpdateWithoutAiModelPerformancesInput = {
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
+  home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
+  sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceUncheckedUpdateWithoutAiModelPerformancesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deviceName?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mqttClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  capabilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pairedByUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeId?: Prisma.IntFieldUpdateOperationsInput | number
+  pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sensorData?: Prisma.SensorDataUncheckedUpdateManyWithoutDeviceNestedInput
+  sensorReadings?: Prisma.SensorReadingUncheckedUpdateManyWithoutDeviceNestedInput
+  energyPredictions?: Prisma.EnergyPredictionUncheckedUpdateManyWithoutDeviceNestedInput
+  commands?: Prisma.CommandUncheckedUpdateManyWithoutDeviceNestedInput
+  alarmEvents?: Prisma.AlarmEventUncheckedUpdateManyWithoutDeviceNestedInput
+  otaJobs?: Prisma.OtaJobUncheckedUpdateManyWithoutDeviceNestedInput
+  config?: Prisma.DeviceConfigUncheckedUpdateOneWithoutDeviceNestedInput
+  stateHistories?: Prisma.DeviceStateHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
+  pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
+  deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateManyUserInput = {
@@ -2639,7 +2840,7 @@ export type DeviceUpdateWithoutUserInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   home?: Prisma.HomeUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
   sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
@@ -2652,6 +2853,7 @@ export type DeviceUpdateWithoutUserInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutUserInput = {
@@ -2680,6 +2882,7 @@ export type DeviceUncheckedUpdateWithoutUserInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateManyWithoutUserInput = {
@@ -2728,7 +2931,7 @@ export type DeviceUpdateWithoutHomeInput = {
   pairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unpairedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomR?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
+  room?: Prisma.RoomUpdateOneWithoutDevicesNestedInput
   user?: Prisma.UserAccountUpdateOneRequiredWithoutDevicesNestedInput
   sensorData?: Prisma.SensorDataUpdateManyWithoutDeviceNestedInput
   sensorReadings?: Prisma.SensorReadingUpdateManyWithoutDeviceNestedInput
@@ -2741,6 +2944,7 @@ export type DeviceUpdateWithoutHomeInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutHomeInput = {
@@ -2769,6 +2973,7 @@ export type DeviceUncheckedUpdateWithoutHomeInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateManyWithoutHomeInput = {
@@ -2788,7 +2993,7 @@ export type DeviceUncheckedUpdateManyWithoutHomeInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type DeviceCreateManyRoomRInput = {
+export type DeviceCreateManyRoomInput = {
   id?: number
   deviceName: string
   status?: boolean
@@ -2805,7 +3010,7 @@ export type DeviceCreateManyRoomRInput = {
   deletedAt?: Date | string | null
 }
 
-export type DeviceUpdateWithoutRoomRInput = {
+export type DeviceUpdateWithoutRoomInput = {
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2830,9 +3035,10 @@ export type DeviceUpdateWithoutRoomRInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUpdateManyWithoutDeviceNestedInput
 }
 
-export type DeviceUncheckedUpdateWithoutRoomRInput = {
+export type DeviceUncheckedUpdateWithoutRoomInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2858,9 +3064,10 @@ export type DeviceUncheckedUpdateWithoutRoomRInput = {
   energyUsageDaily?: Prisma.EnergyUsageDailyUncheckedUpdateManyWithoutDeviceNestedInput
   pairingHistories?: Prisma.DevicePairingHistoryUncheckedUpdateManyWithoutDeviceNestedInput
   deviceEventLogs?: Prisma.DeviceEventLogUncheckedUpdateManyWithoutDeviceNestedInput
+  aiModelPerformances?: Prisma.AIModelPerformanceUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
-export type DeviceUncheckedUpdateManyWithoutRoomRInput = {
+export type DeviceUncheckedUpdateManyWithoutRoomInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2893,6 +3100,7 @@ export type DeviceCountOutputType = {
   energyUsageDaily: number
   pairingHistories: number
   deviceEventLogs: number
+  aiModelPerformances: number
 }
 
 export type DeviceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2906,6 +3114,7 @@ export type DeviceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   energyUsageDaily?: boolean | DeviceCountOutputTypeCountEnergyUsageDailyArgs
   pairingHistories?: boolean | DeviceCountOutputTypeCountPairingHistoriesArgs
   deviceEventLogs?: boolean | DeviceCountOutputTypeCountDeviceEventLogsArgs
+  aiModelPerformances?: boolean | DeviceCountOutputTypeCountAiModelPerformancesArgs
 }
 
 /**
@@ -2988,6 +3197,13 @@ export type DeviceCountOutputTypeCountDeviceEventLogsArgs<ExtArgs extends runtim
   where?: Prisma.DeviceEventLogWhereInput
 }
 
+/**
+ * DeviceCountOutputType without action
+ */
+export type DeviceCountOutputTypeCountAiModelPerformancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AIModelPerformanceWhereInput
+}
+
 
 export type DeviceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3005,7 +3221,7 @@ export type DeviceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   pairedAt?: boolean
   unpairedAt?: boolean
   deletedAt?: boolean
-  roomR?: boolean | Prisma.Device$roomRArgs<ExtArgs>
+  room?: boolean | Prisma.Device$roomArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
   sensorData?: boolean | Prisma.Device$sensorDataArgs<ExtArgs>
@@ -3019,6 +3235,7 @@ export type DeviceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   energyUsageDaily?: boolean | Prisma.Device$energyUsageDailyArgs<ExtArgs>
   pairingHistories?: boolean | Prisma.Device$pairingHistoriesArgs<ExtArgs>
   deviceEventLogs?: boolean | Prisma.Device$deviceEventLogsArgs<ExtArgs>
+  aiModelPerformances?: boolean | Prisma.Device$aiModelPerformancesArgs<ExtArgs>
   _count?: boolean | Prisma.DeviceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["device"]>
 
@@ -3038,7 +3255,7 @@ export type DeviceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   pairedAt?: boolean
   unpairedAt?: boolean
   deletedAt?: boolean
-  roomR?: boolean | Prisma.Device$roomRArgs<ExtArgs>
+  room?: boolean | Prisma.Device$roomArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["device"]>
@@ -3059,7 +3276,7 @@ export type DeviceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   pairedAt?: boolean
   unpairedAt?: boolean
   deletedAt?: boolean
-  roomR?: boolean | Prisma.Device$roomRArgs<ExtArgs>
+  room?: boolean | Prisma.Device$roomArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["device"]>
@@ -3084,7 +3301,7 @@ export type DeviceSelectScalar = {
 
 export type DeviceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "deviceName" | "roomId" | "status" | "updatedAt" | "lastSeenAt" | "mqttClientId" | "deviceKey" | "deviceType" | "capabilities" | "pairedByUserId" | "homeId" | "pairedAt" | "unpairedAt" | "deletedAt", ExtArgs["result"]["device"]>
 export type DeviceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  roomR?: boolean | Prisma.Device$roomRArgs<ExtArgs>
+  room?: boolean | Prisma.Device$roomArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
   sensorData?: boolean | Prisma.Device$sensorDataArgs<ExtArgs>
@@ -3098,15 +3315,16 @@ export type DeviceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   energyUsageDaily?: boolean | Prisma.Device$energyUsageDailyArgs<ExtArgs>
   pairingHistories?: boolean | Prisma.Device$pairingHistoriesArgs<ExtArgs>
   deviceEventLogs?: boolean | Prisma.Device$deviceEventLogsArgs<ExtArgs>
+  aiModelPerformances?: boolean | Prisma.Device$aiModelPerformancesArgs<ExtArgs>
   _count?: boolean | Prisma.DeviceCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DeviceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  roomR?: boolean | Prisma.Device$roomRArgs<ExtArgs>
+  room?: boolean | Prisma.Device$roomArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
 }
 export type DeviceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  roomR?: boolean | Prisma.Device$roomRArgs<ExtArgs>
+  room?: boolean | Prisma.Device$roomArgs<ExtArgs>
   user?: boolean | Prisma.UserAccountDefaultArgs<ExtArgs>
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
 }
@@ -3114,7 +3332,7 @@ export type DeviceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type $DevicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Device"
   objects: {
-    roomR: Prisma.$RoomPayload<ExtArgs> | null
+    room: Prisma.$RoomPayload<ExtArgs> | null
     user: Prisma.$UserAccountPayload<ExtArgs>
     home: Prisma.$HomePayload<ExtArgs>
     sensorData: Prisma.$SensorDataPayload<ExtArgs>[]
@@ -3128,6 +3346,7 @@ export type $DevicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     energyUsageDaily: Prisma.$EnergyUsageDailyPayload<ExtArgs>[]
     pairingHistories: Prisma.$DevicePairingHistoryPayload<ExtArgs>[]
     deviceEventLogs: Prisma.$DeviceEventLogPayload<ExtArgs>[]
+    aiModelPerformances: Prisma.$AIModelPerformancePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -3539,7 +3758,7 @@ readonly fields: DeviceFieldRefs;
  */
 export interface Prisma__DeviceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  roomR<T extends Prisma.Device$roomRArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$roomRArgs<ExtArgs>>): Prisma.Prisma__RoomClient<runtime.Types.Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  room<T extends Prisma.Device$roomArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$roomArgs<ExtArgs>>): Prisma.Prisma__RoomClient<runtime.Types.Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserAccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAccountDefaultArgs<ExtArgs>>): Prisma.Prisma__UserAccountClient<runtime.Types.Result.GetResult<Prisma.$UserAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   home<T extends Prisma.HomeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HomeDefaultArgs<ExtArgs>>): Prisma.Prisma__HomeClient<runtime.Types.Result.GetResult<Prisma.$HomePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sensorData<T extends Prisma.Device$sensorDataArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$sensorDataArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SensorDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3553,6 +3772,7 @@ export interface Prisma__DeviceClient<T, Null = never, ExtArgs extends runtime.T
   energyUsageDaily<T extends Prisma.Device$energyUsageDailyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$energyUsageDailyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnergyUsageDailyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pairingHistories<T extends Prisma.Device$pairingHistoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$pairingHistoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePairingHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   deviceEventLogs<T extends Prisma.Device$deviceEventLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$deviceEventLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceEventLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  aiModelPerformances<T extends Prisma.Device$aiModelPerformancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$aiModelPerformancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AIModelPerformancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3993,9 +4213,9 @@ export type DeviceDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Device.roomR
+ * Device.room
  */
-export type Device$roomRArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Device$roomArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Room
    */
@@ -4268,6 +4488,30 @@ export type Device$deviceEventLogsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.DeviceEventLogScalarFieldEnum | Prisma.DeviceEventLogScalarFieldEnum[]
+}
+
+/**
+ * Device.aiModelPerformances
+ */
+export type Device$aiModelPerformancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AIModelPerformance
+   */
+  select?: Prisma.AIModelPerformanceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AIModelPerformance
+   */
+  omit?: Prisma.AIModelPerformanceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AIModelPerformanceInclude<ExtArgs> | null
+  where?: Prisma.AIModelPerformanceWhereInput
+  orderBy?: Prisma.AIModelPerformanceOrderByWithRelationInput | Prisma.AIModelPerformanceOrderByWithRelationInput[]
+  cursor?: Prisma.AIModelPerformanceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AIModelPerformanceScalarFieldEnum | Prisma.AIModelPerformanceScalarFieldEnum[]
 }
 
 /**

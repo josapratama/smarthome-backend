@@ -1,43 +1,63 @@
 asyncapi: "2.6.0"
 info:
   title: Smart Home MQTT API
-  version: "0.2.0"
+  version: "1.0.0"
   description: |
-    MQTT topic contract for Smart Home IoT + AI.
+    MQTT topic contract for Smart Home IoT Backend with AI-powered analytics.
 
-    Base topic:
-      smarthome/v1/homes/{homeId}/devices/{deviceId}
+    This specification defines the MQTT message protocols used for real-time
+    communication between IoT devices and the Smart Home Backend system.
 
-    Notes:
-      - IDs are carried in topic parameters. Although DB IDs are integers, topics use strings.
-      - For DB schema alignment (sensor_data table), prefer publishing telemetry via `telemetry/snapshot`.
-      - If you still publish split telemetry (`power|gas|flame|trash`), backend may aggregate or store partials.
+    **Topic Structure:**
+    ```
+    smarthome/{homeId}/{deviceId}/{messageType}
+    ```
+
+    **Supported Message Types:**
+    - `telemetry` - Sensor data from devices
+    - `status` - Device online/offline status
+    - `heartbeat` - Periodic device health checks
+    - `commands` - Control commands to devices
+    - `config` - Configuration updates for devices
+
+    **Authentication:**
+    - MQTT username/password authentication
+    - Device-specific credentials
+    - Access Control Lists (ACLs) for topic permissions
 
 servers:
-  default:
+  development:
     url: localhost:1883
     protocol: mqtt
-    description: Local broker (dev)
+    description: Local development broker
+  production:
+    url: mqtt.yourdomain.com:1883
+    protocol: mqtt
+    description: Production MQTT broker
 
 channels:
-  smarthome/v1/homes/{homeId}/devices/{deviceId}/availability:
+  # Device telemetry data
+  smarthome/{homeId}/{deviceId}/telemetry:
     parameters:
       homeId:
-        description: Home ID (integer in DB, string in topic)
+        description: Home identifier (integer as string)
         schema:
           type: string
           pattern: "^[0-9]+$"
+          example: "1"
       deviceId:
-        description: Device ID (integer in DB, string in topic)
+        description: Device identifier (integer as string or MAC address)
         schema:
           type: string
-          pattern: "^[0-9]+$"
+          example: "1"
     publish:
-      summary: Device presence (LWT/online)
+      summary: Device sensor data
+      description: Real-time sensor readings from IoT devices
       message:
-        $ref: "#/components/messages/Availability"
+        $ref: "#/components/messages/TelemetryData"
 
-  smarthome/v1/homes/{homeId}/devices/{deviceId}/heartbeat:
+  # Device status updates
+  smarthome/{homeId}/{deviceId}/status:
     parameters:
       homeId:
         schema:
@@ -46,14 +66,30 @@ channels:
       deviceId:
         schema:
           type: string
-          pattern: "^[0-9]+$"
     publish:
-      summary: Periodic heartbeat
+      summary: Device status updates
+      description: Device online/offline status and system information
+      message:
+        $ref: "#/components/messages/DeviceStatus"
+
+  # Device heartbeat
+  smarthome/{homeId}/{deviceId}/heartbeat:
+    parameters:
+      homeId:
+        schema:
+          type: string
+          pattern: "^[0-9]+$"
+      deviceId:
+        schema:
+          type: string
+    publish:
+      summary: Device heartbeat
+      description: Periodic health check from devices
       message:
         $ref: "#/components/messages/Heartbeat"
 
-  # --- Preferred telemetry for DB alignment (sensor_data) ---
-  smarthome/v1/homes/{homeId}/devices/{deviceId}/telemetry/snapshot:
+  # Device commands
+  smarthome/{homeId}/{deviceId}/commands:
     parameters:
       homeId:
         schema:
@@ -62,104 +98,14 @@ channels:
       deviceId:
         schema:
           type: string
-          pattern: "^[0-9]+$"
-    publish:
-      summary: Snapshot telemetry aligned to sensor_data table (recommended)
-      message:
-        $ref: "#/components/messages/TelemetrySnapshot"
-
-  # --- Optional split telemetry topics (still supported) ---
-  smarthome/v1/homes/{homeId}/devices/{deviceId}/telemetry/power:
-    parameters:
-      homeId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-      deviceId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-    publish:
-      summary: Power/current telemetry (optional)
-      message:
-        $ref: "#/components/messages/TelemetryPower"
-
-  smarthome/v1/homes/{homeId}/devices/{deviceId}/telemetry/gas:
-    parameters:
-      homeId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-      deviceId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-    publish:
-      summary: Gas sensor telemetry (optional)
-      message:
-        $ref: "#/components/messages/TelemetryGas"
-
-  smarthome/v1/homes/{homeId}/devices/{deviceId}/telemetry/flame:
-    parameters:
-      homeId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-      deviceId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-    publish:
-      summary: Flame/fire telemetry (optional)
-      message:
-        $ref: "#/components/messages/TelemetryFlame"
-
-  smarthome/v1/homes/{homeId}/devices/{deviceId}/telemetry/trash:
-    parameters:
-      homeId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-      deviceId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-    publish:
-      summary: Trash volume telemetry (optional)
-      message:
-        $ref: "#/components/messages/TelemetryTrash"
-
-  smarthome/v1/homes/{homeId}/devices/{deviceId}/state/relays:
-    parameters:
-      homeId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-      deviceId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-    publish:
-      summary: Current relay state snapshot
-      message:
-        $ref: "#/components/messages/RelayState"
-
-  smarthome/v1/homes/{homeId}/devices/{deviceId}/cmd/relays/set:
-    parameters:
-      homeId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-      deviceId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
     subscribe:
-      summary: Backend/app sends a relay command
+      summary: Device control commands
+      description: Commands sent from backend to control devices
       message:
-        $ref: "#/components/messages/RelayCommand"
+        $ref: "#/components/messages/DeviceCommand"
 
-  smarthome/v1/homes/{homeId}/devices/{deviceId}/cmd/ack:
+  # Device configuration
+  smarthome/{homeId}/{deviceId}/config:
     parameters:
       homeId:
         schema:
@@ -168,291 +114,303 @@ channels:
       deviceId:
         schema:
           type: string
-          pattern: "^[0-9]+$"
-    publish:
-      summary: Device acknowledges a command
+    subscribe:
+      summary: Device configuration updates
+      description: Configuration changes sent to devices
       message:
-        $ref: "#/components/messages/CommandAck"
-
-  smarthome/v1/homes/{homeId}/events:
-    parameters:
-      homeId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-    publish:
-      summary: Events/alerts stream
-      message:
-        $ref: "#/components/messages/Event"
-
-  smarthome/v1/homes/{homeId}/ai/prediction/energy:
-    parameters:
-      homeId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-    publish:
-      summary: Energy prediction output
-      message:
-        $ref: "#/components/messages/EnergyPrediction"
-
-  smarthome/v1/homes/{homeId}/ai/anomaly:
-    parameters:
-      homeId:
-        schema:
-          type: string
-          pattern: "^[0-9]+$"
-    publish:
-      summary: Anomaly detection output
-      message:
-        $ref: "#/components/messages/Anomaly"
+        $ref: "#/components/messages/DeviceConfig"
 
 components:
   messages:
-    Availability:
-      name: Availability
+    TelemetryData:
+      name: TelemetryData
       contentType: application/json
+      description: |
+        Comprehensive sensor data from IoT devices. Supports multiple sensor types
+        including environmental sensors, power monitoring, and safety sensors.
       payload:
         type: object
         properties:
-          status:
+          timestamp:
             type: string
-            enum: [online, offline]
-          ts:
-            type: integer
-            description: Unix timestamp (seconds)
-        required: [status, ts]
+            format: date-time
+            description: ISO 8601 timestamp of the reading
+            example: "2026-02-13T12:00:00.000Z"
+          deviceId:
+            type: string
+            description: Device identifier
+            example: "ESP32_001"
+
+          # Basic environmental sensors
+          current:
+            type: number
+            description: Current measurement (Amperes)
+            example: 0.72
+          gasPpm:
+            type: number
+            description: Gas concentration (parts per million)
+            example: 450
+          flame:
+            type: boolean
+            description: Flame/fire detection status
+            example: false
+          binLevel:
+            type: number
+            description: Trash bin fill level (percentage or distance)
+            example: 35.5
+
+          # Power monitoring (PZEM004 v3)
+          powerW:
+            type: number
+            description: Power consumption (Watts)
+            example: 120.5
+          energyKwh:
+            type: number
+            description: Energy consumption (Kilowatt-hours)
+            example: 3.14
+          voltageV:
+            type: number
+            description: Voltage (Volts)
+            example: 220.5
+          currentA:
+            type: number
+            description: Current (Amperes) - from power meter
+            example: 0.55
+          frequencyHz:
+            type: number
+            description: Frequency (Hertz)
+            example: 50.0
+          powerFactor:
+            type: number
+            description: Power factor (0.0 to 1.0)
+            example: 0.95
+
+          # Ultrasonic distance sensor
+          distanceCm:
+            type: number
+            description: Distance measurement (centimeters)
+            example: 25.3
+
+          # Additional environmental sensors
+          temperature:
+            type: number
+            description: Temperature (Celsius)
+            example: 23.5
+          humidity:
+            type: number
+            description: Humidity (percentage)
+            example: 65.2
+
+          # Device metadata
+          metadata:
+            type: object
+            description: Additional device information
+            properties:
+              firmwareVersion:
+                type: string
+                example: "v2.1.0"
+              signalStrength:
+                type: integer
+                description: WiFi signal strength (dBm)
+                example: -45
+              batteryLevel:
+                type: integer
+                description: Battery level (percentage)
+                example: 85
+              freeMemory:
+                type: integer
+                description: Free memory (bytes)
+                example: 45000
+        required: [timestamp, deviceId]
+
+    DeviceStatus:
+      name: DeviceStatus
+      contentType: application/json
+      description: Device status and system information
+      payload:
+        type: object
+        properties:
+          timestamp:
+            type: string
+            format: date-time
+            example: "2026-02-13T12:00:00.000Z"
+          deviceId:
+            type: string
+            example: "ESP32_001"
+          online:
+            type: boolean
+            description: Device online status
+            example: true
+          status:
+            type: object
+            properties:
+              uptime:
+                type: integer
+                description: Device uptime (seconds)
+                example: 86400
+              freeMemory:
+                type: integer
+                description: Available memory (bytes)
+                example: 45000
+              wifiSignal:
+                type: integer
+                description: WiFi signal strength (dBm)
+                example: -45
+              batteryLevel:
+                type: integer
+                description: Battery level (percentage)
+                example: 85
+              firmwareVersion:
+                type: string
+                example: "v2.1.0"
+          errors:
+            type: array
+            description: Current error conditions
+            items:
+              type: string
+            example: []
+        required: [timestamp, deviceId, online]
 
     Heartbeat:
       name: Heartbeat
       contentType: application/json
+      description: Periodic device health check
       payload:
         type: object
         properties:
-          ts:
-            type: integer
-            description: Unix timestamp (seconds)
-          rssi:
-            type: integer
-        required: [ts]
-
-    TelemetrySnapshot:
-      name: TelemetrySnapshot
-      contentType: application/json
-      description: |
-        Snapshot telemetry aligned to DB table `sensor_data`:
-          - current -> sensor_data.current
-          - gas_ppm -> sensor_data.gas_ppm
-          - flame -> sensor_data.flame
-          - bin_level -> sensor_data.bin_level
-          - ts -> sensor_data.timestamp
-      payload:
-        type: object
-        properties:
-          ts:
-            type: integer
-            description: Unix timestamp (seconds)
-          current:
-            type: number
-            description: Current (A)
-          gas_ppm:
-            type: number
-            description: Gas concentration (ppm)
-          flame:
-            type: boolean
-            description: Fire/flame detected
-          bin_level:
-            type: number
-            description: Trash bin fill level (% or cm depending on your calibration)
-          meta:
-            type: object
-            description: Optional extra metadata (firmware, sensor health, etc.)
-        required: [ts, current, gas_ppm, flame, bin_level]
-
-    TelemetryPower:
-      name: TelemetryPower
-      contentType: application/json
-      payload:
-        type: object
-        properties:
-          ts:
-            type: integer
-            description: Unix timestamp (seconds)
-          values:
-            type: object
-            properties:
-              current:
-                type: number
-              voltage:
-                type: number
-              power:
-                type: number
-              energy_wh:
-                type: number
-        required: [ts, values]
-
-    TelemetryGas:
-      name: TelemetryGas
-      contentType: application/json
-      payload:
-        type: object
-        properties:
-          ts:
-            type: integer
-            description: Unix timestamp (seconds)
-          values:
-            type: object
-            properties:
-              ppm:
-                type: number
-        required: [ts, values]
-
-    TelemetryFlame:
-      name: TelemetryFlame
-      contentType: application/json
-      payload:
-        type: object
-        properties:
-          ts:
-            type: integer
-            description: Unix timestamp (seconds)
-          values:
-            type: object
-            properties:
-              detected:
-                type: boolean
-              level:
-                type: number
-        required: [ts, values]
-
-    TelemetryTrash:
-      name: TelemetryTrash
-      contentType: application/json
-      payload:
-        type: object
-        properties:
-          ts:
-            type: integer
-            description: Unix timestamp (seconds)
-          values:
-            type: object
-            properties:
-              distance_cm:
-                type: number
-              fill_percent:
-                type: number
-        required: [ts, values]
-
-    RelayState:
-      name: RelayState
-      contentType: application/json
-      payload:
-        type: object
-        properties:
-          ts:
-            type: integer
-            description: Unix timestamp (seconds)
-          relays:
-            type: object
-            additionalProperties:
-              type: string
-              enum: [ON, OFF]
-        required: [ts, relays]
-
-    RelayCommand:
-      name: RelayCommand
-      contentType: application/json
-      payload:
-        type: object
-        properties:
-          cmdId:
+          timestamp:
             type: string
-            description: Command identifier (generated by backend)
-          ts:
-            type: integer
-            description: Unix timestamp (seconds)
-          relay:
-            type: integer
-            description: Relay channel index (e.g., 1..8)
-          state:
+            format: date-time
+            example: "2026-02-13T12:00:00.000Z"
+          deviceId:
             type: string
-            enum: [ON, OFF]
-        required: [cmdId, ts, relay, state]
+            example: "ESP32_001"
+          uptime:
+            type: integer
+            description: Device uptime (seconds)
+            example: 86400
+          freeMemory:
+            type: integer
+            description: Available memory (bytes)
+            example: 45000
+          wifiSignal:
+            type: integer
+            description: WiFi signal strength (dBm)
+            example: -45
+        required: [timestamp, deviceId]
 
-    CommandAck:
-      name: CommandAck
+    DeviceCommand:
+      name: DeviceCommand
       contentType: application/json
+      description: Control commands sent to devices
       payload:
         type: object
         properties:
-          cmdId:
+          commandId:
             type: string
-          ts:
-            type: integer
-            description: Unix timestamp (seconds)
-          status:
+            description: Unique command identifier
+            example: "cmd_123456789"
+          timestamp:
             type: string
-            enum: [ok, error]
-          error:
-            type: string
-        required: [cmdId, ts, status]
-
-    Event:
-      name: Event
-      contentType: application/json
-      payload:
-        type: object
-        properties:
-          ts:
-            type: integer
-            description: Unix timestamp (seconds)
+            format: date-time
+            example: "2026-02-13T12:00:00.000Z"
           type:
             type: string
-            examples: [gas_leak, fire, anomaly, trash_full]
-          severity:
-            type: string
-            enum: [low, medium, high, critical]
+            description: Command type
+            enum: [SET_POWER, SET_BRIGHTNESS, SET_COLOR, RESET, UPDATE_CONFIG]
+            example: "SET_POWER"
+          payload:
+            type: object
+            description: Command-specific parameters
+            properties:
+              power:
+                type: boolean
+                example: true
+              brightness:
+                type: integer
+                minimum: 0
+                maximum: 100
+                example: 80
+              color:
+                type: string
+                pattern: "^#[0-9A-Fa-f]{6}$"
+                example: "#FF5733"
           source:
             type: string
-            enum: [device, backend, ai, user]
-          details:
-            type: object
-        required: [ts, type, severity, source]
+            enum: [USER, BACKEND, AI, AUTOMATION]
+            example: "USER"
+          correlationId:
+            type: string
+            description: Request correlation identifier
+            example: "corr_987654321"
+        required: [commandId, timestamp, type, payload, source]
 
-    EnergyPrediction:
-      name: EnergyPrediction
+    DeviceConfig:
+      name: DeviceConfig
       contentType: application/json
+      description: Configuration updates for devices
       payload:
         type: object
         properties:
-          ts:
-            type: integer
-            description: Unix timestamp (seconds)
-          horizon_minutes:
-            type: integer
-          predicted_wh:
-            type: number
-          confidence:
-            type: number
-        required: [ts, horizon_minutes, predicted_wh]
-
-    Anomaly:
-      name: Anomaly
-      contentType: application/json
-      payload:
-        type: object
-        properties:
-          ts:
-            type: integer
-            description: Unix timestamp (seconds)
-          metric:
+          timestamp:
             type: string
-            enum: [POWER, GAS, FLAME, TRASH]
-          score:
-            type: number
-          label:
-            type: string
-            examples: [normal, suspicious, anomaly]
-          details:
+            format: date-time
+            example: "2026-02-13T12:00:00.000Z"
+          config:
             type: object
-        required: [ts, metric, score, label]
+            description: Device configuration parameters
+            properties:
+              sampleRate:
+                type: integer
+                description: Sensor sampling rate (seconds)
+                example: 30
+              alertThresholds:
+                type: object
+                properties:
+                  gas:
+                    type: number
+                    description: Gas alert threshold (ppm)
+                    example: 800
+                  temperature:
+                    type: number
+                    description: Temperature alert threshold (Celsius)
+                    example: 35
+                  humidity:
+                    type: number
+                    description: Humidity alert threshold (percentage)
+                    example: 80
+              powerSaving:
+                type: boolean
+                description: Enable power saving mode
+                example: true
+              wifiConfig:
+                type: object
+                properties:
+                  ssid:
+                    type: string
+                    example: "SmartHome_Network"
+                  reconnectInterval:
+                    type: integer
+                    description: WiFi reconnection interval (seconds)
+                    example: 30
+              mqttConfig:
+                type: object
+                properties:
+                  keepAlive:
+                    type: integer
+                    description: MQTT keep-alive interval (seconds)
+                    example: 60
+                  qos:
+                    type: integer
+                    enum: [0, 1, 2]
+                    description: MQTT Quality of Service level
+                    example: 1
+        required: [timestamp, config]
+
+  securitySchemes:
+    mqttAuth:
+      type: userPassword
+      description: MQTT username and password authentication
+
+security:
+  - mqttAuth: []

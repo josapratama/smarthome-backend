@@ -164,3 +164,13 @@ export type DeviceEventLog = Prisma.DeviceEventLogModel
  * 
  */
 export type HomeInviteToken = Prisma.HomeInviteTokenModel
+/**
+ * Model AIModel
+ * 
+ */
+export type AIModel = Prisma.AIModelModel
+/**
+ * Model AIModelPerformance
+ * 
+ */
+export type AIModelPerformance = Prisma.AIModelPerformanceModel

@@ -23,7 +23,7 @@ export function startDeviceOfflineWorker() {
   const tick = async () => {
     try {
       const updatedCount = await prisma.$executeRaw<number>`
-        UPDATE "device_status"
+        UPDATE "device"
         SET "status" = FALSE,
             "updated_at" = now()
         WHERE "deleted_at" IS NULL

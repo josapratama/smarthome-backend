@@ -10,9 +10,9 @@ import {
 export const heartbeatRoute = createRoute({
   method: "post",
   path: "/api/v1/devices/{deviceId}/heartbeat",
-  summary: "Device heartbeat/handshake",
+  summary: "Send device heartbeat",
   description:
-    "Update device status=true dan lastSeenAt=now. Jika mqttClientId dikirim, akan disimpan ke device.mqttClientId.",
+    "Update device status to online and record last seen timestamp. Optionally update MQTT client ID if provided.",
   request: {
     params: HeartbeatParamsSchema,
     headers: DeviceKeyHeaderSchema,
@@ -23,11 +23,11 @@ export const heartbeatRoute = createRoute({
   },
   responses: {
     200: {
-      description: "OK",
+      description: "Heartbeat received successfully",
       content: { "application/json": { schema: HeartbeatResponseSchema } },
     },
     401: {
-      description: "Unauthorized (missing/wrong x-device-key)",
+      description: "Unauthorized - missing or invalid device key",
       content: { "application/json": { schema: DeviceAuthErrorSchema } },
     },
     404: {
@@ -35,6 +35,6 @@ export const heartbeatRoute = createRoute({
       content: { "application/json": { schema: DeviceAuthErrorSchema } },
     },
   },
-  tags: ["Hearbeat"],
+  tags: ["Device Management"],
 });
 export type HeartbeatRoute = typeof heartbeatRoute;

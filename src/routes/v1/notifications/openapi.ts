@@ -7,31 +7,35 @@ import {
 } from "./schemas";
 
 /**
- * Safer endpoints: scope ke user login (/me)
+ * User notification endpoint management
  */
 export const listMyNotificationEndpointsRoute = createRoute({
   method: "get",
   path: "/api/v1/me/notification-endpoints",
+  summary: "List my notification endpoints",
+  description:
+    "Retrieve all active notification endpoints for the current user including FCM tokens, email addresses, webhooks, and other delivery channels.",
   responses: {
     200: {
       content: {
         "application/json": { schema: NotificationEndpointListResponse },
       },
-      description: "List my notification endpoints (exclude deleted).",
+      description: "Notification endpoints retrieved successfully",
     },
     401: {
       content: { "application/json": { schema: ErrorResponse } },
-      description: "Unauthorized",
+      description: "Unauthorized - invalid or missing token",
     },
   },
-  tags: ["Notifications"],
+  tags: ["Notification Management"],
 });
-export type ListMyNotificationEndpointsRoute =
-  typeof listMyNotificationEndpointsRoute;
 
 export const createMyNotificationEndpointRoute = createRoute({
   method: "post",
   path: "/api/v1/me/notification-endpoints",
+  summary: "Add notification endpoint",
+  description:
+    "Register a new notification endpoint for the current user such as FCM token for mobile push notifications, email address, or webhook URL.",
   request: {
     body: {
       content: {
@@ -44,32 +48,33 @@ export const createMyNotificationEndpointRoute = createRoute({
       content: {
         "application/json": { schema: NotificationEndpointCreateResponse },
       },
-      description: "Create my notification endpoint.",
+      description: "Notification endpoint created successfully",
     },
     409: {
       content: { "application/json": { schema: ErrorResponse } },
-      description: "Endpoint value already exists (active).",
+      description: "Endpoint already exists for this user",
     },
     404: {
       content: { "application/json": { schema: ErrorResponse } },
-      description: "User not found/disabled",
+      description: "User account not found or disabled",
     },
     401: {
       content: { "application/json": { schema: ErrorResponse } },
-      description: "Unauthorized",
+      description: "Unauthorized - invalid or missing token",
     },
   },
-  tags: ["Notifications"],
+  tags: ["Notification Management"],
 });
-export type CreateMyNotificationEndpointRoute =
-  typeof createMyNotificationEndpointRoute;
 
 /**
- * Optional: soft delete endpoint (recommended karena schema punya deletedAt)
+ * Remove notification endpoint
  */
 export const deleteMyNotificationEndpointRoute = createRoute({
   method: "delete",
   path: "/api/v1/me/notification-endpoints/{endpointId}",
+  summary: "Remove notification endpoint",
+  description:
+    "Soft delete a notification endpoint to stop receiving notifications on that channel. The endpoint can be re-added later if needed.",
   request: {
     params: z.object({ endpointId: z.coerce.number().int().positive() }),
   },
@@ -80,18 +85,16 @@ export const deleteMyNotificationEndpointRoute = createRoute({
           schema: z.object({ data: z.object({ ok: z.boolean() }) }),
         },
       },
-      description: "Soft delete an endpoint.",
+      description: "Notification endpoint removed successfully",
     },
     404: {
       content: { "application/json": { schema: ErrorResponse } },
-      description: "Not found",
+      description: "Notification endpoint not found",
     },
     401: {
       content: { "application/json": { schema: ErrorResponse } },
-      description: "Unauthorized",
+      description: "Unauthorized - invalid or missing token",
     },
   },
-  tags: ["Notifications"],
+  tags: ["Notification Management"],
 });
-export type DeleteMyNotificationEndpointRoute =
-  typeof deleteMyNotificationEndpointRoute;

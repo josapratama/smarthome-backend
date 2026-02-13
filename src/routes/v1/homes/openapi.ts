@@ -12,51 +12,63 @@ import {
 export const listHomesRoute = createRoute({
   method: "get",
   path: "/api/v1/homes",
+  summary: "List user homes",
+  description:
+    "Retrieve a list of homes accessible to the current user with optional cursor-based pagination. Returns only active (non-deleted) homes.",
   request: { query: HomesListQuery },
   responses: {
     200: {
       content: {
         "application/json": { schema: HomesListResponse },
       },
-      description: "List active homes (scoped; supports cursor pagination).",
+      description: "Homes retrieved successfully",
     },
   },
-  tags: ["Homes"],
+  tags: ["Home Management"],
 });
 
 export const createHomeRoute = createRoute({
   method: "post",
   path: "/api/v1/homes",
+  summary: "Create new home",
+  description:
+    "Create a new home with the current user as the owner. The home can include address information and geographical coordinates.",
   request: {
     body: { content: { "application/json": { schema: HomeCreateBody } } },
   },
   responses: {
     201: {
       content: { "application/json": { schema: z.object({ data: HomeDTO }) } },
-      description: "Create a home for an existing user.",
+      description: "Home created successfully",
     },
-    404: { description: "Owner not found" },
+    404: { description: "Owner user not found" },
   },
-  tags: ["Homes"],
+  tags: ["Home Management"],
 });
 
 export const getHomeRoute = createRoute({
   method: "get",
   path: "/api/v1/homes/{homeId}",
+  summary: "Get home details",
+  description:
+    "Retrieve detailed information about a specific home including its address, members, and associated devices/rooms.",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
     200: {
       content: { "application/json": { schema: z.object({ data: HomeDTO }) } },
-      description: "Get an active home by ID.",
+      description: "Home details retrieved successfully",
     },
-    404: { description: "Not found" },
+    404: { description: "Home not found" },
   },
-  tags: ["Homes"],
+  tags: ["Home Management"],
 });
 
 export const updateHomeRoute = createRoute({
   method: "patch",
   path: "/api/v1/homes/{homeId}",
+  summary: "Update home information",
+  description:
+    "Update home properties such as name, address, or geographical coordinates. Supports partial updates.",
   request: {
     params: z.object({ homeId: HomeId }),
     body: { content: { "application/json": { schema: HomeUpdateBody } } },
@@ -64,41 +76,50 @@ export const updateHomeRoute = createRoute({
   responses: {
     200: {
       content: { "application/json": { schema: z.object({ data: HomeDTO }) } },
-      description: "Update an active home (partial).",
+      description: "Home updated successfully",
     },
-    404: { description: "Not found / owner not found" },
+    404: { description: "Home not found or owner not found" },
   },
-  tags: ["Homes"],
+  tags: ["Home Management"],
 });
 
 export const deleteHomeRoute = createRoute({
   method: "delete",
   path: "/api/v1/homes/{homeId}",
+  summary: "Delete home",
+  description:
+    "Soft delete a home. The home will be marked as deleted but can be restored later. All associated devices and rooms will also be soft deleted.",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
-    204: { description: "Soft deleted" },
-    404: { description: "Not found" },
+    204: { description: "Home deleted successfully" },
+    404: { description: "Home not found" },
   },
-  tags: ["Homes"],
+  tags: ["Home Management"],
 });
 
 export const restoreHomeRoute = createRoute({
   method: "post",
   path: "/api/v1/homes/{homeId}/restore",
+  summary: "Restore deleted home",
+  description:
+    "Restore a previously soft-deleted home and all its associated devices and rooms.",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
     200: {
       content: { "application/json": { schema: z.object({ data: HomeDTO }) } },
-      description: "Restore a soft-deleted home.",
+      description: "Home restored successfully",
     },
-    404: { description: "Not found" },
+    404: { description: "Home not found" },
   },
-  tags: ["Homes"],
+  tags: ["Home Management"],
 });
 
 export const transferOwnershipRoute = createRoute({
   method: "post",
   path: "/api/v1/homes/{homeId}/transfer-ownership",
+  summary: "Transfer home ownership",
+  description:
+    "Transfer ownership of a home to another user. Only the current owner or admin can perform this action.",
   request: {
     params: z.object({ homeId: HomeId }),
     body: {
@@ -108,17 +129,20 @@ export const transferOwnershipRoute = createRoute({
   responses: {
     200: {
       content: { "application/json": { schema: z.object({ data: HomeDTO }) } },
-      description: "Transfer home ownership to another user (owner/admin).",
+      description: "Ownership transferred successfully",
     },
-    403: { description: "Forbidden" },
-    404: { description: "Home/User not found" },
+    403: { description: "Forbidden - insufficient permissions" },
+    404: { description: "Home or target user not found" },
   },
-  tags: ["Homes"],
+  tags: ["Home Management"],
 });
 
 export const listNearbyHomesRoute = createRoute({
   method: "get",
   path: "/api/v1/homes/nearby",
+  summary: "Find nearby homes (Admin only)",
+  description:
+    "Search for homes within a specified radius of given coordinates. This endpoint is restricted to admin users for privacy and security reasons.",
   request: {
     query: z.object({
       lat: z.coerce.number().min(-90).max(90),
@@ -136,11 +160,11 @@ export const listNearbyHomesRoute = createRoute({
           }),
         },
       },
-      description: "List homes near a coordinate (admin only for now).",
+      description: "Nearby homes retrieved successfully",
     },
-    403: { description: "Forbidden" },
+    403: { description: "Forbidden - admin privileges required" },
   },
-  tags: ["Homes"],
+  tags: ["Admin"],
 });
 
 export type ListNearbyHomesRoute = typeof listNearbyHomesRoute;

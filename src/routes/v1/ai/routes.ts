@@ -32,7 +32,14 @@ function mapAnomalyToDTO(anomaly: any) {
     predictionId: anomaly.predictionId,
     isAnomaly: anomaly.isAnomaly,
     score: anomaly.score,
-    metric: anomaly.metric as "POWER" | "GAS" | "FLAME" | "TRASH",
+    metric: anomaly.metric as
+      | "POWER"
+      | "GAS"
+      | "FLAME"
+      | "TRASH"
+      | "VOLTAGE"
+      | "CURRENT"
+      | "SENSOR_MALFUNCTION",
     details: anomaly.details as Record<string, any>,
     detectedAt: anomaly.detectedAt.toISOString(),
   };
@@ -67,7 +74,15 @@ const AnomalyResultDTO = z
     predictionId: PredictionId,
     isAnomaly: z.boolean(),
     score: z.number(),
-    metric: z.enum(["POWER", "GAS", "FLAME", "TRASH"]),
+    metric: z.enum([
+      "POWER",
+      "GAS",
+      "FLAME",
+      "TRASH",
+      "VOLTAGE",
+      "CURRENT",
+      "SENSOR_MALFUNCTION",
+    ]),
     details: z.record(z.string(), z.any()),
     detectedAt: z.string(),
   })
@@ -122,6 +137,9 @@ const PredictionUpdateBody = z
 const createPredictionRoute = createRoute({
   method: "post",
   path: "/devices/{deviceId}/energy-predictions",
+  summary: "Generate energy prediction",
+  description:
+    "Create an AI-powered energy consumption prediction for a device within a specified time window using historical data and machine learning algorithms.",
   middleware: [requireAuth],
   request: {
     params: z.object({ deviceId: DeviceId }),
@@ -136,13 +154,13 @@ const createPredictionRoute = createRoute({
           schema: z.object({ prediction: EnergyPredictionDTO }),
         },
       },
-      description: "Energy prediction created successfully",
+      description: "Energy prediction generated successfully",
     },
     400: {
       content: {
         "application/json": { schema: z.object({ error: z.string() }) },
       },
-      description: "Invalid request or insufficient data",
+      description: "Invalid request parameters or insufficient historical data",
     },
     404: {
       content: {
@@ -151,7 +169,7 @@ const createPredictionRoute = createRoute({
       description: "Device not found",
     },
   },
-  tags: ["AI"],
+  tags: ["AI & Analytics"],
 });
 
 ai.openapi(createPredictionRoute, async (c) => {
@@ -179,6 +197,9 @@ ai.openapi(createPredictionRoute, async (c) => {
 const getPredictionsRoute = createRoute({
   method: "get",
   path: "/devices/{deviceId}/energy-predictions",
+  summary: "Get device energy predictions",
+  description:
+    "Retrieve historical and recent energy predictions for a specific device with optional date range filtering and pagination.",
   middleware: [requireAuth],
   request: {
     params: z.object({ deviceId: DeviceId }),
@@ -198,7 +219,7 @@ const getPredictionsRoute = createRoute({
       description: "Energy predictions retrieved successfully",
     },
   },
-  tags: ["AI"],
+  tags: ["AI & Analytics"],
 });
 
 ai.openapi(getPredictionsRoute, async (c) => {
@@ -221,6 +242,9 @@ ai.openapi(getPredictionsRoute, async (c) => {
 const updatePredictionRoute = createRoute({
   method: "patch",
   path: "/predictions/{predictionId}",
+  summary: "Update prediction with actual energy",
+  description:
+    "Update an energy prediction with the actual energy consumption value for accuracy tracking and model improvement. This helps train the AI models.",
   middleware: [requireAuth],
   request: {
     params: z.object({ predictionId: PredictionId }),
@@ -236,7 +260,7 @@ const updatePredictionRoute = createRoute({
           }),
         },
       },
-      description: "Prediction updated successfully",
+      description: "Prediction updated successfully with accuracy score",
     },
     404: {
       content: {
@@ -245,7 +269,7 @@ const updatePredictionRoute = createRoute({
       description: "Prediction not found",
     },
   },
-  tags: ["AI"],
+  tags: ["AI & Analytics"],
 });
 
 ai.openapi(updatePredictionRoute, async (c) => {
@@ -274,6 +298,9 @@ ai.openapi(updatePredictionRoute, async (c) => {
 const detectAnomaliesRoute = createRoute({
   method: "post",
   path: "/predictions/{predictionId}/anomalies",
+  summary: "Detect sensor anomalies",
+  description:
+    "Run AI-powered anomaly detection on sensor data to identify unusual patterns, equipment malfunctions, security threats, or environmental hazards.",
   middleware: [requireAuth],
   request: {
     params: z.object({ predictionId: PredictionId }),
@@ -286,7 +313,7 @@ const detectAnomaliesRoute = createRoute({
           schema: z.object({ anomalies: z.array(AnomalyResultDTO) }),
         },
       },
-      description: "Anomaly detection completed",
+      description: "Anomaly detection completed successfully",
     },
     404: {
       content: {
@@ -295,7 +322,7 @@ const detectAnomaliesRoute = createRoute({
       description: "Prediction not found",
     },
   },
-  tags: ["AI"],
+  tags: ["AI & Analytics"],
 });
 
 ai.openapi(detectAnomaliesRoute, async (c) => {
@@ -324,6 +351,9 @@ ai.openapi(detectAnomaliesRoute, async (c) => {
 const getAnomaliesRoute = createRoute({
   method: "get",
   path: "/predictions/{predictionId}/anomalies",
+  summary: "Get prediction anomalies",
+  description:
+    "Retrieve all anomaly detection results for a specific prediction including severity scores, affected metrics, and detailed analysis.",
   middleware: [requireAuth],
   request: {
     params: z.object({ predictionId: PredictionId }),
@@ -335,10 +365,10 @@ const getAnomaliesRoute = createRoute({
           schema: z.object({ anomalies: z.array(AnomalyResultDTO) }),
         },
       },
-      description: "Anomalies retrieved successfully",
+      description: "Anomaly results retrieved successfully",
     },
   },
-  tags: ["AI"],
+  tags: ["AI & Analytics"],
 });
 
 ai.openapi(getAnomaliesRoute, async (c) => {
@@ -357,6 +387,9 @@ ai.openapi(getAnomaliesRoute, async (c) => {
 const getDeviceInsightsRoute = createRoute({
   method: "get",
   path: "/devices/{deviceId}/ai-insights",
+  summary: "Get device AI insights",
+  description:
+    "Retrieve comprehensive AI analytics for a device including prediction accuracy, anomaly patterns, energy trends, and performance metrics over a specified period.",
   middleware: [requireAuth],
   request: {
     params: z.object({ deviceId: DeviceId }),
@@ -370,7 +403,7 @@ const getDeviceInsightsRoute = createRoute({
       description: "Device AI insights retrieved successfully",
     },
   },
-  tags: ["AI"],
+  tags: ["AI & Analytics"],
 });
 
 ai.openapi(getDeviceInsightsRoute, async (c) => {
@@ -392,6 +425,9 @@ ai.openapi(getDeviceInsightsRoute, async (c) => {
 const processTelemetryAIRoute = createRoute({
   method: "post",
   path: "/devices/{deviceId}/process-telemetry",
+  summary: "Process telemetry through AI pipeline",
+  description:
+    "Process incoming sensor telemetry data through the complete AI pipeline including energy prediction generation and real-time anomaly detection. This is typically called automatically when telemetry is received.",
   middleware: [requireAuth],
   request: {
     params: z.object({ deviceId: DeviceId }),
@@ -428,16 +464,16 @@ const processTelemetryAIRoute = createRoute({
           }),
         },
       },
-      description: "Telemetry processed through AI pipeline",
+      description: "Telemetry processed successfully through AI pipeline",
     },
     400: {
       content: {
         "application/json": { schema: z.object({ error: z.string() }) },
       },
-      description: "AI processing failed",
+      description: "AI processing failed due to invalid data or system error",
     },
   },
-  tags: ["AI"],
+  tags: ["AI & Analytics"],
 });
 
 ai.openapi(processTelemetryAIRoute, async (c) => {

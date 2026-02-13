@@ -8,25 +8,30 @@ const RoomIdParam = z.object({ roomId: z.coerce.number().int().positive() });
 export const listRoomsByHomeRoute = createRoute({
   method: "get",
   path: "/api/v1/homes/{homeId}/rooms",
+  summary: "List home rooms",
+  description:
+    "Retrieve all rooms in a specific home including room details and device counts. Only returns active (non-deleted) rooms.",
   request: { params: z.object({ homeId: HomeId }) },
   responses: {
     200: {
       content: {
         "application/json": { schema: z.object({ data: z.array(RoomDTO) }) },
       },
-      description: "List rooms in a home.",
+      description: "Rooms retrieved successfully",
     },
-    401: { description: "Unauthorized" },
-    403: { description: "Forbidden" },
+    401: { description: "Unauthorized - invalid or missing token" },
+    403: { description: "Forbidden - insufficient permissions for this home" },
     404: { description: "Home not found" },
   },
-  tags: ["Rooms"],
+  tags: ["Room Management"],
 });
-export type ListRoomsByHomeRoute = typeof listRoomsByHomeRoute;
 
 export const createRoomUnderHomeRoute = createRoute({
   method: "post",
   path: "/api/v1/homes/{homeId}/rooms",
+  summary: "Create room in home",
+  description:
+    "Add a new room to a specific home. Rooms are used to organize and group devices within a home for better management and control.",
   request: {
     params: z.object({ homeId: HomeId }),
     body: { content: { "application/json": { schema: RoomCreateBody } } },
@@ -34,37 +39,41 @@ export const createRoomUnderHomeRoute = createRoute({
   responses: {
     201: {
       content: { "application/json": { schema: z.object({ data: RoomDTO }) } },
-      description: "Create room under a home.",
+      description: "Room created successfully",
     },
-    400: { description: "Bad request" },
-    401: { description: "Unauthorized" },
-    403: { description: "Forbidden" },
+    400: { description: "Bad request - invalid room data" },
+    401: { description: "Unauthorized - invalid or missing token" },
+    403: { description: "Forbidden - insufficient permissions for this home" },
     404: { description: "Home not found" },
   },
-  tags: ["Rooms"],
+  tags: ["Room Management"],
 });
-export type CreateRoomUnderHomeRoute = typeof createRoomUnderHomeRoute;
 
 export const getRoomRoute = createRoute({
   method: "get",
   path: "/api/v1/rooms/{roomId}",
+  summary: "Get room details",
+  description:
+    "Retrieve detailed information about a specific room including its devices, configuration, and associated home information.",
   request: { params: RoomIdParam },
   responses: {
     200: {
       content: { "application/json": { schema: z.object({ data: RoomDTO }) } },
-      description: "Get room detail.",
+      description: "Room details retrieved successfully",
     },
-    401: { description: "Unauthorized" },
-    403: { description: "Forbidden" },
-    404: { description: "Not found" },
+    401: { description: "Unauthorized - invalid or missing token" },
+    403: { description: "Forbidden - insufficient permissions for this room" },
+    404: { description: "Room not found" },
   },
-  tags: ["Rooms"],
+  tags: ["Room Management"],
 });
-export type GetRoomRoute = typeof getRoomRoute;
 
 export const updateRoomRoute = createRoute({
   method: "patch",
   path: "/api/v1/rooms/{roomId}",
+  summary: "Update room information",
+  description:
+    "Update room properties such as name or configuration. Supports partial updates to modify only specific fields.",
   request: {
     params: RoomIdParam,
     body: { content: { "application/json": { schema: RoomUpdateBody } } },
@@ -72,19 +81,21 @@ export const updateRoomRoute = createRoute({
   responses: {
     200: {
       content: { "application/json": { schema: z.object({ data: RoomDTO }) } },
-      description: "Update room name.",
+      description: "Room updated successfully",
     },
-    401: { description: "Unauthorized" },
-    403: { description: "Forbidden" },
-    404: { description: "Not found" },
+    401: { description: "Unauthorized - invalid or missing token" },
+    403: { description: "Forbidden - insufficient permissions for this room" },
+    404: { description: "Room not found" },
   },
-  tags: ["Rooms"],
+  tags: ["Room Management"],
 });
-export type UpdateRoomRoute = typeof updateRoomRoute;
 
 export const deleteRoomRoute = createRoute({
   method: "delete",
   path: "/api/v1/rooms/{roomId}",
+  summary: "Delete room",
+  description:
+    "Soft delete a room. The room will be marked as deleted but can be restored later. All devices in the room will be unassigned.",
   request: { params: RoomIdParam },
   responses: {
     200: {
@@ -93,48 +104,51 @@ export const deleteRoomRoute = createRoute({
           schema: z.object({ data: z.object({ ok: z.boolean() }) }),
         },
       },
-      description: "Soft delete room.",
+      description: "Room deleted successfully",
     },
-    401: { description: "Unauthorized" },
-    403: { description: "Forbidden" },
-    404: { description: "Not found" },
+    401: { description: "Unauthorized - invalid or missing token" },
+    403: { description: "Forbidden - insufficient permissions for this room" },
+    404: { description: "Room not found" },
   },
-  tags: ["Rooms"],
+  tags: ["Room Management"],
 });
-export type DeleteRoomRoute = typeof deleteRoomRoute;
 
 export const restoreRoomRoute = createRoute({
   method: "post",
   path: "/api/v1/rooms/{roomId}/restore",
+  summary: "Restore deleted room",
+  description:
+    "Restore a previously soft-deleted room. The room will become active again and can be used to organize devices.",
   request: { params: RoomIdParam },
   responses: {
     200: {
       content: { "application/json": { schema: z.object({ data: RoomDTO }) } },
-      description: "Restore soft-deleted room.",
+      description: "Room restored successfully",
     },
-    401: { description: "Unauthorized" },
-    403: { description: "Forbidden" },
-    404: { description: "Not found" },
+    401: { description: "Unauthorized - invalid or missing token" },
+    403: { description: "Forbidden - insufficient permissions for this room" },
+    404: { description: "Room not found" },
   },
-  tags: ["Rooms"],
+  tags: ["Room Management"],
 });
-export type RestoreRoomRoute = typeof restoreRoomRoute;
 
 export const listDevicesByRoomRoute = createRoute({
   method: "get",
   path: "/api/v1/rooms/{roomId}/devices",
+  summary: "List room devices",
+  description:
+    "Retrieve all devices assigned to a specific room including their current status, configuration, and recent activity.",
   request: { params: RoomIdParam },
   responses: {
     200: {
       content: {
         "application/json": { schema: z.object({ data: z.array(DeviceDTO) }) },
       },
-      description: "List devices in a room.",
+      description: "Room devices retrieved successfully",
     },
-    401: { description: "Unauthorized" },
-    403: { description: "Forbidden" },
+    401: { description: "Unauthorized - invalid or missing token" },
+    403: { description: "Forbidden - insufficient permissions for this room" },
     404: { description: "Room not found" },
   },
-  tags: ["Rooms"],
+  tags: ["Room Management"],
 });
-export type ListDevicesByRoomRoute = typeof listDevicesByRoomRoute;

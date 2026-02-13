@@ -83,7 +83,10 @@ export const AnomalyMetric = {
   POWER: 'POWER',
   GAS: 'GAS',
   FLAME: 'FLAME',
-  TRASH: 'TRASH'
+  TRASH: 'TRASH',
+  VOLTAGE: 'VOLTAGE',
+  CURRENT: 'CURRENT',
+  SENSOR_MALFUNCTION: 'SENSOR_MALFUNCTION'
 } as const
 
 export type AnomalyMetric = (typeof AnomalyMetric)[keyof typeof AnomalyMetric]

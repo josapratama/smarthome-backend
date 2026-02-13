@@ -4,6 +4,9 @@ import { InviteToken, InviteAcceptResponse } from "./schemas";
 export const acceptInviteRoute = createRoute({
   method: "get",
   path: "/api/v1/invites/{token}",
+  summary: "Accept home invitation",
+  description:
+    "Accept a home invitation using a unique token received via email or link. This endpoint can return either JSON data for API clients or HTML for web browsers.",
   request: { params: z.object({ token: InviteToken }) },
   responses: {
     200: {
@@ -13,17 +16,17 @@ export const acceptInviteRoute = createRoute({
           schema: z.string().openapi({ example: "<html>...</html>" }),
         },
       },
-      description: "Accept invite (returns JSON or HTML).",
+      description: "Invitation accepted successfully",
     },
     404: {
       content: {
         "application/json": { schema: z.object({ error: z.string() }) },
         "text/html": { schema: z.string() },
       },
-      description: "Token invalid/expired/used",
+      description: "Invalid, expired, or already used invitation token",
     },
   },
-  tags: ["Invites"],
+  tags: ["Home Invitations"],
 });
 
 export type AcceptInviteRoute = typeof acceptInviteRoute;

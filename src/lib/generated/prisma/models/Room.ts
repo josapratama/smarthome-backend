@@ -276,7 +276,7 @@ export type RoomCreateInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   home: Prisma.HomeCreateNestedOneWithoutRoomsInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutRoomRInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUncheckedCreateInput = {
@@ -285,7 +285,7 @@ export type RoomUncheckedCreateInput = {
   name: string
   createdAt?: Date | string
   deletedAt?: Date | string | null
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutRoomRInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUpdateInput = {
@@ -293,7 +293,7 @@ export type RoomUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   home?: Prisma.HomeUpdateOneRequiredWithoutRoomsNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutRoomRNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateInput = {
@@ -302,7 +302,7 @@ export type RoomUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutRoomRNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomCreateManyInput = {
@@ -438,7 +438,7 @@ export type RoomCreateWithoutHomeInput = {
   name: string
   createdAt?: Date | string
   deletedAt?: Date | string | null
-  devices?: Prisma.DeviceCreateNestedManyWithoutRoomRInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUncheckedCreateWithoutHomeInput = {
@@ -446,7 +446,7 @@ export type RoomUncheckedCreateWithoutHomeInput = {
   name: string
   createdAt?: Date | string
   deletedAt?: Date | string | null
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutRoomRInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type RoomCreateOrConnectWithoutHomeInput = {
@@ -543,7 +543,7 @@ export type RoomUpdateWithoutHomeInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  devices?: Prisma.DeviceUpdateManyWithoutRoomRNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateWithoutHomeInput = {
@@ -551,7 +551,7 @@ export type RoomUncheckedUpdateWithoutHomeInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutRoomRNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateManyWithoutHomeInput = {

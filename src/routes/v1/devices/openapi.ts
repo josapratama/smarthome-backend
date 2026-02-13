@@ -10,23 +10,29 @@ import {
 export const devicesListRoute = createRoute({
   method: "get",
   path: "/api/v1/devices",
+  summary: "List all devices",
+  description:
+    "Retrieve a list of all devices with optional filtering by home ID and status. Supports pagination and filtering.",
   request: { query: DeviceListQuery },
   responses: {
     200: {
       content: {
         "application/json": { schema: z.object({ data: z.array(DeviceDTO) }) },
       },
-      description: "List devices (optional filter by homeId/status).",
+      description: "Devices retrieved successfully",
     },
-    401: { description: "Unauthorized" },
+    401: { description: "Unauthorized - invalid or missing token" },
   },
-  tags: ["Devices"],
+  tags: ["Device Management"],
 });
 export type DevicesListRoute = typeof devicesListRoute;
 
 export const devicesCreateUnderHomeRoute = createRoute({
   method: "post",
   path: "/api/v1/homes/{homeId}/devices",
+  summary: "Create device in home",
+  description:
+    "Add a new device to a specific home. The device will be associated with the specified home and can be assigned to a room.",
   request: {
     params: z.object({ homeId: HomeId }),
     body: { content: { "application/json": { schema: DeviceCreateBody } } },
@@ -36,36 +42,42 @@ export const devicesCreateUnderHomeRoute = createRoute({
       content: {
         "application/json": { schema: z.object({ data: DeviceDTO }) },
       },
-      description: "Create device under a home.",
+      description: "Device created successfully",
     },
-    401: { description: "Unauthorized" },
+    401: { description: "Unauthorized - invalid or missing token" },
     404: { description: "Home not found" },
   },
-  tags: ["Devices"],
+  tags: ["Device Management"],
 });
 export type DevicesCreateUnderHomeRoute = typeof devicesCreateUnderHomeRoute;
 
 export const devicesGetByIdRoute = createRoute({
   method: "get",
   path: "/api/v1/devices/{deviceId}",
+  summary: "Get device details",
+  description:
+    "Retrieve detailed information about a specific device including its configuration, status, and associated home/room.",
   request: { params: z.object({ deviceId: DeviceId }) },
   responses: {
     200: {
       content: {
         "application/json": { schema: z.object({ data: DeviceDTO }) },
       },
-      description: "Get device details.",
+      description: "Device details retrieved successfully",
     },
-    401: { description: "Unauthorized" },
-    404: { description: "Not found" },
+    401: { description: "Unauthorized - invalid or missing token" },
+    404: { description: "Device not found" },
   },
-  tags: ["Devices"],
+  tags: ["Device Management"],
 });
 export type DevicesGetByIdRoute = typeof devicesGetByIdRoute;
 
 export const devicesPatchRoute = createRoute({
   method: "patch",
   path: "/api/v1/devices/{deviceId}",
+  summary: "Update device",
+  description:
+    "Update device properties such as name, room assignment, status, or configuration. Supports partial updates.",
   request: {
     params: z.object({ deviceId: DeviceId }),
     body: { content: { "application/json": { schema: DeviceUpdateBody } } },
@@ -75,11 +87,11 @@ export const devicesPatchRoute = createRoute({
       content: {
         "application/json": { schema: z.object({ data: DeviceDTO }) },
       },
-      description: "Update device.",
+      description: "Device updated successfully",
     },
-    401: { description: "Unauthorized" },
-    404: { description: "Not found" },
+    401: { description: "Unauthorized - invalid or missing token" },
+    404: { description: "Device not found" },
   },
-  tags: ["Devices"],
+  tags: ["Device Management"],
 });
 export type DevicesPatchRoute = typeof devicesPatchRoute;

@@ -10,6 +10,7 @@ import { registerTelemetryRoutes } from "./v1/telemetry/routes";
 import { registerCommandsRoutes } from "./v1/commands/routes";
 import { registerAlarmsRoutes } from "./v1/alarms/routes";
 import { registerAiRoutes } from "./v1/ai/routes";
+import { registerAiModelRoutes } from "./v1/ai-models/routes";
 import { registerNotificationRoutes } from "./v1/notifications/routes";
 import { registerFirmwareRoutes } from "./v1/firmware/routes";
 import { registerOtaRoutes } from "./v1/ota/routes";
@@ -27,6 +28,7 @@ export function registerV1Routes(app: OpenAPIHono<AppEnv>) {
   registerCommandsRoutes(app);
   registerAlarmsRoutes(app);
   registerAiRoutes(app);
+  registerAiModelRoutes(app);
   registerNotificationRoutes(app);
   registerFirmwareRoutes(app);
   registerOtaRoutes(app);

@@ -184,7 +184,9 @@ export async function generateDailyPredictions() {
       },
     });
 
-    const devicesWithPower = devices.filter((d) => d.sensorData.length > 0);
+    const devicesWithPower = devices.filter(
+      (d: any) => d.sensorData.length > 0,
+    );
     console.log(
       `[AI Worker] Found ${devicesWithPower.length} devices with power monitoring`,
     );

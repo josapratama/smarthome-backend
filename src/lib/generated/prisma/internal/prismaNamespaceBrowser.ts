@@ -75,7 +75,9 @@ export const ModelName = {
   OtaJob: 'OtaJob',
   PasswordReset: 'PasswordReset',
   DeviceEventLog: 'DeviceEventLog',
-  HomeInviteToken: 'HomeInviteToken'
+  HomeInviteToken: 'HomeInviteToken',
+  AIModel: 'AIModel',
+  AIModelPerformance: 'AIModelPerformance'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -260,6 +262,11 @@ export const SensorDataScalarFieldEnum = {
   binLevel: 'binLevel',
   powerW: 'powerW',
   energyKwh: 'energyKwh',
+  voltageV: 'voltageV',
+  currentA: 'currentA',
+  frequencyHz: 'frequencyHz',
+  powerFactor: 'powerFactor',
+  distanceCm: 'distanceCm',
   timestamp: 'timestamp'
 } as const
 
@@ -455,6 +462,35 @@ export const HomeInviteTokenScalarFieldEnum = {
 } as const
 
 export type HomeInviteTokenScalarFieldEnum = (typeof HomeInviteTokenScalarFieldEnum)[keyof typeof HomeInviteTokenScalarFieldEnum]
+
+
+export const AIModelScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  version: 'version',
+  algorithm: 'algorithm',
+  parameters: 'parameters',
+  isActive: 'isActive',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  totalPredictions: 'totalPredictions',
+  avgAccuracy: 'avgAccuracy'
+} as const
+
+export type AIModelScalarFieldEnum = (typeof AIModelScalarFieldEnum)[keyof typeof AIModelScalarFieldEnum]
+
+
+export const AIModelPerformanceScalarFieldEnum = {
+  id: 'id',
+  modelName: 'modelName',
+  deviceId: 'deviceId',
+  accuracy: 'accuracy',
+  predictionDate: 'predictionDate',
+  recordedAt: 'recordedAt'
+} as const
+
+export type AIModelPerformanceScalarFieldEnum = (typeof AIModelPerformanceScalarFieldEnum)[keyof typeof AIModelPerformanceScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -1,8 +1,5 @@
-import {
-  AlarmSeverity,
-  AnomalyMetric,
-} from "../../lib/generated/prisma/client";
 import { prisma } from "../../lib/prisma";
+import { AnomalyMetric, AlarmSeverity } from "../../lib/types/prisma-types";
 
 // ===== TYPES =====
 
@@ -358,7 +355,7 @@ export class AnomalyDetectionService {
         historicalData,
       );
       anomalies.push({
-        metric: "POWER",
+        metric: AnomalyMetric.POWER,
         ...powerAnomaly,
       });
     }
@@ -366,7 +363,7 @@ export class AnomalyDetectionService {
     // Gas anomaly detection
     const gasAnomaly = this.detectGasAnomaly(sensorData.gasPpm, historicalData);
     anomalies.push({
-      metric: "GAS",
+      metric: AnomalyMetric.GAS,
       ...gasAnomaly,
     });
 
@@ -376,7 +373,7 @@ export class AnomalyDetectionService {
       historicalData,
     );
     anomalies.push({
-      metric: "FLAME",
+      metric: AnomalyMetric.FLAME,
       ...flameAnomaly,
     });
 
@@ -386,9 +383,45 @@ export class AnomalyDetectionService {
       historicalData,
     );
     anomalies.push({
-      metric: "TRASH",
+      metric: AnomalyMetric.TRASH,
       ...trashAnomaly,
     });
+
+    // Voltage anomaly detection (PZEM004 v3)
+    if (sensorData.voltageV !== undefined) {
+      const voltageAnomaly = this.detectVoltageAnomaly(
+        sensorData.voltageV,
+        historicalData,
+      );
+      anomalies.push({
+        metric: AnomalyMetric.VOLTAGE,
+        ...voltageAnomaly,
+      });
+    }
+
+    // Current anomaly detection (PZEM004 v3)
+    if (sensorData.currentA !== undefined) {
+      const currentAnomaly = this.detectCurrentAnomaly(
+        sensorData.currentA,
+        historicalData,
+      );
+      anomalies.push({
+        metric: AnomalyMetric.CURRENT,
+        ...currentAnomaly,
+      });
+    }
+
+    // Sensor malfunction detection (based on distance sensor)
+    if (sensorData.distanceCm !== undefined) {
+      const malfunctionAnomaly = this.detectSensorMalfunction(
+        sensorData.distanceCm,
+        historicalData,
+      );
+      anomalies.push({
+        metric: AnomalyMetric.SENSOR_MALFUNCTION,
+        ...malfunctionAnomaly,
+      });
+    }
 
     // Store anomaly results
     const results = await Promise.all(
@@ -447,7 +480,7 @@ export class AnomalyDetectionService {
       criticalCount: 0,
     };
 
-    anomalies.forEach((a) => {
+    anomalies.forEach((a: any) => {
       if (a.metric) {
         summary.byMetric[a.metric] = (summary.byMetric[a.metric] || 0) + 1;
       }
@@ -593,6 +626,189 @@ export class AnomalyDetectionService {
     };
   }
 
+  private static detectVoltageAnomaly(
+    currentVoltage: number,
+    historicalData: any[],
+  ) {
+    const voltageData = historicalData
+      .filter((d) => d.voltageV !== null)
+      .map((d) => d.voltageV);
+
+    if (voltageData.length < 5) {
+      return {
+        isAnomaly: false,
+        score: 0,
+        details: { reason: "insufficient_voltage_data" },
+      };
+    }
+
+    const stats = this.calculateStats(voltageData);
+
+    // Voltage thresholds for 220V system (adjust for your region)
+    const minVoltage = 200; // V
+    const maxVoltage = 250; // V
+    const criticalMinVoltage = 180; // V
+    const criticalMaxVoltage = 270; // V
+
+    const isOutOfRange =
+      currentVoltage < minVoltage || currentVoltage > maxVoltage;
+    const isCritical =
+      currentVoltage < criticalMinVoltage ||
+      currentVoltage > criticalMaxVoltage;
+
+    const zScore = Math.abs((currentVoltage - stats.mean) / stats.stdDev);
+    const isStatisticalAnomaly = zScore > 2;
+
+    const isAnomaly = isOutOfRange || isStatisticalAnomaly;
+
+    let score = 0;
+    if (isCritical) {
+      score = 1; // Critical voltage issue
+    } else if (isOutOfRange) {
+      score = 0.7; // Warning level
+    } else if (isStatisticalAnomaly) {
+      score = Math.min(zScore / 3, 0.6);
+    }
+
+    return {
+      isAnomaly,
+      score,
+      details: {
+        currentVoltage,
+        minVoltage,
+        maxVoltage,
+        isOutOfRange,
+        isCritical,
+        isStatisticalAnomaly,
+        zScore,
+        historicalMean: stats.mean,
+      },
+    };
+  }
+
+  private static detectCurrentAnomaly(
+    currentCurrent: number,
+    historicalData: any[],
+  ) {
+    const currentData = historicalData
+      .filter((d) => d.currentA !== null)
+      .map((d) => d.currentA);
+
+    if (currentData.length < 5) {
+      return {
+        isAnomaly: false,
+        score: 0,
+        details: { reason: "insufficient_current_data" },
+      };
+    }
+
+    const stats = this.calculateStats(currentData);
+
+    // Current thresholds (adjust based on your system)
+    const warningCurrent = 10; // A
+    const criticalCurrent = 15; // A
+    const maxCurrent = 20; // A
+
+    const isOverWarning = currentCurrent > warningCurrent;
+    const isOverCritical = currentCurrent > criticalCurrent;
+    const isOverMax = currentCurrent > maxCurrent;
+
+    const zScore = Math.abs((currentCurrent - stats.mean) / stats.stdDev);
+    const isStatisticalAnomaly = zScore > 2.5;
+
+    const isAnomaly = isOverWarning || isStatisticalAnomaly;
+
+    let score = 0;
+    if (isOverMax) {
+      score = 1; // Dangerous overcurrent
+    } else if (isOverCritical) {
+      score = 0.9; // Critical overcurrent
+    } else if (isOverWarning) {
+      score = 0.6; // Warning level
+    } else if (isStatisticalAnomaly) {
+      score = Math.min(zScore / 3, 0.5);
+    }
+
+    return {
+      isAnomaly,
+      score,
+      details: {
+        currentCurrent,
+        warningCurrent,
+        criticalCurrent,
+        maxCurrent,
+        isOverWarning,
+        isOverCritical,
+        isOverMax,
+        isStatisticalAnomaly,
+        zScore,
+        historicalMean: stats.mean,
+      },
+    };
+  }
+
+  private static detectSensorMalfunction(
+    currentDistance: number,
+    historicalData: any[],
+  ) {
+    const distanceData = historicalData
+      .filter((d) => d.distanceCm !== null)
+      .map((d) => d.distanceCm);
+
+    if (distanceData.length < 3) {
+      return {
+        isAnomaly: false,
+        score: 0,
+        details: { reason: "insufficient_distance_data" },
+      };
+    }
+
+    // Ultrasonic sensor typical range: 2cm - 400cm
+    const minValidDistance = 2; // cm
+    const maxValidDistance = 400; // cm
+
+    const isOutOfRange =
+      currentDistance < minValidDistance || currentDistance > maxValidDistance;
+
+    // Check for stuck readings (same value repeatedly)
+    const recentReadings = distanceData.slice(0, 5);
+    const isStuckReading = recentReadings.every(
+      (d) => Math.abs(d - currentDistance) < 0.1,
+    );
+
+    // Check for erratic readings (high variance)
+    const stats = this.calculateStats(distanceData);
+    const zScore = Math.abs((currentDistance - stats.mean) / stats.stdDev);
+    const isErraticReading = zScore > 3;
+
+    const isAnomaly = isOutOfRange || isStuckReading || isErraticReading;
+
+    let score = 0;
+    if (isOutOfRange) {
+      score = 0.9; // Sensor likely malfunctioning
+    } else if (isStuckReading) {
+      score = 0.7; // Sensor might be stuck
+    } else if (isErraticReading) {
+      score = Math.min(zScore / 4, 0.6); // Erratic behavior
+    }
+
+    return {
+      isAnomaly,
+      score,
+      details: {
+        currentDistance,
+        minValidDistance,
+        maxValidDistance,
+        isOutOfRange,
+        isStuckReading,
+        isErraticReading,
+        zScore,
+        historicalMean: stats.mean,
+        historicalStdDev: stats.stdDev,
+      },
+    };
+  }
+
   private static calculateStats(data: number[]) {
     if (data.length === 0) return { mean: 0, stdDev: 0 };
 
@@ -619,7 +835,8 @@ export class AnomalyDetectionService {
     );
 
     for (const anomaly of criticalAnomalies) {
-      const severity: AlarmSeverity = anomaly.score > 0.9 ? "CRITICAL" : "HIGH";
+      const severity: AlarmSeverity =
+        anomaly.score > 0.9 ? AlarmSeverity.CRITICAL : AlarmSeverity.HIGH;
 
       await prisma.alarmEvent.create({
         data: {
@@ -706,7 +923,7 @@ export class AIOrchestrationService {
 
     // Calculate prediction accuracy
     const accuratePredictions = predictions.filter(
-      (p) =>
+      (p: any) =>
         p.actualEnergy !== null &&
         Math.abs(p.predictedEnergy - p.actualEnergy) / p.actualEnergy < 0.2,
     );
@@ -723,8 +940,10 @@ export class AIOrchestrationService {
       insights: {
         totalPredictions: predictions.length,
         avgPredictedEnergy:
-          predictions.reduce((sum, p) => sum + p.predictedEnergy, 0) /
-            predictions.length || 0,
+          predictions.reduce(
+            (sum: number, p: any) => sum + p.predictedEnergy,
+            0,
+          ) / predictions.length || 0,
         anomalyRate: anomalySummary.totalAnomalies / (days * 24), // per hour
       },
     };

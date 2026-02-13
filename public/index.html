@@ -3,68 +3,548 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Smart Home Backend</title>
+    <title>Smart Home Backend API</title>
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
   </head>
-  <body class="min-h-screen bg-slate-950 text-slate-100">
-    <main class="mx-auto max-w-5xl px-6 py-12">
-      <header class="space-y-3">
-        <h1 class="text-3xl font-semibold tracking-tight">Smart Home Backend</h1>
-        <p class="text-slate-300">
-          Bun + Hono + Prisma (PostgreSQL) — Swagger(OpenAPI) + AsyncAPI.
+  <body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23334155" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="1"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+    
+    <main class="relative mx-auto max-w-7xl px-6 py-12">
+      <!-- Header -->
+      <header class="text-center space-y-6 mb-16">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl shadow-lg mb-6">
+          <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+          </svg>
+        </div>
+        <h1 class="text-5xl font-bold tracking-tight bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+          Smart Home Backend
+        </h1>
+        <p class="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          Production-ready IoT backend with AI-powered analytics, real-time MQTT communication, and comprehensive device management.
         </p>
+        <div class="flex items-center justify-center space-x-6 text-sm text-slate-400">
+          <div class="flex items-center space-x-2">
+            <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <span>API Online</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+            </svg>
+            <span>Bun + Hono + Prisma</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>PostgreSQL + MQTT</span>
+          </div>
+        </div>
       </header>
 
-      <section class="mt-10 grid gap-4 sm:grid-cols-2">
-        <a
-          href="/docs"
-          class="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 shadow hover:bg-slate-900/70"
-        >
-          <h2 class="text-xl font-medium">Swagger UI</h2>
-          <p class="mt-2 text-sm text-slate-300">Explore REST endpoints & try requests.</p>
+      <!-- Quick Actions -->
+      <section class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-16">
+        <a href="/docs" class="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 p-6 shadow-xl hover:bg-slate-900/70 transition-all duration-300 hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative">
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-2 bg-blue-500/20 rounded-lg">
+                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+              </div>
+              <span class="text-xs text-slate-400 group-hover:text-blue-400 transition-colors">Interactive</span>
+            </div>
+            <h2 class="text-xl font-semibold mb-2 group-hover:text-blue-400 transition-colors">Swagger UI</h2>
+            <p class="text-sm text-slate-300">Explore REST endpoints & test API requests interactively</p>
+          </div>
         </a>
 
-        <a
-          href="/openapi.json"
-          class="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 shadow hover:bg-slate-900/70"
-        >
-          <h2 class="text-xl font-medium">OpenAPI JSON</h2>
-          <p class="mt-2 text-sm text-slate-300">Machine-readable schema.</p>
+        <a href="/openapi.json" class="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 p-6 shadow-xl hover:bg-slate-900/70 transition-all duration-300 hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative">
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-2 bg-green-500/20 rounded-lg">
+                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                </svg>
+              </div>
+              <span class="text-xs text-slate-400 group-hover:text-green-400 transition-colors">JSON</span>
+            </div>
+            <h2 class="text-xl font-semibold mb-2 group-hover:text-green-400 transition-colors">OpenAPI Schema</h2>
+            <p class="text-sm text-slate-300">Machine-readable API specification for code generation</p>
+          </div>
         </a>
 
-        <a
-          href="/health"
-          class="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 shadow hover:bg-slate-900/70"
-        >
-          <h2 class="text-xl font-medium">Health Check</h2>
-          <p class="mt-2 text-sm text-slate-300">Quick server status.</p>
+        <a href="/health" class="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 p-6 shadow-xl hover:bg-slate-900/70 transition-all duration-300 hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative">
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-2 bg-emerald-500/20 rounded-lg">
+                <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <span class="text-xs text-slate-400 group-hover:text-emerald-400 transition-colors">Status</span>
+            </div>
+            <h2 class="text-xl font-semibold mb-2 group-hover:text-emerald-400 transition-colors">Health Check</h2>
+            <p class="text-sm text-slate-300">Monitor server status and system health</p>
+          </div>
         </a>
 
-        <a
-          href="/docs/asyncapi.yaml"
-          class="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 shadow hover:bg-slate-900/70"
-        >
-          <h2 class="text-xl font-medium">AsyncAPI YAML</h2>
-          <p class="mt-2 text-sm text-slate-300">MQTT topic contract (docs).</p>
+        <a href="/docs/asyncapi.yaml" class="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 p-6 shadow-xl hover:bg-slate-900/70 transition-all duration-300 hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative">
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-2 bg-purple-500/20 rounded-lg">
+                <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
+                </svg>
+              </div>
+              <span class="text-xs text-slate-400 group-hover:text-purple-400 transition-colors">MQTT</span>
+            </div>
+            <h2 class="text-xl font-semibold mb-2 group-hover:text-purple-400 transition-colors">AsyncAPI Spec</h2>
+            <p class="text-sm text-slate-300">MQTT topic contracts and real-time messaging</p>
+          </div>
         </a>
       </section>
 
-      <section class="mt-10 rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
-        <h3 class="text-lg font-medium">Quick Links</h3>
-        <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-300">
-          <li><code class="text-slate-200">/api/v1/homes</code> (GET, POST)</li>
-          <li><code class="text-slate-200">/api/v1/homes/{homeId}/devices</code> (GET, POST)</li>
-          <li><code class="text-slate-200">/api/v1/devices/{deviceId}/telemetry</code> (GET, POST)</li>
-          <li><code class="text-slate-200">/api/v1/devices/{deviceId}/commands</code> (POST)</li>
-          <li><code class="text-slate-200">/api/v1/homes/{homeId}/events</code> (GET, POST)</li>
-        </ul>
+      <!-- Documentation Sections -->
+      <section class="grid gap-8 lg:grid-cols-2 mb-16">
+        <!-- API Documentation -->
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/40 p-8 shadow-xl">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="p-2 bg-blue-500/20 rounded-lg">
+              <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-semibold">API Documentation</h3>
+          </div>
+          <p class="text-slate-300 mb-6">Comprehensive guides and references for integrating with the Smart Home Backend API.</p>
+          <div class="space-y-3">
+            <a href="#" onclick="showDocumentation('api-reference')" class="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors group">
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                <span class="font-medium">API Reference</span>
+              </div>
+              <svg class="w-4 h-4 text-slate-400 group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="#" onclick="showDocumentation('ai-system')" class="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors group">
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-purple-400 rounded-full"></div>
+                <span class="font-medium">AI System Guide</span>
+              </div>
+              <svg class="w-4 h-4 text-slate-400 group-hover:text-purple-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="#" onclick="showDocumentation('mqtt-integration')" class="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors group">
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span class="font-medium">MQTT Integration</span>
+              </div>
+              <svg class="w-4 h-4 text-slate-400 group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="#" onclick="showDocumentation('schema-optimization')" class="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors group">
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                <span class="font-medium">Schema Optimization</span>
+              </div>
+              <svg class="w-4 h-4 text-slate-400 group-hover:text-yellow-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Development & Deployment -->
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/40 p-8 shadow-xl">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="p-2 bg-emerald-500/20 rounded-lg">
+              <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-semibold">Development & Deployment</h3>
+          </div>
+          <p class="text-slate-300 mb-6">Setup guides, best practices, and deployment instructions for developers.</p>
+          <div class="space-y-3">
+            <a href="#" onclick="showDocumentation('development-guide')" class="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors group">
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                <span class="font-medium">Development Guide</span>
+              </div>
+              <svg class="w-4 h-4 text-slate-400 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="#" onclick="showDocumentation('deployment-guide')" class="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors group">
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-orange-400 rounded-full"></div>
+                <span class="font-medium">Deployment Guide</span>
+              </div>
+              <svg class="w-4 h-4 text-slate-400 group-hover:text-orange-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="https://github.com/your-repo" class="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors group">
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-slate-400 rounded-full"></div>
+                <span class="font-medium">GitHub Repository</span>
+              </div>
+              <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+            </a>
+          </div>
+        </div>
       </section>
 
-      <footer class="mt-10 text-xs text-slate-400">
-        <p>
-          Tip: run <code class="text-slate-200">bun run dev:ui</code> to start API + Tailwind watcher.
+      <!-- API Endpoints Overview -->
+      <section class="rounded-2xl border border-slate-800 bg-slate-900/40 p-8 shadow-xl mb-16">
+        <div class="flex items-center space-x-3 mb-6">
+          <div class="p-2 bg-indigo-500/20 rounded-lg">
+            <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold">Quick API Reference</h3>
+        </div>
+        <p class="text-slate-300 mb-8">Essential endpoints to get started with the Smart Home Backend API.</p>
+        
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <!-- Authentication -->
+          <div class="space-y-3">
+            <h4 class="font-semibold text-blue-400 flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+              <span>Authentication</span>
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">POST /api/v1/auth/login</code>
+                <span class="text-xs text-slate-500">Login</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">POST /api/v1/auth/register</code>
+                <span class="text-xs text-slate-500">Register</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">POST /api/v1/auth/refresh</code>
+                <span class="text-xs text-slate-500">Refresh Token</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Home Management -->
+          <div class="space-y-3">
+            <h4 class="font-semibold text-green-400 flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+              </svg>
+              <span>Home Management</span>
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">GET /api/v1/homes</code>
+                <span class="text-xs text-slate-500">List Homes</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">POST /api/v1/homes</code>
+                <span class="text-xs text-slate-500">Create Home</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">GET /api/v1/homes/{id}/devices</code>
+                <span class="text-xs text-slate-500">Home Devices</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Device Control -->
+          <div class="space-y-3">
+            <h4 class="font-semibold text-purple-400 flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              <span>Device Control</span>
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">POST /api/v1/devices/{id}/telemetry</code>
+                <span class="text-xs text-slate-500">Send Data</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">POST /api/v1/devices/{id}/commands</code>
+                <span class="text-xs text-slate-500">Send Command</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">GET /api/v1/devices/{id}/telemetry</code>
+                <span class="text-xs text-slate-500">Get History</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI & Analytics -->
+          <div class="space-y-3">
+            <h4 class="font-semibold text-yellow-400 flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+              </svg>
+              <span>AI & Analytics</span>
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">POST /api/v1/devices/{id}/energy-predictions</code>
+                <span class="text-xs text-slate-500">Predict Energy</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">GET /api/v1/devices/{id}/ai-insights</code>
+                <span class="text-xs text-slate-500">AI Insights</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">POST /api/v1/predictions/{id}/anomalies</code>
+                <span class="text-xs text-slate-500">Detect Anomalies</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alarms & Notifications -->
+          <div class="space-y-3">
+            <h4 class="font-semibold text-red-400 flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM4.828 4.828A4 4 0 015.5 4H9v1H5.5a3 3 0 00-2.121.879l-.707-.707zM15 4h3.5a3 3 0 012.121.879l.707-.707A4 4 0 0018.5 3H15v1zM4 15.172V18.5a3 3 0 002.121 2.121l.707-.707A4 4 0 015.5 20H4v-4.828z"/>
+              </svg>
+              <span>Alarms & Notifications</span>
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">GET /api/v1/homes/{id}/alarms</code>
+                <span class="text-xs text-slate-500">List Alarms</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">POST /api/v1/homes/{id}/alarms</code>
+                <span class="text-xs text-slate-500">Create Alarm</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">GET /api/v1/notifications/endpoints</code>
+                <span class="text-xs text-slate-500">Notification Endpoints</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Firmware & OTA -->
+          <div class="space-y-3">
+            <h4 class="font-semibold text-orange-400 flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
+              </svg>
+              <span>Firmware & OTA</span>
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">GET /api/v1/firmware/releases</code>
+                <span class="text-xs text-slate-500">List Firmware</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">POST /api/v1/devices/{id}/ota</code>
+                <span class="text-xs text-slate-500">Trigger OTA</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <code class="text-slate-300">GET /api/v1/ota/jobs/{id}</code>
+                <span class="text-xs text-slate-500">OTA Status</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Overview -->
+      <section class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-16">
+        <div class="rounded-xl border border-slate-800 bg-slate-900/40 p-6">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="p-2 bg-blue-500/20 rounded-lg">
+              <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+            <h4 class="font-semibold">Real-time IoT</h4>
+          </div>
+          <p class="text-sm text-slate-300">MQTT-based real-time communication with IoT devices, supporting ESP32, Arduino, and custom hardware.</p>
+        </div>
+
+        <div class="rounded-xl border border-slate-800 bg-slate-900/40 p-6">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="p-2 bg-purple-500/20 rounded-lg">
+              <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+              </svg>
+            </div>
+            <h4 class="font-semibold">AI Analytics</h4>
+          </div>
+          <p class="text-sm text-slate-300">Machine learning-powered energy prediction, anomaly detection, and intelligent insights for smart home optimization.</p>
+        </div>
+
+        <div class="rounded-xl border border-slate-800 bg-slate-900/40 p-6">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="p-2 bg-green-500/20 rounded-lg">
+              <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+              </svg>
+            </div>
+            <h4 class="font-semibold">Enterprise Security</h4>
+          </div>
+          <p class="text-sm text-slate-300">JWT authentication, role-based access control, device authentication, and comprehensive audit logging.</p>
+        </div>
+
+        <div class="rounded-xl border border-slate-800 bg-slate-900/40 p-6">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="p-2 bg-yellow-500/20 rounded-lg">
+              <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+              </svg>
+            </div>
+            <h4 class="font-semibold">Scalable Database</h4>
+          </div>
+          <p class="text-sm text-slate-300">PostgreSQL with optimized indexing, soft deletes, and efficient queries for handling millions of sensor readings.</p>
+        </div>
+
+        <div class="rounded-xl border border-slate-800 bg-slate-900/40 p-6">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="p-2 bg-indigo-500/20 rounded-lg">
+              <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
+              </svg>
+            </div>
+            <h4 class="font-semibold">OTA Updates</h4>
+          </div>
+          <p class="text-sm text-slate-300">Over-the-air firmware updates with version management, rollback support, and batch deployment capabilities.</p>
+        </div>
+
+        <div class="rounded-xl border border-slate-800 bg-slate-900/40 p-6">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="p-2 bg-red-500/20 rounded-lg">
+              <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+              </svg>
+            </div>
+            <h4 class="font-semibold">Smart Alarms</h4>
+          </div>
+          <p class="text-sm text-slate-300">Intelligent alarm system with customizable thresholds, multi-channel notifications, and automated escalation.</p>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="text-center space-y-4 pt-8 border-t border-slate-800">
+        <div class="flex items-center justify-center space-x-6 text-sm text-slate-400">
+          <span>Built with Bun + Hono + Prisma</span>
+          <span>•</span>
+          <span>PostgreSQL + MQTT</span>
+          <span>•</span>
+          <span>TypeScript + Tailwind CSS</span>
+        </div>
+        <p class="text-xs text-slate-500">
+          Tip: Run <code class="text-slate-300 bg-slate-800 px-2 py-1 rounded">bun run dev:ui</code> to start API server with Tailwind watcher for development.
         </p>
       </footer>
     </main>
+
+    <!-- Documentation Modal -->
+    <div id="docModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50">
+      <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-slate-900 rounded-2xl border border-slate-700 max-w-4xl w-full max-h-[90vh] overflow-hidden">
+          <div class="flex items-center justify-between p-6 border-b border-slate-700">
+            <h3 id="docTitle" class="text-xl font-semibold">Documentation</h3>
+            <button onclick="closeDocumentation()" class="p-2 hover:bg-slate-800 rounded-lg transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+          <div id="docContent" class="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+            <div class="flex items-center justify-center py-12">
+              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Documentation modal functionality
+      const docFiles = {
+        'api-reference': { title: 'API Reference', file: '/docs/API_REFERENCE.md' },
+        'ai-system': { title: 'AI System Guide', file: '/docs/AI_SYSTEM.md' },
+        'mqtt-integration': { title: 'MQTT Integration', file: '/docs/MQTT_INTEGRATION.md' },
+        'schema-optimization': { title: 'Schema Optimization', file: '/docs/SCHEMA_OPTIMIZATION.md' },
+        'development-guide': { title: 'Development Guide', file: '/docs/DEVELOPMENT_GUIDE.md' },
+        'deployment-guide': { title: 'Deployment Guide', file: '/docs/DEPLOYMENT_GUIDE.md' }
+      };
+
+      async function showDocumentation(docType) {
+        const modal = document.getElementById('docModal');
+        const title = document.getElementById('docTitle');
+        const content = document.getElementById('docContent');
+        
+        const doc = docFiles[docType];
+        if (!doc) return;
+        
+        title.textContent = doc.title;
+        content.innerHTML = '<div class="flex items-center justify-center py-12"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div></div>';
+        modal.classList.remove('hidden');
+        
+        try {
+          const response = await fetch(doc.file);
+          if (response.ok) {
+            const markdown = await response.text();
+            // Simple markdown to HTML conversion for basic formatting
+            const html = markdown
+              .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold mb-6 text-blue-400">$1</h1>')
+              .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-semibold mb-4 mt-8 text-purple-400">$1</h2>')
+              .replace(/^### (.*$)/gim, '<h3 class="text-xl font-semibold mb-3 mt-6 text-green-400">$1</h3>')
+              .replace(/^#### (.*$)/gim, '<h4 class="text-lg font-semibold mb-2 mt-4 text-yellow-400">$1</h4>')
+              .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-slate-200">$1</strong>')
+              .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+              .replace(/`([^`]+)`/g, '<code class="bg-slate-800 text-slate-300 px-2 py-1 rounded text-sm">$1</code>')
+              .replace(/```([\\s\\S]*?)```/g, '<pre class="bg-slate-800 text-slate-300 p-4 rounded-lg overflow-x-auto my-4"><code>$1</code></pre>')
+              .replace(/^- (.*$)/gim, '<li class="ml-4">• $1</li>')
+              .replace(/\\n\\n/g, '</p><p class="mb-4">')
+              .replace(/\\n/g, '<br>');
+            
+            content.innerHTML = `<div class="prose prose-slate max-w-none">${html}</div>`;
+          } else {
+            content.innerHTML = '<div class="text-center py-12 text-slate-400">Documentation not available</div>';
+          }
+        } catch (error) {
+          content.innerHTML = '<div class="text-center py-12 text-red-400">Error loading documentation</div>';
+        }
+      }
+
+      function closeDocumentation() {
+        document.getElementById('docModal').classList.add('hidden');
+      }
+
+      // Close modal on escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          closeDocumentation();
+        }
+      });
+
+      // Close modal on backdrop click
+      document.getElementById('docModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeDocumentation();
+        }
+      });
+    </script>
   </body>
 </html>
