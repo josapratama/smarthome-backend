@@ -61,6 +61,9 @@ enum AnomalyMetric {
   GAS
   FLAME
   TRASH
+  VOLTAGE
+  CURRENT
+  SENSOR_MALFUNCTION
 }
 
 enum OtaJobStatus {
@@ -298,7 +301,7 @@ model Device {
   deviceName String @map("device_name")
 
   roomId Int?  @map("room_id")
-  roomR  Room? @relation(fields: [roomId], references: [id], onDelete: SetNull)
+  room   Room? @relation(fields: [roomId], references: [id], onDelete: SetNull)
 
   status    Boolean  @default(false)
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -334,11 +337,14 @@ model Device {
 
   pairingHistories DevicePairingHistory[]
   deviceEventLogs  DeviceEventLog[]
+  aiModelPerformances AIModelPerformance[]
 
   @@index([pairedByUserId])
   @@index([homeId])
   @@index([roomId])
   @@index([deletedAt])
+  @@index([deviceType, homeId])
+  @@index([status, lastSeenAt])
 
   // NOTE:
   // mqttClientId/deviceKey seharusnya unik untuk device aktif saja.
@@ -346,7 +352,7 @@ model Device {
   @@index([mqttClientId])
   @@index([deviceKey])
 
-  @@map("device_status")
+  @@map("device")
 }
 
 model DeviceConfig {
@@ -431,6 +437,9 @@ model SensorData {
   alarmEvents AlarmEvent[] @relation("AlarmFromSensorData")
 
   @@index([deviceId, timestamp])
+  @@index([deviceId, powerW, timestamp]) // For energy queries
+  @@index([deviceId, gasPpm, timestamp]) // For gas monitoring
+  @@index([timestamp]) // For time-based queries
   @@map("sensor_data")
 }
 
@@ -512,6 +521,9 @@ model EnergyPrediction {
   anomalyResults AnomalyResult[]
 
   @@index([deviceId, createdAt])
+  @@index([deviceId, windowStart, windowEnd]) // For time window queries
+  @@index([actualEnergy]) // For accuracy calculations
+  @@index([modelVersion, createdAt]) // For model performance tracking
   @@map("energy_prediction")
 }
 
@@ -528,6 +540,8 @@ model AnomalyResult {
   prediction EnergyPrediction @relation(fields: [predictionId], references: [id], onDelete: Cascade)
 
   @@index([predictionId, detectedAt])
+  @@index([isAnomaly, score, detectedAt]) // For anomaly analysis
+  @@index([metric, detectedAt]) // For metric-specific queries
   @@map("anomaly_result")
 }
 
@@ -557,6 +571,8 @@ model Command {
 
   @@index([deviceId, status, createdAt])
   @@index([requestedBy, createdAt])
+  @@index([source, status, createdAt]) // For filtering by source and status
+  @@index([correlationId]) // For tracking command correlation
   @@map("command")
 }
 
@@ -724,4 +740,41 @@ model HomeInviteToken {
   @@index([homeId, userId, createdAt])
   @@index([expiresAt])
   @@map("home_invite_token")
+}
+
+model AIModel {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  version     String
+  algorithm   String   // "moving_average", "linear_regression", "seasonal_decomposition"
+  parameters  Json     // Model-specific parameters
+  isActive    Boolean  @default(false) @map("is_active")
+  description String?
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  // Performance metrics
+  totalPredictions Int   @default(0) @map("total_predictions")
+  avgAccuracy      Float @default(0) @map("avg_accuracy")
+  
+  @@index([isActive, avgAccuracy])
+  @@index([algorithm, version])
+  @@map("ai_model")
+}
+
+model AIModelPerformance {
+  id        Int      @id @default(autoincrement())
+  modelName String   @map("model_name")
+  deviceId  Int      @map("device_id")
+  
+  accuracy       Float
+  predictionDate DateTime @map("prediction_date")
+  recordedAt     DateTime @default(now()) @map("recorded_at")
+  
+  device Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  
+  @@index([modelName, deviceId, recordedAt])
+  @@index([accuracy, recordedAt])
+  @@map("ai_model_performance")
 }

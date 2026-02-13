@@ -68,7 +68,7 @@ const AnomalyResultDTO = z
     isAnomaly: z.boolean(),
     score: z.number(),
     metric: z.enum(["POWER", "GAS", "FLAME", "TRASH"]),
-    details: z.record(z.any()),
+    details: z.record(z.string(), z.any()),
     detectedAt: z.string(),
   })
   .openapi("AnomalyResultDTO");
@@ -78,7 +78,7 @@ const DeviceInsightsDTO = z
     predictions: z.array(EnergyPredictionDTO),
     anomalySummary: z.object({
       totalAnomalies: z.number(),
-      byMetric: z.record(z.number()),
+      byMetric: z.record(z.string(), z.number()),
       avgScore: z.number(),
       criticalCount: z.number(),
     }),
@@ -261,10 +261,13 @@ ai.openapi(updatePredictionRoute, async (c) => {
     return c.json({ error: result.error }, 404);
   }
 
-  return c.json({
-    prediction: mapPredictionToDTO(result.prediction),
-    accuracy: result.accuracy,
-  });
+  return c.json(
+    {
+      prediction: mapPredictionToDTO(result.prediction),
+      accuracy: result.accuracy,
+    },
+    200,
+  );
 });
 
 // Detect anomalies
@@ -451,10 +454,13 @@ ai.openapi(processTelemetryAIRoute, async (c) => {
     return c.json({ error: result.error }, 400);
   }
 
-  return c.json({
-    prediction: mapPredictionToDTO(result.prediction),
-    anomalies: result.anomalies.map(mapAnomalyToDTO),
-  });
+  return c.json(
+    {
+      prediction: mapPredictionToDTO(result.prediction),
+      anomalies: result.anomalies.map(mapAnomalyToDTO),
+    },
+    200,
+  );
 });
 
 export function registerAiRoutes(app: OpenAPIHono<AppEnv>) {

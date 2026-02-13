@@ -1,5 +1,8 @@
+import {
+  AlarmSeverity,
+  AnomalyMetric,
+} from "../../lib/generated/prisma/client";
 import { prisma } from "../../lib/prisma";
-import type { AnomalyMetric, AlarmSeverity } from "@prisma/client";
 
 // ===== TYPES =====
 
@@ -445,7 +448,9 @@ export class AnomalyDetectionService {
     };
 
     anomalies.forEach((a) => {
-      summary.byMetric[a.metric] = (summary.byMetric[a.metric] || 0) + 1;
+      if (a.metric) {
+        summary.byMetric[a.metric] = (summary.byMetric[a.metric] || 0) + 1;
+      }
       summary.avgScore += a.score;
       if (a.score > 0.8) summary.criticalCount++;
     });
