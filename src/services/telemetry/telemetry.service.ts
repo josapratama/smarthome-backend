@@ -1,5 +1,6 @@
 import { prisma } from "../../lib/prisma";
 import { processAlarmsFromTelemetry } from "../alarms/alarms.service";
+import { AIOrchestrationService } from "../ai/ai.service";
 
 type TelemetryInput = {
   current?: number;
@@ -25,8 +26,9 @@ export async function ingestTelemetry(params: {
   deviceId: number;
   telemetry: TelemetryInput;
   source?: "DEVICE" | "BACKEND" | "AI" | "USER";
+  enableAI?: boolean;
 }) {
-  const { deviceId, telemetry } = params;
+  const { deviceId, telemetry, enableAI = true } = params;
 
   const device = await prisma.device.findFirst({
     where: { id: deviceId, deletedAt: null },
@@ -95,7 +97,33 @@ export async function ingestTelemetry(params: {
     },
   });
 
-  return { sensor };
+  // AI Processing (optional, async)
+  let aiResult = null;
+  if (enableAI && telemetry.powerW !== undefined) {
+    try {
+      aiResult = await AIOrchestrationService.processTelemetryAI({
+        deviceId,
+        sensorData: {
+          current,
+          gasPpm,
+          flame,
+          binLevel,
+          powerW: telemetry.powerW,
+          energyKwh: telemetry.energyKwh,
+          voltageV: telemetry.voltageV,
+          currentA: telemetry.currentA,
+          frequencyHz: telemetry.frequencyHz,
+          powerFactor: telemetry.powerFactor,
+          distanceCm: telemetry.distanceCm,
+        },
+        timestamp: ts,
+      });
+    } catch (error) {
+      console.warn("[AI] Processing failed for device", deviceId, error);
+    }
+  }
+
+  return { sensor, aiResult };
 }
 
 export async function getLatestTelemetry(deviceId: number) {

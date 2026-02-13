@@ -11,6 +11,12 @@ import { startInviteTokenExpiryWorker } from "./workers/invite-token-expiry.work
 import { startPasswordResetCleanupWorker } from "./workers/password-reset-cleanup.worker";
 import { startNotificationPendingTimeoutWorker } from "./workers/notification-pending-timeout.worker";
 
+// AI Workers
+import {
+  startAIPredictionUpdateWorker,
+  startDailyPredictionWorker,
+} from "./workers/ai-prediction-update.worker";
+
 startCommandTimeoutWorker();
 startDeviceOfflineWorker();
 startOtaTimeoutWorker();
@@ -19,6 +25,10 @@ startSessionExpiryWorker();
 startInviteTokenExpiryWorker();
 startPasswordResetCleanupWorker();
 startNotificationPendingTimeoutWorker();
+
+// Start AI workers
+startAIPredictionUpdateWorker(30); // Update predictions every 30 minutes
+startDailyPredictionWorker(); // Generate daily predictions at midnight
 
 initMqttBridge();
 startOtaProgressSubscriber();
