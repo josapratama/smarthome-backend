@@ -17,6 +17,23 @@ const PreferencesSchema = z.object({
   timezone: z.string().optional(),
 });
 
+const ErrorSchema = z.object({
+  error: z.string(),
+});
+
+const SuccessDataSchema = z.object({
+  data: z.any(),
+});
+
+const SuccessMessageSchema = z.object({
+  data: z.any(),
+  message: z.string(),
+});
+
+const MessageOnlySchema = z.object({
+  message: z.string(),
+});
+
 export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
   const preferences = new OpenAPIHono<AppEnv>();
 
@@ -39,9 +56,23 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
           description: "User preferences",
           content: {
             "application/json": {
-              schema: z.object({
-                data: z.any(),
-              }),
+              schema: SuccessDataSchema,
+            },
+          },
+        },
+        401: {
+          description: "Unauthorized",
+          content: {
+            "application/json": {
+              schema: ErrorSchema,
+            },
+          },
+        },
+        404: {
+          description: "User not found",
+          content: {
+            "application/json": {
+              schema: ErrorSchema,
             },
           },
         },
@@ -52,7 +83,7 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
       const userId = auth?.user?.id;
 
       if (!userId) {
-        return c.json({ error: "Unauthorized" }, 401);
+        return c.json({ error: "Unauthorized" }, 401) as any;
       }
 
       const user = await prisma.userAccount.findUnique({
@@ -61,7 +92,7 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
       });
 
       if (!user) {
-        return c.json({ error: "User not found" }, 404);
+        return c.json({ error: "User not found" }, 404) as any;
       }
 
       // Default preferences if not set
@@ -107,10 +138,23 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
           description: "Preferences updated",
           content: {
             "application/json": {
-              schema: z.object({
-                data: z.any(),
-                message: z.string(),
-              }),
+              schema: SuccessMessageSchema,
+            },
+          },
+        },
+        401: {
+          description: "Unauthorized",
+          content: {
+            "application/json": {
+              schema: ErrorSchema,
+            },
+          },
+        },
+        404: {
+          description: "User not found",
+          content: {
+            "application/json": {
+              schema: ErrorSchema,
             },
           },
         },
@@ -121,7 +165,7 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
       const userId = auth?.user?.id;
 
       if (!userId) {
-        return c.json({ error: "Unauthorized" }, 401);
+        return c.json({ error: "Unauthorized" }, 401) as any;
       }
 
       const body = c.req.valid("json");
@@ -133,7 +177,7 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
       });
 
       if (!user) {
-        return c.json({ error: "User not found" }, 404);
+        return c.json({ error: "User not found" }, 404) as any;
       }
 
       // Merge with existing preferences
@@ -182,10 +226,15 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
           description: "Preferences replaced",
           content: {
             "application/json": {
-              schema: z.object({
-                data: z.any(),
-                message: z.string(),
-              }),
+              schema: SuccessMessageSchema,
+            },
+          },
+        },
+        401: {
+          description: "Unauthorized",
+          content: {
+            "application/json": {
+              schema: ErrorSchema,
             },
           },
         },
@@ -196,7 +245,7 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
       const userId = auth?.user?.id;
 
       if (!userId) {
-        return c.json({ error: "Unauthorized" }, 401);
+        return c.json({ error: "Unauthorized" }, 401) as any;
       }
 
       const body = c.req.valid("json");
@@ -230,9 +279,15 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
           description: "Preferences reset",
           content: {
             "application/json": {
-              schema: z.object({
-                message: z.string(),
-              }),
+              schema: MessageOnlySchema,
+            },
+          },
+        },
+        401: {
+          description: "Unauthorized",
+          content: {
+            "application/json": {
+              schema: ErrorSchema,
             },
           },
         },
@@ -243,12 +298,12 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
       const userId = auth?.user?.id;
 
       if (!userId) {
-        return c.json({ error: "Unauthorized" }, 401);
+        return c.json({ error: "Unauthorized" }, 401) as any;
       }
 
       await prisma.userAccount.update({
         where: { id: userId },
-        data: { preferences: null },
+        data: { preferences: {} as any },
       });
 
       return c.json({

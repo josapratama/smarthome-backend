@@ -78,6 +78,7 @@ export type UserAccountCountAggregateOutputType = {
   passwordChangedAt: number
   failedLoginCount: number
   lockedUntil: number
+  preferences: number
   createdAt: number
   _all: number
 }
@@ -135,6 +136,7 @@ export type UserAccountCountAggregateInputType = {
   passwordChangedAt?: true
   failedLoginCount?: true
   lockedUntil?: true
+  preferences?: true
   createdAt?: true
   _all?: true
 }
@@ -237,6 +239,7 @@ export type UserAccountGroupByOutputType = {
   passwordChangedAt: Date | null
   failedLoginCount: number
   lockedUntil: Date | null
+  preferences: runtime.JsonValue | null
   createdAt: Date
   _count: UserAccountCountAggregateOutputType | null
   _avg: UserAccountAvgAggregateOutputType | null
@@ -275,6 +278,7 @@ export type UserAccountWhereInput = {
   passwordChangedAt?: Prisma.DateTimeNullableFilter<"UserAccount"> | Date | string | null
   failedLoginCount?: Prisma.IntFilter<"UserAccount"> | number
   lockedUntil?: Prisma.DateTimeNullableFilter<"UserAccount"> | Date | string | null
+  preferences?: Prisma.JsonNullableFilter<"UserAccount">
   createdAt?: Prisma.DateTimeFilter<"UserAccount"> | Date | string
   loginHistory?: Prisma.LoginHistoryListRelationFilter
   loginAttempts?: Prisma.LoginAttemptListRelationFilter
@@ -304,6 +308,7 @@ export type UserAccountOrderByWithRelationInput = {
   passwordChangedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   failedLoginCount?: Prisma.SortOrder
   lockedUntil?: Prisma.SortOrderInput | Prisma.SortOrder
+  preferences?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   loginHistory?: Prisma.LoginHistoryOrderByRelationAggregateInput
   loginAttempts?: Prisma.LoginAttemptOrderByRelationAggregateInput
@@ -336,6 +341,7 @@ export type UserAccountWhereUniqueInput = Prisma.AtLeast<{
   passwordChangedAt?: Prisma.DateTimeNullableFilter<"UserAccount"> | Date | string | null
   failedLoginCount?: Prisma.IntFilter<"UserAccount"> | number
   lockedUntil?: Prisma.DateTimeNullableFilter<"UserAccount"> | Date | string | null
+  preferences?: Prisma.JsonNullableFilter<"UserAccount">
   createdAt?: Prisma.DateTimeFilter<"UserAccount"> | Date | string
   loginHistory?: Prisma.LoginHistoryListRelationFilter
   loginAttempts?: Prisma.LoginAttemptListRelationFilter
@@ -365,6 +371,7 @@ export type UserAccountOrderByWithAggregationInput = {
   passwordChangedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   failedLoginCount?: Prisma.SortOrder
   lockedUntil?: Prisma.SortOrderInput | Prisma.SortOrder
+  preferences?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.UserAccountCountOrderByAggregateInput
   _avg?: Prisma.UserAccountAvgOrderByAggregateInput
@@ -388,6 +395,7 @@ export type UserAccountScalarWhereWithAggregatesInput = {
   passwordChangedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"UserAccount"> | Date | string | null
   failedLoginCount?: Prisma.IntWithAggregatesFilter<"UserAccount"> | number
   lockedUntil?: Prisma.DateTimeNullableWithAggregatesFilter<"UserAccount"> | Date | string | null
+  preferences?: Prisma.JsonNullableWithAggregatesFilter<"UserAccount">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserAccount"> | Date | string
 }
 
@@ -402,6 +410,7 @@ export type UserAccountCreateInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
@@ -431,6 +440,7 @@ export type UserAccountUncheckedCreateInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
@@ -459,6 +469,7 @@ export type UserAccountUpdateInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
@@ -488,6 +499,7 @@ export type UserAccountUncheckedUpdateInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
@@ -517,6 +529,7 @@ export type UserAccountCreateManyInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
 }
 
@@ -531,6 +544,7 @@ export type UserAccountUpdateManyMutationInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -546,6 +560,7 @@ export type UserAccountUncheckedUpdateManyInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -561,6 +576,7 @@ export type UserAccountCountOrderByAggregateInput = {
   passwordChangedAt?: Prisma.SortOrder
   failedLoginCount?: Prisma.SortOrder
   lockedUntil?: Prisma.SortOrder
+  preferences?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -859,6 +875,7 @@ export type UserAccountCreateWithoutLoginHistoryInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
@@ -887,6 +904,7 @@ export type UserAccountUncheckedCreateWithoutLoginHistoryInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
@@ -930,6 +948,7 @@ export type UserAccountUpdateWithoutLoginHistoryInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
@@ -958,6 +977,7 @@ export type UserAccountUncheckedUpdateWithoutLoginHistoryInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
@@ -985,6 +1005,7 @@ export type UserAccountCreateWithoutLoginAttemptsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
@@ -1013,6 +1034,7 @@ export type UserAccountUncheckedCreateWithoutLoginAttemptsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
@@ -1056,6 +1078,7 @@ export type UserAccountUpdateWithoutLoginAttemptsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
@@ -1084,6 +1107,7 @@ export type UserAccountUncheckedUpdateWithoutLoginAttemptsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
@@ -1111,6 +1135,7 @@ export type UserAccountCreateWithoutSessionsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
@@ -1139,6 +1164,7 @@ export type UserAccountUncheckedCreateWithoutSessionsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
@@ -1182,6 +1208,7 @@ export type UserAccountUpdateWithoutSessionsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
@@ -1210,6 +1237,7 @@ export type UserAccountUncheckedUpdateWithoutSessionsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
@@ -1237,6 +1265,7 @@ export type UserAccountCreateWithoutHomesOwnedInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
@@ -1265,6 +1294,7 @@ export type UserAccountUncheckedCreateWithoutHomesOwnedInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
@@ -1308,6 +1338,7 @@ export type UserAccountUpdateWithoutHomesOwnedInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
@@ -1336,6 +1367,7 @@ export type UserAccountUncheckedUpdateWithoutHomesOwnedInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
@@ -1363,6 +1395,7 @@ export type UserAccountCreateWithoutHomeMembershipsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
@@ -1391,6 +1424,7 @@ export type UserAccountUncheckedCreateWithoutHomeMembershipsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
@@ -1434,6 +1468,7 @@ export type UserAccountUpdateWithoutHomeMembershipsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
@@ -1462,6 +1497,7 @@ export type UserAccountUncheckedUpdateWithoutHomeMembershipsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
@@ -1489,6 +1525,7 @@ export type UserAccountCreateWithoutDevicesInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
@@ -1517,6 +1554,7 @@ export type UserAccountUncheckedCreateWithoutDevicesInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
@@ -1560,6 +1598,7 @@ export type UserAccountUpdateWithoutDevicesInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
@@ -1588,6 +1627,7 @@ export type UserAccountUncheckedUpdateWithoutDevicesInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
@@ -1615,6 +1655,7 @@ export type UserAccountCreateWithoutUpdatedDeviceConfigsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
@@ -1643,6 +1684,7 @@ export type UserAccountUncheckedCreateWithoutUpdatedDeviceConfigsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
@@ -1686,6 +1728,7 @@ export type UserAccountUpdateWithoutUpdatedDeviceConfigsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
@@ -1714,6 +1757,7 @@ export type UserAccountUncheckedUpdateWithoutUpdatedDeviceConfigsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
@@ -1741,6 +1785,7 @@ export type UserAccountCreateWithoutPairingHistoriesInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
@@ -1769,6 +1814,7 @@ export type UserAccountUncheckedCreateWithoutPairingHistoriesInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
@@ -1812,6 +1858,7 @@ export type UserAccountUpdateWithoutPairingHistoriesInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
@@ -1840,6 +1887,7 @@ export type UserAccountUncheckedUpdateWithoutPairingHistoriesInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
@@ -1867,6 +1915,7 @@ export type UserAccountCreateWithoutAcknowledgedAlarmsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
@@ -1895,6 +1944,7 @@ export type UserAccountUncheckedCreateWithoutAcknowledgedAlarmsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
@@ -1927,6 +1977,7 @@ export type UserAccountCreateWithoutResolvedAlarmsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
@@ -1955,6 +2006,7 @@ export type UserAccountUncheckedCreateWithoutResolvedAlarmsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
@@ -1998,6 +2050,7 @@ export type UserAccountUpdateWithoutAcknowledgedAlarmsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
@@ -2026,6 +2079,7 @@ export type UserAccountUncheckedUpdateWithoutAcknowledgedAlarmsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
@@ -2064,6 +2118,7 @@ export type UserAccountUpdateWithoutResolvedAlarmsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
@@ -2092,6 +2147,7 @@ export type UserAccountUncheckedUpdateWithoutResolvedAlarmsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
@@ -2119,6 +2175,7 @@ export type UserAccountCreateWithoutRequestedCommandsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
@@ -2147,6 +2204,7 @@ export type UserAccountUncheckedCreateWithoutRequestedCommandsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
@@ -2190,6 +2248,7 @@ export type UserAccountUpdateWithoutRequestedCommandsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
@@ -2218,6 +2277,7 @@ export type UserAccountUncheckedUpdateWithoutRequestedCommandsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
@@ -2245,6 +2305,7 @@ export type UserAccountCreateWithoutNotificationEndpointsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
@@ -2273,6 +2334,7 @@ export type UserAccountUncheckedCreateWithoutNotificationEndpointsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
@@ -2316,6 +2378,7 @@ export type UserAccountUpdateWithoutNotificationEndpointsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
@@ -2344,6 +2407,7 @@ export type UserAccountUncheckedUpdateWithoutNotificationEndpointsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
@@ -2371,6 +2435,7 @@ export type UserAccountCreateWithoutPasswordResetsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
@@ -2399,6 +2464,7 @@ export type UserAccountUncheckedCreateWithoutPasswordResetsInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
@@ -2442,6 +2508,7 @@ export type UserAccountUpdateWithoutPasswordResetsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
@@ -2470,6 +2537,7 @@ export type UserAccountUncheckedUpdateWithoutPasswordResetsInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
@@ -2497,6 +2565,7 @@ export type UserAccountCreateWithoutHomeInviteTokensInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptCreateNestedManyWithoutUserInput
@@ -2525,6 +2594,7 @@ export type UserAccountUncheckedCreateWithoutHomeInviteTokensInput = {
   passwordChangedAt?: Date | string | null
   failedLoginCount?: number
   lockedUntil?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   loginAttempts?: Prisma.LoginAttemptUncheckedCreateNestedManyWithoutUserInput
@@ -2568,6 +2638,7 @@ export type UserAccountUpdateWithoutHomeInviteTokensInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUpdateManyWithoutUserNestedInput
@@ -2596,6 +2667,7 @@ export type UserAccountUncheckedUpdateWithoutHomeInviteTokensInput = {
   passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   failedLoginCount?: Prisma.IntFieldUpdateOperationsInput | number
   lockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loginHistory?: Prisma.LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   loginAttempts?: Prisma.LoginAttemptUncheckedUpdateManyWithoutUserNestedInput
@@ -2772,6 +2844,7 @@ export type UserAccountSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   passwordChangedAt?: boolean
   failedLoginCount?: boolean
   lockedUntil?: boolean
+  preferences?: boolean
   createdAt?: boolean
   loginHistory?: boolean | Prisma.UserAccount$loginHistoryArgs<ExtArgs>
   loginAttempts?: boolean | Prisma.UserAccount$loginAttemptsArgs<ExtArgs>
@@ -2802,6 +2875,7 @@ export type UserAccountSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   passwordChangedAt?: boolean
   failedLoginCount?: boolean
   lockedUntil?: boolean
+  preferences?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["userAccount"]>
 
@@ -2817,6 +2891,7 @@ export type UserAccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   passwordChangedAt?: boolean
   failedLoginCount?: boolean
   lockedUntil?: boolean
+  preferences?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["userAccount"]>
 
@@ -2832,10 +2907,11 @@ export type UserAccountSelectScalar = {
   passwordChangedAt?: boolean
   failedLoginCount?: boolean
   lockedUntil?: boolean
+  preferences?: boolean
   createdAt?: boolean
 }
 
-export type UserAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password" | "role" | "isActive" | "emailVerifiedAt" | "deletedAt" | "passwordChangedAt" | "failedLoginCount" | "lockedUntil" | "createdAt", ExtArgs["result"]["userAccount"]>
+export type UserAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password" | "role" | "isActive" | "emailVerifiedAt" | "deletedAt" | "passwordChangedAt" | "failedLoginCount" | "lockedUntil" | "preferences" | "createdAt", ExtArgs["result"]["userAccount"]>
 export type UserAccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   loginHistory?: boolean | Prisma.UserAccount$loginHistoryArgs<ExtArgs>
   loginAttempts?: boolean | Prisma.UserAccount$loginAttemptsArgs<ExtArgs>
@@ -2886,6 +2962,7 @@ export type $UserAccountPayload<ExtArgs extends runtime.Types.Extensions.Interna
     passwordChangedAt: Date | null
     failedLoginCount: number
     lockedUntil: Date | null
+    preferences: runtime.JsonValue | null
     createdAt: Date
   }, ExtArgs["result"]["userAccount"]>
   composites: {}
@@ -3335,6 +3412,7 @@ export interface UserAccountFieldRefs {
   readonly passwordChangedAt: Prisma.FieldRef<"UserAccount", 'DateTime'>
   readonly failedLoginCount: Prisma.FieldRef<"UserAccount", 'Int'>
   readonly lockedUntil: Prisma.FieldRef<"UserAccount", 'DateTime'>
+  readonly preferences: Prisma.FieldRef<"UserAccount", 'Json'>
   readonly createdAt: Prisma.FieldRef<"UserAccount", 'DateTime'>
 }
     

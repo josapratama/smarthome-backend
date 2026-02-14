@@ -4,6 +4,7 @@ WORKDIR /app
 COPY package.json bun.lockb* ./
 RUN bun install
 
+COPY prisma.config.ts ./
 COPY prisma ./prisma
 RUN bun run prisma:generate
 
