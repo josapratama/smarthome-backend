@@ -2,7 +2,7 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { z } from "zod";
 import type { AppEnv } from "../../../types/app-env";
 import { prisma } from "../../../lib/prisma";
-import { authMiddleware } from "../../../middlewares/auth";
+import { requireAuth } from "../../../middlewares/auth";
 
 const PreferencesSchema = z.object({
   theme: z.enum(["light", "dark", "system"]).optional(),
@@ -21,7 +21,7 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
   const preferences = new OpenAPIHono<AppEnv>();
 
   // Apply auth middleware
-  preferences.use("*", authMiddleware);
+  preferences.use("*", requireAuth);
 
   /**
    * GET /api/v1/preferences
@@ -48,7 +48,12 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
       },
     },
     async (c) => {
-      const userId = c.get("userId");
+      const auth = c.get("auth");
+      const userId = auth?.user?.id;
+
+      if (!userId) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
 
       const user = await prisma.userAccount.findUnique({
         where: { id: userId },
@@ -112,7 +117,13 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
       },
     },
     async (c) => {
-      const userId = c.get("userId");
+      const auth = c.get("auth");
+      const userId = auth?.user?.id;
+
+      if (!userId) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
       const body = c.req.valid("json");
 
       // Get current preferences
@@ -181,7 +192,13 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
       },
     },
     async (c) => {
-      const userId = c.get("userId");
+      const auth = c.get("auth");
+      const userId = auth?.user?.id;
+
+      if (!userId) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
       const body = c.req.valid("json");
 
       const updated = await prisma.userAccount.update({
@@ -222,7 +239,12 @@ export function registerPreferencesRoutes(app: OpenAPIHono<AppEnv>) {
       },
     },
     async (c) => {
-      const userId = c.get("userId");
+      const auth = c.get("auth");
+      const userId = auth?.user?.id;
+
+      if (!userId) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
 
       await prisma.userAccount.update({
         where: { id: userId },
