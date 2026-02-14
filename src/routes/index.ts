@@ -17,6 +17,7 @@ import { registerOtaRoutes } from "./v1/ota/routes";
 import { registerInviteRoutes } from "./v1/invites/routes";
 import { registerRoomsRoutes } from "./v1/rooms/routes";
 import { registerDeviceConfigRoutes } from "./v1/device-config/routes";
+import { registerPreferencesRoutes } from "./v1/preferences/routes";
 
 export function registerV1Routes(app: OpenAPIHono<AppEnv>) {
   registerAuthRoutes(app);
@@ -35,4 +36,5 @@ export function registerV1Routes(app: OpenAPIHono<AppEnv>) {
   registerInviteRoutes(app);
   registerRoomsRoutes(app);
   registerDeviceConfigRoutes(app);
+  registerPreferencesRoutes(app);
 }

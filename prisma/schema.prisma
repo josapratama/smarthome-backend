@@ -132,6 +132,9 @@ model UserAccount {
   failedLoginCount  Int       @default(0) @map("failed_login_count")
   lockedUntil       DateTime? @map("locked_until")
 
+  // User preferences (theme, language, etc.)
+  preferences Json? @map("preferences")
+
   createdAt DateTime @default(now()) @map("created_at")
 
   // Relations
