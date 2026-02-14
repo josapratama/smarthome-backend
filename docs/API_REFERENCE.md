@@ -618,7 +618,7 @@ GET /api/v1/devices/{deviceId}/best-model?days=30
 #### Get Dashboard Analytics
 
 ```http
-GET /api/v1/overview/dashboard
+GET /api/v1/dashboard
 ```
 
 #### Get Home Overview

@@ -1,8 +1,8 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { z } from "zod";
 import type { AppEnv } from "../../../types/app-env";
-import { prisma } from "../../../lib/db";
-import { authMiddleware } from "../../../middleware/auth";
+import { prisma } from "../../../lib/prisma";
+import { authMiddleware } from "../../../middlewares/auth";
 
 const PreferencesSchema = z.object({
   theme: z.enum(["light", "dark", "system"]).optional(),
