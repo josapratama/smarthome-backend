@@ -34,6 +34,34 @@ async function main() {
   });
   console.log("✅ Created regular user:", user.username);
 
+  // Create home for regular user
+  const userHome = await prisma.home.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      name: "My Home",
+      ownerUserId: user.id,
+      addressText: "123 Main Street",
+      city: "Jakarta",
+      postalCode: "12345",
+    },
+  });
+  console.log("✅ Created home for user:", userHome.name);
+
+  // Create home for admin
+  const adminHome = await prisma.home.upsert({
+    where: { id: 2 },
+    update: {},
+    create: {
+      name: "Admin Home",
+      ownerUserId: admin.id,
+      addressText: "456 Admin Avenue",
+      city: "Jakarta",
+      postalCode: "54321",
+    },
+  });
+  console.log("✅ Created home for admin:", adminHome.name);
+
   console.log("🎉 Seeding completed!");
 }
 

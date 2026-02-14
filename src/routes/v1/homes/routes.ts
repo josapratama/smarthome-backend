@@ -49,7 +49,8 @@ import {
 export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
   const r = new OpenAPIHono<AppEnv>();
 
-  r.use("*", requireAuth, requireAdmin);
+  // All routes require authentication, but not admin
+  r.use("*", requireAuth);
 
   r.openapi(listHomesRoute, handleListHomes);
   r.openapi(createHomeRoute, handleCreateHome);
@@ -58,6 +59,9 @@ export function registerHomesRoutes(app: OpenAPIHono<AppEnv>) {
   r.openapi(deleteHomeRoute, handleDeleteHome);
   r.openapi(restoreHomeRoute, handleRestoreHome);
   r.openapi(transferOwnershipRoute, handleTransferOwnership);
+
+  // Only nearby homes requires admin
+  r.use("/nearby", requireAdmin);
   r.openapi(listNearbyHomesRoute, handleListNearbyHomes);
 
   r.openapi(listHomeMembersRoute, handleListHomeMembers);
