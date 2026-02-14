@@ -22,7 +22,28 @@ export const app = new OpenAPIHono<AppEnv>({
 app.use("*", logger());
 app.use(
   "*",
-  cors({ origin: "*", allowHeaders: ["Content-Type", "Authorization"] }),
+  cors({
+    origin: (origin) => {
+      // Allow requests from frontend dev server and production
+      const allowedOrigins = [
+        "http://localhost:3001",
+        "http://localhost:3000",
+        "http://127.0.0.1:3001",
+        "http://127.0.0.1:3000",
+      ];
+
+      // Allow if origin is in allowed list or if no origin (same-origin)
+      if (!origin || allowedOrigins.includes(origin)) {
+        return origin || "*";
+      }
+
+      return allowedOrigins[0]; // Default to localhost:3001
+    },
+    allowHeaders: ["Content-Type", "Authorization"],
+    allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    credentials: true, // Important: Allow credentials (cookies)
+    exposeHeaders: ["Content-Length", "X-Request-Id"],
+  }),
 );
 
 // Landing page (Tailwind)
