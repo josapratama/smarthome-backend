@@ -47,12 +47,20 @@ export const handleFirmwareUploadRelease: RouteHandler<
 > = async (c) => {
   try {
     const fd = await c.req.formData();
+
+    console.log("[firmware] Upload request received");
+    console.log("[firmware] FormData keys:", Array.from(fd.keys()));
+
     const platform = requireString(fd.get("platform"), "platform");
     const version = requireString(fd.get("version"), "version");
     const notes = fd.get("notes") ? String(fd.get("notes")) : undefined;
 
     const file = fd.get("file");
     if (!(file instanceof File)) throw new Error("file is required");
+
+    console.log("[firmware] Platform:", platform);
+    console.log("[firmware] Version:", version);
+    console.log("[firmware] File:", file.name, file.size, "bytes");
 
     const release = await FirmwareService.createReleaseFromUpload({
       platform,
@@ -65,6 +73,8 @@ export const handleFirmwareUploadRelease: RouteHandler<
       process.env.PUBLIC_BASE_URL ?? new URL(c.req.url).origin
     ).replace(/\/+$/, "");
     const downloadUrl = `${baseUrl}/api/v1/firmware/releases/${release.id}/download`;
+
+    console.log("[firmware] Upload successful, ID:", release.id);
 
     return c.json(
       {
@@ -81,6 +91,8 @@ export const handleFirmwareUploadRelease: RouteHandler<
       201,
     );
   } catch (e: any) {
+    console.error("[firmware] Upload error:", e.message);
+    console.error("[firmware] Stack:", e.stack);
     // Prisma P2002 (unique) -> 409
     const code = String(e?.code) === "P2002" ? 409 : 400;
     return c.json({ error: e?.message ?? "BAD_REQUEST" }, code);

@@ -5,6 +5,7 @@ import { registerAuthRoutes } from "./v1/auth/routes";
 import { registerOverviewRoutes } from "./v1/overview/routes";
 import { registerHomesRoutes } from "./v1/homes/routes";
 import { registerDevicesRoutes } from "./v1/devices/routes";
+import { registerDeviceRegistrationRoutes } from "./v1/devices/register";
 import { registerDeviceHeartbeatRoutes } from "./v1/heartbeat/routes";
 import { registerTelemetryRoutes } from "./v1/telemetry/routes";
 import { registerCommandsRoutes } from "./v1/commands/routes";
@@ -20,18 +21,21 @@ import { registerDeviceConfigRoutes } from "./v1/device-config/routes";
 import { registerPreferencesRoutes } from "./v1/preferences/routes";
 
 export function registerV1Routes(app: OpenAPIHono<AppEnv>) {
+  // Register firmware routes FIRST (includes public download endpoint)
+  registerFirmwareRoutes(app);
+
   registerAuthRoutes(app);
   registerOverviewRoutes(app);
   registerHomesRoutes(app);
   registerDeviceHeartbeatRoutes(app);
   registerDevicesRoutes(app);
+  registerDeviceRegistrationRoutes(app);
   registerTelemetryRoutes(app);
   registerCommandsRoutes(app);
   registerAlarmsRoutes(app);
   registerAiRoutes(app);
   registerAiModelRoutes(app);
   registerNotificationRoutes(app);
-  registerFirmwareRoutes(app);
   registerOtaRoutes(app);
   registerInviteRoutes(app);
   registerRoomsRoutes(app);

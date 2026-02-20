@@ -71,12 +71,21 @@ export async function loginUser(
 ) {
   const ip = getClientIp(c);
 
+  console.log("[AUTH] Login attempt:", {
+    username: input.username,
+    passwordLength: input.password.length,
+    ip,
+  });
+
   const user = await prisma.userAccount.findUnique({
     where: { username: input.username },
   });
 
+  console.log("[AUTH] User found:", !!user);
+
   // record attempt (unknown username)
   if (!user) {
+    console.log("[AUTH] User not found");
     await prisma.loginAttempt.create({
       data: {
         userId: null,
@@ -89,8 +98,18 @@ export async function loginUser(
     return { error: "INVALID_CREDENTIALS" as const };
   }
 
+  console.log("[AUTH] User details:", {
+    id: user.id,
+    username: user.username,
+    isActive: user.isActive,
+    deletedAt: user.deletedAt,
+    lockedUntil: user.lockedUntil,
+    failedLoginCount: user.failedLoginCount,
+  });
+
   // soft-delete / disabled guard
   if (!user.isActive || user.deletedAt) {
+    console.log("[AUTH] User disabled or deleted");
     await prisma.loginAttempt.create({
       data: {
         userId: user.id,
@@ -121,6 +140,10 @@ export async function loginUser(
   }
 
   const ok = await argon2.verify(user.password, input.password);
+
+  console.log("[AUTH] Password verification result:", ok);
+  console.log("[AUTH] Hash from DB length:", user.password.length);
+  console.log("[AUTH] Input password:", input.password);
 
   if (!ok) {
     const nextFailed = (user.failedLoginCount ?? 0) + 1;

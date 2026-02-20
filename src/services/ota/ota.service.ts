@@ -86,12 +86,17 @@ export class OtaService {
       }),
       prisma.firmwareRelease.findFirst({
         where: { id: input.releaseId, deletedAt: null },
-        select: { id: true, deletedAt: true },
+        select: { id: true, deletedAt: true, version: true, platform: true },
       }),
     ]);
 
     if (!device) throw new Error("DEVICE_NOT_FOUND");
     if (!release) throw new Error("FIRMWARE_RELEASE_NOT_FOUND");
+
+    // Construct firmware download URL using PUBLIC_BASE_URL
+    const baseUrl =
+      process.env.PUBLIC_BASE_URL || new URL(input.requestUrl).origin;
+    const firmwareUrl = `${baseUrl}/api/v1/firmware/releases/${release.id}/download`;
 
     // create Command + OtaJob atomically
     const result = await prisma.$transaction(async (tx) => {
@@ -104,7 +109,9 @@ export class OtaService {
           type: "OTA_UPDATE",
           payload: {
             releaseId: release.id,
-            requestUrl: input.requestUrl,
+            firmwareUrl: firmwareUrl,
+            version: release.version,
+            otaJobId: 0, // Will be updated after job creation
           },
           status: "PENDING",
           requestedBy: input.requestedByUserId ?? null,
@@ -130,8 +137,72 @@ export class OtaService {
         },
       });
 
+      // Update command payload with otaJobId
+      await tx.command.update({
+        where: { id: command.id },
+        data: {
+          payload: {
+            releaseId: release.id,
+            firmwareUrl: firmwareUrl,
+            version: release.version,
+            otaJobId: job.id,
+          },
+        },
+      });
+
       return { job, command };
     });
+
+    // Send MQTT command to device
+    try {
+      const { getMqttClient } = await import("../../mqtt/client");
+      const mqttClient = getMqttClient();
+
+      const topic = `devices/${device.id}/commands`;
+      const payload = JSON.stringify({
+        commandId: result.command.id,
+        type: "OTA_UPDATE",
+        payload: {
+          firmwareUrl,
+          version: release.version,
+          otaJobId: result.job.id,
+        },
+      });
+
+      await new Promise<void>((resolve, reject) => {
+        mqttClient.publish(topic, payload, { qos: 1 }, (err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+
+      console.log(
+        `[ota] Command sent to device ${device.id}, job ${result.job.id}`,
+      );
+
+      // Update command status to SENT
+      await prisma.command.update({
+        where: { id: result.command.id },
+        data: { status: "SENT" },
+      });
+
+      // Update job status to SENT
+      await prisma.otaJob.update({
+        where: { id: result.job.id },
+        data: { status: "SENT", sentAt: new Date() },
+      });
+    } catch (err: any) {
+      console.error(`[ota] Failed to send command:`, err.message);
+      // Update to FAILED if MQTT send fails
+      await prisma.otaJob.update({
+        where: { id: result.job.id },
+        data: {
+          status: "FAILED",
+          lastError: `MQTT send failed: ${err.message}`,
+          failedAt: new Date(),
+        },
+      });
+    }
 
     // NOTE:
     // Di sini kamu bisa publish MQTT/queue worker untuk benar-benar mengirim OTA.

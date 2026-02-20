@@ -48,8 +48,8 @@ export function startOtaProgressSubscriber() {
       progress:
         typeof payload.progress === "number" &&
         payload.progress >= 0 &&
-        payload.progress <= 1
-          ? payload.progress
+        payload.progress <= 100
+          ? payload.progress // Store as 0-100 percentage
           : undefined,
       lastError: payload.error ?? undefined,
     };
@@ -61,7 +61,7 @@ export function startOtaProgressSubscriber() {
     } else if (payload.status === "APPLIED") {
       data.status = "APPLIED";
       data.appliedAt = new Date();
-      data.progress = 1.0;
+      data.progress = 100; // Store as 100%
     } else if (payload.status === "FAILED") {
       data.status = "FAILED";
       data.failedAt = new Date();

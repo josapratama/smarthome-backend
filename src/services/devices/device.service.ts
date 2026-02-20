@@ -26,7 +26,11 @@ type HomeAccessResult =
 async function canAccessHome(
   userId: number,
   homeId: number,
+  userRole?: "USER" | "ADMIN",
 ): Promise<HomeAccessResult> {
+  // Admin bypass
+  if (userRole === "ADMIN") return { ok: true, reason: null };
+
   const home = await prisma.home.findFirst({
     where: { id: homeId, deletedAt: null },
     select: {
@@ -50,12 +54,17 @@ async function canAccessHome(
 
 export async function listDevices(input: {
   requesterUserId: number;
+  requesterRole?: "USER" | "ADMIN";
   homeId?: number;
   status?: boolean;
 }) {
   // kalau filter homeId, enforce access
   if (input.homeId !== undefined) {
-    const access = await canAccessHome(input.requesterUserId, input.homeId);
+    const access = await canAccessHome(
+      input.requesterUserId,
+      input.homeId,
+      input.requesterRole,
+    );
     if (!access.ok) return { error: access.reason };
   }
 
@@ -64,8 +73,8 @@ export async function listDevices(input: {
   if (input.homeId !== undefined) where.homeId = input.homeId;
   if (input.status !== undefined) where.status = input.status;
 
-  // kalau tidak ada homeId, batasi ke homes yang dia owner/member
-  if (input.homeId === undefined) {
+  // kalau tidak ada homeId, batasi ke homes yang dia owner/member (kecuali admin)
+  if (input.homeId === undefined && input.requesterRole !== "ADMIN") {
     where.OR = [
       { home: { ownerUserId: input.requesterUserId } },
       {
@@ -92,6 +101,7 @@ export async function listDevices(input: {
 
 export async function createDeviceUnderHome(args: {
   requesterUserId: number;
+  requesterRole?: "USER" | "ADMIN";
   homeId: number;
   input: {
     deviceName: string;
@@ -102,7 +112,11 @@ export async function createDeviceUnderHome(args: {
     capabilities?: any | null;
   };
 }) {
-  const access = await canAccessHome(args.requesterUserId, args.homeId);
+  const access = await canAccessHome(
+    args.requesterUserId,
+    args.homeId,
+    args.requesterRole,
+  );
   if (!access.ok) return { error: access.reason };
 
   const deviceKey = args.input.deviceKey ?? generateDeviceKey();
@@ -140,6 +154,7 @@ export async function createDeviceUnderHome(args: {
 
 export async function getDeviceById(args: {
   requesterUserId: number;
+  requesterRole?: "USER" | "ADMIN";
   deviceId: number;
 }) {
   const d = await prisma.device.findFirst({
@@ -161,7 +176,11 @@ export async function getDeviceById(args: {
   });
   if (!d) return { error: "NOT_FOUND" as const };
 
-  const access = await canAccessHome(args.requesterUserId, d.homeId);
+  const access = await canAccessHome(
+    args.requesterUserId,
+    d.homeId,
+    args.requesterRole,
+  );
   if (!access.ok) return { error: access.reason };
 
   return { device: d };
@@ -169,6 +188,7 @@ export async function getDeviceById(args: {
 
 export async function patchDevice(args: {
   requesterUserId: number;
+  requesterRole?: "USER" | "ADMIN";
   deviceId: number;
   body: {
     deviceName?: string;
@@ -188,7 +208,11 @@ export async function patchDevice(args: {
   });
   if (!existing) return { error: "NOT_FOUND" as const };
 
-  const access = await canAccessHome(args.requesterUserId, existing.homeId);
+  const access = await canAccessHome(
+    args.requesterUserId,
+    existing.homeId,
+    args.requesterRole,
+  );
   if (!access.ok) return { error: access.reason };
 
   const d = await prisma.device.update({
@@ -211,4 +235,32 @@ export async function patchDevice(args: {
   });
 
   return { device: d };
+}
+
+export async function deleteDevice(args: {
+  requesterUserId: number;
+  requesterRole?: "USER" | "ADMIN";
+  deviceId: number;
+}) {
+  // fetch dulu buat cek homeId + authz
+  const existing = await prisma.device.findFirst({
+    where: { id: args.deviceId, deletedAt: null },
+    select: { id: true, homeId: true },
+  });
+  if (!existing) return { error: "NOT_FOUND" as const };
+
+  const access = await canAccessHome(
+    args.requesterUserId,
+    existing.homeId,
+    args.requesterRole,
+  );
+  if (!access.ok) return { error: access.reason };
+
+  // Soft delete
+  await prisma.device.update({
+    where: { id: args.deviceId },
+    data: { deletedAt: new Date() },
+  });
+
+  return { success: true };
 }

@@ -23,24 +23,24 @@ services:
       - mosquitto_data:/mosquitto/data
       - mosquitto_log:/mosquitto/log
 
-  api:
-    build: .
-    environment:
-      PORT: 3000
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/smarthome?schema=public
-      MQTT_URL: mqtt://mqtt:1883
-      COMMAND_ACK_TIMEOUT_MS: "5000"
-      COMMAND_TIMEOUT_SWEEP_INTERVAL_MS: "1000"
-      DEVICE_OFFLINE_THRESHOLD_MS: "60000"
-      DEVICE_OFFLINE_SWEEP_INTERVAL_MS: "1000"
-    restart: unless-stopped
-    depends_on:
-      - db
-      - mqtt
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./storage:/app/storage
+  # api:
+  #   build: .
+  #   environment:
+  #     PORT: 3000
+  #     DATABASE_URL: postgresql://postgres:postgres@db:5432/smarthome?schema=public
+  #     MQTT_URL: mqtt://mqtt:1883
+  #     COMMAND_ACK_TIMEOUT_MS: "5000"
+  #     COMMAND_TIMEOUT_SWEEP_INTERVAL_MS: "1000"
+  #     DEVICE_OFFLINE_THRESHOLD_MS: "60000"
+  #     DEVICE_OFFLINE_SWEEP_INTERVAL_MS: "1000"
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - db
+  #     - mqtt
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./storage:/app/storage
 
 volumes:
   db_data:

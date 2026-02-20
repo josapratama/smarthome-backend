@@ -12,7 +12,7 @@ function mapJob(job: any) {
   return {
     id: job.id,
     deviceId: job.deviceId,
-    releaseId: job.releaseId,
+    firmwareReleaseId: job.releaseId, // Map releaseId to firmwareReleaseId for frontend
 
     status: job.status,
     progress: job.progress ?? null,

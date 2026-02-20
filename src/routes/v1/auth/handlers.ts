@@ -46,18 +46,36 @@ export const handleRegister: RouteHandler<RegisterRoute, AppEnv> = async (
 };
 
 export const handleLogin: RouteHandler<LoginRoute, AppEnv> = async (c) => {
-  const body = c.req.valid("json");
-  const res = await loginUser(c, body);
-  if ("error" in res) return c.json(res, 401);
+  console.log("[HANDLER] Login request received");
 
-  return c.json({
-    data: {
-      accessToken: res.accessToken,
-      refreshToken: res.refreshToken,
-      sessionId: res.sessionId,
-      user: toUserDTO(res.user),
-    },
-  });
+  try {
+    const body = c.req.valid("json");
+    console.log("[HANDLER] Request body validated:", {
+      username: body.username,
+      passwordLength: body.password?.length,
+    });
+
+    const res = await loginUser(c, body);
+    console.log("[HANDLER] Login result:", { hasError: "error" in res });
+
+    if ("error" in res) {
+      console.log("[HANDLER] Login failed:", res.error);
+      return c.json(res, 401);
+    }
+
+    console.log("[HANDLER] Login successful");
+    return c.json({
+      data: {
+        accessToken: res.accessToken,
+        refreshToken: res.refreshToken,
+        sessionId: res.sessionId,
+        user: toUserDTO(res.user),
+      },
+    });
+  } catch (error) {
+    console.error("[HANDLER] Login error:", error);
+    return c.json({ error: "UNAUTHORIZED" }, 401);
+  }
 };
 
 export const handleRefresh: RouteHandler<RefreshRoute, AppEnv> = async (c) => {

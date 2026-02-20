@@ -35,11 +35,15 @@ startOtaProgressSubscriber();
 
 const server = Bun.serve({
   port: env.PORT,
+  hostname: "0.0.0.0", // Listen on all network interfaces
   fetch: app.fetch,
 });
 
-console.log(`✅ API running on http://localhost:${server.port}`);
+console.log(`✅ API running on http://0.0.0.0:${server.port}`);
 console.log(`📚 Swagger UI at       http://localhost:${server.port}/docs`);
 console.log(
   `🧾 OpenAPI JSON at      http://localhost:${server.port}/openapi.json`,
+);
+console.log(
+  `🌐 Accessible from network at http://192.168.100.11:${server.port}`,
 );

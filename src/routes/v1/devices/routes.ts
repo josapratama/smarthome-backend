@@ -7,6 +7,7 @@ import {
   devicesCreateUnderHomeRoute,
   devicesGetByIdRoute,
   devicesPatchRoute,
+  devicesDeleteRoute,
 } from "./openapi";
 
 import {
@@ -14,6 +15,7 @@ import {
   handleDevicesCreateUnderHome,
   handleDevicesGetById,
   handleDevicesPatch,
+  handleDevicesDelete,
 } from "./handlers";
 
 export function registerDevicesRoutes(app: OpenAPIHono<AppEnv>) {
@@ -25,6 +27,7 @@ export function registerDevicesRoutes(app: OpenAPIHono<AppEnv>) {
   r.openapi(devicesCreateUnderHomeRoute, handleDevicesCreateUnderHome);
   r.openapi(devicesGetByIdRoute, handleDevicesGetById);
   r.openapi(devicesPatchRoute, handleDevicesPatch);
+  r.openapi(devicesDeleteRoute, handleDevicesDelete);
 
   app.route("/", r);
 }

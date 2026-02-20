@@ -95,3 +95,26 @@ export const devicesPatchRoute = createRoute({
   tags: ["Device Management"],
 });
 export type DevicesPatchRoute = typeof devicesPatchRoute;
+
+export const devicesDeleteRoute = createRoute({
+  method: "delete",
+  path: "/api/v1/devices/{deviceId}",
+  summary: "Delete device",
+  description:
+    "Soft delete a device. The device will be marked as deleted but can be restored later. All associated data will be preserved.",
+  request: { params: z.object({ deviceId: DeviceId }) },
+  responses: {
+    200: {
+      content: {
+        "application/json": {
+          schema: z.object({ message: z.string() }),
+        },
+      },
+      description: "Device deleted successfully",
+    },
+    401: { description: "Unauthorized - invalid or missing token" },
+    404: { description: "Device not found" },
+  },
+  tags: ["Device Management"],
+});
+export type DevicesDeleteRoute = typeof devicesDeleteRoute;
